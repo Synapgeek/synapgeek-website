@@ -312,6 +312,57 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* ===== INPUT GROUP — UIverse-inspired floating labels ===== */
+.input-group {
+  position: relative;
+}
+
+.input-field {
+  font-size: 0.9375rem;
+  padding: 0.9em 1em;
+  outline: none;
+  border: 2px solid var(--color-border);
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(4px);
+  border-radius: 16px;
+  width: 100%;
+  transition: all 0.3s ease;
+  color: var(--color-text-primary);
+}
+
+.input-field:focus {
+  border-color: var(--color-primary);
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-primary) 12%, transparent);
+}
+
+.input-label {
+  font-size: 0.9375rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0.9em 1em;
+  margin-left: 0.5em;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  color: var(--color-text-tertiary);
+}
+
+.input-field:focus ~ .input-label,
+.input-field:not(:placeholder-shown) ~ .input-label {
+  transform: translateY(-50%) scale(0.85);
+  margin: 0;
+  margin-left: 0.8em;
+  padding: 0.2em 0.6em;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  color: var(--color-primary);
+}
+
+.input-field:not(:placeholder-shown):not(:focus) ~ .input-label {
+  color: var(--color-text-secondary);
+}
+
 /* ===== SCROLL ANIMATIONS ===== */
 @supports (animation-timeline: view()) {
   .scroll-reveal {

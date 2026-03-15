@@ -89,6 +89,10 @@ const en: Dictionary = {
       cta: "Download for free",
       note: "Free. Optional in-app purchases via the App Store.",
     },
+    contact: {
+      title: "Got a question?",
+      subtitle: "Drop us a line and we'll get back to you as soon as possible.",
+    },
   },
   privacy: {
     title: "Privacy Policy",

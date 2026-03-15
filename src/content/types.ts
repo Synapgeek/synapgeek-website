@@ -45,6 +45,10 @@ export interface Dictionary {
       cta: string;
       note: string;
     };
+    contact: {
+      title: string;
+      subtitle: string;
+    };
   };
   privacy: {
     title: string;

@@ -90,6 +90,10 @@ const fr: Dictionary = {
       cta: "Télécharger gratuitement",
       note: "Gratuit. Achats optionnels dans l'app via l'App Store.",
     },
+    contact: {
+      title: "Une question ?",
+      subtitle: "N'hésitez pas à nous écrire, nous vous répondrons dans les plus brefs délais.",
+    },
   },
   privacy: {
     title: "Politique de confidentialité",

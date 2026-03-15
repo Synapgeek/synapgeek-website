@@ -92,10 +92,10 @@ export function Footer({
             <ul className="space-y-3 text-sm">
               <li>
                 <a
-                  href="mailto:contact@synapgeek.com"
+                  href="#contact"
                   className="text-gray-400 transition-colors hover:text-white"
                 >
-                  contact@synapgeek.com
+                  {locale === "fr" ? "Nous écrire" : "Write to us"}
                 </a>
               </li>
             </ul>

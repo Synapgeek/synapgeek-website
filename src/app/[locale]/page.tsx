@@ -8,6 +8,7 @@ import { Stats } from "@/components/landing/Stats";
 import { Features } from "@/components/landing/Features";
 import { About } from "@/components/landing/About";
 import { CTAFinal } from "@/components/landing/CTAFinal";
+import { Contact } from "@/components/landing/Contact";
 
 export { generateStaticParams };
 
@@ -71,6 +72,7 @@ export default async function HomePage({
       <Stats items={dict.landing.stats.items} />
       <Features dict={dict.landing.features} />
       <About dict={dict.landing.about} />
+      <Contact locale={locale} dict={dict.landing.contact} />
       <CTAFinal dict={dict.landing.cta} />
     </>
   );
