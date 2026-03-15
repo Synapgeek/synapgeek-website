@@ -1,8 +1,8 @@
-# SynapGeek Website
+# Synapgeek Website
 
 ## Contexte
 
-Site web de SynapGeek, studio indie français développant **Cerebrum** (app iOS de puzzles). Le site sert de landing page, héberge les pages légales obligatoires Apple (Privacy Policy, CGU/EULA), et fournit les URLs référencées dans App Store Connect.
+Site web de Synapgeek, studio indie français développant **Cerebrum** (app iOS de puzzles). Le site sert de landing page, héberge les pages légales obligatoires Apple (Privacy Policy, CGU/EULA), et fournit les URLs référencées dans App Store Connect.
 
 ## Stack technique
 
@@ -10,6 +10,9 @@ Site web de SynapGeek, studio indie français développant **Cerebrum** (app iOS
 - **Style** : Tailwind CSS 4.x (CSS-first config via `@theme`, pas de `tailwind.config.js`)
 - **Langage** : TypeScript strict mode
 - **Linter** : ESLint 9 + eslint-config-next + Prettier
+- **Email** : Nodemailer via SMTP Google Workspace
+- **Captcha** : Google reCAPTCHA v2
+- **Analytics** : Vercel Analytics + Vercel Speed Insights
 - **Déploiement** : Vercel (push sur `main` = deploy automatique)
 - **Langues** : Français (défaut) + Anglais (i18n via fichiers statiques dans `src/content/`, pas de `next-intl`)
 
@@ -35,12 +38,13 @@ npm run format    # Prettier
 
 Routes actives :
 ```
-/                → Landing page SynapGeek + Cerebrum (FR, défaut)
+/                → Landing page Synapgeek + Cerebrum (FR, défaut)
 /en/             → Landing page (EN)
 /privacy         → Privacy Policy (FR)
 /terms           → CGU / EULA (FR)
 /en/privacy      → Privacy Policy (EN)
 /en/terms        → CGU / EULA (EN)
+/api/contact     → API route formulaire de contact (POST)
 ```
 
 Routes prévues (pas encore implémentées) :
@@ -53,7 +57,7 @@ Routes prévues (pas encore implémentées) :
 
 - **Locale par défaut** : `fr` (pas de préfixe dans l'URL)
 - **Autres locales** : préfixe `/en/`
-- **Middleware** : rewrite des URLs sans préfixe vers `/fr/...` (pas de redirect)
+- **Proxy** (anciennement middleware) : rewrite des URLs sans préfixe vers `/fr/...` (pas de redirect)
 - **Contenu** : fichiers statiques `src/content/fr.ts` et `src/content/en.ts`
 - **Types** : `src/content/types.ts` (Dictionary)
 - **Helpers** : `src/lib/i18n.ts` (locales, paths) + `src/lib/seo.ts` (hreflang, canonical, OG)
@@ -62,6 +66,7 @@ Routes prévues (pas encore implémentées) :
 
 - `<title>` et `<meta description>` dynamiques par page et par locale
 - Open Graph tags sur toutes les pages (titre, description, type, locale, alternateLocale, image)
+- OG image custom (`public/images/brand/og-image.jpeg`)
 - Hreflang `<link rel="alternate">` sur toutes les pages (fr + en + x-default)
 - Canonical URL sur toutes les pages
 - `sitemap.xml` avec alternates hreflang pour toutes les entrées
@@ -69,6 +74,36 @@ Routes prévues (pas encore implémentées) :
 - JSON-LD `Organization` sur toutes les pages
 - JSON-LD `SoftwareApplication` sur la landing page
 - `app-ads.txt` pour la vérification AdMob
+
+## Sécurité (implémenté)
+
+- Headers de sécurité via `vercel.json` : HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy, X-DNS-Prefetch-Control
+- DDoS protection automatique Vercel
+- Formulaire de contact protégé par reCAPTCHA v2
+- Emails obfusqués (pas de mailto en clair dans le footer)
+
+## Assets (structure public/)
+
+```
+public/
+├── app-ads.txt
+├── images/
+│   ├── brand/
+│   │   ├── logo-synapgeek.png      (logo cerveau coloré, fond transparent)
+│   │   ├── logo-original.png       (logo haute résolution)
+│   │   └── og-image.jpeg           (Open Graph image)
+│   ├── games/
+│   │   ├── feature-sudoku.png
+│   │   ├── feature-crosswords.png
+│   │   ├── feature-wordsearch.png
+│   │   └── feature-crossmath.png
+│   └── hero/
+│       ├── hero-bg-desktop.png     (flat lay breakfast, Replicate)
+│       ├── hero-bg-mobile.png      (version portrait)
+│       ├── hero-screen-main.png    (screenshot app)
+│       ├── hero-screen-daily.png   (screenshot daily challenge)
+│       └── hero-screen-avatars.png (screenshot victoire)
+```
 
 ## Règles critiques
 
@@ -121,7 +156,7 @@ Repo iOS : `/Users/adrienmonte/Documents/projects/synapgeek/cerebrum-ios`
 ### Stack technique iOS
 
 - **Swift** + **SwiftUI**
-- **Firebase** : Analytics, Crashlytics, Performance, Firestore, Auth, Storage, Functions, App Check
+- **Firebase** : Analytics, Crashlytics, Performance, Firestore, Auth, Storage, Functions (App Check désactivé — à réactiver après création compte Apple Developer)
 - **Google Mobile Ads** (AdMob) : bannières, interstitiels, rewarded, app open
 - **AdMob App ID** : `ca-app-pub-2587609832551275~3649546176`
 - **Auth** : Apple Sign-In, Google Sign-In, Facebook Sign-In, Email/Password, Anonymous
@@ -180,8 +215,18 @@ Les skills suivants sont installés dans `.claude/skills/` et doivent être cons
 
 **Règle** : Ne pas attendre qu'on demande explicitement un skill. Si la tâche en cours correspond à un skill, le lire et appliquer ses recommandations automatiquement.
 
+## Variables d'environnement
+
+```
+SMTP_USER=adrien.monte@synapgeek.com    # Login SMTP Google Workspace
+SMTP_PASS=****                           # App password Google
+CONTACT_EMAIL=contact@synapgeek.com      # Destinataire du formulaire
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=****      # reCAPTCHA v2 site key
+RECAPTCHA_SECRET_KEY=****                # reCAPTCHA v2 secret key
+```
+
 ## Emails
 
-- **contact@synapgeek.com** — Contact général, footer du site, CGU
+- **contact@synapgeek.com** — Contact général, destinataire du formulaire, CGU
 - **privacy@synapgeek.com** — Questions données personnelles, RGPD, privacy policy
-- **adrien@synapgeek.com** — Dev
+- **adrien.monte@synapgeek.com** — Dev, compte SMTP
