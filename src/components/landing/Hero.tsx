@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Apple } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { IPhoneSlider } from "@/components/landing/IPhoneSlider";
 
 export function Hero({
   dict,
@@ -15,24 +16,28 @@ export function Hero({
   };
 }) {
   return (
-    <section className="relative min-h-screen overflow-hidden gradient-hero pt-20">
-      {/* Decorative blobs */}
-      <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
-      <div className="absolute -left-20 bottom-20 h-64 w-64 rounded-full bg-accent-blue/10 blur-3xl" />
-      <div className="absolute right-1/3 bottom-10 h-48 w-48 rounded-full bg-accent-yellow/10 blur-3xl" />
+    <section className="relative min-h-screen overflow-hidden pt-20">
+      {/* Background scene */}
+      <Image
+        src="/hero-bg-desktop.png"
+        alt=""
+        fill
+        className="hidden object-cover lg:block"
+        priority
+        aria-hidden="true"
+      />
+      <Image
+        src="/hero-bg-mobile.png"
+        alt=""
+        fill
+        className="object-cover lg:hidden"
+        priority
+        aria-hidden="true"
+      />
+      {/* Overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-transparent lg:from-white/85 lg:via-white/50 lg:to-transparent" />
 
-      {/* Floating decorative elements */}
-      <div className="absolute left-[10%] top-[20%] animate-bounce-soft delay-200">
-        <div className="h-4 w-4 rounded-lg bg-accent-yellow rotate-12" />
-      </div>
-      <div className="absolute right-[15%] top-[30%] animate-bounce-soft delay-400">
-        <div className="h-3 w-3 rounded-full bg-accent-coral" />
-      </div>
-      <div className="absolute left-[20%] bottom-[25%] animate-bounce-soft delay-600">
-        <div className="h-5 w-5 rounded-full bg-accent-blue/60" />
-      </div>
-
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-12 px-6 py-20 lg:flex-row lg:py-32">
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-12 px-6 py-20 lg:flex-row lg:gap-16 lg:py-32">
         {/* Text content */}
         <div className="flex flex-1 flex-col items-center text-center lg:items-start lg:text-left">
           <Badge color="green" className="animate-fade-in-up">
@@ -64,17 +69,10 @@ export function Hero({
           </div>
         </div>
 
-        {/* Hero image */}
+        {/* iPhone mockup slider */}
         <div className="animate-fade-in-up delay-400 flex flex-1 justify-center lg:justify-end">
-          <div className="animate-float relative">
-            <Image
-              src="/hero-v2.png"
-              alt="Cerebrum App"
-              width={450}
-              height={450}
-              className="relative drop-shadow-2xl"
-              priority
-            />
+          <div className="iphone-tilt">
+            <IPhoneSlider />
           </div>
         </div>
       </div>

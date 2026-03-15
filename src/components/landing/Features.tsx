@@ -32,15 +32,13 @@ export function Features({
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {dict.items.map((feature, i) => (
             <Card key={feature.title}>
-              <div
-                className={`mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br ${featureColors[i]}`}
-              >
+              <div className="mb-6">
                 <Image
                   src={featureImages[i]}
                   alt={feature.title}
-                  width={56}
-                  height={56}
-                  className="rounded-lg"
+                  width={80}
+                  height={80}
+                  className="rounded-2xl"
                 />
               </div>
               <h3 className="mb-2 text-xl font-bold">{feature.title}</h3>

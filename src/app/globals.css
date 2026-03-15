@@ -124,6 +124,158 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
 }
 
+/* ===== iPHONE MOCKUP ===== */
+.iphone-frame {
+  --iphone-width: 260px;
+  --iphone-bezel: 10px;
+  --iphone-radius: 40px;
+  --iphone-screen-radius: 32px;
+  --iphone-aspect: 2.165;
+
+  position: relative;
+  width: var(--iphone-width);
+  aspect-ratio: 1 / var(--iphone-aspect);
+  background: linear-gradient(145deg, #2a2a2e, #1a1a1e);
+  border-radius: var(--iphone-radius);
+  padding: var(--iphone-bezel);
+  box-shadow:
+    /* Outer bezel highlight */
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    /* Main shadow */
+    0 25px 60px -12px rgba(0, 0, 0, 0.35),
+    /* Ambient shadow */
+    0 8px 24px -4px rgba(0, 0, 0, 0.2),
+    /* Subtle reflection on top */
+    0 -1px 3px 0 rgba(255, 255, 255, 0.05);
+
+  /* Side buttons — left */
+  &::before {
+    content: "";
+    position: absolute;
+    left: -3px;
+    top: 80px;
+    width: 3px;
+    height: 28px;
+    background: linear-gradient(180deg, #3a3a3e, #2a2a2e);
+    border-radius: 2px 0 0 2px;
+    box-shadow:
+      0 38px 0 0 #2a2a2e,
+      0 38px 0 0 #2a2a2e;
+  }
+
+  /* Side button — right (power) */
+  &::after {
+    content: "";
+    position: absolute;
+    right: -3px;
+    top: 110px;
+    width: 3px;
+    height: 48px;
+    background: linear-gradient(180deg, #3a3a3e, #2a2a2e);
+    border-radius: 0 2px 2px 0;
+  }
+}
+
+/* Volume buttons (separate element via left side) */
+.iphone-frame::before {
+  box-shadow:
+    0 34px 0 0 #2a2a2e,
+    0 62px 0 0 #2a2a2e;
+}
+
+/* Dynamic Island */
+.iphone-dynamic-island {
+  position: absolute;
+  top: calc(var(--iphone-bezel) + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 26px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 10;
+}
+
+/* Screen area */
+.iphone-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--iphone-screen-radius);
+  overflow: hidden;
+  background: #000;
+}
+
+/* Individual slide */
+.iphone-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  pointer-events: none;
+}
+
+.iphone-slide[data-active="true"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Responsive scaling */
+@media (min-width: 640px) {
+  .iphone-frame {
+    --iphone-width: 280px;
+    --iphone-bezel: 11px;
+    --iphone-radius: 44px;
+    --iphone-screen-radius: 35px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .iphone-frame {
+    --iphone-width: 300px;
+    --iphone-bezel: 12px;
+    --iphone-radius: 48px;
+    --iphone-screen-radius: 38px;
+  }
+}
+
+/* Glass reflection on screen */
+.iphone-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ===== iPHONE TILT ===== */
+.iphone-tilt {
+  transform: perspective(1200px) rotateY(-8deg) rotateX(2deg);
+  transition: transform 0.5s ease-out;
+}
+
+.iphone-tilt:hover {
+  transform: perspective(1200px) rotateY(-3deg) rotateX(1deg);
+}
+
+@media (max-width: 1023px) {
+  .iphone-tilt {
+    transform: perspective(1200px) rotateY(0deg) rotateX(0deg);
+  }
+
+  .iphone-tilt:hover {
+    transform: perspective(1200px) rotateY(0deg) rotateX(0deg);
+  }
+}
+
 /* ===== SCROLL ANIMATIONS ===== */
 @supports (animation-timeline: view()) {
   .scroll-reveal {
