@@ -92,7 +92,7 @@ export function Footer({
             <ul className="space-y-3 text-sm">
               <li>
                 <a
-                  href="#contact"
+                  href={getLocalePath(locale, "/#contact")}
                   className="text-gray-400 transition-colors hover:text-white"
                 >
                   {locale === "fr" ? "Nous écrire" : "Write to us"}
