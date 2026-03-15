@@ -59,7 +59,7 @@ export default async function HomePage({
     },
     author: {
       "@type": "Organization",
-      name: "SynapGeek",
+      name: "Synapgeek",
       url: "https://synapgeek.com",
     },
   };

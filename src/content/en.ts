@@ -2,7 +2,7 @@ import type { Dictionary } from "./types";
 
 const en: Dictionary = {
   common: {
-    siteName: "SynapGeek",
+    siteName: "Synapgeek",
     tagline: "Indie puzzle game studio",
     nav: {
       home: "Home",
@@ -10,7 +10,7 @@ const en: Dictionary = {
       terms: "Terms",
     },
     footer: {
-      copyright: `© ${new Date().getFullYear()} SynapGeek. All rights reserved.`,
+      copyright: `© ${new Date().getFullYear()} Synapgeek. All rights reserved.`,
       privacy: "Privacy Policy",
       terms: "Terms of Use",
       contact: "Contact",
@@ -65,7 +65,7 @@ const en: Dictionary = {
     about: {
       title: "Built by enthusiasts",
       description:
-        "SynapGeek is a French indie studio dedicated to puzzle games. We believe the best puzzles combine elegance, challenge, and pure enjoyment.",
+        "Synapgeek is a French indie studio dedicated to puzzle games. We believe the best puzzles combine elegance, challenge, and pure enjoyment.",
       values: [
         {
           title: "Quality over quantity",
@@ -97,12 +97,12 @@ const en: Dictionary = {
       {
         title: "Who we are",
         content:
-          "SynapGeek is an indie studio based in France, developing mobile puzzle game applications. This privacy policy applies to all SynapGeek applications and services, including Cerebrum (hereinafter \"the App\").\n\nFor any questions regarding the protection of your data, you can contact us at: privacy@synapgeek.com",
+          "Synapgeek is an indie studio based in France, developing mobile puzzle game applications. This privacy policy applies to all Synapgeek applications and services, including Cerebrum (hereinafter \"the App\").\n\nFor any questions regarding the protection of your data, you can contact us at: privacy@synapgeek.com",
       },
       {
         title: "Data collected and sources",
         content:
-          "We collect the following categories of data:\n\n**Account data**\nIf you create an account via Apple, Google, Facebook, or email: unique identifier, email address, display name, and profile photo (depending on the provider). You may also use the App without an account (anonymous mode).\n\n**Gameplay and progression data**\nScores, completion times, hints used, mistakes, stars earned, levels completed, difficulty level, attempts, best records, daily challenges, play streaks.\n\n**Virtual currency and customization data**\nCoin balance, in-app transaction history, unlocked avatars, monthly trophies, experience points (XP), league/ranking.\n\n**Device and usage data**\nDevice type, operating system version, language, anonymized usage data, diagnostics, error logs, app performance data.\n\n**Advertising data**\nAdvertising identifier (IDFA, with your consent via App Tracking Transparency), ad interactions, attribution data via SKAdNetwork.\n\n**Transaction data**\nIn-app purchase and subscription history, processed by Apple via StoreKit 2. SynapGeek does not collect or store your payment information.\n\n**Data we do NOT collect**\nWe do not collect any geolocation, health, contacts, photos, camera, calendar, or microphone data.",
+          "We collect the following categories of data:\n\n**Account data**\nIf you create an account via Apple, Google, Facebook, or email: unique identifier, email address, display name, and profile photo (depending on the provider). You may also use the App without an account (anonymous mode).\n\n**Gameplay and progression data**\nScores, completion times, hints used, mistakes, stars earned, levels completed, difficulty level, attempts, best records, daily challenges, play streaks.\n\n**Virtual currency and customization data**\nCoin balance, in-app transaction history, unlocked avatars, monthly trophies, experience points (XP), league/ranking.\n\n**Device and usage data**\nDevice type, operating system version, language, anonymized usage data, diagnostics, error logs, app performance data.\n\n**Advertising data**\nAdvertising identifier (IDFA, with your consent via App Tracking Transparency), ad interactions, attribution data via SKAdNetwork.\n\n**Transaction data**\nIn-app purchase and subscription history, processed by Apple via StoreKit 2. Synapgeek does not collect or store your payment information.\n\n**Data we do NOT collect**\nWe do not collect any geolocation, health, contacts, photos, camera, calendar, or microphone data.",
       },
       {
         title: "Legal basis for processing",
@@ -157,7 +157,7 @@ const en: Dictionary = {
       {
         title: "Contact",
         content:
-          "For any questions regarding this privacy policy or your personal data:\n\n**SynapGeek**\nEmail: privacy@synapgeek.com\nWebsite: https://synapgeek.com",
+          "For any questions regarding this privacy policy or your personal data:\n\n**Synapgeek**\nEmail: privacy@synapgeek.com\nWebsite: https://synapgeek.com",
       },
     ],
   },
@@ -168,17 +168,17 @@ const en: Dictionary = {
       {
         title: "Acceptance of terms",
         content:
-          "By downloading, installing, or using SynapGeek applications (hereinafter \"the App\"), you agree to these Terms of Use (hereinafter \"the Terms\"). If you do not agree to these Terms, please do not use the App.\n\nThe App is intended for users aged 16 and older. If you are between 16 and 18 years old, your parent or legal guardian must read and accept these Terms on your behalf.",
+          "By downloading, installing, or using Synapgeek applications (hereinafter \"the App\"), you agree to these Terms of Use (hereinafter \"the Terms\"). If you do not agree to these Terms, please do not use the App.\n\nThe App is intended for users aged 16 and older. If you are between 16 and 18 years old, your parent or legal guardian must read and accept these Terms on your behalf.",
       },
       {
         title: "Service description",
         content:
-          "SynapGeek develops and distributes mobile puzzle game applications. Cerebrum is an iOS application featuring four puzzle games: Sudoku, Crosswords, Word Search, and Cross Math.\n\nThe App includes:\n- Hundreds of puzzles across multiple difficulty levels\n- A progression system with stars, XP, and leaderboards\n- Daily challenges and play streaks\n- A virtual currency system (coins) and avatars\n- Optional in-app purchases and subscriptions\n- An ad-supported and ad-free mode",
+          "Synapgeek develops and distributes mobile puzzle game applications. Cerebrum is an iOS application featuring four puzzle games: Sudoku, Crosswords, Word Search, and Cross Math.\n\nThe App includes:\n- Hundreds of puzzles across multiple difficulty levels\n- A progression system with stars, XP, and leaderboards\n- Daily challenges and play streaks\n- A virtual currency system (coins) and avatars\n- Optional in-app purchases and subscriptions\n- An ad-supported and ad-free mode",
       },
       {
         title: "License to use",
         content:
-          "The App is licensed, not sold, to you. SynapGeek grants you a personal, limited, non-exclusive, non-transferable, and revocable license to use the App on any Apple device that you own or control, in accordance with the App Store usage rules.\n\nYou agree not to:\n- Copy, modify, decompile, or disassemble the App\n- Distribute, rent, lend, or sublicense the App\n- Use the App for unauthorized commercial purposes\n- Attempt to circumvent security measures or technical restrictions\n- Extract or collect data from the App by automated means (scraping, data mining, bots)",
+          "The App is licensed, not sold, to you. Synapgeek grants you a personal, limited, non-exclusive, non-transferable, and revocable license to use the App on any Apple device that you own or control, in accordance with the App Store usage rules.\n\nYou agree not to:\n- Copy, modify, decompile, or disassemble the App\n- Distribute, rent, lend, or sublicense the App\n- Use the App for unauthorized commercial purposes\n- Attempt to circumvent security measures or technical restrictions\n- Extract or collect data from the App by automated means (scraping, data mining, bots)",
       },
       {
         title: "User account",
@@ -193,7 +193,7 @@ const en: Dictionary = {
       {
         title: "Virtual goods",
         content:
-          "The App contains virtual goods, including coins (virtual currency), avatars, trophies, and experience points (XP).\n\nVirtual goods:\n- Have no monetary value outside the App\n- Are non-transferable, non-exchangeable, and non-refundable (except where required by law)\n- May be earned through gameplay, watching advertisements, or in-app purchases\n- Are tied to your account and cannot be transferred to another user\n\nSynapGeek reserves the right to modify the pricing, availability, or functionality of virtual goods at any time.",
+          "The App contains virtual goods, including coins (virtual currency), avatars, trophies, and experience points (XP).\n\nVirtual goods:\n- Have no monetary value outside the App\n- Are non-transferable, non-exchangeable, and non-refundable (except where required by law)\n- May be earned through gameplay, watching advertisements, or in-app purchases\n- Are tied to your account and cannot be transferred to another user\n\nSynapgeek reserves the right to modify the pricing, availability, or functionality of virtual goods at any time.",
       },
       {
         title: "Advertisements",
@@ -203,27 +203,27 @@ const en: Dictionary = {
       {
         title: "Intellectual property",
         content:
-          "All content in the App — including but not limited to text, graphics, logos, icons, images, puzzle grids, sounds, interfaces, source code, and documentation — is the exclusive property of SynapGeek and is protected by French and international intellectual property laws.\n\nAny unauthorized reproduction, distribution, modification, adaptation, or use is strictly prohibited.\n\nIt is prohibited to use the App's content for training artificial intelligence or machine learning models, systematic screen capture of gameplay, data mining, or web scraping.",
+          "All content in the App — including but not limited to text, graphics, logos, icons, images, puzzle grids, sounds, interfaces, source code, and documentation — is the exclusive property of Synapgeek and is protected by French and international intellectual property laws.\n\nAny unauthorized reproduction, distribution, modification, adaptation, or use is strictly prohibited.\n\nIt is prohibited to use the App's content for training artificial intelligence or machine learning models, systematic screen capture of gameplay, data mining, or web scraping.",
       },
       {
         title: "User conduct",
         content:
-          "By using the App, you agree not to:\n\n- Use the App in a manner contrary to applicable laws\n- Attempt to manipulate leaderboards, scores, or progression systems\n- Exploit bugs or vulnerabilities to gain an unfair advantage\n- Create fake accounts or impersonate another person\n- Interfere with the normal operation of the App or its servers\n\nSynapGeek reserves the right to suspend or delete any account in violation of these rules, without prior notice or compensation.",
+          "By using the App, you agree not to:\n\n- Use the App in a manner contrary to applicable laws\n- Attempt to manipulate leaderboards, scores, or progression systems\n- Exploit bugs or vulnerabilities to gain an unfair advantage\n- Create fake accounts or impersonate another person\n- Interfere with the normal operation of the App or its servers\n\nSynapgeek reserves the right to suspend or delete any account in violation of these rules, without prior notice or compensation.",
       },
       {
         title: "Limitation of liability",
         content:
-          "The App is provided \"as is\" and \"as available.\" SynapGeek does not warrant that the App will operate without interruption, without errors, or that defects will be corrected.\n\nTo the fullest extent permitted by law, SynapGeek shall not be liable for:\n- Any indirect, incidental, special, or consequential damages\n- Loss of data, progress, or virtual goods\n- Any service interruption or App unavailability\n\nSynapGeek's total cumulative liability is limited to the amount you actually paid for the App in the 12 months preceding the claim.",
+          "The App is provided \"as is\" and \"as available.\" Synapgeek does not warrant that the App will operate without interruption, without errors, or that defects will be corrected.\n\nTo the fullest extent permitted by law, Synapgeek shall not be liable for:\n- Any indirect, incidental, special, or consequential damages\n- Loss of data, progress, or virtual goods\n- Any service interruption or App unavailability\n\nSynapgeek's total cumulative liability is limited to the amount you actually paid for the App in the 12 months preceding the claim.",
       },
       {
         title: "Termination and account deletion",
         content:
-          "You may stop using the App at any time by uninstalling it.\n\nYou may delete your account at any time via Profile > Delete Account in the App. Deletion is irreversible and results in the permanent loss of all your data: progression, coins, avatars, trophies, and leaderboard rankings.\n\nSynapGeek reserves the right to terminate or suspend your access in the event of a violation of these Terms.\n\nThe sections relating to intellectual property, limitation of liability, and governing law shall survive any termination.",
+          "You may stop using the App at any time by uninstalling it.\n\nYou may delete your account at any time via Profile > Delete Account in the App. Deletion is irreversible and results in the permanent loss of all your data: progression, coins, avatars, trophies, and leaderboard rankings.\n\nSynapgeek reserves the right to terminate or suspend your access in the event of a violation of these Terms.\n\nThe sections relating to intellectual property, limitation of liability, and governing law shall survive any termination.",
       },
       {
         title: "Notice for Apple device users",
         content:
-          "These Terms constitute an agreement between you and SynapGeek, not with Apple. SynapGeek, not Apple, is solely responsible for the App and its content.\n\nApple has no obligation to provide maintenance or support services for the App.\n\nIn the event that the App fails to conform to any applicable warranty, you may notify Apple, which may refund the purchase price, if applicable. Apple has no other warranty obligation.\n\nApple is not responsible for addressing any claims by you or any third party relating to the App or your use of the App.\n\nApple and its subsidiaries are third-party beneficiaries of these Terms and may enforce them against you.\n\nYou represent that you are not located in a country subject to a U.S. government embargo, nor on any U.S. government list of sanctioned persons.",
+          "These Terms constitute an agreement between you and Synapgeek, not with Apple. Synapgeek, not Apple, is solely responsible for the App and its content.\n\nApple has no obligation to provide maintenance or support services for the App.\n\nIn the event that the App fails to conform to any applicable warranty, you may notify Apple, which may refund the purchase price, if applicable. Apple has no other warranty obligation.\n\nApple is not responsible for addressing any claims by you or any third party relating to the App or your use of the App.\n\nApple and its subsidiaries are third-party beneficiaries of these Terms and may enforce them against you.\n\nYou represent that you are not located in a country subject to a U.S. government embargo, nor on any U.S. government list of sanctioned persons.",
       },
       {
         title: "Governing law and disputes",
@@ -233,12 +233,12 @@ const en: Dictionary = {
       {
         title: "Changes to terms",
         content:
-          "SynapGeek reserves the right to modify these Terms at any time. In the event of a material change, the update date at the top of this document will be revised.\n\nContinued use of the App after any modification constitutes acceptance of the revised Terms.",
+          "Synapgeek reserves the right to modify these Terms at any time. In the event of a material change, the update date at the top of this document will be revised.\n\nContinued use of the App after any modification constitutes acceptance of the revised Terms.",
       },
       {
         title: "Contact",
         content:
-          "For any questions regarding these Terms:\n\n**SynapGeek**\nEmail: contact@synapgeek.com\nWebsite: https://synapgeek.com",
+          "For any questions regarding these Terms:\n\n**Synapgeek**\nEmail: contact@synapgeek.com\nWebsite: https://synapgeek.com",
       },
     ],
   },

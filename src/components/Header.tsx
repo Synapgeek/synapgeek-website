@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
@@ -39,10 +40,14 @@ export function Header({
           href={getLocalePath(locale, "/")}
           className="flex items-center gap-2 text-xl font-extrabold tracking-tight"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-sm font-black text-white">
-            S
-          </span>
-          SynapGeek
+          <Image
+            src="/images/brand/logo-synapgeek.png"
+            alt="Synapgeek logo"
+            width={32}
+            height={32}
+            className="rounded-lg"
+          />
+          Synapgeek
         </Link>
 
         {/* Desktop nav */}

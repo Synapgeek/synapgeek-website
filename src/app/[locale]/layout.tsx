@@ -23,10 +23,10 @@ export async function generateMetadata({
 
   return {
     openGraph: {
-      siteName: "SynapGeek",
+      siteName: "Synapgeek",
       locale: getOgLocale(locale),
       alternateLocale: getOgAlternateLocales(locale),
-      images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+      images: [{ url: "/images/brand/og-image.png", width: 1200, height: 630 }],
     },
   };
 }
@@ -45,7 +45,7 @@ export default async function LocaleLayout({
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "SynapGeek",
+    name: "Synapgeek",
     url: "https://synapgeek.com",
     logo: "https://synapgeek.com/og-image.png",
     email: "contact@synapgeek.com",

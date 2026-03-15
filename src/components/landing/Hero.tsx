@@ -19,7 +19,7 @@ export function Hero({
     <section className="relative min-h-screen overflow-hidden pt-20">
       {/* Background scene */}
       <Image
-        src="/hero-bg-desktop.png"
+        src="/images/hero/hero-bg-desktop.png"
         alt=""
         fill
         className="hidden object-cover lg:block"
@@ -27,7 +27,7 @@ export function Hero({
         aria-hidden="true"
       />
       <Image
-        src="/hero-bg-mobile.png"
+        src="/images/hero/hero-bg-mobile.png"
         alt=""
         fill
         className="object-cover lg:hidden"

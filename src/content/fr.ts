@@ -2,7 +2,7 @@ import type { Dictionary } from "./types";
 
 const fr: Dictionary = {
   common: {
-    siteName: "SynapGeek",
+    siteName: "Synapgeek",
     tagline: "Studio indie de jeux de réflexion",
     nav: {
       home: "Accueil",
@@ -10,7 +10,7 @@ const fr: Dictionary = {
       terms: "CGU",
     },
     footer: {
-      copyright: `© ${new Date().getFullYear()} SynapGeek. Tous droits réservés.`,
+      copyright: `© ${new Date().getFullYear()} Synapgeek. Tous droits réservés.`,
       privacy: "Politique de confidentialité",
       terms: "Conditions d'utilisation",
       contact: "Contact",
@@ -65,7 +65,7 @@ const fr: Dictionary = {
     about: {
       title: "Construit par des passionnés",
       description:
-        "SynapGeek est un studio indie français dédié aux jeux de réflexion. Nous croyons que les meilleurs puzzles sont ceux qui allient élégance, challenge et plaisir de jeu.",
+        "Synapgeek est un studio indie français dédié aux jeux de réflexion. Nous croyons que les meilleurs puzzles sont ceux qui allient élégance, challenge et plaisir de jeu.",
       values: [
         {
           title: "Qualité avant quantité",
@@ -98,12 +98,12 @@ const fr: Dictionary = {
       {
         title: "Qui sommes-nous",
         content:
-          "SynapGeek est un studio indie basé en France, développant des applications mobiles de jeux de réflexion. La présente politique de confidentialité s'applique à toutes les applications et services SynapGeek, y compris Cerebrum (ci-après « l'Application »).\n\nPour toute question relative à la protection de vos données, vous pouvez nous contacter à : privacy@synapgeek.com",
+          "Synapgeek est un studio indie basé en France, développant des applications mobiles de jeux de réflexion. La présente politique de confidentialité s'applique à toutes les applications et services Synapgeek, y compris Cerebrum (ci-après « l'Application »).\n\nPour toute question relative à la protection de vos données, vous pouvez nous contacter à : privacy@synapgeek.com",
       },
       {
         title: "Données collectées et sources",
         content:
-          "Nous collectons les catégories de données suivantes :\n\n**Données de compte**\nSi vous créez un compte via Apple, Google, Facebook ou par email : identifiant unique, adresse email, nom d'affichage et photo de profil (selon le fournisseur). Vous pouvez également utiliser l'Application sans compte (mode anonyme).\n\n**Données de jeu et de progression**\nScores, temps de complétion, indices utilisés, erreurs, étoiles obtenues, niveaux complétés, niveau de difficulté, tentatives, meilleurs records, défis quotidiens, séries de jeu (streaks).\n\n**Données de monnaie virtuelle et de personnalisation**\nSolde de pièces, historique de transactions in-app, avatars débloqués, trophées mensuels, points d'expérience (XP), ligue/classement.\n\n**Données d'appareil et d'utilisation**\nType d'appareil, version du système d'exploitation, langue, données d'utilisation anonymisées, diagnostics, journaux d'erreur, données de performance applicative.\n\n**Données publicitaires**\nIdentifiant publicitaire (IDFA, avec votre consentement via App Tracking Transparency), interactions avec les publicités, données d'attribution via SKAdNetwork.\n\n**Données de transaction**\nHistorique des achats in-app et abonnements, traités par Apple via StoreKit 2. SynapGeek ne collecte ni ne stocke vos informations de paiement.\n\n**Données que nous ne collectons PAS**\nNous ne collectons aucune donnée de géolocalisation, de santé, de contacts, de photos, de caméra, de calendrier ni de microphone.",
+          "Nous collectons les catégories de données suivantes :\n\n**Données de compte**\nSi vous créez un compte via Apple, Google, Facebook ou par email : identifiant unique, adresse email, nom d'affichage et photo de profil (selon le fournisseur). Vous pouvez également utiliser l'Application sans compte (mode anonyme).\n\n**Données de jeu et de progression**\nScores, temps de complétion, indices utilisés, erreurs, étoiles obtenues, niveaux complétés, niveau de difficulté, tentatives, meilleurs records, défis quotidiens, séries de jeu (streaks).\n\n**Données de monnaie virtuelle et de personnalisation**\nSolde de pièces, historique de transactions in-app, avatars débloqués, trophées mensuels, points d'expérience (XP), ligue/classement.\n\n**Données d'appareil et d'utilisation**\nType d'appareil, version du système d'exploitation, langue, données d'utilisation anonymisées, diagnostics, journaux d'erreur, données de performance applicative.\n\n**Données publicitaires**\nIdentifiant publicitaire (IDFA, avec votre consentement via App Tracking Transparency), interactions avec les publicités, données d'attribution via SKAdNetwork.\n\n**Données de transaction**\nHistorique des achats in-app et abonnements, traités par Apple via StoreKit 2. Synapgeek ne collecte ni ne stocke vos informations de paiement.\n\n**Données que nous ne collectons PAS**\nNous ne collectons aucune donnée de géolocalisation, de santé, de contacts, de photos, de caméra, de calendrier ni de microphone.",
       },
       {
         title: "Base légale du traitement",
@@ -158,7 +158,7 @@ const fr: Dictionary = {
       {
         title: "Contact",
         content:
-          "Pour toute question relative à cette politique de confidentialité ou à vos données personnelles :\n\n**SynapGeek**\nEmail : privacy@synapgeek.com\nSite web : https://synapgeek.com",
+          "Pour toute question relative à cette politique de confidentialité ou à vos données personnelles :\n\n**Synapgeek**\nEmail : privacy@synapgeek.com\nSite web : https://synapgeek.com",
       },
     ],
   },
@@ -169,17 +169,17 @@ const fr: Dictionary = {
       {
         title: "Acceptation des conditions",
         content:
-          "En téléchargeant, installant ou utilisant les applications SynapGeek (ci-après « l'Application »), vous acceptez les présentes Conditions Générales d'Utilisation (ci-après « les Conditions »). Si vous n'acceptez pas ces Conditions, veuillez ne pas utiliser l'Application.\n\nL'Application est destinée aux utilisateurs âgés de 16 ans et plus. Si vous avez entre 16 et 18 ans, votre parent ou tuteur légal doit lire et accepter ces Conditions en votre nom.",
+          "En téléchargeant, installant ou utilisant les applications Synapgeek (ci-après « l'Application »), vous acceptez les présentes Conditions Générales d'Utilisation (ci-après « les Conditions »). Si vous n'acceptez pas ces Conditions, veuillez ne pas utiliser l'Application.\n\nL'Application est destinée aux utilisateurs âgés de 16 ans et plus. Si vous avez entre 16 et 18 ans, votre parent ou tuteur légal doit lire et accepter ces Conditions en votre nom.",
       },
       {
         title: "Description du service",
         content:
-          "SynapGeek développe et distribue des applications mobiles de jeux de réflexion. Cerebrum est une application iOS réunissant quatre jeux de puzzle : Sudoku, Mots-Croisés, Mots-Mêlés et Cross Math.\n\nL'Application propose notamment :\n- Des centaines de puzzles avec plusieurs niveaux de difficulté\n- Un système de progression avec étoiles, XP et classements\n- Des défis quotidiens et des séries de jeu (streaks)\n- Un système de monnaie virtuelle (pièces) et d'avatars\n- Des achats in-app et des abonnements optionnels\n- Un mode avec ou sans publicité",
+          "Synapgeek développe et distribue des applications mobiles de jeux de réflexion. Cerebrum est une application iOS réunissant quatre jeux de puzzle : Sudoku, Mots-Croisés, Mots-Mêlés et Cross Math.\n\nL'Application propose notamment :\n- Des centaines de puzzles avec plusieurs niveaux de difficulté\n- Un système de progression avec étoiles, XP et classements\n- Des défis quotidiens et des séries de jeu (streaks)\n- Un système de monnaie virtuelle (pièces) et d'avatars\n- Des achats in-app et des abonnements optionnels\n- Un mode avec ou sans publicité",
       },
       {
         title: "Licence d'utilisation",
         content:
-          "L'Application vous est concédée sous licence, et non vendue. SynapGeek vous accorde une licence personnelle, limitée, non exclusive, non transférable et révocable pour utiliser l'Application sur tout appareil Apple que vous possédez ou contrôlez, conformément aux règles d'utilisation de l'App Store.\n\nVous vous engagez à ne pas :\n- Copier, modifier, décompiler ou désassembler l'Application\n- Distribuer, louer, prêter ou sous-licencier l'Application\n- Utiliser l'Application à des fins commerciales non autorisées\n- Tenter de contourner les mesures de sécurité ou les restrictions techniques\n- Extraire ou collecter des données de l'Application par des moyens automatisés (scraping, data mining, robots)",
+          "L'Application vous est concédée sous licence, et non vendue. Synapgeek vous accorde une licence personnelle, limitée, non exclusive, non transférable et révocable pour utiliser l'Application sur tout appareil Apple que vous possédez ou contrôlez, conformément aux règles d'utilisation de l'App Store.\n\nVous vous engagez à ne pas :\n- Copier, modifier, décompiler ou désassembler l'Application\n- Distribuer, louer, prêter ou sous-licencier l'Application\n- Utiliser l'Application à des fins commerciales non autorisées\n- Tenter de contourner les mesures de sécurité ou les restrictions techniques\n- Extraire ou collecter des données de l'Application par des moyens automatisés (scraping, data mining, robots)",
       },
       {
         title: "Compte utilisateur",
@@ -194,7 +194,7 @@ const fr: Dictionary = {
       {
         title: "Biens virtuels",
         content:
-          "L'Application contient des biens virtuels, incluant des pièces (monnaie virtuelle), des avatars, des trophées et des points d'expérience (XP).\n\nLes biens virtuels :\n- N'ont aucune valeur monétaire en dehors de l'Application\n- Ne sont ni transférables, ni échangeables, ni remboursables (sauf obligation légale)\n- Peuvent être obtenus par le jeu, le visionnage de publicités ou l'achat in-app\n- Sont liés à votre compte et ne peuvent être transférés à un autre utilisateur\n\nSynapGeek se réserve le droit de modifier les prix, la disponibilité ou la fonctionnalité des biens virtuels à tout moment.",
+          "L'Application contient des biens virtuels, incluant des pièces (monnaie virtuelle), des avatars, des trophées et des points d'expérience (XP).\n\nLes biens virtuels :\n- N'ont aucune valeur monétaire en dehors de l'Application\n- Ne sont ni transférables, ni échangeables, ni remboursables (sauf obligation légale)\n- Peuvent être obtenus par le jeu, le visionnage de publicités ou l'achat in-app\n- Sont liés à votre compte et ne peuvent être transférés à un autre utilisateur\n\nSynapgeek se réserve le droit de modifier les prix, la disponibilité ou la fonctionnalité des biens virtuels à tout moment.",
       },
       {
         title: "Publicités",
@@ -204,27 +204,27 @@ const fr: Dictionary = {
       {
         title: "Propriété intellectuelle",
         content:
-          "L'ensemble du contenu de l'Application — incluant mais non limité aux textes, graphismes, logos, icônes, images, grilles de puzzles, sons, interfaces, code source et documentation — est la propriété exclusive de SynapGeek et est protégé par les lois françaises et internationales sur la propriété intellectuelle.\n\nToute reproduction, distribution, modification, adaptation ou utilisation non autorisée est strictement interdite.\n\nIl est interdit d'utiliser le contenu de l'Application pour l'entraînement de modèles d'intelligence artificielle ou d'apprentissage automatique, la capture systématique d'écrans, le data mining ou le web scraping.",
+          "L'ensemble du contenu de l'Application — incluant mais non limité aux textes, graphismes, logos, icônes, images, grilles de puzzles, sons, interfaces, code source et documentation — est la propriété exclusive de Synapgeek et est protégé par les lois françaises et internationales sur la propriété intellectuelle.\n\nToute reproduction, distribution, modification, adaptation ou utilisation non autorisée est strictement interdite.\n\nIl est interdit d'utiliser le contenu de l'Application pour l'entraînement de modèles d'intelligence artificielle ou d'apprentissage automatique, la capture systématique d'écrans, le data mining ou le web scraping.",
       },
       {
         title: "Règles de conduite",
         content:
-          "En utilisant l'Application, vous vous engagez à ne pas :\n\n- Utiliser l'Application d'une manière contraire aux lois applicables\n- Tenter de manipuler les classements, scores ou systèmes de progression\n- Exploiter des bugs ou failles pour obtenir un avantage déloyal\n- Créer de faux comptes ou usurper l'identité d'un tiers\n- Interférer avec le fonctionnement normal de l'Application ou de ses serveurs\n\nSynapGeek se réserve le droit de suspendre ou supprimer tout compte en violation de ces règles, sans préavis ni compensation.",
+          "En utilisant l'Application, vous vous engagez à ne pas :\n\n- Utiliser l'Application d'une manière contraire aux lois applicables\n- Tenter de manipuler les classements, scores ou systèmes de progression\n- Exploiter des bugs ou failles pour obtenir un avantage déloyal\n- Créer de faux comptes ou usurper l'identité d'un tiers\n- Interférer avec le fonctionnement normal de l'Application ou de ses serveurs\n\nSynapgeek se réserve le droit de suspendre ou supprimer tout compte en violation de ces règles, sans préavis ni compensation.",
       },
       {
         title: "Limitation de responsabilité",
         content:
-          "L'Application est fournie « en l'état » et « selon disponibilité ». SynapGeek ne garantit pas que l'Application fonctionnera sans interruption, sans erreur, ou que les défauts seront corrigés.\n\nDans les limites autorisées par la loi, SynapGeek ne pourra être tenu responsable :\n- De tout dommage indirect, accessoire, spécial ou consécutif\n- De la perte de données, de progression ou de biens virtuels\n- De toute interruption de service ou indisponibilité de l'Application\n\nLa responsabilité totale cumulée de SynapGeek est limitée au montant que vous avez effectivement payé pour l'Application au cours des 12 mois précédant la réclamation.",
+          "L'Application est fournie « en l'état » et « selon disponibilité ». Synapgeek ne garantit pas que l'Application fonctionnera sans interruption, sans erreur, ou que les défauts seront corrigés.\n\nDans les limites autorisées par la loi, Synapgeek ne pourra être tenu responsable :\n- De tout dommage indirect, accessoire, spécial ou consécutif\n- De la perte de données, de progression ou de biens virtuels\n- De toute interruption de service ou indisponibilité de l'Application\n\nLa responsabilité totale cumulée de Synapgeek est limitée au montant que vous avez effectivement payé pour l'Application au cours des 12 mois précédant la réclamation.",
       },
       {
         title: "Résiliation et suppression de compte",
         content:
-          "Vous pouvez cesser d'utiliser l'Application à tout moment en la désinstallant.\n\nVous pouvez supprimer votre compte à tout moment via Profil > Supprimer le compte dans l'Application. La suppression est irréversible et entraîne la perte définitive de toutes vos données : progression, pièces, avatars, trophées et classements.\n\nSynapGeek se réserve le droit de résilier ou suspendre votre accès en cas de violation des présentes Conditions.\n\nLes sections relatives à la propriété intellectuelle, la limitation de responsabilité et le droit applicable survivent à toute résiliation.",
+          "Vous pouvez cesser d'utiliser l'Application à tout moment en la désinstallant.\n\nVous pouvez supprimer votre compte à tout moment via Profil > Supprimer le compte dans l'Application. La suppression est irréversible et entraîne la perte définitive de toutes vos données : progression, pièces, avatars, trophées et classements.\n\nSynapgeek se réserve le droit de résilier ou suspendre votre accès en cas de violation des présentes Conditions.\n\nLes sections relatives à la propriété intellectuelle, la limitation de responsabilité et le droit applicable survivent à toute résiliation.",
       },
       {
         title: "Notice pour les utilisateurs d'appareils Apple",
         content:
-          "Les présentes Conditions constituent un accord entre vous et SynapGeek, et non avec Apple. SynapGeek, et non Apple, est seul responsable de l'Application et de son contenu.\n\nApple n'a aucune obligation de fournir des services de maintenance ou d'assistance pour l'Application.\n\nEn cas de non-conformité de l'Application à toute garantie applicable, vous pouvez en informer Apple, qui pourra vous rembourser le prix d'achat le cas échéant. Apple n'a aucune autre obligation de garantie.\n\nApple n'est pas responsable du traitement des réclamations vous concernant ou concernant votre utilisation de l'Application.\n\nApple et ses filiales sont tiers bénéficiaires des présentes Conditions et peuvent les faire exécuter à votre encontre.\n\nVous déclarez ne pas vous trouver dans un pays soumis à un embargo du gouvernement américain, ni être inscrit sur une liste de personnes sanctionnées.",
+          "Les présentes Conditions constituent un accord entre vous et Synapgeek, et non avec Apple. Synapgeek, et non Apple, est seul responsable de l'Application et de son contenu.\n\nApple n'a aucune obligation de fournir des services de maintenance ou d'assistance pour l'Application.\n\nEn cas de non-conformité de l'Application à toute garantie applicable, vous pouvez en informer Apple, qui pourra vous rembourser le prix d'achat le cas échéant. Apple n'a aucune autre obligation de garantie.\n\nApple n'est pas responsable du traitement des réclamations vous concernant ou concernant votre utilisation de l'Application.\n\nApple et ses filiales sont tiers bénéficiaires des présentes Conditions et peuvent les faire exécuter à votre encontre.\n\nVous déclarez ne pas vous trouver dans un pays soumis à un embargo du gouvernement américain, ni être inscrit sur une liste de personnes sanctionnées.",
       },
       {
         title: "Droit applicable et litiges",
@@ -234,12 +234,12 @@ const fr: Dictionary = {
       {
         title: "Modifications des conditions",
         content:
-          "SynapGeek se réserve le droit de modifier les présentes Conditions à tout moment. En cas de modification substantielle, la date de mise à jour en haut de ce document sera actualisée.\n\nLa poursuite de l'utilisation de l'Application après toute modification vaut acceptation des Conditions révisées.",
+          "Synapgeek se réserve le droit de modifier les présentes Conditions à tout moment. En cas de modification substantielle, la date de mise à jour en haut de ce document sera actualisée.\n\nLa poursuite de l'utilisation de l'Application après toute modification vaut acceptation des Conditions révisées.",
       },
       {
         title: "Contact",
         content:
-          "Pour toute question relative aux présentes Conditions :\n\n**SynapGeek**\nEmail : contact@synapgeek.com\nSite web : https://synapgeek.com",
+          "Pour toute question relative aux présentes Conditions :\n\n**Synapgeek**\nEmail : contact@synapgeek.com\nSite web : https://synapgeek.com",
       },
     ],
   },

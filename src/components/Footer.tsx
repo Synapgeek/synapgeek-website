@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { getLocalePath } from "@/lib/i18n";
@@ -17,10 +18,14 @@ export function Footer({
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2 text-lg font-extrabold">
-              <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-sm font-black text-white">
-                S
-              </span>
-              SynapGeek
+              <Image
+                src="/images/brand/logo-synapgeek.png"
+                alt="Synapgeek logo"
+                width={32}
+                height={32}
+                className="rounded-lg"
+              />
+              Synapgeek
             </div>
             <p className="mt-3 text-sm text-gray-400">
               {dict.tagline}

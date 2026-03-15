@@ -17,8 +17,8 @@ export async function generateMetadata({
 
   const description =
     locale === "fr"
-      ? "Politique de confidentialité des apps et services SynapGeek — données collectées, droits RGPD, publicités et cookies."
-      : "Privacy policy for SynapGeek apps and services — data collected, GDPR rights, advertising and cookies.";
+      ? "Politique de confidentialité des apps et services Synapgeek — données collectées, droits RGPD, publicités et cookies."
+      : "Privacy policy for Synapgeek apps and services — data collected, GDPR rights, advertising and cookies.";
 
   return {
     title: dict.privacy.title,

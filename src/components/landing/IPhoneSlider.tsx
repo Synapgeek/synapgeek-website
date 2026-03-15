@@ -10,15 +10,15 @@ interface Slide {
 
 const slides: Slide[] = [
   {
-    src: "/hero-screen-main.png",
+    src: "/images/hero/hero-screen-main.png",
     alt: "Cerebrum main screen showing Sudoku, Crossword, Word Search, and Cross Math games",
   },
   {
-    src: "/hero-screen-daily.png",
+    src: "/images/hero/hero-screen-daily.png",
     alt: "Cerebrum Daily Challenge calendar with 28 out of 28 days completed",
   },
   {
-    src: "/hero-screen-avatars.png",
+    src: "/images/hero/hero-screen-avatars.png",
     alt: "Cerebrum victory screen with 3 stars and Roman avatar characters",
   },
 ];

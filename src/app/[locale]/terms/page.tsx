@@ -17,8 +17,8 @@ export async function generateMetadata({
 
   const description =
     locale === "fr"
-      ? "Conditions générales d'utilisation des apps SynapGeek — licence, achats in-app, biens virtuels, propriété intellectuelle."
-      : "Terms of use for SynapGeek apps — license, in-app purchases, virtual goods, intellectual property.";
+      ? "Conditions générales d'utilisation des apps Synapgeek — licence, achats in-app, biens virtuels, propriété intellectuelle."
+      : "Terms of use for Synapgeek apps — license, in-app purchases, virtual goods, intellectual property.";
 
   return {
     title: dict.terms.title,

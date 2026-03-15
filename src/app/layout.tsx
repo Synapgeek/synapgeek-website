@@ -28,8 +28,8 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://synapgeek.com"),
   title: {
-    default: "SynapGeek — Studio indie de jeux de réflexion",
-    template: "%s | SynapGeek",
+    default: "Synapgeek — Studio indie de jeux de réflexion",
+    template: "%s | Synapgeek",
   },
 };
 
