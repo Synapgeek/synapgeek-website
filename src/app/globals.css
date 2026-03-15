@@ -1,26 +1,134 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ===== DESIGN TOKENS — Colorful & Playful ===== */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Fonts */
+  --font-sans: var(--font-dm-sans);
+  --font-body: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Primary — Vibrant Green (like Duolingo) */
+  --color-primary: #58CC02;
+  --color-primary-dark: #4CAF00;
+  --color-primary-light: #7ED321;
+
+  /* Secondary — Warm Purple */
+  --color-secondary: #8549BA;
+  --color-secondary-light: #A560E8;
+
+  /* Accent — Fun palette */
+  --color-accent-blue: #1CB0F6;
+  --color-accent-yellow: #FFC800;
+  --color-accent-orange: #FF9600;
+  --color-accent-coral: #FF6B6B;
+  --color-accent-teal: #2DD4BF;
+
+  /* Neutrals */
+  --color-background: #FFFFFF;
+  --color-surface: #F7F7F7;
+  --color-surface-elevated: #FFFFFF;
+  --color-border: #E5E5E5;
+  --color-text-primary: #1A1A2E;
+  --color-text-secondary: #6B7280;
+  --color-text-tertiary: #9CA3AF;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* ===== UTILITIES ===== */
+.gradient-hero {
+  background: linear-gradient(135deg, #F0FFF0 0%, #F5F0FF 50%, #FFF8E1 100%);
+}
+
+.gradient-cta {
+  background: linear-gradient(135deg, #58CC02, #7ED321);
+}
+
+.gradient-section {
+  background: linear-gradient(180deg, #F7F7F7 0%, #FFFFFF 100%);
+}
+
+.gradient-purple {
+  background: linear-gradient(135deg, #8549BA, #A560E8);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #58CC02, #1CB0F6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes bounce-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out both;
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+.animate-bounce-soft {
+  animation: bounce-soft 3s ease-in-out infinite;
+}
+
+.animate-wiggle {
+  animation: wiggle 4s ease-in-out infinite;
+}
+
+/* Stagger delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+
+/* ===== DECORATIVE SHAPES ===== */
+.blob {
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+@supports (animation-timeline: view()) {
+  .scroll-reveal {
+    animation: fade-in-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 30%;
+  }
 }
