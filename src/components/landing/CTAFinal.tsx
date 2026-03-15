@@ -12,7 +12,7 @@ export function CTAFinal({
   };
 }) {
   return (
-    <section id="contact" className="relative overflow-hidden px-6 py-24">
+    <section className="relative overflow-hidden px-6 py-24">
       {/* Colorful background */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 via-accent-blue/5 to-secondary/5" />
       <div className="absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
