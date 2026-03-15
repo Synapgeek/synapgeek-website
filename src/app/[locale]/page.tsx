@@ -72,8 +72,8 @@ export default async function HomePage({
       <Stats items={dict.landing.stats.items} />
       <Features dict={dict.landing.features} />
       <About dict={dict.landing.about} />
-      <Contact locale={locale} dict={dict.landing.contact} />
       <CTAFinal dict={dict.landing.cta} />
+      <Contact locale={locale} dict={dict.landing.contact} />
     </>
   );
 }
