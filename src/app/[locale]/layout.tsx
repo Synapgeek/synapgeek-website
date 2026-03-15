@@ -26,7 +26,7 @@ export async function generateMetadata({
       siteName: "Synapgeek",
       locale: getOgLocale(locale),
       alternateLocale: getOgAlternateLocales(locale),
-      images: [{ url: "/images/brand/og-image.png", width: 1200, height: 630 }],
+      images: [{ url: "/images/brand/og-image.jpeg", width: 1200, height: 630 }],
     },
   };
 }
@@ -47,7 +47,7 @@ export default async function LocaleLayout({
     "@type": "Organization",
     name: "Synapgeek",
     url: "https://synapgeek.com",
-    logo: "https://synapgeek.com/og-image.png",
+    logo: "https://synapgeek.com/images/brand/logo-synapgeek.png",
     email: "contact@synapgeek.com",
     description: dict.common.tagline,
   };

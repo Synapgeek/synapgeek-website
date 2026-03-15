@@ -124,6 +124,42 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
 }
 
+/* Organic blob variants for About section — matches OG image aesthetic */
+.blob-1 { border-radius: 40% 60% 55% 45% / 55% 35% 65% 45%; }
+.blob-2 { border-radius: 55% 45% 35% 65% / 40% 60% 40% 60%; }
+.blob-3 { border-radius: 35% 65% 50% 50% / 60% 40% 55% 45%; }
+.blob-4 { border-radius: 60% 40% 45% 55% / 35% 65% 40% 60%; }
+.blob-5 { border-radius: 45% 55% 60% 40% / 50% 50% 45% 55%; }
+
+@keyframes blob-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(12px, -18px) scale(1.04); }
+  50% { transform: translate(-8px, 10px) scale(0.97); }
+  75% { transform: translate(6px, 14px) scale(1.02); }
+}
+
+@keyframes blob-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-14px, 10px) scale(0.96); }
+  50% { transform: translate(10px, -14px) scale(1.05); }
+  75% { transform: translate(-6px, -8px) scale(0.98); }
+}
+
+@keyframes blob-drift-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(16px, 8px) scale(1.03); }
+  66% { transform: translate(-10px, -12px) scale(0.97); }
+}
+
+.animate-blob-drift-1 { animation: blob-drift-1 18s ease-in-out infinite; }
+.animate-blob-drift-2 { animation: blob-drift-2 22s ease-in-out infinite; }
+.animate-blob-drift-3 { animation: blob-drift-3 16s ease-in-out infinite; }
+
+/* About section warm cream background — matches OG image */
+.bg-about-cream {
+  background-color: #F8F5EF;
+}
+
 /* ===== iPHONE MOCKUP ===== */
 .iphone-frame {
   --iphone-width: 260px;
