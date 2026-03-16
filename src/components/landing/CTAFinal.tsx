@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { StoreButtons } from "@/components/ui/StoreButtons";
 
 export function CTAFinal({
@@ -29,6 +30,17 @@ export function CTAFinal({
       <div className="absolute -right-20 top-0 h-64 w-64 rounded-full bg-accent-blue/10 blur-3xl" />
 
       <div className="mx-auto max-w-2xl text-center">
+        <div className="mb-6 flex justify-center">
+          <div className="cerebrum-icon-glow relative">
+            <Image
+              src="/images/brand/cerebrum-icon.png"
+              alt="Cerebrum"
+              width={72}
+              height={72}
+              className="cerebrum-icon-img"
+            />
+          </div>
+        </div>
         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
           {dict.title}
         </h2>
