@@ -97,7 +97,7 @@ export function StoreButtons({
                 src={badges.appStore}
                 alt={
                   locale === "fr"
-                    ? "Telecharger dans l'App Store"
+                    ? "Télécharger dans l'App Store"
                     : "Download on the App Store"
                 }
                 href="https://apps.apple.com/app/cerebrum"
@@ -133,7 +133,7 @@ export function StoreButtons({
           src={badges.appStore}
           alt={
             locale === "fr"
-              ? "Telecharger dans l'App Store"
+              ? "Télécharger dans l'App Store"
               : "Download on the App Store"
           }
           href="https://apps.apple.com/app/cerebrum"

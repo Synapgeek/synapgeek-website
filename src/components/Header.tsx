@@ -6,15 +6,12 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import { getLocalePath } from "@/lib/i18n";
-import type { Dictionary } from "@/content";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export function Header({
   locale,
-  dict,
 }: {
   locale: Locale;
-  dict: Dictionary["common"];
 }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -26,6 +23,16 @@ export function Header({
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape" && mobileOpen) {
+        setMobileOpen(false);
+      }
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [mobileOpen]);
 
   return (
     <header
@@ -78,6 +85,8 @@ export function Header({
           onClick={() => setMobileOpen(!mobileOpen)}
           className="rounded-xl p-2 text-text-secondary hover:bg-surface md:hidden"
           aria-label="Toggle menu"
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-menu"
         >
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
@@ -85,7 +94,7 @@ export function Header({
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="border-t border-border bg-white md:hidden">
+        <div id="mobile-menu" className="border-t border-border bg-white md:hidden">
           <div className="flex flex-col gap-4 px-6 py-6">
             <Link
               href={getLocalePath(locale, "/#features")}

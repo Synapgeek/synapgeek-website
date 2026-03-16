@@ -9,13 +9,6 @@ const featureImages = [
   "/images/games/feature-crossmath.png",
 ];
 
-const featureColors = [
-  "from-primary/10 to-primary/5",
-  "from-accent-blue/10 to-accent-blue/5",
-  "from-secondary/10 to-secondary/5",
-  "from-accent-orange/10 to-accent-orange/5",
-];
-
 export function Features({
   dict,
 }: {

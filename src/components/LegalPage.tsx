@@ -1,5 +1,15 @@
 import { Badge } from "@/components/ui/Badge";
 
+function formatText(text: string): React.ReactNode[] {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+}
+
 export function LegalPage({
   title,
   lastUpdated,
@@ -21,7 +31,7 @@ export function LegalPage({
             <div className="space-y-3 text-sm leading-relaxed text-text-secondary">
               {section.content.split("\n\n").map((paragraph, i) => (
                 <p key={i} className="whitespace-pre-line">
-                  {paragraph}
+                  {formatText(paragraph)}
                 </p>
               ))}
             </div>

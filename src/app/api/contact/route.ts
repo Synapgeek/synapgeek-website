@@ -11,15 +11,56 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+/** Escape HTML special characters to prevent injection. */
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+/** Strip CR/LF to prevent email header injection. */
+function stripNewlines(str: string): string {
+  return str.replace(/[\r\n]/g, "");
+}
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const MAX_NAME_LENGTH = 200;
+const MAX_EMAIL_LENGTH = 320;
+const MAX_MESSAGE_LENGTH = 5000;
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { name, email, message, recaptchaToken } = body;
 
-    // Validate fields
+    // Validate required fields
     if (!name || !email || !message || !recaptchaToken) {
       return NextResponse.json(
         { error: "Missing required fields" },
+        { status: 400 },
+      );
+    }
+
+    // Validate input lengths
+    if (
+      name.length > MAX_NAME_LENGTH ||
+      email.length > MAX_EMAIL_LENGTH ||
+      message.length > MAX_MESSAGE_LENGTH
+    ) {
+      return NextResponse.json(
+        { error: "Input exceeds maximum length" },
+        { status: 400 },
+      );
+    }
+
+    // Validate email format
+    if (!EMAIL_REGEX.test(email)) {
+      return NextResponse.json(
+        { error: "Invalid email format" },
         { status: 400 },
       );
     }
@@ -43,19 +84,23 @@ export async function POST(request: Request) {
       );
     }
 
+    // Sanitize inputs for email headers
+    const safeName = stripNewlines(name);
+    const safeEmail = stripNewlines(email);
+
     // Send email
     await transporter.sendMail({
       from: `"Synapgeek Website" <${process.env.SMTP_USER}>`,
-      replyTo: email,
+      replyTo: safeEmail,
       to: process.env.CONTACT_EMAIL,
-      subject: `[Contact] ${name}`,
-      text: `Nom: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+      subject: `[Contact] ${safeName}`,
+      text: `Nom: ${safeName}\nEmail: ${safeEmail}\n\nMessage:\n${message}`,
       html: `
         <h3>Nouveau message de contact</h3>
-        <p><strong>Nom:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Nom:</strong> ${escapeHtml(safeName)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(safeEmail)}</p>
         <hr />
-        <p>${message.replace(/\n/g, "<br />")}</p>
+        <p>${escapeHtml(message).replace(/\n/g, "<br />")}</p>
       `,
     });
 

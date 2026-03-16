@@ -430,3 +430,31 @@ h1, h2, h3, h4, h5, h6 {
     animation-range: entry 0% entry 30%;
   }
 }
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-blob-drift-1,
+  .animate-blob-drift-2,
+  .animate-blob-drift-3,
+  .animate-float,
+  .animate-bounce-soft,
+  .animate-wiggle,
+  .coming-soon-shimmer,
+  .coming-soon-card,
+  .scroll-reveal {
+    animation: none !important;
+  }
+
+  .iphone-tilt,
+  .iphone-tilt:hover,
+  .iphone-slide {
+    transition-duration: 0.01ms !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

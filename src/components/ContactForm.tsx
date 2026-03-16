@@ -45,7 +45,11 @@ export function ContactForm({ locale }: { locale: string }) {
 
   useEffect(() => {
     window.onRecaptchaLoad = renderRecaptcha;
-    if (window.grecaptcha) renderRecaptcha();
+    if (window.grecaptcha) {
+      // Defer to avoid synchronous setState during render
+      const id = requestAnimationFrame(() => renderRecaptcha());
+      return () => cancelAnimationFrame(id);
+    }
   }, [renderRecaptcha]);
 
   const isFr = locale === "fr";
@@ -93,7 +97,7 @@ export function ContactForm({ locale }: { locale: string }) {
       />
 
       {status === "success" ? (
-        <div className="rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center">
+        <div role="status" className="rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center">
           {/* Checkmark circle */}
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
             <svg
@@ -180,7 +184,7 @@ export function ContactForm({ locale }: { locale: string }) {
           <div ref={recaptchaRef} className="flex justify-center [&>div]:!mx-auto" />
 
           {status === "error" && (
-            <div className="rounded-xl border border-accent-coral/20 bg-accent-coral/5 px-4 py-3">
+            <div role="alert" className="rounded-xl border border-accent-coral/20 bg-accent-coral/5 px-4 py-3">
               <p className="text-center text-sm text-accent-coral">
                 {isFr
                   ? "Une erreur est survenue. Réessayez ou contactez-nous directement."

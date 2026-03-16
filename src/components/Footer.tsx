@@ -34,7 +34,7 @@ export function Footer({
 
           {/* Product */}
           <div>
-            <p className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-500">
+            <p className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-400">
               Product
             </p>
             <ul className="space-y-3 text-sm">
@@ -61,7 +61,7 @@ export function Footer({
 
           {/* Legal */}
           <div>
-            <p className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-500">
+            <p className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-400">
               {locale === "fr" ? "Légal" : "Legal"}
             </p>
             <ul className="space-y-3 text-sm">
@@ -86,24 +86,24 @@ export function Footer({
 
           {/* Contact */}
           <div>
-            <p className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-500">
+            <p className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-400">
               Contact
             </p>
             <ul className="space-y-3 text-sm">
               <li>
-                <a
+                <Link
                   href={getLocalePath(locale, "/#contact")}
                   className="text-gray-400 transition-colors hover:text-white"
                 >
                   {locale === "fr" ? "Nous écrire" : "Write to us"}
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-gray-800 pt-8 text-xs text-gray-500 sm:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-gray-800 pt-8 text-xs text-gray-400 sm:flex-row">
           <p>{dict.footer.copyright}</p>
           <p className="flex items-center gap-1">
             {locale === "fr" ? "Fait avec" : "Made with"}

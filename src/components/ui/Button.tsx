@@ -37,7 +37,7 @@ export function Button({
   className = "",
   ...props
 }: ButtonProps | LinkProps) {
-  const classes = `inline-flex items-center justify-center gap-2 font-bold ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;
+  const classes = `inline-flex items-center justify-center gap-2 font-bold focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;
 
   if ("href" in props && props.href) {
     return <a className={classes} {...(props as LinkProps)} />;

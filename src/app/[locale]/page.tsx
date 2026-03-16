@@ -56,7 +56,7 @@ export default async function HomePage({
       "@type": "Offer",
       price: "0",
       priceCurrency: "EUR",
-      availability: "https://schema.org/InStock",
+      availability: "https://schema.org/PreOrder",
     },
     author: {
       "@type": "Organization",

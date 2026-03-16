@@ -42,6 +42,9 @@ export function LanguageSwitcher({ locale }: { locale: Locale }) {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") setOpen(false);
+        }}
         className="flex items-center gap-1.5 rounded-xl border border-border px-3 py-1.5 text-xs font-bold transition-colors hover:bg-surface"
         aria-expanded={open}
         aria-haspopup="listbox"

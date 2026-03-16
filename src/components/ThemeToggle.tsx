@@ -1,23 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useSyncExternalStore } from "react";
 import { Moon, Sun } from "lucide-react";
 
-export function ThemeToggle() {
-  const [dark, setDark] = useState(true);
+function subscribe(onStoreChange: () => void) {
+  // Listen for storage events from other tabs
+  window.addEventListener("storage", onStoreChange);
+  return () => window.removeEventListener("storage", onStoreChange);
+}
 
+function getSnapshot(): boolean {
+  return localStorage.getItem("theme") !== "light";
+}
+
+function getServerSnapshot(): boolean {
+  return true; // Default to dark on SSR
+}
+
+export function ThemeToggle() {
+  const dark = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
+  // Sync DOM classes with the current theme (external system update, no setState)
   useEffect(() => {
-    const saved = localStorage.getItem("theme");
-    if (saved === "light") {
-      setDark(false);
+    if (dark) {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    } else {
       document.documentElement.classList.remove("dark");
       document.documentElement.classList.add("light");
     }
-  }, []);
+  }, [dark]);
 
-  function toggle() {
+  const toggle = useCallback(() => {
     const next = !dark;
-    setDark(next);
     if (next) {
       document.documentElement.classList.add("dark");
       document.documentElement.classList.remove("light");
@@ -27,7 +42,9 @@ export function ThemeToggle() {
       document.documentElement.classList.add("light");
       localStorage.setItem("theme", "light");
     }
-  }
+    // Trigger a re-render by dispatching a storage event manually
+    window.dispatchEvent(new StorageEvent("storage"));
+  }, [dark]);
 
   return (
     <button
