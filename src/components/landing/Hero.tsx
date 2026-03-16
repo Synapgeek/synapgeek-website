@@ -58,39 +58,67 @@ export function Hero({
       <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-12 px-6 py-20 lg:flex-row lg:gap-16 lg:py-32">
         {/* Text content */}
         <div className="flex flex-1 flex-col items-center text-center lg:items-start lg:text-left">
-          <Badge color="green" className="animate-fade-in-up">
+          {/* Cerebrum identity lockup */}
+          <div className="cerebrum-lockup animate-fade-in-up relative mb-6">
+            {/* Sparkle particles */}
+            <div className="cerebrum-sparkles" aria-hidden="true">
+              <span className="cerebrum-sparkle" />
+              <span className="cerebrum-sparkle cerebrum-sparkle--star" />
+              <span className="cerebrum-sparkle" />
+              <span className="cerebrum-sparkle cerebrum-sparkle--star" />
+              <span className="cerebrum-sparkle" />
+              <span className="cerebrum-sparkle" />
+            </div>
+
+            <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:gap-6">
+              {/* Icon with glow + reflection */}
+              <div className="cerebrum-icon-glow relative flex-shrink-0">
+                <Image
+                  src="/images/brand/cerebrum-icon.png"
+                  alt="Cerebrum"
+                  width={112}
+                  height={112}
+                  className="cerebrum-icon-img h-[88px] w-[88px] sm:h-[104px] sm:w-[104px] lg:h-[120px] lg:w-[120px]"
+                  priority
+                />
+                <div
+                  className="cerebrum-icon-reflection"
+                  aria-hidden="true"
+                />
+              </div>
+
+              {/* Name */}
+              <span className="cerebrum-name text-[2.75rem] font-extrabold leading-none tracking-tight sm:text-[3.25rem] lg:text-[4rem]">
+                Cerebrum
+              </span>
+            </div>
+          </div>
+
+          <Badge color="green" className="animate-fade-in-up delay-100">
             <Sparkles className="h-3 w-3" />
             {dict.badge}
           </Badge>
 
-          <h1 className="animate-fade-in-up delay-100 mt-6 text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
+          {/* Golden separator — animated shimmer */}
+          <div className="animate-fade-in-up delay-100 my-5" aria-hidden="true">
+            <div className="cerebrum-separator" />
+          </div>
+
+          <h1 className="animate-fade-in-up delay-200 text-3xl font-extrabold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
             {dict.title}
           </h1>
 
-          <p className="animate-fade-in-up delay-200 mt-6 max-w-lg text-lg leading-relaxed text-text-secondary">
+          <p className="animate-fade-in-up delay-300 mt-6 max-w-lg text-lg leading-relaxed text-text-secondary">
             {dict.subtitle}
           </p>
 
-          <div className="animate-fade-in-up delay-300 mt-8 flex flex-col gap-4">
+          <div className="animate-fade-in-up delay-400 mt-8">
             <StoreButtons
               locale={locale}
               comingSoon
               comingSoonLabel={dict.comingSoon}
               waitlist={dict.waitlist}
             />
-            <Button
-              href="#features"
-              variant="ghost"
-              size="lg"
-              onClick={() =>
-                trackEvent("cta_clicked", {
-                  button_text: dict.ctaSecondary,
-                  location: "hero",
-                })
-              }
-            >
-              {dict.ctaSecondary}
-            </Button>
           </div>
         </div>
 
