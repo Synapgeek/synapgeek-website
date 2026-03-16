@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
+import { trackEvent } from "@/lib/gtag";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { StoreButtons } from "@/components/ui/StoreButtons";
@@ -75,7 +78,17 @@ export function Hero({
               comingSoonLabel={dict.comingSoon}
               waitlist={dict.waitlist}
             />
-            <Button href="#features" variant="ghost" size="lg">
+            <Button
+              href="#features"
+              variant="ghost"
+              size="lg"
+              onClick={() =>
+                trackEvent("cta_clicked", {
+                  button_text: dict.ctaSecondary,
+                  location: "hero",
+                })
+              }
+            >
               {dict.ctaSecondary}
             </Button>
           </div>
