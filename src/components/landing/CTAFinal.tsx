@@ -10,6 +10,15 @@ export function CTAFinal({
     subtitle: string;
     note: string;
     comingSoon: string;
+    waitlist: {
+      placeholder: string;
+      button: string;
+      success: string;
+      error: string;
+      platformIos: string;
+      platformAndroid: string;
+      platformBoth: string;
+    };
   };
 }) {
   return (
@@ -29,6 +38,7 @@ export function CTAFinal({
             locale={locale}
             comingSoon
             comingSoonLabel={dict.comingSoon}
+            waitlist={dict.waitlist}
             className="lg:items-center"
           />
         </div>

@@ -17,6 +17,15 @@ export function Hero({
     cta: string;
     ctaSecondary: string;
     comingSoon: string;
+    waitlist: {
+      placeholder: string;
+      button: string;
+      success: string;
+      error: string;
+      platformIos: string;
+      platformAndroid: string;
+      platformBoth: string;
+    };
   };
 }) {
   return (
@@ -64,6 +73,7 @@ export function Hero({
               locale={locale}
               comingSoon
               comingSoonLabel={dict.comingSoon}
+              waitlist={dict.waitlist}
             />
             <Button href="#features" variant="ghost" size="lg">
               {dict.ctaSecondary}

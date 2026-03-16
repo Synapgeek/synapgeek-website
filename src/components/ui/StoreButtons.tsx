@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { WaitlistForm } from "@/components/WaitlistForm";
 
 const BADGES = {
   fr: {
@@ -66,6 +67,15 @@ interface StoreButtonsProps {
   locale: Locale;
   comingSoon?: boolean;
   comingSoonLabel?: string;
+  waitlist?: {
+    placeholder: string;
+    button: string;
+    success: string;
+    error: string;
+    platformIos: string;
+    platformAndroid: string;
+    platformBoth: string;
+  };
   className?: string;
 }
 
@@ -73,6 +83,7 @@ export function StoreButtons({
   locale,
   comingSoon = true,
   comingSoonLabel,
+  waitlist,
   className = "",
 }: StoreButtonsProps) {
   const badges = BADGES[locale];
@@ -118,6 +129,9 @@ export function StoreButtons({
                 height={locale === "fr" ? 192 : 168}
               />
             </div>
+
+            {/* Waitlist form */}
+            {waitlist && <WaitlistForm dict={waitlist} />}
           </div>
         </div>
       </div>

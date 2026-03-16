@@ -27,6 +27,15 @@ const en: Dictionary = {
       cta: "Download Cerebrum",
       ctaSecondary: "Learn more",
       comingSoon: "Coming soon",
+      waitlist: {
+        placeholder: "Your email",
+        button: "Notify me",
+        success: "You'll be notified at launch!",
+        error: "Something went wrong. Try again.",
+        platformIos: "iOS",
+        platformAndroid: "Android",
+        platformBoth: "Both",
+      },
     },
     stats: {
       items: [
@@ -90,6 +99,15 @@ const en: Dictionary = {
       cta: "Download for free",
       note: "Free with optional in-app purchases.",
       comingSoon: "Coming soon",
+      waitlist: {
+        placeholder: "Your email",
+        button: "Notify me",
+        success: "You'll be notified at launch!",
+        error: "Something went wrong. Try again.",
+        platformIos: "iOS",
+        platformAndroid: "Android",
+        platformBoth: "Both",
+      },
     },
     contact: {
       title: "Got a question?",
