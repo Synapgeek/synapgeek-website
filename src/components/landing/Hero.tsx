@@ -58,20 +58,40 @@ export function Hero({
       <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-12 px-6 py-20 lg:flex-row lg:gap-16 lg:py-32">
         {/* Text content */}
         <div className="flex flex-1 flex-col items-center text-center lg:items-start lg:text-left">
-          <Badge color="green" className="animate-fade-in-up">
+          {/* Cerebrum identity lockup */}
+          <div className="animate-fade-in-up mb-4 flex flex-col items-center gap-3 lg:items-start">
+            <div className="cerebrum-icon-glow relative">
+              <Image
+                src="/images/brand/cerebrum-icon.png"
+                alt="Cerebrum"
+                width={80}
+                height={80}
+                className="cerebrum-icon-img"
+                priority
+              />
+            </div>
+            <span className="cerebrum-name text-4xl font-extrabold sm:text-5xl lg:text-6xl">
+              Cerebrum
+            </span>
+          </div>
+
+          <Badge color="green" className="animate-fade-in-up delay-100">
             <Sparkles className="h-3 w-3" />
             {dict.badge}
           </Badge>
 
-          <h1 className="animate-fade-in-up delay-100 mt-6 text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
+          {/* Golden separator */}
+          <div className="animate-fade-in-up delay-100 my-4 h-px w-16 bg-gradient-to-r from-transparent via-amber-400/60 to-transparent" />
+
+          <h1 className="animate-fade-in-up delay-200 text-3xl font-extrabold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
             {dict.title}
           </h1>
 
-          <p className="animate-fade-in-up delay-200 mt-6 max-w-lg text-lg leading-relaxed text-text-secondary">
+          <p className="animate-fade-in-up delay-300 mt-6 max-w-lg text-lg leading-relaxed text-text-secondary">
             {dict.subtitle}
           </p>
 
-          <div className="animate-fade-in-up delay-300 mt-8 flex flex-col gap-4">
+          <div className="animate-fade-in-up delay-400 mt-8 flex flex-col gap-4">
             <StoreButtons
               locale={locale}
               comingSoon

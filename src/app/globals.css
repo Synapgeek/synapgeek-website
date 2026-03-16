@@ -432,6 +432,51 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ===== REDUCED MOTION ===== */
+/* ===== CEREBRUM BRANDING ===== */
+.cerebrum-icon-img {
+  border-radius: 22.37%;
+  box-shadow: 0 4px 20px rgba(184, 134, 11, 0.3);
+}
+
+.cerebrum-icon-glow {
+  position: relative;
+}
+
+.cerebrum-icon-glow::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 26%;
+  background: radial-gradient(circle, rgba(245, 166, 35, 0.4) 0%, transparent 70%);
+  filter: blur(14px);
+  animation: cerebrum-pulse 3s ease-in-out infinite;
+  z-index: -1;
+}
+
+.cerebrum-icon-glow::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 24%;
+  background: conic-gradient(from 0deg, transparent, rgba(245, 166, 35, 0.3), transparent, rgba(184, 134, 11, 0.2), transparent);
+  filter: blur(2px);
+  animation: cerebrum-pulse 3s ease-in-out infinite reverse;
+  z-index: -1;
+}
+
+@keyframes cerebrum-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.cerebrum-name {
+  background: linear-gradient(135deg, #B8860B 0%, #F5A623 50%, #B8860B 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 2px rgba(184, 134, 11, 0.3));
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in-up,
   .animate-blob-drift-1,
@@ -442,7 +487,9 @@ h1, h2, h3, h4, h5, h6 {
   .animate-wiggle,
   .coming-soon-shimmer,
   .coming-soon-card,
-  .scroll-reveal {
+  .scroll-reveal,
+  .cerebrum-icon-glow::before,
+  .cerebrum-icon-glow::after {
     animation: none !important;
   }
 
