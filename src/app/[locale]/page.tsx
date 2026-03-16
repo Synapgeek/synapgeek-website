@@ -68,11 +68,11 @@ export default async function HomePage({
   return (
     <>
       <JsonLd data={softwareAppSchema} />
-      <Hero dict={dict.landing.hero} />
+      <Hero locale={locale} dict={dict.landing.hero} />
       <Stats items={dict.landing.stats.items} />
       <Features dict={dict.landing.features} />
       <About dict={dict.landing.about} />
-      <CTAFinal dict={dict.landing.cta} />
+      <CTAFinal locale={locale} dict={dict.landing.cta} />
       <Contact locale={locale} dict={dict.landing.contact} />
     </>
   );

@@ -20,12 +20,13 @@ const en: Dictionary = {
   },
   landing: {
     hero: {
-      badge: "Available on iOS",
+      badge: "Coming soon to iOS & Android",
       title: "Train your brain, one puzzle at a time",
       subtitle:
         "Cerebrum brings Sudoku, Crosswords, Word Search, and Cross Math into one app designed to challenge your mind every day.",
       cta: "Download Cerebrum",
       ctaSecondary: "Learn more",
+      comingSoon: "Coming soon",
     },
     stats: {
       items: [
@@ -85,9 +86,10 @@ const en: Dictionary = {
     cta: {
       title: "Ready to train your brain?",
       subtitle:
-        "Download Cerebrum and start your first puzzle right now.",
+        "Cerebrum is coming soon. Four puzzle games in one app.",
       cta: "Download for free",
-      note: "Free. Optional in-app purchases via the App Store.",
+      note: "Free with optional in-app purchases.",
+      comingSoon: "Coming soon",
     },
     contact: {
       title: "Got a question?",

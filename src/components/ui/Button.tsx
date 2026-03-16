@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes, AnchorHTMLAttributes } from "react";
 
-type Variant = "primary" | "secondary" | "outline";
+type Variant = "primary" | "secondary" | "outline" | "ghost";
 type Size = "sm" | "md" | "lg";
 
 const variantStyles: Record<Variant, string> = {
@@ -10,6 +10,8 @@ const variantStyles: Record<Variant, string> = {
     "gradient-purple text-white shadow-lg shadow-secondary/25 hover:shadow-xl hover:shadow-secondary/30 hover:scale-[1.02] active:scale-[0.98] transition-all",
   outline:
     "border-2 border-primary text-primary hover:bg-primary/5 active:scale-[0.98] transition-all",
+  ghost:
+    "bg-text-primary/90 text-white backdrop-blur-sm shadow-lg shadow-black/10 hover:bg-text-primary hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all",
 };
 
 const sizeStyles: Record<Size, string> = {

@@ -20,12 +20,13 @@ const fr: Dictionary = {
   },
   landing: {
     hero: {
-      badge: "Disponible sur iOS",
+      badge: "Bientôt sur iOS & Android",
       title: "Entraînez votre cerveau, un puzzle à la fois",
       subtitle:
         "Cerebrum réunit Sudoku, Mots-Croisés, Mots-Mêlés et Cross Math dans une seule app conçue pour stimuler votre esprit au quotidien.",
       cta: "Télécharger Cerebrum",
       ctaSecondary: "Découvrir",
+      comingSoon: "Bientôt disponible",
     },
     stats: {
       items: [
@@ -86,9 +87,10 @@ const fr: Dictionary = {
     cta: {
       title: "Prêt à entraîner votre cerveau ?",
       subtitle:
-        "Téléchargez Cerebrum et commencez votre premier puzzle dès maintenant.",
+        "Cerebrum arrive bientôt. Quatre jeux de puzzle dans une seule app.",
       cta: "Télécharger gratuitement",
-      note: "Gratuit. Achats optionnels dans l'app via l'App Store.",
+      note: "Gratuit avec achats optionnels dans l'app.",
+      comingSoon: "Bientôt disponible",
     },
     contact: {
       title: "Une question ?",

@@ -1,14 +1,15 @@
-import { Apple } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { StoreButtons } from "@/components/ui/StoreButtons";
 
 export function CTAFinal({
+  locale,
   dict,
 }: {
+  locale: "fr" | "en";
   dict: {
     title: string;
     subtitle: string;
-    cta: string;
     note: string;
+    comingSoon: string;
   };
 }) {
   return (
@@ -23,16 +24,13 @@ export function CTAFinal({
           {dict.title}
         </h2>
         <p className="mt-4 text-lg text-text-secondary">{dict.subtitle}</p>
-        <div className="mt-8">
-          <Button
-            href="https://apps.apple.com/app/cerebrum"
-            target="_blank"
-            rel="noopener noreferrer"
-            size="lg"
-          >
-            <Apple className="h-5 w-5" />
-            {dict.cta}
-          </Button>
+        <div className="mt-8 flex justify-center">
+          <StoreButtons
+            locale={locale}
+            comingSoon
+            comingSoonLabel={dict.comingSoon}
+            className="lg:items-center"
+          />
         </div>
         <p className="mt-4 text-sm text-text-tertiary">{dict.note}</p>
       </div>

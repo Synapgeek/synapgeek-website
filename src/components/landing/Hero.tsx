@@ -1,18 +1,22 @@
 import Image from "next/image";
-import { Apple } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { StoreButtons } from "@/components/ui/StoreButtons";
 import { IPhoneSlider } from "@/components/landing/IPhoneSlider";
 
 export function Hero({
+  locale,
   dict,
 }: {
+  locale: "fr" | "en";
   dict: {
     badge: string;
     title: string;
     subtitle: string;
     cta: string;
     ctaSecondary: string;
+    comingSoon: string;
   };
 }) {
   return (
@@ -41,7 +45,7 @@ export function Hero({
         {/* Text content */}
         <div className="flex flex-1 flex-col items-center text-center lg:items-start lg:text-left">
           <Badge color="green" className="animate-fade-in-up">
-            <Apple className="h-3 w-3" />
+            <Sparkles className="h-3 w-3" />
             {dict.badge}
           </Badge>
 
@@ -53,17 +57,13 @@ export function Hero({
             {dict.subtitle}
           </p>
 
-          <div className="animate-fade-in-up delay-300 mt-8 flex flex-col gap-4 sm:flex-row">
-            <Button
-              href="https://apps.apple.com/app/cerebrum"
-              target="_blank"
-              rel="noopener noreferrer"
-              size="lg"
-            >
-              <Apple className="h-5 w-5" />
-              {dict.cta}
-            </Button>
-            <Button href="#features" variant="outline" size="lg">
+          <div className="animate-fade-in-up delay-300 mt-8 flex flex-col gap-4">
+            <StoreButtons
+              locale={locale}
+              comingSoon
+              comingSoonLabel={dict.comingSoon}
+            />
+            <Button href="#features" variant="ghost" size="lg">
               {dict.ctaSecondary}
             </Button>
           </div>

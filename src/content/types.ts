@@ -25,6 +25,7 @@ export interface Dictionary {
       subtitle: string;
       cta: string;
       ctaSecondary: string;
+      comingSoon: string;
     };
     stats: {
       items: readonly { value: string; label: string }[];
@@ -44,6 +45,7 @@ export interface Dictionary {
       subtitle: string;
       cta: string;
       note: string;
+      comingSoon: string;
     };
     contact: {
       title: string;
