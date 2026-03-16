@@ -432,49 +432,250 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ===== REDUCED MOTION ===== */
-/* ===== CEREBRUM BRANDING ===== */
+/* ===== CEREBRUM BRANDING — Premium App Lockup ===== */
+
+/* --- Icon treatment --- */
 .cerebrum-icon-img {
   border-radius: 22.37%;
-  box-shadow: 0 4px 20px rgba(184, 134, 11, 0.3);
+  box-shadow:
+    /* Ambient light from above */
+    0 2px 8px rgba(184, 134, 11, 0.15),
+    /* Directional shadow */
+    0 8px 32px -4px rgba(120, 80, 0, 0.25),
+    /* Deep shadow for depth */
+    0 20px 48px -8px rgba(80, 50, 0, 0.2),
+    /* Inner edge highlight (simulated) */
+    0 -1px 2px rgba(255, 215, 0, 0.15);
 }
 
 .cerebrum-icon-glow {
   position: relative;
 }
 
+/* Soft ambient glow — warm, diffuse halo */
 .cerebrum-icon-glow::before {
   content: "";
   position: absolute;
-  inset: -8px;
-  border-radius: 26%;
-  background: radial-gradient(circle, rgba(245, 166, 35, 0.4) 0%, transparent 70%);
-  filter: blur(14px);
-  animation: cerebrum-pulse 3s ease-in-out infinite;
+  inset: -20px;
+  border-radius: 30%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 195, 0, 0.4) 0%,
+    rgba(245, 166, 35, 0.2) 35%,
+    rgba(218, 165, 32, 0.08) 55%,
+    transparent 70%
+  );
+  filter: blur(18px);
+  animation: cerebrum-glow-ambient 4s ease-in-out infinite;
   z-index: -1;
 }
 
+/* Tight ring glow — refined edge light with rotation */
 .cerebrum-icon-glow::after {
   content: "";
   position: absolute;
-  inset: -3px;
-  border-radius: 24%;
-  background: conic-gradient(from 0deg, transparent, rgba(245, 166, 35, 0.3), transparent, rgba(184, 134, 11, 0.2), transparent);
-  filter: blur(2px);
-  animation: cerebrum-pulse 3s ease-in-out infinite reverse;
+  inset: -5px;
+  border-radius: 25%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    rgba(255, 215, 0, 0.3) 12%,
+    transparent 25%,
+    rgba(245, 180, 50, 0.25) 45%,
+    transparent 58%,
+    rgba(218, 165, 32, 0.2) 75%,
+    transparent 88%,
+    rgba(255, 200, 50, 0.15) 100%
+  );
+  filter: blur(3px);
+  animation: cerebrum-ring-spin 8s linear infinite;
   z-index: -1;
 }
 
-@keyframes cerebrum-pulse {
+/* Glass reflection overlay on icon */
+.cerebrum-icon-reflection {
+  position: absolute;
+  inset: 0;
+  border-radius: 22.37%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.08) 30%,
+    transparent 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes cerebrum-glow-ambient {
   0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes cerebrum-ring-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* --- Name treatment — premium metallic gold with shimmer --- */
+@property --cerebrum-shimmer {
+  syntax: "<percentage>";
+  initial-value: -30%;
+  inherits: false;
+}
+
+/* Lockup container — frosted glass pill for premium presence */
+.cerebrum-lockup {
+  padding: 20px 28px;
+  border-radius: 24px;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 252, 240, 0.45) 50%,
+    rgba(255, 255, 255, 0.5) 100%
+  );
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(212, 160, 48, 0.15);
+  box-shadow:
+    0 8px 32px -8px rgba(120, 80, 0, 0.1),
+    0 2px 8px -2px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(212, 160, 48, 0.05);
+}
+
+@media (min-width: 1024px) {
+  .cerebrum-lockup {
+    padding: 24px 36px;
+    border-radius: 28px;
+  }
 }
 
 .cerebrum-name {
-  background: linear-gradient(135deg, #B8860B 0%, #F5A623 50%, #B8860B 100%);
-  -webkit-background-clip: text;
+  background: linear-gradient(
+    135deg,
+    #8B6B2E 0%,
+    #C49A3C 20%,
+    #DBB563 40%,
+    #E6C87A 50%,
+    #DBB563 60%,
+    #C49A3C 80%,
+    #8B6B2E 100%
+  );
   background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 1px 2px rgba(184, 134, 11, 0.3));
+  letter-spacing: -0.015em;
+  filter: drop-shadow(0 2px 4px rgba(139, 107, 46, 0.2));
+}
+
+/* --- Sparkle particles — pure CSS floating gold specks --- */
+.cerebrum-sparkles {
+  position: absolute;
+  inset: -32px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.cerebrum-sparkle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #FFD700, #D4A030);
+  box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.5);
+  animation: cerebrum-sparkle-float 3s ease-in-out infinite;
+  opacity: 0;
+}
+
+/* Star-shape variant (4-point sparkle via rotated square + glow) */
+.cerebrum-sparkle--star {
+  width: 6px;
+  height: 6px;
+  border-radius: 1px;
+  transform: rotate(45deg);
+  background: #FFD700;
+  box-shadow:
+    0 0 4px 1px rgba(255, 215, 0, 0.6),
+    0 0 12px 2px rgba(255, 215, 0, 0.2);
+}
+
+/* Position and timing variants — distributed around the lockup */
+.cerebrum-sparkle:nth-child(1) {
+  top: -8px; left: 15%;
+  animation-delay: 0s;
+  animation-duration: 2.8s;
+}
+.cerebrum-sparkle:nth-child(2) {
+  top: 5px; right: 10%;
+  animation-delay: 0.8s;
+  animation-duration: 3.4s;
+}
+.cerebrum-sparkle:nth-child(3) {
+  bottom: -5px; left: 25%;
+  animation-delay: 1.5s;
+  animation-duration: 2.6s;
+}
+.cerebrum-sparkle:nth-child(4) {
+  bottom: 0; right: 20%;
+  animation-delay: 0.3s;
+  animation-duration: 3.2s;
+}
+.cerebrum-sparkle:nth-child(5) {
+  top: 40%; left: -10px;
+  animation-delay: 2s;
+  animation-duration: 2.4s;
+}
+.cerebrum-sparkle:nth-child(6) {
+  top: 30%; right: -8px;
+  animation-delay: 1.1s;
+  animation-duration: 3s;
+}
+
+@keyframes cerebrum-sparkle-float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1);
+  }
+  80% {
+    opacity: 0.8;
+    transform: translateY(-12px) scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.3);
+  }
+}
+
+/* --- Separator line — wider, animated shimmer --- */
+@property --separator-pos {
+  syntax: "<percentage>";
+  initial-value: 0%;
+  inherits: false;
+}
+
+.cerebrum-separator {
+  height: 1.5px;
+  width: 100px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212, 160, 48, 0.15) 10%,
+    rgba(245, 200, 66, 0.5) var(--separator-pos),
+    rgba(212, 160, 48, 0.15) 90%,
+    transparent 100%
+  );
+  animation: separator-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes separator-shimmer {
+  0%, 100% { --separator-pos: 30%; }
+  50% { --separator-pos: 70%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -489,8 +690,22 @@ h1, h2, h3, h4, h5, h6 {
   .coming-soon-card,
   .scroll-reveal,
   .cerebrum-icon-glow::before,
-  .cerebrum-icon-glow::after {
+  .cerebrum-icon-glow::after,
+  .cerebrum-name,
+  .cerebrum-sparkle,
+  .cerebrum-separator {
     animation: none !important;
+  }
+
+  /* Keep sparkles visible but static in reduced motion */
+  .cerebrum-sparkle {
+    opacity: 0.5 !important;
+    transform: none !important;
+  }
+
+  /* Keep separator visible */
+  .cerebrum-separator {
+    --separator-pos: 50% !important;
   }
 
   .iphone-tilt,

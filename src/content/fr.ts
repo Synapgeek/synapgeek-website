@@ -3,7 +3,7 @@ import type { Dictionary } from "./types";
 const fr: Dictionary = {
   common: {
     siteName: "Synapgeek",
-    tagline: "Studio indie de jeux de réflexion",
+    tagline: "Studio indie de jeux mobiles",
     nav: {
       home: "Accueil",
       privacy: "Confidentialité",
@@ -75,7 +75,7 @@ const fr: Dictionary = {
     about: {
       title: "Construit par des passionnés",
       description:
-        "Synapgeek est un studio indie français dédié aux jeux de réflexion. Nous croyons que les meilleurs puzzles sont ceux qui allient élégance, challenge et plaisir de jeu.",
+        "Synapgeek est un studio indie français passionné de jeux mobiles. Nous croyons que les meilleurs jeux sont ceux qui allient élégance, challenge et plaisir.",
       values: [
         {
           title: "Qualité avant quantité",

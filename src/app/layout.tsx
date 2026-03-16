@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://synapgeek.com"),
   title: {
-    default: "Synapgeek — Studio indie de jeux de réflexion",
+    default: "Synapgeek — Studio indie de jeux mobiles",
     template: "%s | Synapgeek",
   },
 };

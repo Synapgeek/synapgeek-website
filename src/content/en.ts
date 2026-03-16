@@ -3,7 +3,7 @@ import type { Dictionary } from "./types";
 const en: Dictionary = {
   common: {
     siteName: "Synapgeek",
-    tagline: "Indie puzzle game studio",
+    tagline: "Indie mobile game studio",
     nav: {
       home: "Home",
       privacy: "Privacy",
@@ -75,7 +75,7 @@ const en: Dictionary = {
     about: {
       title: "Built by enthusiasts",
       description:
-        "Synapgeek is a French indie studio dedicated to puzzle games. We believe the best puzzles combine elegance, challenge, and pure enjoyment.",
+        "Synapgeek is a French indie studio passionate about mobile games. We believe the best games combine elegance, challenge, and pure enjoyment.",
       values: [
         {
           title: "Quality over quantity",
