@@ -53,17 +53,44 @@ export function Hero({
         aria-hidden="true"
       />
       {/* Overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-transparent lg:from-white/85 lg:via-white/50 lg:to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-white/92 via-white/78 to-white/30 lg:from-white/90 lg:via-white/60 lg:to-transparent" />
 
-      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-12 px-6 py-20 lg:flex-row lg:gap-16 lg:py-32">
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-12 px-6 py-16 lg:flex-row lg:gap-16 lg:py-28">
         {/* Text content */}
         <div className="flex flex-1 flex-col items-center text-center lg:items-start lg:text-left">
-          <Badge color="green" className="animate-fade-in-up">
-            <Sparkles className="h-3 w-3" />
-            {dict.badge}
-          </Badge>
+          {/* App identity lockup: icon + name */}
+          <div className="animate-fade-in-up flex items-center gap-5">
+            <div className="cerebrum-icon-glow relative flex-shrink-0">
+              <Image
+                src="/images/brand/cerebrum-icon.png"
+                alt="Cerebrum app icon"
+                width={80}
+                height={80}
+                className="cerebrum-icon-img relative z-10"
+                priority
+              />
+            </div>
+            <div className="flex flex-col">
+              <span className="cerebrum-name text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-[3.25rem]">
+                Cerebrum
+              </span>
+              <Badge color="green" className="mt-1.5 self-start">
+                <Sparkles className="h-3 w-3" />
+                {dict.badge}
+              </Badge>
+            </div>
+          </div>
 
-          <h1 className="animate-fade-in-up delay-100 mt-6 text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
+          {/* Separator — golden accent connecting icon identity to headline */}
+          <div
+            className="animate-fade-in-up delay-100 mt-7 h-[2px] w-12 rounded-full lg:w-16"
+            style={{
+              background:
+                "linear-gradient(90deg, transparent, rgba(212, 160, 23, 0.5), transparent)",
+            }}
+          />
+
+          <h1 className="animate-fade-in-up delay-100 mt-7 text-3xl font-bold leading-[1.15] tracking-tight text-text-primary sm:text-4xl lg:text-5xl">
             {dict.title}
           </h1>
 

@@ -67,6 +67,94 @@ h1, h2, h3, h4, h5, h6 {
   background-clip: text;
 }
 
+/* ===== CEREBRUM HERO IDENTITY ===== */
+
+/* App icon — iOS-style superellipse border radius + shadow */
+.cerebrum-icon-img {
+  border-radius: 22.37%; /* iOS app icon radius */
+  box-shadow:
+    0 8px 24px -4px rgba(180, 120, 0, 0.25),
+    0 2px 8px -2px rgba(0, 0, 0, 0.12);
+  width: 80px;
+  height: 80px;
+}
+
+@media (min-width: 1024px) {
+  .cerebrum-icon-img {
+    width: 92px;
+    height: 92px;
+  }
+}
+
+/* App icon warm glow — echoes the golden magic from the icon artwork */
+.cerebrum-icon-glow {
+  position: relative;
+}
+
+/* Outer soft ambient glow */
+.cerebrum-icon-glow::before {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  border-radius: 30%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 190, 0, 0.38) 0%,
+    rgba(255, 150, 0, 0.16) 45%,
+    rgba(255, 200, 0, 0.04) 70%,
+    transparent 100%
+  );
+  filter: blur(14px);
+  z-index: 0;
+  animation: icon-glow-pulse 3.5s ease-in-out infinite;
+}
+
+/* Inner sharp highlight ring */
+.cerebrum-icon-glow::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 24%;
+  background: conic-gradient(
+    from 45deg,
+    rgba(255, 200, 0, 0.00) 0%,
+    rgba(255, 200, 0, 0.15) 25%,
+    rgba(245, 166, 35, 0.22) 50%,
+    rgba(255, 200, 0, 0.15) 75%,
+    rgba(255, 200, 0, 0.00) 100%
+  );
+  filter: blur(2px);
+  z-index: 0;
+  animation: icon-glow-pulse 3.5s ease-in-out infinite 0.3s;
+}
+
+@keyframes icon-glow-pulse {
+  0%, 100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* "Cerebrum" name — bold warm gradient, golden amber from the icon */
+.cerebrum-name {
+  background: linear-gradient(
+    135deg,
+    #B8860B 0%,
+    #D4A017 30%,
+    #F5A623 50%,
+    #D4A017 70%,
+    #B8860B 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 1px 2px rgba(180, 120, 0, 0.15));
+}
+
 /* ===== ANIMATED GRADIENT BORDER — Coming Soon card ===== */
 @property --border-angle {
   syntax: "<angle>";
@@ -442,7 +530,9 @@ h1, h2, h3, h4, h5, h6 {
   .animate-wiggle,
   .coming-soon-shimmer,
   .coming-soon-card,
-  .scroll-reveal {
+  .scroll-reveal,
+  .cerebrum-icon-glow::before,
+  .cerebrum-icon-glow::after {
     animation: none !important;
   }
 
