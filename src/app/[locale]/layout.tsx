@@ -74,9 +74,15 @@ export default async function LocaleLayout({
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": "https://synapgeek.com/#organization",
     name: "Synapgeek",
     url: "https://synapgeek.com",
-    logo: "https://synapgeek.com/images/brand/logo-synapgeek.png",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://synapgeek.com/images/brand/logo-synapgeek.png",
+      width: 256,
+      height: 256,
+    },
     email: "contact@synapgeek.com",
     description: dict.common.tagline,
   };

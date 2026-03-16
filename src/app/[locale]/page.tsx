@@ -49,6 +49,7 @@ export default async function HomePage({
     "@type": "SoftwareApplication",
     name: "Cerebrum",
     description: dict.landing.hero.subtitle,
+    image: "https://synapgeek.com/images/brand/og-image.jpeg",
     applicationCategory: "GameApplication",
     operatingSystem: "iOS",
     inLanguage: ["fr", "en"],
@@ -59,9 +60,7 @@ export default async function HomePage({
       availability: "https://schema.org/PreOrder",
     },
     author: {
-      "@type": "Organization",
-      name: "Synapgeek",
-      url: "https://synapgeek.com",
+      "@id": "https://synapgeek.com/#organization",
     },
   };
 

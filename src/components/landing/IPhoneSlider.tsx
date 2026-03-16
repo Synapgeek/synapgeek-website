@@ -10,15 +10,15 @@ interface Slide {
 
 const slides: Slide[] = [
   {
-    src: "/images/hero/hero-screen-main.png",
+    src: "/images/hero/hero-screen-main.webp",
     alt: "Cerebrum main screen showing Sudoku, Crossword, Word Search, and Cross Math games",
   },
   {
-    src: "/images/hero/hero-screen-daily.png",
+    src: "/images/hero/hero-screen-daily.webp",
     alt: "Cerebrum Daily Challenge calendar with 28 out of 28 days completed",
   },
   {
-    src: "/images/hero/hero-screen-avatars.png",
+    src: "/images/hero/hero-screen-avatars.webp",
     alt: "Cerebrum victory screen with 3 stars and Roman avatar characters",
   },
 ];
@@ -107,7 +107,7 @@ export function IPhoneSlider() {
       </div>
 
       {/* Dot indicators */}
-      <div className="flex items-center gap-2.5" role="tablist" aria-label="Slide controls">
+      <div className="flex items-center gap-0.5" role="tablist" aria-label="Slide controls">
         {slides.map((slide, index) => (
           <button
             key={slide.src}
@@ -115,12 +115,16 @@ export function IPhoneSlider() {
             aria-selected={index === activeIndex}
             aria-label={`Go to slide ${index + 1}`}
             onClick={() => handleDotClick(index)}
-            className={`rounded-full transition-all duration-300 ${
-              index === activeIndex
-                ? "h-2.5 w-2.5 bg-primary shadow-sm shadow-primary/40"
-                : "h-2 w-2 bg-text-tertiary/40 hover:bg-text-tertiary/60"
-            }`}
-          />
+            className="flex items-center justify-center p-3"
+          >
+            <span
+              className={`block rounded-full transition-all duration-300 ${
+                index === activeIndex
+                  ? "h-2.5 w-2.5 bg-primary shadow-sm shadow-primary/40"
+                  : "h-2 w-2 bg-text-tertiary/40 hover:bg-text-tertiary/60"
+              }`}
+            />
+          </button>
         ))}
       </div>
     </div>

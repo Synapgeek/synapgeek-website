@@ -3,10 +3,10 @@ import { Card } from "@/components/ui/Card";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 const featureImages = [
-  "/images/games/feature-sudoku.png",
-  "/images/games/feature-crosswords.png",
-  "/images/games/feature-wordsearch.png",
-  "/images/games/feature-crossmath.png",
+  "/images/games/feature-sudoku.webp",
+  "/images/games/feature-crosswords.webp",
+  "/images/games/feature-wordsearch.webp",
+  "/images/games/feature-crossmath.webp",
 ];
 
 export function Features({

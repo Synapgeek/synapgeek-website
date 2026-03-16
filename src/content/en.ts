@@ -23,7 +23,7 @@ const en: Dictionary = {
       badge: "Coming soon to iOS & Android",
       title: "Train your brain, one puzzle at a time",
       subtitle:
-        "Cerebrum brings Sudoku, Crosswords, Word Search, and Cross Math into one app designed to challenge your mind every day.",
+        "Cerebrum brings Sudoku, Crosswords, Word Search, and Cross Math into one beautifully crafted app designed to challenge your mind every single day.",
       cta: "Download Cerebrum",
       ctaSecondary: "Learn more",
       comingSoon: "Coming soon",
