@@ -26,6 +26,15 @@ export interface Dictionary {
       cta: string;
       ctaSecondary: string;
       comingSoon: string;
+      waitlist: {
+        placeholder: string;
+        button: string;
+        success: string;
+        error: string;
+        platformIos: string;
+        platformAndroid: string;
+        platformBoth: string;
+      };
     };
     stats: {
       items: readonly { value: string; label: string }[];
@@ -46,6 +55,15 @@ export interface Dictionary {
       cta: string;
       note: string;
       comingSoon: string;
+      waitlist: {
+        placeholder: string;
+        button: string;
+        success: string;
+        error: string;
+        platformIos: string;
+        platformAndroid: string;
+        platformBoth: string;
+      };
     };
     contact: {
       title: string;

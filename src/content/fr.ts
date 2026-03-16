@@ -27,6 +27,15 @@ const fr: Dictionary = {
       cta: "Télécharger Cerebrum",
       ctaSecondary: "Découvrir",
       comingSoon: "Bientôt disponible",
+      waitlist: {
+        placeholder: "Votre email",
+        button: "Me notifier",
+        success: "Vous serez notifié du lancement !",
+        error: "Une erreur est survenue. Réessayez.",
+        platformIos: "iOS",
+        platformAndroid: "Android",
+        platformBoth: "Les deux",
+      },
     },
     stats: {
       items: [
@@ -91,6 +100,15 @@ const fr: Dictionary = {
       cta: "Télécharger gratuitement",
       note: "Gratuit avec achats optionnels dans l'app.",
       comingSoon: "Bientôt disponible",
+      waitlist: {
+        placeholder: "Votre email",
+        button: "Me notifier",
+        success: "Vous serez notifié du lancement !",
+        error: "Une erreur est survenue. Réessayez.",
+        platformIos: "iOS",
+        platformAndroid: "Android",
+        platformBoth: "Les deux",
+      },
     },
     contact: {
       title: "Une question ?",
