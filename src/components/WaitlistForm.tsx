@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackEvent } from "@/lib/gtag";
 
 type Platform = "ios" | "android" | "both";
 
@@ -42,6 +43,7 @@ export function WaitlistForm({ dict }: WaitlistFormProps) {
       if (response.ok) {
         setStatus("success");
         setEmail("");
+        trackEvent("waitlist_signup", { platform });
       } else {
         setStatus("error");
         setErrorMessage(dict.error);

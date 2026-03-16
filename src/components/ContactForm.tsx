@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import Script from "next/script";
+import { trackEvent } from "@/lib/gtag";
 
 declare global {
   interface Window {
@@ -78,6 +79,7 @@ export function ContactForm({ locale }: { locale: string }) {
         setStatus("success");
         formRef.current?.reset();
         setRecaptchaToken(null);
+        trackEvent("contact_form_submit");
         if (widgetIdRef.current !== null) {
           window.grecaptcha.reset(widgetIdRef.current);
         }

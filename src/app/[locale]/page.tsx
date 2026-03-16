@@ -9,6 +9,7 @@ import { Features } from "@/components/landing/Features";
 import { About } from "@/components/landing/About";
 import { CTAFinal } from "@/components/landing/CTAFinal";
 import { Contact } from "@/components/landing/Contact";
+import { TrackSection } from "@/components/TrackSection";
 
 export { generateStaticParams };
 
@@ -69,10 +70,18 @@ export default async function HomePage({
       <JsonLd data={softwareAppSchema} />
       <Hero locale={locale} dict={dict.landing.hero} />
       <Stats items={dict.landing.stats.items} />
-      <Features dict={dict.landing.features} />
-      <About dict={dict.landing.about} />
-      <CTAFinal locale={locale} dict={dict.landing.cta} />
-      <Contact locale={locale} dict={dict.landing.contact} />
+      <TrackSection name="features">
+        <Features dict={dict.landing.features} />
+      </TrackSection>
+      <TrackSection name="about">
+        <About dict={dict.landing.about} />
+      </TrackSection>
+      <TrackSection name="cta">
+        <CTAFinal locale={locale} dict={dict.landing.cta} />
+      </TrackSection>
+      <TrackSection name="contact">
+        <Contact locale={locale} dict={dict.landing.contact} />
+      </TrackSection>
     </>
   );
 }

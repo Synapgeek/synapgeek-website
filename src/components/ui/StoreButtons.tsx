@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { WaitlistForm } from "@/components/WaitlistForm";
+import { trackEvent } from "@/lib/gtag";
 
 const BADGES = {
   fr: {
@@ -45,6 +48,11 @@ function StoreBadge({
         className="opacity-80 grayscale-[20%] transition-all duration-300 hover:opacity-90 hover:grayscale-0"
         role="img"
         aria-label={alt}
+        onMouseEnter={() =>
+          trackEvent("store_badge_hover", {
+            store: alt.includes("App Store") ? "app_store" : "google_play",
+          })
+        }
       >
         {image}
       </div>

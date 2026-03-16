@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import type { Locale } from "@/lib/i18n";
+import { trackEvent } from "@/lib/gtag";
 
 const LANGUAGES: Record<Locale, { label: string; flag: string }> = {
   fr: { label: "FR", flag: "🇫🇷" },
@@ -65,7 +66,12 @@ export function LanguageSwitcher({ locale }: { locale: Locale }) {
               <Link
                 key={lang}
                 href={getLocalizedPath(lang)}
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setOpen(false);
+                  if (lang !== locale) {
+                    trackEvent("language_switched", { from: locale, to: lang });
+                  }
+                }}
                 role="option"
                 aria-selected={lang === locale}
                 className={`flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors hover:bg-surface ${
