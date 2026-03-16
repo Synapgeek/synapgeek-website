@@ -91,26 +91,13 @@ export function Hero({
             {dict.subtitle}
           </p>
 
-          <div className="animate-fade-in-up delay-400 mt-8 flex flex-col gap-4">
+          <div className="animate-fade-in-up delay-400 mt-8">
             <StoreButtons
               locale={locale}
               comingSoon
               comingSoonLabel={dict.comingSoon}
               waitlist={dict.waitlist}
             />
-            <Button
-              href="#features"
-              variant="ghost"
-              size="lg"
-              onClick={() =>
-                trackEvent("cta_clicked", {
-                  button_text: dict.ctaSecondary,
-                  location: "hero",
-                })
-              }
-            >
-              {dict.ctaSecondary}
-            </Button>
           </div>
         </div>
 
