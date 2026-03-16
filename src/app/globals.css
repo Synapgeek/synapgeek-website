@@ -555,19 +555,17 @@ h1, h2, h3, h4, h5, h6 {
 .cerebrum-name {
   background: linear-gradient(
     135deg,
-    #8B6B2E 0%,
-    #C49A3C 20%,
-    #DBB563 40%,
-    #E6C87A 50%,
-    #DBB563 60%,
-    #C49A3C 80%,
-    #8B6B2E 100%
+    #5B4B7A 0%,
+    #7B6B9B 25%,
+    #9B8BB8 50%,
+    #7B6B9B 75%,
+    #5B4B7A 100%
   );
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.015em;
-  filter: drop-shadow(0 2px 4px rgba(139, 107, 46, 0.2));
+  filter: drop-shadow(0 2px 4px rgba(91, 75, 122, 0.2));
 }
 
 /* --- Sparkle particles — pure CSS floating gold specks --- */
