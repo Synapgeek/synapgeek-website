@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
+import Script from "next/script";
 import { DM_Sans, Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -108,6 +109,18 @@ export default async function LocaleLayout({
         </div>
         <Analytics />
         <SpeedInsights />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
+          `}
+        </Script>
       </body>
     </html>
   );
