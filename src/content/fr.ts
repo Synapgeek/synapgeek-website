@@ -167,7 +167,7 @@ const fr: Dictionary = {
       {
         title: "Limite d'âge",
         content:
-          "L'Application est destinée à un public âgé de 16 ans et plus. Nous ne collectons pas sciemment de données personnelles de personnes de moins de 16 ans.\n\nSi vous êtes un parent ou tuteur et que vous découvrez que votre enfant de moins de 16 ans nous a fourni des données personnelles, contactez-nous à privacy@synapgeek.com. Nous supprimerons ces données dans les meilleurs délais.",
+          "L'Application est destinée à un public âgé de 13 ans et plus. Nous ne collectons pas sciemment de données personnelles de personnes de moins de 13 ans.\n\nSi vous êtes un parent ou tuteur et que vous découvrez que votre enfant de moins de 13 ans nous a fourni des données personnelles, contactez-nous à privacy@synapgeek.com. Nous supprimerons ces données dans les meilleurs délais.",
       },
       {
         title: "Vos droits",
@@ -193,7 +193,7 @@ const fr: Dictionary = {
       {
         title: "Acceptation des conditions",
         content:
-          "En téléchargeant, installant ou utilisant les applications Synapgeek (ci-après « l'Application »), vous acceptez les présentes Conditions Générales d'Utilisation (ci-après « les Conditions »). Si vous n'acceptez pas ces Conditions, veuillez ne pas utiliser l'Application.\n\nL'Application est destinée aux utilisateurs âgés de 16 ans et plus. Si vous avez entre 16 et 18 ans, votre parent ou tuteur légal doit lire et accepter ces Conditions en votre nom.",
+          "En téléchargeant, installant ou utilisant les applications Synapgeek (ci-après « l'Application »), vous acceptez les présentes Conditions Générales d'Utilisation (ci-après « les Conditions »). Si vous n'acceptez pas ces Conditions, veuillez ne pas utiliser l'Application.\n\nL'Application est destinée aux utilisateurs âgés de 13 ans et plus. Si vous avez entre 13 et 18 ans, votre parent ou tuteur légal doit lire et accepter ces Conditions en votre nom.",
       },
       {
         title: "Description du service",
