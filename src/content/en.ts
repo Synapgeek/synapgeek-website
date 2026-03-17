@@ -166,7 +166,7 @@ const en: Dictionary = {
       {
         title: "Age restrictions",
         content:
-          "The App is intended for users aged 16 and older. We do not knowingly collect personal data from individuals under 16 years of age.\n\nIf you are a parent or guardian and discover that your child under 16 has provided us with personal data, please contact us at privacy@synapgeek.com. We will delete such data promptly.",
+          "The App is intended for users aged 13 and older. We do not knowingly collect personal data from individuals under 13 years of age.\n\nIf you are a parent or guardian and discover that your child under 13 has provided us with personal data, please contact us at privacy@synapgeek.com. We will delete such data promptly.",
       },
       {
         title: "Your rights",
@@ -192,7 +192,7 @@ const en: Dictionary = {
       {
         title: "Acceptance of terms",
         content:
-          "By downloading, installing, or using Synapgeek applications (hereinafter \"the App\"), you agree to these Terms of Use (hereinafter \"the Terms\"). If you do not agree to these Terms, please do not use the App.\n\nThe App is intended for users aged 16 and older. If you are between 16 and 18 years old, your parent or legal guardian must read and accept these Terms on your behalf.",
+          "By downloading, installing, or using Synapgeek applications (hereinafter \"the App\"), you agree to these Terms of Use (hereinafter \"the Terms\"). If you do not agree to these Terms, please do not use the App.\n\nThe App is intended for users aged 13 and older. If you are between 13 and 18 years old, your parent or legal guardian must read and accept these Terms on your behalf.",
       },
       {
         title: "Service description",
