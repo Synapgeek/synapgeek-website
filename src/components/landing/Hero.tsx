@@ -2,11 +2,10 @@
 
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
-import { trackEvent } from "@/lib/gtag";
-import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { StoreButtons } from "@/components/ui/StoreButtons";
 import { IPhoneSlider } from "@/components/landing/IPhoneSlider";
+import type { StoreDownload, Waitlist } from "@/content/types";
 
 export function Hero({
   locale,
@@ -19,16 +18,8 @@ export function Hero({
     subtitle: string;
     cta: string;
     ctaSecondary: string;
-    comingSoon: string;
-    waitlist: {
-      placeholder: string;
-      button: string;
-      success: string;
-      error: string;
-      platformIos: string;
-      platformAndroid: string;
-      platformBoth: string;
-    };
+    store: StoreDownload;
+    waitlist: Waitlist;
   };
 }) {
   return (
@@ -115,8 +106,7 @@ export function Hero({
           <div className="animate-fade-in-up delay-400 mt-8">
             <StoreButtons
               locale={locale}
-              comingSoon
-              comingSoonLabel={dict.comingSoon}
+              dict={dict.store}
               waitlist={dict.waitlist}
             />
           </div>

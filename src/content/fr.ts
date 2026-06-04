@@ -13,6 +13,7 @@ const fr: Dictionary = {
       copyright: `© ${new Date().getFullYear()} Synapgeek. Tous droits réservés.`,
       privacy: "Politique de confidentialité",
       terms: "Conditions d'utilisation",
+      legalNotice: "Mentions légales",
       contact: "Contact",
     },
     languageSwitch: "English",
@@ -20,21 +21,21 @@ const fr: Dictionary = {
   },
   landing: {
     hero: {
-      badge: "Bientôt sur iOS & Android",
+      badge: "Disponible sur iOS · Android bientôt",
       title: "Entraînez votre cerveau, un puzzle à la fois",
       subtitle:
         "Cerebrum réunit Sudoku, Mots-Croisés, Mots-Mêlés et Cross Math dans une seule app conçue pour stimuler votre esprit au quotidien.",
       cta: "Télécharger Cerebrum",
       ctaSecondary: "Découvrir",
-      comingSoon: "Bientôt disponible",
+      store: {
+        availableNow: "Disponible maintenant",
+        androidSoon: "Android — bientôt disponible",
+      },
       waitlist: {
         placeholder: "Votre email",
         button: "Me notifier",
-        success: "Vous serez notifié du lancement !",
+        success: "Parfait ! Vous serez notifié dès la sortie sur Android.",
         error: "Une erreur est survenue. Réessayez.",
-        platformIos: "iOS",
-        platformAndroid: "Android",
-        platformBoth: "Les deux",
       },
     },
     stats: {
@@ -96,18 +97,18 @@ const fr: Dictionary = {
     cta: {
       title: "Prêt à entraîner votre cerveau ?",
       subtitle:
-        "Cerebrum arrive bientôt. Quatre jeux de puzzle dans une seule app.",
+        "Cerebrum est disponible sur iOS. Quatre jeux de puzzle dans une seule app.",
       cta: "Télécharger gratuitement",
       note: "Gratuit avec achats optionnels dans l'app.",
-      comingSoon: "Bientôt disponible",
+      store: {
+        availableNow: "Disponible maintenant",
+        androidSoon: "Android — bientôt disponible",
+      },
       waitlist: {
         placeholder: "Votre email",
         button: "Me notifier",
-        success: "Vous serez notifié du lancement !",
+        success: "Parfait ! Vous serez notifié dès la sortie sur Android.",
         error: "Une erreur est survenue. Réessayez.",
-        platformIos: "iOS",
-        platformAndroid: "Android",
-        platformBoth: "Les deux",
       },
     },
     contact: {
@@ -264,6 +265,42 @@ const fr: Dictionary = {
         title: "Contact",
         content:
           "Pour toute question relative aux présentes Conditions :\n\n**Synapgeek**\nEmail : contact@synapgeek.com\nSite web : https://synapgeek.com",
+      },
+    ],
+  },
+  legal: {
+    title: "Mentions légales",
+    lastUpdated: "Dernière mise à jour : 4 juin 2026",
+    sections: [
+      {
+        title: "Éditeur du site",
+        content:
+          "Le présent site est édité par :\n\n**Synapgeek**, société par actions simplifiée (SAS) au capital social de 1 000 €.\nSiège social : 185 chemin des Brosses, 69620 Frontenas, France.\nImmatriculée au Registre du commerce et des sociétés de Villefranche-Tarare sous le numéro **102 429 826**.\nSIRET (siège) : 102 429 826 00013.\nCode APE/NAF : 62.01Z (Programmation informatique).\nNuméro de TVA intracommunautaire : FR86 102 429 826.\nEmail : contact@synapgeek.com",
+      },
+      {
+        title: "Directeur de la publication",
+        content:
+          "Le directeur de la publication est Adrien Monte, en sa qualité de Président de la société Synapgeek.",
+      },
+      {
+        title: "Hébergeur",
+        content:
+          "Le site est hébergé par :\n\n**Vercel Inc.**\n440 N Barranca Avenue #4133, Covina, CA 91723, États-Unis.\nSite web : https://vercel.com",
+      },
+      {
+        title: "Propriété intellectuelle",
+        content:
+          "L'ensemble des éléments du site — notamment les textes, graphismes, logos, icônes, images et la marque « Synapgeek » et « Cerebrum » — est la propriété exclusive de Synapgeek et est protégé par les lois françaises et internationales relatives à la propriété intellectuelle.\n\nToute reproduction, représentation, modification ou exploitation, totale ou partielle, de ces éléments sans autorisation écrite préalable de Synapgeek est interdite et constitue une contrefaçon.",
+      },
+      {
+        title: "Données personnelles et cookies",
+        content:
+          "Le traitement de vos données personnelles et l'utilisation de cookies et technologies de mesure d'audience sont décrits en détail dans notre Politique de confidentialité : https://synapgeek.com/privacy\n\nConformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés, vous disposez de droits d'accès, de rectification, d'effacement, d'opposition et de portabilité sur vos données. Pour les exercer : privacy@synapgeek.com\n\nVous pouvez également introduire une réclamation auprès de la CNIL : https://www.cnil.fr",
+      },
+      {
+        title: "Contact",
+        content:
+          "Pour toute question relative au site ou à ces mentions légales :\n\n**Synapgeek**\nEmail : contact@synapgeek.com\nSite web : https://synapgeek.com",
       },
     ],
   },

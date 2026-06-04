@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { generateStaticParams } from "@/lib/i18n";
 import { getDictionary, getLocale } from "@/content";
 import { getAlternates } from "@/lib/seo";
+import { APP_STORE_URL } from "@/lib/app";
 import { JsonLd } from "@/components/JsonLd";
 import { Hero } from "@/components/landing/Hero";
 import { Stats } from "@/components/landing/Stats";
@@ -54,11 +55,14 @@ export default async function HomePage({
     applicationCategory: "GameApplication",
     operatingSystem: "iOS",
     inLanguage: ["fr", "en"],
+    url: APP_STORE_URL,
+    downloadUrl: APP_STORE_URL,
+    datePublished: "2026-06-03",
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "EUR",
-      availability: "https://schema.org/PreOrder",
+      availability: "https://schema.org/InStock",
     },
     author: {
       "@id": "https://synapgeek.com/#organization",

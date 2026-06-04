@@ -126,6 +126,40 @@ h1, h2, h3, h4, h5, h6 {
   animation: shimmer 3s ease-in-out infinite;
 }
 
+/* ===== STORE DOWNLOAD CARD — iOS live / Android soon ===== */
+.store-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 9999px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.store-pill--live {
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  color: #2e7d00; /* darker green for WCAG AA contrast (4.67:1) on the light pill */
+}
+
+.store-pill--soon {
+  background: color-mix(in srgb, var(--color-text-tertiary) 16%, transparent);
+  color: #4b5563; /* gray-600 — AA contrast (6.63:1) on the light pill */
+}
+
+.store-card-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-border),
+    transparent
+  );
+}
+
 /* ===== ANIMATIONS ===== */
 @keyframes fade-in-up {
   from {

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { StoreButtons } from "@/components/ui/StoreButtons";
+import type { StoreDownload, Waitlist } from "@/content/types";
 
 export function CTAFinal({
   locale,
@@ -10,16 +11,8 @@ export function CTAFinal({
     title: string;
     subtitle: string;
     note: string;
-    comingSoon: string;
-    waitlist: {
-      placeholder: string;
-      button: string;
-      success: string;
-      error: string;
-      platformIos: string;
-      platformAndroid: string;
-      platformBoth: string;
-    };
+    store: StoreDownload;
+    waitlist: Waitlist;
   };
 }) {
   return (
@@ -48,8 +41,7 @@ export function CTAFinal({
         <div className="mt-8 flex justify-center">
           <StoreButtons
             locale={locale}
-            comingSoon
-            comingSoonLabel={dict.comingSoon}
+            dict={dict.store}
             waitlist={dict.waitlist}
             className="lg:items-center"
           />

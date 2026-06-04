@@ -10,16 +10,24 @@ interface Slide {
 
 const slides: Slide[] = [
   {
-    src: "/images/hero/hero-screen-main.webp",
-    alt: "Cerebrum main screen showing Sudoku, Crossword, Word Search, and Cross Math games",
+    src: "/images/hero/screen-home.webp",
+    alt: "Cerebrum home screen showing the Sudoku, Crossword, Word Search, and Cross Math games",
   },
   {
-    src: "/images/hero/hero-screen-daily.webp",
-    alt: "Cerebrum Daily Challenge calendar with 28 out of 28 days completed",
+    src: "/images/hero/screen-sudoku.webp",
+    alt: "Cerebrum Sudoku gameplay with a partially filled grid and number pad",
   },
   {
-    src: "/images/hero/hero-screen-avatars.webp",
-    alt: "Cerebrum victory screen with 3 stars and Roman avatar characters",
+    src: "/images/hero/screen-daily.webp",
+    alt: "Cerebrum Daily Challenge calendar with completed days marked by stars",
+  },
+  {
+    src: "/images/hero/screen-victory.webp",
+    alt: "Cerebrum victory screen with three stars, score and a new record",
+  },
+  {
+    src: "/images/hero/screen-avatars.webp",
+    alt: "Cerebrum avatar selection with Panda, Turtle, Deer and more characters",
   },
 ];
 

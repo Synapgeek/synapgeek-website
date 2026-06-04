@@ -1,5 +1,19 @@
 import type { Locale } from "@/lib/i18n";
 
+/** Download block: iOS live on the App Store, Android still coming soon. */
+export interface StoreDownload {
+  availableNow: string;
+  androidSoon: string;
+}
+
+/** Android-only "notify me" waitlist form. */
+export interface Waitlist {
+  placeholder: string;
+  button: string;
+  success: string;
+  error: string;
+}
+
 export interface Dictionary {
   common: {
     siteName: string;
@@ -13,6 +27,7 @@ export interface Dictionary {
       copyright: string;
       privacy: string;
       terms: string;
+      legalNotice: string;
       contact: string;
     };
     languageSwitch: string;
@@ -25,16 +40,8 @@ export interface Dictionary {
       subtitle: string;
       cta: string;
       ctaSecondary: string;
-      comingSoon: string;
-      waitlist: {
-        placeholder: string;
-        button: string;
-        success: string;
-        error: string;
-        platformIos: string;
-        platformAndroid: string;
-        platformBoth: string;
-      };
+      store: StoreDownload;
+      waitlist: Waitlist;
     };
     stats: {
       items: readonly { value: string; label: string }[];
@@ -54,16 +61,8 @@ export interface Dictionary {
       subtitle: string;
       cta: string;
       note: string;
-      comingSoon: string;
-      waitlist: {
-        placeholder: string;
-        button: string;
-        success: string;
-        error: string;
-        platformIos: string;
-        platformAndroid: string;
-        platformBoth: string;
-      };
+      store: StoreDownload;
+      waitlist: Waitlist;
     };
     contact: {
       title: string;
@@ -76,6 +75,11 @@ export interface Dictionary {
     sections: readonly { title: string; content: string }[];
   };
   terms: {
+    title: string;
+    lastUpdated: string;
+    sections: readonly { title: string; content: string }[];
+  };
+  legal: {
     title: string;
     lastUpdated: string;
     sections: readonly { title: string; content: string }[];
