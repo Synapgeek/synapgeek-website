@@ -2,25 +2,14 @@
 
 import { useState } from "react";
 import { trackEvent } from "@/lib/gtag";
+import type { Waitlist } from "@/content/types";
 
-type Platform = "ios" | "android" | "both";
+// iOS is live; the waitlist now only collects Android launch sign-ups.
+const PLATFORM = "android";
 
-interface WaitlistFormProps {
-  dict: {
-    placeholder: string;
-    button: string;
-    success: string;
-    error: string;
-    platformIos: string;
-    platformAndroid: string;
-    platformBoth: string;
-  };
-}
-
-export function WaitlistForm({ dict }: WaitlistFormProps) {
+export function WaitlistForm({ dict }: { dict: Waitlist }) {
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState(""); // honeypot
-  const [platform, setPlatform] = useState<Platform>("both");
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
@@ -37,13 +26,13 @@ export function WaitlistForm({ dict }: WaitlistFormProps) {
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), platform, website }),
+        body: JSON.stringify({ email: email.trim(), platform: PLATFORM, website }),
       });
 
       if (response.ok) {
         setStatus("success");
         setEmail("");
-        trackEvent("waitlist_signup", { platform });
+        trackEvent("waitlist_signup", { platform: PLATFORM });
       } else {
         setStatus("error");
         setErrorMessage(dict.error);
@@ -56,36 +45,14 @@ export function WaitlistForm({ dict }: WaitlistFormProps) {
 
   if (status === "success") {
     return (
-      <p className="mt-3 text-center text-sm font-medium text-emerald-600 dark:text-emerald-400">
+      <p className="mt-1 text-center text-sm font-medium text-emerald-600 dark:text-emerald-400">
         {dict.success}
       </p>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-3 w-full">
-      {/* Platform selector */}
-      <div className="mb-2 flex items-center justify-center gap-1">
-        {(["ios", "android", "both"] as const).map((p) => (
-          <button
-            key={p}
-            type="button"
-            onClick={() => setPlatform(p)}
-            className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-              platform === p
-                ? "bg-primary text-white"
-                : "bg-surface text-text-secondary hover:bg-surface/80"
-            }`}
-          >
-            {p === "ios"
-              ? dict.platformIos
-              : p === "android"
-                ? dict.platformAndroid
-                : dict.platformBoth}
-          </button>
-        ))}
-      </div>
-
+    <form onSubmit={handleSubmit} className="w-full">
       {/* Honeypot — hidden from humans, visible to bots */}
       <input
         type="text"

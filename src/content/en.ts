@@ -13,6 +13,7 @@ const en: Dictionary = {
       copyright: `© ${new Date().getFullYear()} Synapgeek. All rights reserved.`,
       privacy: "Privacy Policy",
       terms: "Terms of Use",
+      legalNotice: "Legal Notice",
       contact: "Contact",
     },
     languageSwitch: "Français",
@@ -20,21 +21,21 @@ const en: Dictionary = {
   },
   landing: {
     hero: {
-      badge: "Coming soon to iOS & Android",
+      badge: "Now on iOS · Android coming soon",
       title: "Train your brain, one puzzle at a time",
       subtitle:
         "Cerebrum brings Sudoku, Crosswords, Word Search, and Cross Math into one beautifully crafted app designed to challenge your mind every single day.",
       cta: "Download Cerebrum",
       ctaSecondary: "Learn more",
-      comingSoon: "Coming soon",
+      store: {
+        availableNow: "Available now",
+        androidSoon: "Android — coming soon",
+      },
       waitlist: {
         placeholder: "Your email",
         button: "Notify me",
-        success: "You'll be notified at launch!",
+        success: "You're in! We'll email you when Android launches.",
         error: "Something went wrong. Try again.",
-        platformIos: "iOS",
-        platformAndroid: "Android",
-        platformBoth: "Both",
       },
     },
     stats: {
@@ -95,18 +96,18 @@ const en: Dictionary = {
     cta: {
       title: "Ready to train your brain?",
       subtitle:
-        "Cerebrum is coming soon. Four puzzle games in one app.",
+        "Cerebrum is out now on iOS. Four puzzle games in one app.",
       cta: "Download for free",
       note: "Free with optional in-app purchases.",
-      comingSoon: "Coming soon",
+      store: {
+        availableNow: "Available now",
+        androidSoon: "Android — coming soon",
+      },
       waitlist: {
         placeholder: "Your email",
         button: "Notify me",
-        success: "You'll be notified at launch!",
+        success: "You're in! We'll email you when Android launches.",
         error: "Something went wrong. Try again.",
-        platformIos: "iOS",
-        platformAndroid: "Android",
-        platformBoth: "Both",
       },
     },
     contact: {
@@ -263,6 +264,42 @@ const en: Dictionary = {
         title: "Contact",
         content:
           "For any questions regarding these Terms:\n\n**Synapgeek**\nEmail: contact@synapgeek.com\nWebsite: https://synapgeek.com",
+      },
+    ],
+  },
+  legal: {
+    title: "Legal Notice",
+    lastUpdated: "Last updated: June 4, 2026",
+    sections: [
+      {
+        title: "Publisher",
+        content:
+          "This website is published by:\n\n**Synapgeek**, a French simplified joint-stock company (société par actions simplifiée — SAS) with a share capital of €1,000.\nRegistered office: 185 chemin des Brosses, 69620 Frontenas, France.\nRegistered with the Villefranche-Tarare Trade and Companies Register (RCS) under number **102 429 826**.\nSIRET (registered office): 102 429 826 00013.\nAPE/NAF code: 62.01Z (Computer programming).\nIntra-Community VAT number: FR86 102 429 826.\nEmail: contact@synapgeek.com",
+      },
+      {
+        title: "Publication director",
+        content:
+          "The publication director is Adrien Monte, in his capacity as President of Synapgeek.",
+      },
+      {
+        title: "Hosting provider",
+        content:
+          "This website is hosted by:\n\n**Vercel Inc.**\n440 N Barranca Avenue #4133, Covina, CA 91723, United States.\nWebsite: https://vercel.com",
+      },
+      {
+        title: "Intellectual property",
+        content:
+          "All elements of this website — including but not limited to text, graphics, logos, icons, images, and the \"Synapgeek\" and \"Cerebrum\" trademarks — are the exclusive property of Synapgeek and are protected by French and international intellectual property laws.\n\nAny reproduction, representation, modification, or exploitation, in whole or in part, of these elements without Synapgeek's prior written consent is prohibited and constitutes infringement.",
+      },
+      {
+        title: "Personal data and cookies",
+        content:
+          "The processing of your personal data and the use of cookies and analytics technologies are described in detail in our Privacy Policy: https://synapgeek.com/en/privacy\n\nIn accordance with the General Data Protection Regulation (GDPR) and the French Data Protection Act, you have rights of access, rectification, erasure, objection, and portability over your data. To exercise them: privacy@synapgeek.com\n\nYou may also lodge a complaint with the French data protection authority (CNIL): https://www.cnil.fr",
+      },
+      {
+        title: "Contact",
+        content:
+          "For any questions regarding this website or this legal notice:\n\n**Synapgeek**\nEmail: contact@synapgeek.com\nWebsite: https://synapgeek.com",
       },
     ],
   },

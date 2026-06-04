@@ -7,6 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { LOCALES, generateStaticParams as genParams } from "@/lib/i18n";
 import { getDictionary } from "@/content";
 import { getOgLocale, getOgAlternateLocales } from "@/lib/seo";
+import { APP_STORE_ID } from "@/lib/app";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
@@ -47,6 +48,8 @@ export async function generateMetadata({
   const locale: Locale = isLocale(raw) ? raw : "fr";
 
   return {
+    // Safari smart App Banner — now that Cerebrum is live on the App Store.
+    itunes: { appId: APP_STORE_ID },
     openGraph: {
       siteName: "Synapgeek",
       locale: getOgLocale(locale),

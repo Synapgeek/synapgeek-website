@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { getLocalePath } from "@/lib/i18n";
 import type { Dictionary } from "@/content";
+import { APP_STORE_URL } from "@/lib/app";
 
 export function Footer({
   locale,
@@ -48,7 +49,7 @@ export function Footer({
               </li>
               <li>
                 <a
-                  href="https://apps.apple.com/app/cerebrum"
+                  href={APP_STORE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 transition-colors hover:text-white"
@@ -79,6 +80,14 @@ export function Footer({
                   className="text-gray-400 transition-colors hover:text-white"
                 >
                   {dict.footer.terms}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={getLocalePath(locale, "/legal")}
+                  className="text-gray-400 transition-colors hover:text-white"
+                >
+                  {dict.footer.legalNotice}
                 </Link>
               </li>
             </ul>

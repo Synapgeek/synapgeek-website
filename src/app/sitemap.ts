@@ -3,7 +3,7 @@ import { LOCALES, DEFAULT_LOCALE, getLocalePath } from "@/lib/i18n";
 
 const BASE_URL = "https://synapgeek.com";
 
-const routes = ["/", "/privacy", "/terms"];
+const routes = ["/", "/privacy", "/terms", "/legal"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return LOCALES.flatMap((locale) =>
