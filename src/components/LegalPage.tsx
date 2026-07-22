@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/Badge";
+import type { LegalSection } from "@/content/types";
 
 const linkClasses = "text-primary underline hover:text-primary/80";
 
@@ -67,7 +68,7 @@ export function LegalPage({
 }: {
   title: string;
   lastUpdated: string;
-  sections: readonly { title: string; content: string }[];
+  sections: readonly LegalSection[];
 }) {
   return (
     <article className="mx-auto max-w-3xl px-6 py-32">
@@ -76,7 +77,15 @@ export function LegalPage({
 
       <div className="mt-12 space-y-10">
         {sections.map((section) => (
-          <section key={section.title}>
+          // scroll-mt-24 compense l'en-tête fixe : sans lui, une ancre place le titre sous le header.
+          // tabIndex=-1 : sans lui, un saut d'ancre déplace le viewport mais pas le focus
+          // clavier — un lecteur d'écran resterait en haut de page.
+          <section
+            key={section.title}
+            id={section.id}
+            tabIndex={section.id ? -1 : undefined}
+            className="scroll-mt-24"
+          >
             <h2 className="mb-4 text-xl font-bold">{section.title}</h2>
             <div className="space-y-3 text-sm leading-relaxed text-text-secondary">
               {section.content.split("\n\n").map((paragraph, i) => (

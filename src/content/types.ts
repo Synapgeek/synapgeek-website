@@ -14,6 +14,9 @@ export interface Waitlist {
   error: string;
 }
 
+/** Une section d'un document légal. `id` n'est posé que sur les sections ciblées par une ancre. */
+export type LegalSection = { title: string; content: string; id?: string };
+
 export interface Dictionary {
   common: {
     siteName: string;
@@ -72,16 +75,16 @@ export interface Dictionary {
   privacy: {
     title: string;
     lastUpdated: string;
-    sections: readonly { title: string; content: string }[];
+    sections: readonly LegalSection[];
   };
   terms: {
     title: string;
     lastUpdated: string;
-    sections: readonly { title: string; content: string }[];
+    sections: readonly LegalSection[];
   };
   legal: {
     title: string;
     lastUpdated: string;
-    sections: readonly { title: string; content: string }[];
+    sections: readonly LegalSection[];
   };
 }

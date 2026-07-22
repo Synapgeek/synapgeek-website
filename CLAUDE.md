@@ -45,6 +45,9 @@ Routes actives :
 /en/privacy      → Privacy Policy (EN)
 /en/terms        → CGU / EULA (EN)
 /api/contact     → API route formulaire de contact (POST)
+/account-deletion     → redirect 307 vers /privacy#account-deletion (URL déclarée dans le formulaire Data Safety de la Play Console — JAMAIS casser)
+/en/account-deletion  → redirect 307 vers /en/privacy#account-deletion
+/fr/account-deletion  → redirect 307 vers /privacy#account-deletion
 ```
 
 Routes prévues (pas encore implémentées) :
@@ -107,14 +110,14 @@ public/
 
 ## Règles critiques
 
-- **JAMAIS casser les URLs `/privacy` et `/terms`** — elles sont référencées dans App Store Connect et dans la config AdMob consent (UMP). Un 404 = rejet potentiel de Cerebrum sur l'App Store.
+- **JAMAIS casser les URLs `/privacy`, `/terms` et `/account-deletion`** — elles sont référencées dans App Store Connect, dans la config AdMob consent (UMP) et dans le formulaire Data Safety de la Play Console. Un 404 = rejet potentiel de Cerebrum sur l'App Store ou Google Play.
 - **JAMAIS de vente de contenu digital sur le site** — tout achat passe par StoreKit 2 dans l'app (guideline Apple 3.1.1).
 - **JAMAIS de lien de paiement externe** pour du contenu consommable dans l'app.
 - Les pages légales doivent être accessibles sans JavaScript (SSG).
 - HTTPS obligatoire (géré par Vercel).
 - La privacy policy doit refléter **exactement** les données collectées par l'app (correspondance avec App Store nutrition labels et PrivacyInfo.xcprivacy).
 
-## Cerebrum — Infos app iOS
+## Cerebrum — Infos app (iOS + Android)
 
 Repo iOS : `/Users/adrienmonte/Documents/projects/synapgeek/cerebrum-ios`
 
@@ -159,7 +162,7 @@ Repo iOS : `/Users/adrienmonte/Documents/projects/synapgeek/cerebrum-ios`
 - **Firebase** : Analytics, Crashlytics, Performance, Firestore, Auth, Storage, Functions (App Check désactivé — à réactiver après création compte Apple Developer)
 - **Google Mobile Ads** (AdMob) : bannières, interstitiels, rewarded, app open
 - **AdMob App ID** : `ca-app-pub-2587609832551275~3649546176`
-- **Auth** : Apple Sign-In, Google Sign-In, Facebook Sign-In, Email/Password, Anonymous
+- **Auth** : Apple Sign-In, Google Sign-In, Facebook Sign-In, Anonymous (pas d'Email/Password dans les apps livrées — du code email subsiste côté iOS mais sans point d'entrée UI)
 - **Consent** : UMP (GDPR/EEE) + ATT (IDFA) — URL consent : `https://synapgeek.com/privacy`
 - **SKAdNetwork** : 48 réseaux configurés
 - **Stockage local** : SwiftData (cache 100 MB Firestore)
@@ -172,8 +175,8 @@ Repo iOS : `/Users/adrienmonte/Documents/projects/synapgeek/cerebrum-ios`
 | Gameplay | Scores, temps, indices, erreurs, étoiles, niveaux, difficulté |
 | Progression | Streaks, pièces, avatars, trophées, XP, ligue |
 | Appareil | Type, OS, langue, diagnostics |
-| Publicité | IDFA (avec consentement ATT), interactions pubs |
-| Transactions | Historique achats (via StoreKit 2, pas de données de paiement) |
+| Publicité | IDFA sur iOS (consentement ATT) / AAID sur Android (consentement UMP en EEE/UK/Suisse), interactions pubs ; events de conversion Meta (achat, inscription, activation) si consentement |
+| Transactions | Historique achats minimal en Firestore `users/{uid}` : productId, type, date, plateforme (StoreKit 2 sur iOS, Google Play Billing sur Android, pas de données de paiement) |
 
 **Non collecté** : géolocalisation, santé, contacts, photos, caméra, calendrier, microphone.
 
@@ -183,9 +186,9 @@ Implémentée dans l'app (Profil > Supprimer le compte). Cloud Function `deleteU
 
 ### Public cible
 
-- 16 ans et plus (pas de mécanisme COPPA)
+- 13 ans et plus (pas de mécanisme COPPA)
 - Pas de contenu restreint
-- iPhone + iPad (orientation portrait)
+- iPhone + iPad + appareils Android (orientation portrait)
 
 ## Skills auto-chargés
 
