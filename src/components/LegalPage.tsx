@@ -77,7 +77,7 @@ export function LegalPage({
 
       <div className="mt-12 space-y-10">
         {sections.map((section) => (
-          // scroll-mt-32 compense l'en-tête fixe : sans lui, une ancre place le titre sous le header.
+          // scroll-mt-24 compense l'en-tête fixe : sans lui, une ancre place le titre sous le header.
           // tabIndex=-1 : sans lui, un saut d'ancre déplace le viewport mais pas le focus
           // clavier — un lecteur d'écran resterait en haut de page.
           <section
