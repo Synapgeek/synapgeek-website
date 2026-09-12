@@ -61,13 +61,18 @@ Le plan doit trancher ; vérifie SYSTÉMATIQUEMENT qu'il le fait :
   (`fr.ts` + `en.ts` + `src/content/types.ts`) et tout lien interne par
   `getLocalePath()` — un plan qui branche du texte sur un ternaire
   `locale === "fr" ?` plutôt que sur le dictionnaire creuse une dette déjà
-  présente dans `Header`/`Footer`/`[locale]/layout.tsx` ;
+  présente dans `Footer.tsx` et `[locale]/layout.tsx` (6 occurrences actuelles,
+  ne pas en ajouter) ; tout JSON-LD nouveau ou modifié passe par un builder de
+  `src/lib/structured-data.ts` — seule source du schema.org du site — jamais
+  construit inline dans une page ou un composant ; une FAQ visible doit avoir
+  son JSON-LD `FAQPage` reprenant mot pour mot le texte affiché (même tableau
+  de source, jamais dupliqué) ;
 - **Routes API** : tout effet de bord vit dans un route handler POST jamais
   caché — ni composant, ni page prérendue — et remonte l'échec au lieu d'un
   succès muet ; toute nouvelle route reprend le gabarit de `/api/contact`
-  (anti-abus serveur : reCAPTCHA vérifié ou honeypot + rate limit, plafonds de
-  longueur, échappement du texte réutilisé, messages d'erreur constants) et le
-  plan dit lesquels de ces gardes il retient ;
+  (anti-abus serveur : reCAPTCHA vérifié, plafonds de longueur, échappement du
+  texte réutilisé, messages d'erreur constants) et le plan dit lesquels de ces
+  gardes il retient ;
 - **Variables d'environnement** : aucune sans `NEXT_PUBLIC_` lue hors de
   `src/app/api/` (Next inline dans le bundle public toute `process.env` lue
   depuis un `"use client"`) ; chaque variable introduite est nommée avec le

@@ -54,18 +54,21 @@ Checklist non-négociable (chaque point vérifié explicitement) :
    de `src/app/api/**`, rien de `SMTP_PASS`/`RECAPTCHA_SECRET_KEY` dans
    `.next/static/`, aucun `.env*` versionné ; une `process.env` nouvelle est
    bloquante tant que la PR ne la dit pas configurée dans Vercel (preview +
-   prod) et documentée dans `CLAUDE.md` (oubliées jusqu'ici :
-   `WAITLIST_WEBHOOK_URL`, `NEXT_PUBLIC_GA_MEASUREMENT_ID`) ; gardes intactes
-   (`siteverify`, `EMAIL_REGEX`, `MAX_*_LENGTH`, `escapeHtml`, `stripNewlines`,
-   `isRateLimited`, honeypot, `validPlatforms`) et 7 clés sur `/(.*)`.
+   prod) et documentée dans `CLAUDE.md` ; gardes intactes (`siteverify`,
+   `EMAIL_REGEX`, `MAX_*_LENGTH`, `escapeHtml`, `stripNewlines`,
+   `validPlatforms`) et 7 clés sur `/(.*)`.
 6. **SEO & i18n** : `getAlternates()` sur chaque page indexable (canonical FR
    jamais préfixé `/fr/`, alors que `/fr/privacy` répond 200) et entrée dans
    `routes` de `src/app/sitemap.ts` ; toute clé touchée existe dans `fr.ts` ET
    `en.ts`, valeur EN vraiment traduite (aucun français ni placeholder dans
    tout `en.ts`) ; parité des documents légaux (sections, `id`, `lastUpdated`) ;
-   aucun texte en dur, `locale === "fr" ?` pas au-dessus de 13,
+   aucun texte en dur, `locale === "fr" ?` pas au-dessus de 6,
    `getLocalePath()` partout ; si un `robots: { index: false }` apparaît (aucun
-   aujourd'hui) : ni hreflang vers du noindex, ni canonical + noindex.
+   aujourd'hui) : ni hreflang vers du noindex, ni canonical + noindex ; tout
+   JSON-LD vient d'un builder de `src/lib/structured-data.ts` (source unique —
+   aucun objet schema.org construit ailleurs) ; le `FAQPage` de la landing
+   reprend mot pour mot le texte visible de la FAQ, jamais un texte dupliqué
+   ou divergent.
 7. **Consentement** : aucun tag ni cookie Google ajouté tant qu'aucun gate de
    consentement n'existe (`grep -rn consent src/` ne rend que du contenu
    légal ; GA4 se charge déjà pour tous dans `src/app/[locale]/layout.tsx`).
@@ -75,7 +78,7 @@ Checklist non-négociable (chaque point vérifié explicitement) :
    (jsx-a11y) sans erreur ; le reste du WCAG relève de `web-accessibility`.
 9. **Clean code** : standards du skill `clean-code`, au seul périmètre du diff
    — dette à ne pas imputer à la PR : le `catch {}` sans log de
-   `src/app/api/contact/route.ts:108`, `ThemeToggle.tsx` jamais importé.
+   `src/app/api/contact/route.ts:108`.
 
 Tout point 1 à 8 enfreint est bloquant et impose « non » ; « mergeable oui »
 suppose les huit non-négociables passés (le point 9 ne rend que de
