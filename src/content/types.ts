@@ -57,6 +57,9 @@ export interface Dictionary {
       terms: string;
       legalNotice: string;
       contact: string;
+      /** Lien de retrait/modification du consentement Google Analytics, affiché
+       * uniquement quand la plateforme de consentement est active. */
+      manageCookies: string;
     };
     languageSwitch: string;
     languageSwitchLocale: Locale;

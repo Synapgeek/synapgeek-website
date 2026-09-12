@@ -30,8 +30,15 @@ AdMob consent (UMP).
 - **Linter** : ESLint 9 + eslint-config-next + Prettier
 - **Email** : Nodemailer via SMTP Google Workspace
 - **Captcha** : Google reCAPTCHA v2 (sur `/api/contact` uniquement)
-- **Analytics** : Vercel Analytics + Vercel Speed Insights + **Google Analytics 4**
-  (`gtag/js` via `next/script`, chargé dans `src/app/[locale]/layout.tsx`)
+- **Analytics** : Vercel Analytics + Vercel Speed Insights (sans cookie) + **Google
+  Analytics 4** derrière **Consent Mode v2 régionalisé** (`src/lib/consent/`,
+  `src/components/consent/`, montés par `ConsentBootstrap` dans
+  `src/app/[locale]/layout.tsx`) — accordé par défaut hors UE/EEE/Royaume-Uni/Suisse,
+  refusé dedans tant qu'aucun accord explicite n'existe. GA4 (`gtag/js`, `strategy=
+"lazyOnload"`) se charge dès que `NEXT_PUBLIC_GA_MEASUREMENT_ID` existe, indépendamment
+  d'une CMP. La CMP (Google Funding Choices) ne charge que si
+  `NEXT_PUBLIC_FUNDING_CHOICES_ID` existe — absente aujourd'hui. Réutilisation de
+  MÉCANISME depuis Word Search Trove (skill `synapgeek-portfolio-rules` règle 8).
 - **Déploiement** : Vercel — un merge sur `main` publie en production. Tout passe par
   branche + PR. **Ne jamais merger ni promouvoir sans accord explicite d'Adrien.**
 - **Langues** : Français (défaut) + Anglais (i18n maison via `src/content/`, pas de `next-intl`)
@@ -69,6 +76,7 @@ automatiques du repo. Tout le reste est humain ou passe par un sous-agent.
 ## Structure des routes
 
 Routes actives :
+
 ```
 /                      → Landing page (FR, locale par défaut, sans préfixe), section FAQ
                          ancrée en `#faq`
@@ -306,15 +314,15 @@ Aucun produit « à vie » n'existe.
 
 ### Données collectées
 
-| Catégorie | Données |
-|---|---|
-| Compte | Firebase UID, email, nom, photo (selon provider) |
-| Gameplay | Scores, temps, indices, erreurs, étoiles, niveaux, difficulté |
-| Progression | Streaks, pièces, avatars, trophées, XP, ligue |
-| Appareil | Type, OS, langue, fuseau horaire, version de l'app, diagnostics |
+| Catégorie     | Données                                                                                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Compte        | Firebase UID, email, nom, photo (selon provider)                                                                                                              |
+| Gameplay      | Scores, temps, indices, erreurs, étoiles, niveaux, difficulté                                                                                                 |
+| Progression   | Streaks, pièces, avatars, trophées, XP, ligue                                                                                                                 |
+| Appareil      | Type, OS, langue, fuseau horaire, version de l'app, diagnostics                                                                                               |
 | Notifications | Token FCM, tokens ActivityKit (push-to-start, update), état d'activation — document Firestore `users/{uid}/devices/{deviceId}`, purgé par `deleteUserAccount` |
-| Publicité | IDFA (ATT) / AAID (UMP en EEE/UK/Suisse), interactions pubs ; events de conversion Meta si consentement |
-| Transactions | Historique minimal en Firestore `users/{uid}` : productId, type, date, plateforme (pas de données de paiement) |
+| Publicité     | IDFA (ATT) / AAID (UMP en EEE/UK/Suisse), interactions pubs ; events de conversion Meta si consentement                                                       |
+| Transactions  | Historique minimal en Firestore `users/{uid}` : productId, type, date, plateforme (pas de données de paiement)                                                |
 
 **Non collecté** : santé, contacts, photos, caméra, calendrier, microphone. L'app ne
 demande jamais explicitement la position (aucun CoreLocation, aucune clé `NSLocation*`) ;
@@ -336,11 +344,11 @@ supprime : Firestore subcollections, document utilisateur, leaderboards, Firebas
 
 Trois sous-agents dans `.claude/agents/`. Deux jugent, un seul écrit.
 
-| Agent | Quand | Écrit ? | Rend |
-|---|---|---|---|
-| `site-architect` | AVANT d'implémenter — routing, URL légale, mode de rendu, i18n, indexation, variable d'env | Non | **GO / GO-avec-réserves / NO-GO** |
-| `designer` | Conception et implémentation UI/UX (Tailwind 4, composants, assets) | **Oui** | du code |
-| `site-reviewer` | APRÈS implémentation, `lint` et `build` verts, avant merge | Non | **mergeable oui / non** |
+| Agent            | Quand                                                                                      | Écrit ? | Rend                              |
+| ---------------- | ------------------------------------------------------------------------------------------ | ------- | --------------------------------- |
+| `site-architect` | AVANT d'implémenter — routing, URL légale, mode de rendu, i18n, indexation, variable d'env | Non     | **GO / GO-avec-réserves / NO-GO** |
+| `designer`       | Conception et implémentation UI/UX (Tailwind 4, composants, assets)                        | **Oui** | du code                           |
+| `site-reviewer`  | APRÈS implémentation, `lint` et `build` verts, avant merge                                 | Non     | **mergeable oui / non**           |
 
 Ordre attendu sur tout chantier non trivial, plan formel ou pas :
 `site-architect` → implémentation (`designer` si c'est de l'UI) → `site-reviewer`.
@@ -353,31 +361,31 @@ Le contenu réel vit dans `.agents/skills/` (versionné par git) ; `.claude/skil
 n'est qu'un symlink vers `../../.agents/skills/<nom>`. L'inventaire et la provenance
 (source GitHub + hash) sont dans `skills-lock.json`. **23 skills installés.**
 
-| Skill | Quand l'utiliser |
-|---|---|
-| `next-best-practices` | Toute création/modification de composant, route, ou page Next.js |
-| `next-cache-components` | Caching, PPR, `use cache`, `cacheLife`, `cacheTag` |
-| `next-dev-loop` | Vérifier le comportement runtime après édition — nécessite un `next dev` lancé |
-| `next-cache-components-adoption` | Activer `cacheComponents` et traiter les routes bloquantes |
-| `next-cache-components-optimizer` | Navigation instantanée sous PPR (exige Next 16.3+) |
-| `next-partial-prefetching-adoption` | Activer `partialPrefetching`, arbitrer les `<Link prefetch>` |
-| `vercel-react-best-practices` | Écriture ou refactoring de composants React, optimisation perf |
-| `vercel-composition-patterns` | Architecture de composants, patterns de composition React |
-| `tailwind-design-system` | Création de composants UI, design tokens, design system |
-| `typescript-advanced-types` | Types complexes, generics, utility types |
-| `web-accessibility` | Tout travail sur l'UI — toujours vérifier l'accessibilité (WCAG 2.1) |
-| `performance-optimization` | Bundle size, lazy loading, code splitting |
-| `webapp-testing` | Tests d'interface, vérification du rendu, screenshots Playwright |
-| `shadcn` | Ajout ou modification de composants shadcn/ui |
-| `seo-audit` | Audit SEO, meta tags, indexation, Core Web Vitals |
-| `page-cro` | Optimisation de conversion sur les pages marketing/landing |
-| `schema-markup` | Données structurées JSON-LD, rich snippets Google |
-| `analytics-tracking` | Tracking analytics, events, conversions, GA4/Vercel Analytics |
-| `find-skills` | Quand une fonctionnalité manque — chercher si un skill existe |
-| `legal` | Rédaction/audit des pages légales conformes App Store, GDPR, CCPA |
-| `app-store-review` | Conformité App Store Review Guidelines, privacy manifests |
-| `privacy-policy` | Scaffold structuré de privacy policy |
-| `localization-strategy` | SEO multilingue (hreflang, structure URLs i18n, keywords) |
+| Skill                               | Quand l'utiliser                                                               |
+| ----------------------------------- | ------------------------------------------------------------------------------ |
+| `next-best-practices`               | Toute création/modification de composant, route, ou page Next.js               |
+| `next-cache-components`             | Caching, PPR, `use cache`, `cacheLife`, `cacheTag`                             |
+| `next-dev-loop`                     | Vérifier le comportement runtime après édition — nécessite un `next dev` lancé |
+| `next-cache-components-adoption`    | Activer `cacheComponents` et traiter les routes bloquantes                     |
+| `next-cache-components-optimizer`   | Navigation instantanée sous PPR (exige Next 16.3+)                             |
+| `next-partial-prefetching-adoption` | Activer `partialPrefetching`, arbitrer les `<Link prefetch>`                   |
+| `vercel-react-best-practices`       | Écriture ou refactoring de composants React, optimisation perf                 |
+| `vercel-composition-patterns`       | Architecture de composants, patterns de composition React                      |
+| `tailwind-design-system`            | Création de composants UI, design tokens, design system                        |
+| `typescript-advanced-types`         | Types complexes, generics, utility types                                       |
+| `web-accessibility`                 | Tout travail sur l'UI — toujours vérifier l'accessibilité (WCAG 2.1)           |
+| `performance-optimization`          | Bundle size, lazy loading, code splitting                                      |
+| `webapp-testing`                    | Tests d'interface, vérification du rendu, screenshots Playwright               |
+| `shadcn`                            | Ajout ou modification de composants shadcn/ui                                  |
+| `seo-audit`                         | Audit SEO, meta tags, indexation, Core Web Vitals                              |
+| `page-cro`                          | Optimisation de conversion sur les pages marketing/landing                     |
+| `schema-markup`                     | Données structurées JSON-LD, rich snippets Google                              |
+| `analytics-tracking`                | Tracking analytics, events, conversions, GA4/Vercel Analytics                  |
+| `find-skills`                       | Quand une fonctionnalité manque — chercher si un skill existe                  |
+| `legal`                             | Rédaction/audit des pages légales conformes App Store, GDPR, CCPA              |
+| `app-store-review`                  | Conformité App Store Review Guidelines, privacy manifests                      |
+| `privacy-policy`                    | Scaffold structuré de privacy policy                                           |
+| `localization-strategy`             | SEO multilingue (hreflang, structure URLs i18n, keywords)                      |
 
 **Quatre skills obligatoires vivent HORS du repo** (niveau utilisateur ou plugin) et ne
 sont donc pas dans ce tableau : `clean-code` (standards de code maison — c'est lui qui
@@ -399,7 +407,14 @@ SMTP_PASS=****                           # App password Google
 CONTACT_EMAIL=contact@synapgeek.com      # Destinataire du formulaire de contact
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY=****      # reCAPTCHA v2 site key
 RECAPTCHA_SECRET_KEY=****                # reCAPTCHA v2 secret key
-NEXT_PUBLIC_GA_MEASUREMENT_ID=****       # GA4 — chargé dans [locale]/layout.tsx
+NEXT_PUBLIC_GA_MEASUREMENT_ID=****       # GA4 — chargé via ConsentBootstrap, derrière Consent Mode v2
+NEXT_PUBLIC_FUNDING_CHOICES_ID=****      # ID publisher AdSense (ca-pub-…) de la CMP Google Funding
+                                          # Choices. ABSENTE aujourd'hui : sans elle, aucune CMP ne
+                                          # charge, le lien « Gérer mes cookies » du footer ne
+                                          # s'affiche pas, et le consentement reste régi uniquement
+                                          # par les défauts Consent Mode v2 régionalisés (accordé hors
+                                          # UE/EEE/Royaume-Uni/Suisse, refusé dedans). Voir
+                                          # src/lib/consent/ et src/components/consent/.
 ```
 
 En local dans `.env.local` (couvert par le `.env*` du `.gitignore`) ; il n'y a pas de
@@ -439,20 +454,18 @@ Contradictions constatées, non arbitrées — à lever, pas à recopier.
    questionnaire App Privacy (nutrition label) d'App Store Connect et le formulaire Data
    Safety de la Play Console, que je n'ai pas pu lire d'ici — s'assurer qu'ils déclarent
    bien une collecte de localisation approximative à finalité publicitaire.
-2. **GA4 sans CMP** : le tag Google se charge pour tous les visiteurs, sans gate de
-   consentement ni Consent Mode. Aucun `gtag('consent', …)` dans `src/`.
-3. **Classification d'âge** : CGU à 13+, fiche App Store à **4+**, fiche Play à
+2. **Classification d'âge** : CGU à 13+, fiche App Store à **4+**, fiche Play à
    **« Everyone »** avec le badge **« Contains ads »** (vérifié en ligne). Une app classée
    tout public qui sert de la pub personnalisée (IDFA/AAID, SDK Meta, 58 réseaux
    SKAdNetwork) sans age gate relève de la Families policy de Google — c'est le risque de
    suspension le plus concret des trois, et il ne se règle pas dans App Store Connect.
-4. **`/app/*` répond 404** alors que c'est le `pathPrefix` de l'App Link Android et le
+3. **`/app/*` répond 404** alors que c'est le `pathPrefix` de l'App Link Android et le
    `components` de l'AASA iOS. Un téléphone sans l'app qui suit un tel lien tombe sur la 404.
-5. **`www.synapgeek.com` fait un 308 vers l'apex**, y compris sur `/.well-known/`. La
+4. **`www.synapgeek.com` fait un 308 vers l'apex**, y compris sur `/.well-known/`. La
    vérification des App Links Android n'accepte aucune redirection : tant que ce 308 est
    en place, `assetlinks.json` ne sera jamais lu, même déployé. La redirection est
    configurée au niveau du domaine Vercel, pas dans le code.
-6. **Clause de juridiction des CGU** : `fr.ts` et `en.ts` (section droit applicable)
+5. **Clause de juridiction des CGU** : `fr.ts` et `en.ts` (section droit applicable)
    soumettent les litiges à « la compétence exclusive des tribunaux de Paris », alors que
    le siège social de Synapgeek SAS (mentions légales du même site, `/legal`) est à
    Frontenas (69620), pas à Paris. À faire trancher par un juriste avant de corriger.

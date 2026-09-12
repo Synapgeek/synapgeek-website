@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import { DM_Sans, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -13,6 +12,7 @@ import { APP_STORE_ID } from "@/lib/app";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
+import { ConsentBootstrap } from "@/components/consent/ConsentBootstrap";
 
 export { genParams as generateStaticParams };
 
@@ -77,6 +77,8 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${dmSans.variable} ${inter.variable} antialiased`}>
+        {/* Défauts Consent Mode v2 + CMP + GA4 : premier enfant de <body>, avant tout autre contenu (voir ConsentBootstrap). */}
+        <ConsentBootstrap />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg"
@@ -94,19 +96,6 @@ export default async function LocaleLayout({
         </div>
         <Analytics />
         <SpeedInsights />
-        {/* lazyOnload : quelques visites très courtes ne seront pas mesurées, contre ~175 Ko retirés de la fenêtre de rendu initiale */}
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
-          strategy="lazyOnload"
-        />
-        <Script id="gtag-init" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
-          `}
-        </Script>
       </body>
     </html>
   );
