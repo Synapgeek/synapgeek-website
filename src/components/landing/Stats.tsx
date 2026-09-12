@@ -15,7 +15,9 @@ export function Stats({
       <div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 px-6 lg:grid-cols-4">
         {items.map((item, i) => (
           <div key={item.label} className="text-center">
-            <p className={`text-4xl font-extrabold ${colors[i % colors.length]}`}>
+            <p
+              className={`text-4xl font-extrabold ${colors[i % colors.length]}`}
+            >
               {item.value}
             </p>
             <p className="mt-1 text-sm font-medium text-text-secondary">

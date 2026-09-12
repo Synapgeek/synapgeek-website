@@ -67,6 +67,7 @@ export function StoreButtons({
                 alt={dict.appStoreLabel}
                 width={badges.appStoreWidth}
                 height={40}
+                sizes="140px"
                 className="h-[44px] w-auto"
               />
             </a>
@@ -86,6 +87,7 @@ export function StoreButtons({
                 alt={dict.googlePlayLabel}
                 width={badges.googlePlayWidth}
                 height={badges.googlePlayHeight}
+                sizes="150px"
                 className="h-[44px] w-auto"
               />
             </a>

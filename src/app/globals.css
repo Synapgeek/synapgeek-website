@@ -5,7 +5,6 @@
   /* Fonts */
   --font-sans: var(--font-dm-sans);
   --font-body: var(--font-inter);
-  --font-mono: var(--font-jetbrains-mono);
 
   /* Primary — Vibrant Green (like Duolingo) */
   --color-primary: #58cc02;
@@ -375,26 +374,34 @@ h6 {
   box-sizing: border-box;
   width: var(--iphone-width);
   aspect-ratio: 1 / var(--iphone-aspect);
-  border: var(--iphone-rail) solid transparent;
   border-radius: var(--iphone-radius);
-  padding: var(--iphone-pad);
-
-  /* Deux couches : le biseau noir remplit la padding-box, la tranche titane
-     n'apparaît que dans l'aire de bordure — un vrai rail, pas un aplat gris. */
-  background:
-    linear-gradient(#0a0a0c, #0a0a0c) padding-box,
-    linear-gradient(
-        150deg,
-        #efece5 0%,
-        #b0aba1 14%,
-        #7d7870 28%,
-        #d5d0c6 46%,
-        #969188 62%,
-        #67635b 78%,
-        #c4bfb4 92%,
-        #8b867d 100%
-      )
-      border-box;
+  /*
+   * Le rail titane était dessiné en `border` (biseau noir en padding-box,
+   * tranche titane en border-box). Problème : Chrome arrondit les
+   * `border-width` fractionnaires au pixel entier écran — --iphone-rail passe
+   * en continu de 2 px à 2,7 px à 3 px selon --iphone-width, mais son rendu
+   * saute entre paliers, et le rayon intérieur (radius − border-width) dérive
+   * d'un pixel avec lui : les coins ne restent plus concentriques.
+   *
+   * `padding` et un fond n'ont pas ce problème (ce ne sont pas des largeurs
+   * de trait, juste des offsets de boîte) : le rail devient l'espace laissé
+   * entre ce fond métallique (qui couvre toute la frame) et .iphone-bezel,
+   * la boîte opaque ci-dessous qui le recouvre partout sauf sur cette
+   * épaisseur de --iphone-rail. Géométrie et ratio d'écran inchangés — seule
+   * la technique de rendu change.
+   */
+  padding: var(--iphone-rail);
+  background: linear-gradient(
+    150deg,
+    #efece5 0%,
+    #b0aba1 14%,
+    #7d7870 28%,
+    #d5d0c6 46%,
+    #969188 62%,
+    #67635b 78%,
+    #c4bfb4 92%,
+    #8b867d 100%
+  );
 
   /* Liseré poli (tranche / biseau), puis contact, ombre principale et ambiance :
      il faut du volume pour que la coque tienne sur le fond clair du hero. */
@@ -470,10 +477,24 @@ h6 {
   }
 }
 
+/* Biseau noir : occupe toute la padding-box de .iphone-frame (donc laisse
+   voir le fond métallique tout autour, sur l'épaisseur --iphone-rail) et
+   réserve à son tour --iphone-pad avant l'écran — la tranche titane et le
+   biseau restent deux offsets de boîte, jamais des largeurs de trait. */
+.iphone-bezel {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: var(--iphone-pad);
+  border-radius: calc(var(--iphone-radius) - var(--iphone-rail));
+  background: #0a0a0c;
+}
+
 /* Dynamic Island — proportionnelle à la largeur d'écran, jamais en px figés */
 .iphone-dynamic-island {
   position: absolute;
-  /* top:0 = haut de la padding-box, donc juste sous la tranche titane */
+  /* top:0 = haut de la padding-box de .iphone-bezel, donc juste sous le biseau */
   top: calc(var(--iphone-pad) + var(--iphone-screen-width) * 0.026);
   left: 50%;
   transform: translateX(-50%);
@@ -495,18 +516,34 @@ h6 {
   background: #000;
 }
 
-/* Individual slide */
+/*
+ * Individual slide — fondu croisé en deux temps, pas symétrique.
+ *
+ * Avant : `active` passait de opacity 0 à 1 EN MÊME TEMPS que l'ancienne
+ * diapositive passait de 1 à 0 — les deux images se superposaient à mi-fondu
+ * (ex. 50 %/50 %) et leurs textes d'interface se lisaient l'un à travers
+ * l'autre. Ici, seule `active` anime (0 → 1) ; `previous` reste opaque et
+ * statique, en dessous (z-index), jusqu'à ce que `active` la recouvre
+ * entièrement. `idle` (tout le reste) est masquée sans transition.
+ */
 .iphone-slide {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 0.6s ease-in-out;
+  z-index: 0;
   pointer-events: none;
 }
 
-.iphone-slide[data-active="true"] {
+.iphone-slide[data-state="previous"] {
   opacity: 1;
+  z-index: 1;
+}
+
+.iphone-slide[data-state="active"] {
+  opacity: 1;
+  z-index: 2;
   pointer-events: auto;
+  transition: opacity 0.6s ease-in-out;
 }
 
 /* Reflet de verre + liseré interne, au-dessus des captures */

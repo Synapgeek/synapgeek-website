@@ -30,9 +30,16 @@ export function ContactForm({ dict }: { dict: ContactFormDict }) {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const [recaptchaReady, setRecaptchaReady] = useState(false);
+  // Le script reCAPTCHA (~465 Ko) n'est demandé qu'à la première interaction
+  // avec le formulaire (focus ou pointerdown), pas au chargement de la page.
+  const [shouldLoadRecaptcha, setShouldLoadRecaptcha] = useState(false);
   const recaptchaRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<number | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+
+  const loadRecaptcha = useCallback(() => {
+    setShouldLoadRecaptcha(true);
+  }, []);
 
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
@@ -101,10 +108,12 @@ export function ContactForm({ dict }: { dict: ContactFormDict }) {
 
   return (
     <>
-      <Script
-        src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit"
-        strategy="lazyOnload"
-      />
+      {shouldLoadRecaptcha && (
+        <Script
+          src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit"
+          strategy="lazyOnload"
+        />
+      )}
 
       {status === "success" ? (
         <div
@@ -134,7 +143,13 @@ export function ContactForm({ dict }: { dict: ContactFormDict }) {
           </p>
         </div>
       ) : (
-        <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+        <form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          onFocus={loadRecaptcha}
+          onPointerDown={loadRecaptcha}
+          className="space-y-6"
+        >
           <div className="grid gap-6 sm:grid-cols-2">
             {/* Name */}
             <div className="input-group relative">

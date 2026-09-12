@@ -53,10 +53,14 @@ const MAX_MESSAGE_LENGTH = 5000;
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, topic, message, recaptchaToken } = body;
+    const { name, email, message, recaptchaToken } = body;
+    // Un onglet ouvert avant le déploiement du champ « sujet » envoie encore le
+    // formulaire sans `topic` : on le range en « other » plutôt que de perdre le
+    // message. Une valeur présente mais hors liste reste refusée plus bas.
+    const topic: string = body.topic ?? "other";
 
     // Validate required fields
-    if (!name || !email || !topic || !message || !recaptchaToken) {
+    if (!name || !email || !message || !recaptchaToken) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 },

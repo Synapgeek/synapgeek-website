@@ -37,6 +37,7 @@ export function Features({
                   alt={feature.title}
                   width={80}
                   height={80}
+                  sizes="80px"
                   className="rounded-2xl"
                 />
               </div>

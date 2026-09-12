@@ -89,9 +89,20 @@ interface IPhoneSliderProps {
 }
 
 export function IPhoneSlider({ locale }: IPhoneSliderProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  // `previous` reste monté, pleinement opaque, sous `active` pendant le
+  // fondu : sans lui, les deux captures fondent l'une SUR l'autre au même
+  // rythme et leurs textes se lisent en transparence l'un à travers l'autre.
+  const [slideIndex, setSlideIndex] = useState<{
+    active: number;
+    previous: number | null;
+  }>({ active: 0, previous: null });
+  const { active: activeIndex, previous: previousIndex } = slideIndex;
   const [isPaused, setIsPaused] = useState(false);
   const [restartKey, setRestartKey] = useState(0);
+  // Les diapositives 2 à 5 ne sont montées qu'une fois la première chargée :
+  // au premier rendu, les 5 captures se téléchargeaient alors que 4 étaient
+  // invisibles.
+  const [firstSlideLoaded, setFirstSlideLoaded] = useState(false);
 
   // Slides résolues pour la locale courante (source de l'image + alt traduit)
   const slides = useMemo<Slide[]>(
@@ -107,11 +118,14 @@ export function IPhoneSlider({ locale }: IPhoneSliderProps) {
   const text = UI_TEXT[locale];
 
   const goToSlide = useCallback((index: number) => {
-    setActiveIndex(index);
+    setSlideIndex((prev) => ({ active: index, previous: prev.active }));
   }, []);
 
   const goToNext = useCallback(() => {
-    setActiveIndex((prev) => (prev + 1) % slides.length);
+    setSlideIndex((prev) => ({
+      active: (prev.active + 1) % slides.length,
+      previous: prev.active,
+    }));
   }, [slides.length]);
 
   /**
@@ -158,35 +172,63 @@ export function IPhoneSlider({ locale }: IPhoneSliderProps) {
         aria-roledescription="carousel"
         aria-label={text.carouselLabel}
       >
-        {/* Dynamic Island */}
-        <div className="iphone-dynamic-island" aria-hidden="true" />
+        {/* Biseau + tranche titane : boîte dédiée à fond opaque (pas de
+            `border`) — cf. commentaire sur .iphone-frame dans globals.css,
+            Chrome arrondit les `border-width` fractionnaires au pixel entier
+            et fait sauter le rail d'un palier à l'autre. */}
+        <div className="iphone-bezel">
+          {/* Dynamic Island */}
+          <div className="iphone-dynamic-island" aria-hidden="true" />
 
-        {/* Screen */}
-        <div className="iphone-screen">
-          {slides.map((slide, index) => (
-            <div
-              key={slide.id}
-              className="iphone-slide"
-              role="group"
-              aria-roledescription="slide"
-              aria-label={text.slideLabel(index + 1, slides.length)}
-              aria-hidden={index !== activeIndex}
-              data-active={index === activeIndex}
-            >
-              <Image
-                src={slide.src}
-                alt={slide.alt}
-                fill
-                /* Largeurs réellement posées par le CSS : l'écran vaut 94 % de
-                   --iphone-width (biseau de 3 % de chaque côté), qui change à
-                   chacun des paliers de globals.css. L'ancien « 400px » au-delà
-                   de 1024px faisait choisir un candidat 640w là où 384w suffit. */
-                sizes="(min-width: 1536px) 378px, (min-width: 1280px) 359px, (min-width: 1024px) 330px, (min-width: 640px) 313px, 284px"
-                className="object-cover object-top"
-                priority={index === 0}
-              />
-            </div>
-          ))}
+          {/* Screen */}
+          <div className="iphone-screen">
+            {slides.map((slide, index) => {
+              // Diapositive active : par-dessus, en cours de fondu entrant.
+              // Diapositive précédente : reste dessous, pleinement opaque,
+              // le temps du fondu (cf. .iphone-slide dans globals.css).
+              // Toutes les autres : masquées, sans transition.
+              const state =
+                index === activeIndex
+                  ? "active"
+                  : index === previousIndex
+                    ? "previous"
+                    : "idle";
+              const isFirstSlide = index === 0;
+              const shouldRenderImage = isFirstSlide || firstSlideLoaded;
+
+              return (
+                <div
+                  key={slide.id}
+                  className="iphone-slide"
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={text.slideLabel(index + 1, slides.length)}
+                  aria-hidden={index !== activeIndex}
+                  data-state={state}
+                >
+                  {shouldRenderImage && (
+                    <Image
+                      src={slide.src}
+                      alt={slide.alt}
+                      fill
+                      /* Largeurs réellement posées par le CSS : l'écran vaut 94 % de
+                         --iphone-width (biseau de 3 % de chaque côté), qui change à
+                         chacun des paliers de globals.css. L'ancien « 400px » au-delà
+                         de 1024px faisait choisir un candidat 640w là où 384w suffit. */
+                      sizes="(min-width: 1536px) 378px, (min-width: 1280px) 359px, (min-width: 1024px) 330px, (min-width: 640px) 313px, 284px"
+                      className="object-cover object-top"
+                      priority={isFirstSlide}
+                      onLoad={
+                        isFirstSlide
+                          ? () => setFirstSlideLoaded(true)
+                          : undefined
+                      }
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
 

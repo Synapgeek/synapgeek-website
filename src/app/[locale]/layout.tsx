@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { notFound } from "next/navigation";
 import Script from "next/script";
-import { DM_Sans, Inter, JetBrains_Mono } from "next/font/google";
+import { DM_Sans, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { LOCALES, generateStaticParams as genParams } from "@/lib/i18n";
 import { getDictionary } from "@/content";
 import { getOgLocale, getOgAlternateLocales } from "@/lib/seo";
+import { organizationSchema, websiteSchema } from "@/lib/structured-data";
 import { APP_STORE_ID } from "@/lib/app";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -26,13 +27,6 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "500"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  weight: ["400"],
   display: "swap",
 });
 
@@ -80,27 +74,9 @@ export default async function LocaleLayout({
   const locale: Locale = rawLocale;
   const dict = getDictionary(locale);
 
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": "https://synapgeek.com/#organization",
-    name: "Synapgeek",
-    url: "https://synapgeek.com",
-    logo: {
-      "@type": "ImageObject",
-      url: "https://synapgeek.com/images/brand/logo-synapgeek.png",
-      width: 256,
-      height: 256,
-    },
-    email: "contact@synapgeek.com",
-    description: dict.common.tagline,
-  };
-
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body
-        className={`${dmSans.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}
-      >
+      <body className={`${dmSans.variable} ${inter.variable} antialiased`}>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg"
@@ -108,7 +84,8 @@ export default async function LocaleLayout({
           {locale === "fr" ? "Aller au contenu" : "Skip to content"}
         </a>
         <div className="flex min-h-screen flex-col">
-          <JsonLd data={organizationSchema} />
+          <JsonLd data={organizationSchema(locale)} />
+          <JsonLd data={websiteSchema(locale)} />
           <Header locale={locale} />
           <main id="main-content" className="flex-1">
             {children}
@@ -117,11 +94,12 @@ export default async function LocaleLayout({
         </div>
         <Analytics />
         <SpeedInsights />
+        {/* lazyOnload : quelques visites très courtes ne seront pas mesurées, contre ~175 Ko retirés de la fenêtre de rendu initiale */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="gtag-init" strategy="afterInteractive">
+        <Script id="gtag-init" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

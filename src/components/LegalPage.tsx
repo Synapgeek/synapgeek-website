@@ -15,7 +15,8 @@ function formatText(text: string): React.ReactNode[] {
 
   // Second pass: auto-link URLs and emails in remaining string fragments
   const result: React.ReactNode[] = [];
-  const linkPattern = /(https?:\/\/[^\s),]+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
+  const linkPattern =
+    /(https?:\/\/[^\s),]+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
 
   for (const node of withBold) {
     if (typeof node !== "string") {
@@ -35,7 +36,11 @@ function formatText(text: string): React.ReactNode[] {
       const isEmail = value.includes("@") && !value.startsWith("http");
       result.push(
         isEmail ? (
-          <a key={`l${match.index}`} href={`mailto:${value}`} className={linkClasses}>
+          <a
+            key={`l${match.index}`}
+            href={`mailto:${value}`}
+            className={linkClasses}
+          >
             {value}
           </a>
         ) : (
@@ -72,8 +77,12 @@ export function LegalPage({
 }) {
   return (
     <article className="mx-auto max-w-3xl px-6 py-32">
-      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{title}</h1>
-      <Badge color="purple" className="mt-4">{lastUpdated}</Badge>
+      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+        {title}
+      </h1>
+      <Badge color="purple" className="mt-4">
+        {lastUpdated}
+      </Badge>
 
       <div className="mt-12 space-y-10">
         {sections.map((section) => (

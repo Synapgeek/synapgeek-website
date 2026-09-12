@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { generateStaticParams } from "@/lib/i18n";
 import { getDictionary, getLocale } from "@/content";
 import { getAlternates, buildOpenGraph } from "@/lib/seo";
+import { webPageSchema } from "@/lib/structured-data";
+import { JsonLd } from "@/components/JsonLd";
 import { LegalPage } from "@/components/LegalPage";
 
 export { generateStaticParams };
@@ -37,11 +39,21 @@ export default async function LegalNoticePage({
   const locale = getLocale(raw);
   const dict = getDictionary(locale);
 
+  const webPage = webPageSchema({
+    locale,
+    path: "/legal",
+    name: dict.legal.title,
+    dateModified: dict.legal.updatedAt,
+  });
+
   return (
-    <LegalPage
-      title={dict.legal.title}
-      lastUpdated={dict.legal.lastUpdated}
-      sections={dict.legal.sections}
-    />
+    <>
+      <JsonLd data={webPage} />
+      <LegalPage
+        title={dict.legal.title}
+        lastUpdated={dict.legal.lastUpdated}
+        sections={dict.legal.sections}
+      />
+    </>
   );
 }
