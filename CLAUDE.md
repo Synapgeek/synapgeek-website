@@ -241,11 +241,12 @@ stores ont des dimensions codées en dur **différentes par locale** (`StoreButt
   consent (UMP) et dans le formulaire Data Safety de la Play Console. Un 404 = rejet
   potentiel de Cerebrum sur l'App Store ou Google Play. **L'app Android pointe le host
   `www.synapgeek.com`** : `www` est aussi critique que l'apex.
-- **JAMAIS casser `/.well-known/apple-app-site-association` ni
-  `/.well-known/assetlinks.json`** — ils font marcher les liens universels des deux apps
-  publiées, et ils échouent en SILENCE : pas de 404 visible, juste des liens qui cessent
-  de s'ouvrir dans l'app. Ne pas les « simplifier » en fichiers dans `public/` (Vercel les
-  sert alors en `application/octet-stream`, qu'Apple rejette).
+- **Liens web qui ouvrent l'app (Universal Links / App Links) : sujet ABANDONNÉ** par Adrien
+  le 2026-09-12. L'app se télécharge et s'ouvre normalement ; aucune session ne doit relancer
+  ce chantier (entitlement iOS, manifeste Android, page de repli `/app/*`). Les deux fichiers
+  `/.well-known/*` restent servis car ils sont inoffensifs ; s'ils sont un jour modifiés, garder
+  des route handlers (un fichier sans extension dans `public/` sort en
+  `application/octet-stream`).
 - **JAMAIS de lien vers un autre site du portefeuille Synapgeek** (Word Search Trove,
   Maze Foundry). Règle du skill `synapgeek-portfolio-rules` ; `site-architect` rend NO-GO
   d'emblée et `site-reviewer` classe bloquant.
@@ -482,31 +483,21 @@ Contradictions constatées, non arbitrées — à lever, pas à recopier.
    tout public qui sert de la pub personnalisée (IDFA/AAID, SDK Meta, 58 réseaux
    SKAdNetwork) sans age gate relève de la Families policy de Google — c'est le risque de
    suspension le plus concret des trois, et il ne se règle pas dans App Store Connect.
-3. **`/app/*` répond 404** alors que c'est le `pathPrefix` de l'App Link Android et le
-   `components` de l'AASA iOS. Un téléphone sans l'app qui suit un tel lien tombe sur la 404.
-4. **`www.synapgeek.com` fait un 308 vers l'apex**, y compris sur `/.well-known/`, alors que
-   l'app Android publiée déclare ses App Links sur `www`. La vérification n'accepte aucune
-   redirection : tant que ce 308 est en place, `assetlinks.json` ne sera jamais lu, même
-   déployé. La redirection est configurée au niveau du domaine Vercel, pas dans le code.
-   Un correctif existe côté app — `cerebrum-android`, branche `fix/applinks-apex-host`
-   (commit `8f37cc7e`), fait passer le manifeste sur l'apex `synapgeek.com` — mais cette
-   branche n'est **ni mergée ni publiée** : tant qu'une version Play Store l'embarquant
-   n'est pas sortie, la vérification des App Links continue d'échouer.
-5. **Clause de juridiction des CGU** : `fr.ts` et `en.ts` (section droit applicable)
+3. **Clause de juridiction des CGU** : `fr.ts` et `en.ts` (section droit applicable)
    soumettent les litiges à « la compétence exclusive des tribunaux de Paris », alors que
    le siège social de Synapgeek SAS (mentions légales du même site, `/legal`) est à
    Frontenas (69620), pas à Paris. À faire trancher par un juriste avant de corriger.
-6. **Consent Mode avancé hors zone RGPD** : `ConsentBootstrap` pousse `analytics_storage:
+4. **Consent Mode avancé hors zone RGPD** : `ConsentBootstrap` pousse `analytics_storage:
    "granted"` par défaut à tout visiteur hors des 43 juridictions de `GDPR_REGIONS`, donc
    des signaux sans cookie partent vers Google avant tout choix explicite. Ce point n'a
    jamais été soumis à un avis juridique dédié pour synapgeek.com (réutilisation de
    mécanisme depuis Word Search Trove) — l'arbitrage doit être validé explicitement, pas
    seulement hérité.
-7. **Mesures améliorées GA4** : le défilement et les clics sortants (« enhanced
+5. **Mesures améliorées GA4** : le défilement et les clics sortants (« enhanced
    measurement ») sont activés par défaut côté admin GA4, indépendamment de ce dépôt — à
    vérifier dans l'admin GA4 que leur périmètre reste cohérent avec ce que la privacy
    policy documente comme collecté.
-8. **`GDPR_REGIONS` de Word Search Trove** : la liste de `src/lib/consent/regions.ts` vient
+6. **`GDPR_REGIONS` de Word Search Trove** : la liste de `src/lib/consent/regions.ts` vient
    d'être corrigée ici pour couvrir les territoires ultrapériphériques français à code ISO
    propre (GF, GP, MQ, RE, YT, MF) et Åland (AX) — jusque-là absents malgré une liste UE
    nominalement complète. La liste source dans Word Search Trove porte le même défaut et
