@@ -19,7 +19,7 @@ AdMob consent (UMP).
 - **Framework** : Next.js `16.1.6` (App Router, `src/`) — version épinglée exactement,
   comme `eslint-config-next`. React épinglé à `19.2.3`.
 - **Style** : Tailwind CSS 4.x (CSS-first, `@import "tailwindcss"` + `@theme inline {}`
-  dans `src/app/globals.css`, pas de `tailwind.config.js`). Ce fichier de 754 lignes EST
+  dans `src/app/globals.css`, pas de `tailwind.config.js`). Ce fichier de 1006 lignes EST
   le design system : tokens `--color-primary` (#58CC02), `--color-secondary` (#8549BA),
   `accent-blue/yellow/orange/coral/teal`, `text-primary/secondary/tertiary`, les 3
   variables de police, et des classes maison (`gradient-hero`, `gradient-cta`,
@@ -68,16 +68,17 @@ automatiques du repo. Tout le reste est humain ou passe par un sous-agent.
 - Pas de `any` TypeScript implicite
 - Composants React : functional components uniquement
 - Images : `next/image` obligatoire
-- Fonts : `next/font/google` — DM Sans (titres), Inter (corps), JetBrains Mono
+- Fonts : `next/font/google` — DM Sans (titres), Inter (corps). JetBrains Mono a été retirée.
 - Pages légales : générées en SSG, lisibles sans JavaScript. `LegalPage.formatText()`
   n'interprète que `**gras**` et les paragraphes séparés par `\n\n`, plus l'auto-lien des
   URLs et emails. Pas de listes, pas de titres `###`. Une URL suivie d'une virgule ou
   entre parenthèses est **tronquée** par la regex `[^\s),]+` — et rien ne le détecte :
   ni lint, ni build.
 - Aucun texte en dur dans les composants localisés : tout passe par `Dictionary`
-  (`src/content/fr.ts` + `en.ts` + `types.ts`). ⚠ Dette connue : **6 ternaires
-  `locale === "fr" ? … : …`** subsistent dans 2 fichiers (`Footer.tsx` ×5,
-  `[locale]/layout.tsx` ×1). `site-reviewer` refuse toute PR qui fait monter ce compte.
+  (`src/content/fr.ts` + `en.ts` + `types.ts`). ⚠ Dette connue : **1 ternaire
+  `locale === "fr" ? … : …`** subsiste, dans `[locale]/layout.tsx` (lien « aller au
+  contenu »). `Footer.tsx` a été assaini (ternaires remplacés par des clés `Dictionary`).
+  `site-reviewer` refuse toute PR qui fait monter ce compte.
 - Tout lien interne passe par `getLocalePath()`
 
 ## Structure des routes
@@ -91,7 +92,11 @@ Routes actives :
 /privacy               → Privacy Policy (FR)          /en/privacy
 /terms                 → CGU / EULA (FR)              /en/terms
 /legal                 → Mentions légales (FR)        /en/legal
-/play                  → Redirection QR → App Store / Play Store selon le User-Agent
+/play                  → Redirection QR → App Store / Play Store selon le User-Agent.
+                         Les paramètres entrants (`?src=…`) sont transmis à la cible mais
+                         ne peuvent jamais écraser un paramètre déjà présent dessus
+                         (`withIncomingParams` ignore toute clé déjà sur l'URL cible) —
+                         `?id=` ou `?ct=&pt=` ne peuvent donc plus détourner la destination
 /api/contact           → Formulaire de contact (POST) — reCAPTCHA v2
 /robots.txt            → src/app/robots.ts
 /sitemap.xml           → src/app/sitemap.ts (8 URLs, alternates hreflang)
@@ -137,9 +142,11 @@ Routes prévues (pas encore implémentées) : `/blog`, `/apps/[slug]`.
   `src/lib/seo.ts` (`getAlternates`), `src/lib/app.ts` (identité store)
 - ⚠ `/fr`, `/fr/privacy`, `/fr/terms`, `/fr/legal` répondent 200 et ne sont
   dédoublonnées que par le canonical. Ni redirigées, ni noindexées, ni sitemapées.
-- Un segment qui n'est pas une locale connue (`/wp-login.php`, `/llms.txt` : tout chemin
-  contenant un point échappe au proxy et atterrit dans `[locale]`) déclenche `notFound()`
-  dans `[locale]/layout.tsx` → vrai 404. **Jamais `dynamicParams = false`** pour ça.
+- Un segment qui n'est pas une locale connue (`/wp-login.php` : tout chemin contenant un
+  point échappe au proxy et atterrit dans `[locale]`) déclenche `notFound()` dans
+  `[locale]/layout.tsx` → vrai 404. **Jamais `dynamicParams = false`** pour ça. `/llms.txt`
+  n'illustre PAS ce cas : servi statiquement depuis `public/`, il répond avant même
+  d'atteindre le routing Next — jamais de `notFound()`.
 - `getLocalePath("en", "/")` renvoie `/en`, sans slash final : `/en/` répond 308.
 - Le sélecteur de langue du header ne rend ses liens qu'une fois ouvert — invisibles pour
   un crawler. Le lien permanent du footer (`dict.common.languageSwitch`) est ce qui relie
@@ -184,6 +191,11 @@ Routes prévues (pas encore implémentées) : `/blog`, `/apps/[slug]`.
 - Aucune `process.env` sans `NEXT_PUBLIC_` lue hors de `src/app/api/`
 - Footer sans mailto ; ⚠ mais `LegalPage.tsx` transforme toute adresse du contenu légal
   en `mailto:` — `contact@` et `privacy@` sont donc en clair sur `/privacy`, `/terms`, `/legal`
+- `vercel.json` pose `Cache-Control: public, max-age=604800, stale-while-revalidate=86400`
+  sur `/images/*`. Conséquence : remplacer une image sous ce même nom de fichier ne suffit
+  pas, l'ancienne version reste servie aux clients (CDN et navigateurs) jusqu'à 7 jours.
+  Pour changer une image, **renommer le fichier** (et mettre à jour ses références) ou
+  invalider le cache Vercel — jamais compter sur un simple écrasement.
 
 ## Assets (structure public/)
 
@@ -215,7 +227,7 @@ Les captures du slider sont **localisées** : `IPhoneSlider` compose le chemin e
 `cerebrum-design-system/marketing/AppleStoreConnect/release-2.0.0/raw-screenshot/iphone`
 (1320×2868, iPhone 16 Pro Max), converties en webp 800 px de large.
 
-`cerebrum-icon.png` a été recompressée (1,6 Mo → 459 Ko) sans changer de dimensions.
+`cerebrum-icon.png` a été réduite de 1024 px à 512 px (poids ≈ 459 Ko).
 
 Tout est en `.webp` sauf les logos (`.png`), l'OG image (`.jpeg`), l'icône Cerebrum
 (`.png`), les badges Google Play (`.png`) et les badges App Store (`.svg` — asset fourni
@@ -272,7 +284,7 @@ déclare 8, avec Pandoku et Minesweeper en plus — non publiés, ne pas les ann
 
 ### Fonctionnalités
 
-- Progression (étoiles, XP, ligue Bronze → Legend), monnaie virtuelle (pièces),
+- Progression (étoiles, XP, ligue Bronze → Legend), monnaie virtuelle (gemmes),
   collection d'avatars, classements par jeu
 - Mode hors-ligne local-first : **SwiftData** sur iOS, **Room + DataStore** sur Android,
   cache Firestore persistant par-dessus sur les deux
@@ -285,8 +297,8 @@ commentaire de `StoreProductIDs.swift` parle d'euros. **App Store Connect et la 
 font foi** : ne jamais citer ces prix dans du contenu publié sans les revérifier. La fiche
 Play affiche d'ailleurs « $0.99 - $22.99 per item », plafond sans équivalent ci-dessous.
 
-**Consommables** : 500 pièces 1,99 € · 1 500 pièces 4,99 € · 5 000 pièces 9,99 €
-**Non-consommables** : Starter Pack 300 pièces 0,99 € (un par utilisateur) ·
+**Consommables** : 500 gemmes 1,99 € · 1 500 gemmes 4,99 € · 5 000 gemmes 9,99 €
+**Non-consommables** : Starter Pack 300 gemmes 0,99 € (un par utilisateur) ·
 3 packs de thèmes Crossword/Word Search (cinema, food, travel) 2,99 € chacun
 **Abonnements Premium** : hebdomadaire 2,99 € · mensuel 4,99 € · annuel 19,99 €
 **Abonnements Sans publicité** (mensuel 2,99 €, annuel 14,99 €) : **legacy**,
@@ -325,7 +337,7 @@ Aucun produit « à vie » n'existe.
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Compte        | Firebase UID, email, nom, photo (selon provider)                                                                                                              |
 | Gameplay      | Scores, temps, indices, erreurs, étoiles, niveaux, difficulté                                                                                                 |
-| Progression   | Streaks, pièces, avatars, trophées, XP, ligue                                                                                                                 |
+| Progression   | Streaks, gemmes, avatars, trophées, XP, ligue                                                                                                                 |
 | Appareil      | Type, OS, langue, fuseau horaire, version de l'app, diagnostics                                                                                               |
 | Notifications | Token FCM, tokens ActivityKit (push-to-start, update), état d'activation — document Firestore `users/{uid}/devices/{deviceId}`, purgé par `deleteUserAccount` |
 | Publicité     | IDFA (ATT) / AAID (UMP en EEE/UK/Suisse), interactions pubs ; events de conversion Meta si consentement                                                       |
@@ -421,10 +433,19 @@ NEXT_PUBLIC_GA_MEASUREMENT_ID=****       # GA4 — chargé via ConsentBootstrap,
 
 En local dans `.env.local` (couvert par le `.env*` du `.gitignore`) ; il n'y a pas de
 `.env.example`. Toute variable ajoutée doit être configurée dans Vercel en **production ET
-preview**, et ajoutée ici.
+preview**, et ajoutée ici. Toute variable `NEXT_PUBLIC_*` est figée au **build** (inlinée
+dans le bundle) : la changer dans Vercel n'a d'effet qu'au prochain déploiement, jamais à
+chaud. Ne PAS configurer `NEXT_PUBLIC_GA_MEASUREMENT_ID` en preview avec l'ID de production
+— cela ferait remonter le trafic de preview dans les données GA4 de prod ; soit l'omettre en
+preview (GA4 ne charge alors pas, cf. `ConsentBootstrap`), soit y mettre une propriété GA4
+distincte.
 
 `REPLICATE_API_TOKEN` existe aussi mais sert uniquement au sous-agent `designer` pour la
 génération d'assets : local seulement, **rien à provisionner dans Vercel**.
+
+⚠ `WAITLIST_WEBHOOK_URL` est orpheline : plus aucune référence dans le code (route waitlist
+supprimée), mais elle peut subsister dans les variables d'environnement Vercel — à
+supprimer là-bas si elle y est encore.
 
 ## Événements GA4
 
@@ -463,10 +484,14 @@ Contradictions constatées, non arbitrées — à lever, pas à recopier.
    suspension le plus concret des trois, et il ne se règle pas dans App Store Connect.
 3. **`/app/*` répond 404** alors que c'est le `pathPrefix` de l'App Link Android et le
    `components` de l'AASA iOS. Un téléphone sans l'app qui suit un tel lien tombe sur la 404.
-4. **`www.synapgeek.com` fait un 308 vers l'apex**, y compris sur `/.well-known/`. La
-   vérification des App Links Android n'accepte aucune redirection : tant que ce 308 est
-   en place, `assetlinks.json` ne sera jamais lu, même déployé. La redirection est
-   configurée au niveau du domaine Vercel, pas dans le code.
+4. **`www.synapgeek.com` fait un 308 vers l'apex**, y compris sur `/.well-known/`, alors que
+   l'app Android publiée déclare ses App Links sur `www`. La vérification n'accepte aucune
+   redirection : tant que ce 308 est en place, `assetlinks.json` ne sera jamais lu, même
+   déployé. La redirection est configurée au niveau du domaine Vercel, pas dans le code.
+   Un correctif existe côté app — `cerebrum-android`, branche `fix/applinks-apex-host`
+   (commit `8f37cc7e`), fait passer le manifeste sur l'apex `synapgeek.com` — mais cette
+   branche n'est **ni mergée ni publiée** : tant qu'une version Play Store l'embarquant
+   n'est pas sortie, la vérification des App Links continue d'échouer.
 5. **Clause de juridiction des CGU** : `fr.ts` et `en.ts` (section droit applicable)
    soumettent les litiges à « la compétence exclusive des tribunaux de Paris », alors que
    le siège social de Synapgeek SAS (mentions légales du même site, `/legal`) est à

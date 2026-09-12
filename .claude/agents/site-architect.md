@@ -55,14 +55,16 @@ Le plan doit trancher ; vérifie SYSTÉMATIQUEMENT qu'il le fait :
 - **Frontière server/client et chaînes** : `"use client"` descend au plus bas
   et n'entre jamais dans `LegalPage.tsx` ni dans ce qu'elle importe
   (`ui/Badge`) — le texte légal reste dans le HTML servi ; état de référence :
-  `Header` (client) encadre déjà ces pages (`[locale]/layout.tsx:107`) sans
-  bloquer ce texte, et aucun composant client de plus ne s'intercale entre
-  layout et contenu légal ; toute chaîne NOUVELLE passe par `Dictionary`
-  (`fr.ts` + `en.ts` + `src/content/types.ts`) et tout lien interne par
-  `getLocalePath()` — un plan qui branche du texte sur un ternaire
-  `locale === "fr" ?` plutôt que sur le dictionnaire creuse une dette déjà
-  présente dans `Footer.tsx` et `[locale]/layout.tsx` (6 occurrences actuelles,
-  ne pas en ajouter) ; tout JSON-LD nouveau ou modifié passe par un builder de
+  `Header` (composant serveur, `[locale]/layout.tsx`) résout les libellés dans
+  le dictionnaire puis délègue l'interactivité à `HeaderShell` (client) —
+  seul `HeaderShell` encadre ces pages, et aucun composant client de plus ne
+  s'intercale entre layout et contenu légal ; toute chaîne NOUVELLE passe par
+  `Dictionary` (`fr.ts` + `en.ts` + `src/content/types.ts`) et tout lien
+  interne par `getLocalePath()` — un plan qui branche du texte sur un
+  ternaire `locale === "fr" ?` plutôt que sur le dictionnaire creuse une
+  dette déjà présente dans `[locale]/layout.tsx` (1 occurrence actuelle, lien
+  « aller au contenu » — `Footer.tsx` a été assaini, ne pas en ajouter
+  ailleurs) ; tout JSON-LD nouveau ou modifié passe par un builder de
   `src/lib/structured-data.ts` — seule source du schema.org du site — jamais
   construit inline dans une page ou un composant ; une FAQ visible doit avoir
   son JSON-LD `FAQPage` reprenant mot pour mot le texte affiché (même tableau
@@ -92,10 +94,6 @@ Le plan doit trancher ; vérifie SYSTÉMATIQUEMENT qu'il le fait :
   même niveau visuel (pas de refus relégué). Toute intégration tierce dit
   quel header de `vercel.json` elle force à assouplir (X-Frame-Options,
   Permissions-Policy).
-
-Si le plan touche `src/content/*.ts` ou un tag Google, rappelle l'écart actif
-(manifeste iOS `NSPrivacyCollectedDataTypeCoarseLocation` contre une policy
-qui nie toute géolocalisation) : signale, n'arbitre pas.
 
 Rends : verdict **GO / GO-avec-réserves / NO-GO**, puis les risques par
 sévérité (bloquant / important / mineur) ; pour chaque réserve, cite la règle
