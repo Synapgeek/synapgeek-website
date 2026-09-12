@@ -8,6 +8,10 @@ const en: Dictionary = {
       home: "Home",
       privacy: "Privacy",
       terms: "Terms",
+      features: "Games",
+      about: "About",
+      faq: "FAQ",
+      contact: "Contact",
     },
     footer: {
       copyright: `© ${new Date().getFullYear()} Synapgeek. All rights reserved.`,
@@ -20,11 +24,16 @@ const en: Dictionary = {
     languageSwitchLocale: "fr",
   },
   landing: {
+    meta: {
+      title: "Cerebrum: Offline Puzzle Games, No Wi-Fi Needed | Synapgeek",
+      description:
+        "Play Sudoku, Crossword, Word Search, Cross Math, Trace and Maze offline in one app. Cerebrum is free on iPhone, iPad and Android. Download it today.",
+    },
     hero: {
       badge: "Now on iOS and Android",
       title: "Train your brain, one puzzle at a time",
       subtitle:
-        "Cerebrum brings Sudoku, Crossword, Word Search, Cross Math, Trace, and Maze into one beautifully crafted app designed to challenge your mind every single day.",
+        "Cerebrum brings Sudoku, Crossword, Word Search, Cross Math, Trace, and Maze into one app you can play offline, no Wi-Fi needed, to challenge your mind every single day.",
       cta: "Download Cerebrum",
       ctaSecondary: "Learn more",
       store: {
@@ -56,7 +65,7 @@ const en: Dictionary = {
           id: "crossword",
           title: "Crossword",
           description:
-            "Expand your vocabulary and general knowledge. Original grids, updated regularly.",
+            "Expand your vocabulary and general knowledge. Grids in English and French.",
         },
         {
           id: "wordsearch",
@@ -80,27 +89,90 @@ const en: Dictionary = {
           id: "maze",
           title: "Maze",
           description:
-            "Free roaming and a sense of direction. Guide your firefly to the exit, collecting gems and magic bubbles along the way.",
+            "Free roaming and a sense of direction. Guide your firefly to the exit, collecting crystals along the way.",
         },
       ],
     },
     about: {
       title: "Built by enthusiasts",
       description:
-        "Synapgeek is a French indie studio passionate about mobile games. We believe the best games combine elegance, challenge, and pure enjoyment.",
+        "Synapgeek is the independent French studio that designs and publishes Cerebrum, available on the App Store and Google Play. We believe the best games combine elegance, challenge, and pure enjoyment.",
       values: [
         {
-          title: "Quality over quantity",
+          title: "Solver-checked puzzles",
           description:
-            "Every puzzle is handcrafted with care. No mass-generated content.",
+            "Our puzzles are generated with our own tools, then automatically checked by solvers before they reach the app.",
         },
         {
-          title: "Privacy first",
-          description: "Your data belongs to you. No invasive tracking.",
+          title: "Your data, your choice",
+          description:
+            "On iPhone and iPad, no ad tracking without your permission; in the EEA, the UK and Switzerland, you are asked for consent before any personalized ads. You can delete your account from the app at any time.",
         },
         {
           title: "Made in France",
-          description: "Designed and built in Paris with passion.",
+          description:
+            "Designed and developed in France by Synapgeek, an independent studio.",
+        },
+      ],
+    },
+    faq: {
+      title: "Cerebrum FAQ",
+      subtitle:
+        "Pricing, offline play, supported devices, accounts: what you need to know before downloading the app.",
+      items: [
+        {
+          question: "What games are in Cerebrum?",
+          answer:
+            "Cerebrum is a puzzle game app with six games in one: Sudoku, Crossword, Word Search, Cross Math, Trace and Maze. It offers several difficulty levels per game, daily challenges and level-by-level progression.",
+        },
+        {
+          question: "Is Cerebrum free?",
+          answer:
+            "Yes, Cerebrum is free to download and play on the App Store and Google Play. It offers optional in-app purchases (virtual currency, themed Crossword and Word Search packs) and a Premium subscription, with prices shown in the app that vary by country.",
+        },
+        {
+          question: "Does Cerebrum have ads, and how do I remove them?",
+          answer:
+            "The free version of Cerebrum shows banner ads, interstitial ads and rewarded ads, which you choose to watch in exchange for a bonus. A weekly, monthly or yearly Premium subscription removes forced ads, while rewarded ads stay available if you want them.",
+        },
+        {
+          question: "Can I play Cerebrum offline, without Wi-Fi?",
+          answer:
+            "Yes, every Cerebrum game, daily challenges included, works without an internet connection: the puzzles are built into the app and your progress is saved on your device. You still need a connection to sync your progress, view leaderboards, make a purchase, sign in to an account and load ads.",
+        },
+        {
+          question: "Which devices does Cerebrum run on?",
+          answer:
+            "Cerebrum is available for iPhone and iPad (iOS 17 or later) on the App Store, and for Android devices (Android 8.0 or later) on Google Play. The app is played in portrait mode.",
+        },
+        {
+          question: "Do I need an account to play Cerebrum?",
+          answer:
+            "No, you can play Cerebrum without creating an account: an anonymous session starts automatically the first time you open the app. You can sign in with Apple, Google or Facebook later if you wish.",
+        },
+        {
+          question: "Does Cerebrum sync my progress across devices?",
+          answer:
+            "Yes, once you sign in to Cerebrum with an Apple, Google or Facebook account: your progress is saved online and follows you to your other devices signed in to the same account. Without a signed-in account, progress stays tied to the device and cannot be recovered if you switch devices.",
+        },
+        {
+          question: "What languages is Cerebrum available in?",
+          answer:
+            "Cerebrum is available in English and French, on both iOS and Android. Crossword and Word Search offer grids in both languages.",
+        },
+        {
+          question: "How do I delete my Cerebrum account?",
+          answer:
+            "In Cerebrum, open Profile and tap Delete Account: once you confirm, your account and its data (progress, achievements, streak history, synced data) are deleted. If you can no longer access the app, the steps to follow are described in our privacy policy.",
+          link: {
+            text: "our privacy policy",
+            path: "/privacy#account-deletion",
+          },
+        },
+        {
+          question: "Who makes Cerebrum?",
+          answer:
+            "Cerebrum is published by Synapgeek SAS, an independent French mobile game studio based in Frontenas, France. For any question about the app, the contact form on synapgeek.com also serves as customer support.",
         },
       ],
     },
@@ -143,7 +215,8 @@ const en: Dictionary = {
   },
   privacy: {
     title: "Privacy Policy",
-    lastUpdated: "Last updated: July 22, 2026",
+    lastUpdated: "Last updated: September 12, 2026",
+    updatedAt: "2026-09-12",
     sections: [
       {
         title: "Who we are",
@@ -153,7 +226,7 @@ const en: Dictionary = {
       {
         title: "Data collected and sources",
         content:
-          'We collect the following categories of data:\n\n**Account data**\nIf you create an account via Apple, Google, or Facebook: unique identifier, email address, display name, and profile photo (depending on the provider). You may also use the App without an account (anonymous mode).\n\n**Gameplay and progression data**\nScores, completion times, hints used, mistakes, stars earned, levels completed, difficulty level, attempts, best records, daily challenges, play streaks.\n\n**Virtual currency and customization data**\nCoin balance, in-app transaction history, unlocked avatars, monthly trophies, experience points (XP), league/ranking.\n\n**Device and usage data**\nDevice type, operating system version, language, anonymized usage data, diagnostics, error logs, app performance data.\n\n**Advertising data**\nAdvertising identifier (IDFA on iOS, with your consent via App Tracking Transparency; AAID on Android, see "Advertising and tracking technologies"), ad interactions, conversion events, attribution data via SKAdNetwork on iOS.\n\n**Transaction data**\nIn-app purchase and subscription history, processed by Apple via StoreKit 2 on iOS and by Google Play Billing on Android. Synapgeek does not collect or store your payment information.\n\n**Data we do NOT collect**\nWe do not collect any geolocation, health, contacts, photos, camera, calendar, or microphone data.',
+          'We collect the following categories of data:\n\n**Account data**\nIf you create an account via Apple, Google, or Facebook: unique identifier, email address, display name, and profile photo (depending on the provider). You may also use the App without an account (anonymous mode).\n\n**Gameplay and progression data**\nScores, completion times, hints used, mistakes, stars earned, levels completed, difficulty level, attempts, best records, daily challenges, play streaks.\n\n**Virtual currency and customization data**\nGem balance, in-app transaction history, unlocked avatars, monthly trophies, experience points (XP), league/ranking.\n\n**Device and usage data**\nDevice type, operating system version, language, anonymized usage data, diagnostics, error logs, app performance data.\n\n**Notification data**\nTo send you notifications and update Live Activities on iOS, we associate the following with your device: your FCM (Firebase Cloud Messaging) token, ActivityKit tokens (push-to-start and Live Activity updates) on iOS, your time zone, language, App version, Live Activities activation status, and platform (iOS or Android). On Android, this feature relies on the notification permission and Firebase Cloud Messaging. This data is deleted along with your account.\n\n**Advertising data**\nAdvertising identifier (IDFA on iOS, with your consent via App Tracking Transparency; AAID on Android, see "Advertising and tracking technologies"), ad interactions, conversion events, attribution data via SKAdNetwork on iOS. Our advertising partner (Google AdMob) also derives an approximate location from your IP address for ad targeting purposes, and our consent management platform (CMP) uses this approximate location to determine whether you are located in the European Economic Area, the United Kingdom, or Switzerland.\n\n**Transaction data**\nIn-app purchase and subscription history, processed by Apple via StoreKit 2 on iOS and by Google Play Billing on Android. Synapgeek does not collect or store your payment information.\n\n**Data we do NOT collect**\nThe App never requests access to your location and does not use any GPS data. An approximate location is, however, derived from your IP address by our advertising partner, as described under "Advertising data" above and "Advertising and tracking technologies" below. We do not otherwise collect any health, contacts, photos, camera, calendar, or microphone data.',
       },
       {
         title: "Legal basis for processing",
@@ -168,12 +241,12 @@ const en: Dictionary = {
       {
         title: "Advertising and tracking technologies",
         content:
-          "The App displays advertisements served by Google AdMob. Users with an ad-free subscription or purchase do not see advertisements.\n\n**Advertising consent (EEA/UK/Switzerland)**\nFor users located in the European Economic Area, the United Kingdom, and Switzerland, a Consent Management Platform (CMP) is displayed at first launch. You can change your preferences at any time through the App's privacy settings.\n\n**App Tracking Transparency (ATT)**\nOn iOS 14.5 and later, the App requests your permission before accessing your advertising identifier (IDFA). If you decline, only contextual (non-personalized) ads are displayed. Declining tracking does not affect any App functionality.\n\n**Android advertising identifier (AAID)**\nOn Android, the App may access your Google Advertising ID (AAID) to display personalized ads — subject, for users in the EEA, the United Kingdom, and Switzerland, to the consent collected through the consent management platform described above. You can reset this identifier or opt out of personalization entirely at any time from your device settings (see \"Opting out of personalized ads\" below). Declining does not affect any App functionality.\n\n**SKAdNetwork (iOS only)**\nOn iOS, the App uses Apple's SKAdNetwork framework for advertising attribution. This mechanism does not allow you to be personally identified.\n\n**Opting out of personalized ads**\nYou can disable personalized ads at any time via:\n- Privacy settings within the App\n- iOS Settings > Privacy & Security > Tracking\n- Android Settings > Google > Ads\n- Purchasing an ad-free subscription or lifetime purchase",
+          'The App displays advertisements served by Google AdMob. Users with a Premium subscription, or a legacy "Ad-Free" subscription, do not see forced advertisements (banners and interstitials); rewarded ads remain available if they choose to watch them.\n\n**Advertising consent (EEA/UK/Switzerland)**\nFor users located in the European Economic Area, the United Kingdom, and Switzerland, a Consent Management Platform (CMP) is displayed at first launch. You can change your preferences at any time through the App\'s privacy settings.\n\n**App Tracking Transparency (ATT)**\nOn iOS 14.5 and later, the App requests your permission before accessing your advertising identifier (IDFA). If you decline, only contextual (non-personalized) ads are displayed. Declining tracking does not affect any App functionality.\n\n**Android advertising identifier (AAID)**\nOn Android, the App may access your Google Advertising ID (AAID) to display personalized ads — subject, for users in the EEA, the United Kingdom, and Switzerland, to the consent collected through the consent management platform described above. You can reset this identifier or opt out of personalization entirely at any time from your device settings (see "Opting out of personalized ads" below). Declining does not affect any App functionality.\n\n**SKAdNetwork (iOS only)**\nOn iOS, the App uses Apple\'s SKAdNetwork framework for advertising attribution. This mechanism does not allow you to be personally identified.\n\n**Opting out of personalized ads**\nYou can disable personalized ads at any time via:\n- Privacy settings within the App\n- iOS Settings > Privacy & Security > Tracking\n- Android Settings > Google > Ads\n- Subscribing to a Premium plan (see the Terms of Use)',
       },
       {
         title: "Third-party sharing",
         content:
-          "Your data may be shared with the following technical partners, strictly for the purposes described above:\n\n- **Google (Firebase Analytics, Firebase Crashlytics, Firebase Performance, Firebase Firestore, Firebase Auth, AdMob, Google Play Billing, Google Sign-In)** — for analytics, data storage, authentication, monitoring, advertising, and in-app purchases on Android. Privacy Policy: https://policies.google.com/privacy\n- **Apple (Sign in with Apple; StoreKit 2 and SKAdNetwork on iOS)** — for authentication on iOS and Android, and for in-app purchases and advertising attribution on iOS. Privacy Policy: https://www.apple.com/legal/privacy/\n- **Meta (Facebook SDK)** — for authentication via Facebook and, subject to your advertising consent, conversion measurement (purchase, account creation, first completed puzzle). Privacy Policy: https://www.facebook.com/privacy/policy/\n\nWe do not sell your personal data. We do not share your data with third-party artificial intelligence systems for model training purposes.",
+          "Your data may be shared with the following technical partners, strictly for the purposes described above:\n\n- **Google (Firebase Analytics, Firebase Crashlytics, Firebase Performance, Firebase Firestore, Firebase Auth, Firebase Cloud Messaging, AdMob, Google Play Billing, Google Sign-In)** — for analytics, data storage, authentication, monitoring, notifications, advertising, and in-app purchases on Android. Privacy Policy: https://policies.google.com/privacy\n- **Apple (Sign in with Apple; StoreKit 2 and SKAdNetwork on iOS)** — for authentication on iOS and Android, and for in-app purchases and advertising attribution on iOS. Privacy Policy: https://www.apple.com/legal/privacy/\n- **Meta (Facebook SDK)** — for authentication via Facebook and, subject to your advertising consent, conversion measurement (App launch, purchase, account creation, first completed puzzle). Privacy Policy: https://www.facebook.com/privacy/policy/\n\nWe do not sell your personal data. We do not share your data with third-party artificial intelligence systems for model training purposes.",
       },
       {
         title: "International data transfers",
@@ -220,7 +293,8 @@ const en: Dictionary = {
   },
   terms: {
     title: "Terms of Use",
-    lastUpdated: "Last updated: July 22, 2026",
+    lastUpdated: "Last updated: September 12, 2026",
+    updatedAt: "2026-09-12",
     sections: [
       {
         title: "Acceptance of terms",
@@ -230,7 +304,7 @@ const en: Dictionary = {
       {
         title: "Service description",
         content:
-          "Synapgeek develops and distributes mobile puzzle game applications. Cerebrum is a mobile application for iOS and Android, featuring four puzzle games: Sudoku, Crosswords, Word Search, and Cross Math.\n\nThe App includes:\n- Hundreds of puzzles across multiple difficulty levels\n- A progression system with stars, XP, and leaderboards\n- Daily challenges and play streaks\n- A virtual currency system (coins) and avatars\n- Optional in-app purchases and subscriptions\n- An ad-supported and ad-free mode",
+          "Synapgeek develops and distributes mobile puzzle game applications. Cerebrum is a mobile application for iOS and Android, featuring six puzzle games: Sudoku, Crossword, Word Search, Cross Math, Trace, and Maze.\n\nThe App includes:\n- Hundreds of puzzles across multiple difficulty levels\n- A progression system with stars, XP, and leaderboards\n- Daily challenges and play streaks\n- A virtual currency system (gems) and avatars\n- Optional in-app purchases and subscriptions\n- An ad-supported and ad-free mode",
       },
       {
         title: "License to use",
@@ -245,17 +319,17 @@ const en: Dictionary = {
       {
         title: "In-app purchases and subscriptions",
         content:
-          'The App offers optional in-app purchases and subscriptions. All purchases are processed exclusively by your platform\'s app store: Apple (StoreKit 2) on iOS, Google (Google Play Billing) on Android.\n\n**Consumable purchases**\nCoin packs (virtual currency) may be purchased. Coins can be used within the App to unlock hints, avatars, and other features.\n\n**Non-consumable purchases**\nSome purchases are permanent, such as the "Lifetime Ad-Free" or "Lifetime Premium" plans.\n\n**Subscriptions**\nMonthly and annual subscriptions are available (Ad-Free, Premium). Subscriptions auto-renew unless cancelled at least 24 hours before the end of the current period. Subscription management and cancellation are done through your Apple account settings on iOS, or through Google Play > Payments & subscriptions on Android.\n\n**Refunds**\nPurchases are subject to the refund policy of the relevant platform. To request a refund, contact Apple at https://reportaproblem.apple.com (iOS) or Google Play at https://support.google.com/googleplay/answer/2479637 (Android).\n\nPrices are displayed in the App before any purchase and may vary by country.',
+          'The App offers optional in-app purchases and subscriptions. All purchases are processed exclusively by your platform\'s app store: Apple (StoreKit 2) on iOS, Google (Google Play Billing) on Android.\n\n**Consumable purchases**\nGem packs (virtual currency) may be purchased. Gems can be used within the App to unlock hints, avatars, and other features.\n\n**Non-consumable purchases**\nSome purchases are permanent: themed Crossword and Word Search packs (Movies, Cooking, Travel) and a one-time gem starter pack, available once per user.\n\n**Subscriptions**\nA Premium subscription is available on a weekly, monthly, or annual basis. Subscriptions auto-renew unless cancelled at least 24 hours before the end of the current period. Some users hold a legacy "Ad-Free" subscription purchased before it was discontinued: it remains valid until its term or cancellation, but is no longer available for purchase. Subscription management and cancellation are done through your Apple account settings on iOS, or through Google Play > Payments & subscriptions on Android.\n\n**Refunds**\nPurchases are subject to the refund policy of the relevant platform. To request a refund, contact Apple at https://reportaproblem.apple.com (iOS) or Google Play at https://support.google.com/googleplay/answer/2479637 (Android).\n\nPrices are displayed in the App before any purchase and may vary by country.',
       },
       {
         title: "Virtual goods",
         content:
-          "The App contains virtual goods, including coins (virtual currency), avatars, trophies, and experience points (XP).\n\nVirtual goods:\n- Have no monetary value outside the App\n- Are non-transferable, non-exchangeable, and non-refundable (except where required by law)\n- May be earned through gameplay, watching advertisements, or in-app purchases\n- Are tied to your account and cannot be transferred to another user\n\nSynapgeek reserves the right to modify the pricing, availability, or functionality of virtual goods at any time.",
+          "The App contains virtual goods, including gems (virtual currency), avatars, trophies, and experience points (XP).\n\nVirtual goods:\n- Have no monetary value outside the App\n- Are non-transferable, non-exchangeable, and non-refundable (except where required by law)\n- May be earned through gameplay, watching advertisements, or in-app purchases\n- Are tied to your account and cannot be transferred to another user\n\nSynapgeek reserves the right to modify the pricing, availability, or functionality of virtual goods at any time.",
       },
       {
         title: "Advertisements",
         content:
-          "The App displays advertisements served by Google AdMob. Advertisements may include banners, interstitials, rewarded ads (which you choose to watch), and app-open ads.\n\nYou can remove advertisements by subscribing to an ad-free plan or making the lifetime ad-free purchase. Rewarded ads remain optionally accessible even for ad-free users.",
+          'The App displays advertisements served by Google AdMob. Advertisements include banners, interstitials, and rewarded ads (which you choose to watch).\n\nYou can remove forced advertisements (banners and interstitials) by subscribing to a Premium plan. Rewarded ads remain optionally accessible even with an active subscription. Users who still hold a legacy "Ad-Free" subscription purchased before it was discontinued also continue to see no forced advertisements.',
       },
       {
         title: "Intellectual property",
@@ -275,7 +349,7 @@ const en: Dictionary = {
       {
         title: "Termination and account deletion",
         content:
-          "You may stop using the App at any time by uninstalling it.\n\nYou may delete your account at any time via Profile > Delete Account in the App. Deletion is irreversible and results in the permanent loss of all your data: progression, coins, avatars, trophies, and leaderboard rankings.\n\nSynapgeek reserves the right to terminate or suspend your access in the event of a violation of these Terms.\n\nThe sections relating to intellectual property, limitation of liability, and governing law shall survive any termination.",
+          "You may stop using the App at any time by uninstalling it.\n\nYou may delete your account at any time via Profile > Delete Account in the App. Deletion is irreversible and results in the permanent loss of all your data: progression, gems, avatars, trophies, and leaderboard rankings.\n\nSynapgeek reserves the right to terminate or suspend your access in the event of a violation of these Terms.\n\nThe sections relating to intellectual property, limitation of liability, and governing law shall survive any termination.",
       },
       {
         title: "Notice for Apple device users",
@@ -302,6 +376,7 @@ const en: Dictionary = {
   legal: {
     title: "Legal Notice",
     lastUpdated: "Last updated: June 4, 2026",
+    updatedAt: "2026-06-04",
     sections: [
       {
         title: "Publisher",
