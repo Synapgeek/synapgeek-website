@@ -57,9 +57,18 @@ export interface Dictionary {
       terms: string;
       legalNotice: string;
       contact: string;
-      /** Lien de retrait/modification du consentement Google Analytics, affiché
-       * uniquement quand la plateforme de consentement est active. */
+      /** Lien de retrait/modification du consentement Google Analytics, toujours affiché — rouvre `ConsentBanner`. */
       manageCookies: string;
+    };
+    /** Bandeau de consentement maison (`ConsentBanner`). Une seule finalité (mesure d'audience) : pas de bouton "Personnaliser". */
+    consent: {
+      title: string;
+      /** 2 phrases maximum : mesure d'audience + absence de publicité. */
+      body: string;
+      /** Libellé du lien vers `/privacy#website`. */
+      learnMore: string;
+      accept: string;
+      refuse: string;
     };
     languageSwitch: string;
     languageSwitchLocale: Locale;

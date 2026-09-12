@@ -83,14 +83,19 @@ Le plan doit trancher ; vérifie SYSTÉMATIQUEMENT qu'il le fait :
 - **Conformité et tiers** : NO-GO d'emblée sur une vente de contenu digital ou
   un lien de paiement externe vers du consommable in-app (Apple 3.1.1 : les
   seuls liens commerciaux autorisés sont les fiches App Store et Google Play
-  de `src/lib/app.ts`), comme sur un tag Google tant que rien ne gate le
-  consentement ; toute intégration tierce dit quel header de `vercel.json`
-  elle force à assouplir (X-Frame-Options, Permissions-Policy).
+  de `src/lib/app.ts`), comme sur tout nouveau tag ou cookie Google ajouté
+  hors du mécanisme de consentement existant (`src/lib/consent/`,
+  `src/components/consent/`) — jamais un `<script>` ou un appel `gtag` posé
+  ailleurs. Les trois signaux publicitaires (`ad_storage`, `ad_user_data`,
+  `ad_personalization`) restent `denied` INCONDITIONNELLEMENT, jamais
+  accordés par `ConsentBanner` ; `ConsentBanner` affiche Accepter/Refuser au
+  même niveau visuel (pas de refus relégué). Toute intégration tierce dit
+  quel header de `vercel.json` elle force à assouplir (X-Frame-Options,
+  Permissions-Policy).
 
-Si le plan touche `src/content/*.ts` ou un tag Google, rappelle les deux écarts
-actifs (manifeste iOS `NSPrivacyCollectedDataTypeCoarseLocation` contre une
-policy qui nie toute géolocalisation ; GA4 chargé sans CMP) : signale, n'arbitre
-pas.
+Si le plan touche `src/content/*.ts` ou un tag Google, rappelle l'écart actif
+(manifeste iOS `NSPrivacyCollectedDataTypeCoarseLocation` contre une policy
+qui nie toute géolocalisation) : signale, n'arbitre pas.
 
 Rends : verdict **GO / GO-avec-réserves / NO-GO**, puis les risques par
 sévérité (bloquant / important / mineur) ; pour chaque réserve, cite la règle

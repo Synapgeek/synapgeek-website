@@ -4,12 +4,13 @@ import { useEffect, useState, type ComponentType } from "react";
 
 /**
  * AnalyticsGate — frontière client intermédiaire entre `ConsentBootstrap`
- * (Server Component) et `AnalyticsLoader` (Client Component, qui embarque le
- * pont TCF). Un Server Component qui importe statiquement un Client
- * Component ne bénéficie d'aucun code-splitting automatique (documentation
- * Next) : sans cette frontière, le code du pont TCF finirait dans le chunk
- * partagé chargé sur CHAQUE route, y compris si `NEXT_PUBLIC_
- * FUNDING_CHOICES_ID` n'est jamais renseignée.
+ * (Server Component) et `AnalyticsLoader` (Client Component). Un Server
+ * Component qui importe statiquement un Client Component monté dans un
+ * layout partagé par toutes les routes voit ce chunk préchargé sur CHAQUE
+ * route, même quand un test d'exécution (`gaId &&`) l'empêcherait de
+ * s'afficher : sans cette frontière, le code de chargement de gtag.js
+ * finirait référencé partout, y compris si `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+ * n'est jamais renseignée.
  *
  * L'`import()` natif ci-dessous, dans un `useEffect`, obtient le même
  * découpage en chunk qu'un `next/dynamic` sans en payer la couche

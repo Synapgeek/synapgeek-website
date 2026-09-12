@@ -32,13 +32,20 @@ AdMob consent (UMP).
 - **Captcha** : Google reCAPTCHA v2 (sur `/api/contact` uniquement)
 - **Analytics** : Vercel Analytics + Vercel Speed Insights (sans cookie) + **Google
   Analytics 4** derrière **Consent Mode v2 régionalisé** (`src/lib/consent/`,
-  `src/components/consent/`, montés par `ConsentBootstrap` dans
-  `src/app/[locale]/layout.tsx`) — accordé par défaut hors UE/EEE/Royaume-Uni/Suisse,
-  refusé dedans tant qu'aucun accord explicite n'existe. GA4 (`gtag/js`, `strategy=
-"lazyOnload"`) se charge dès que `NEXT_PUBLIC_GA_MEASUREMENT_ID` existe, indépendamment
-  d'une CMP. La CMP (Google Funding Choices) ne charge que si
-  `NEXT_PUBLIC_FUNDING_CHOICES_ID` existe — absente aujourd'hui. Réutilisation de
-  MÉCANISME depuis Word Search Trove (skill `synapgeek-portfolio-rules` règle 8).
+  `src/components/consent/`, montés dans `src/app/[locale]/layout.tsx`). Seul
+  `analytics_storage` varie : `granted` par défaut hors UE/EEE/Royaume-Uni/Suisse, `denied`
+  dedans tant qu'aucun choix explicite n'existe. Les trois signaux publicitaires
+  (`ad_storage`, `ad_user_data`, `ad_personalization`) restent **`denied` partout,
+  toujours** — ce site n'affiche aucune publicité, `ConsentBanner` ne les accorde jamais.
+  GA4 (`gtag/js`, `strategy="lazyOnload"`) charge dès que `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+  existe (`ConsentBootstrap`), avec `cookie_expires: 34128000` (13 mois) et
+  `cookie_update: false` (pas de prolongation glissante à chaque visite) posés dans le
+  script inline de défauts pour garantir que la commande `config` précède tout
+  `trackEvent`. Bandeau de consentement **maison** (`ConsentBanner`, pas de CMP tierce —
+  Google Funding Choices abandonné, il exige un compte AdSense/Ad Manager que ce site n'a
+  pas) : Accepter/Refuser au même niveau, choix stocké 6 mois dans `localStorage` (clé
+  `sg-consent`, jamais un cookie), rouvrable via « Gérer mes cookies » dans le pied de page
+  (`ReopenConsentLink`, toujours affiché).
 - **Déploiement** : Vercel — un merge sur `main` publie en production. Tout passe par
   branche + PR. **Ne jamais merger ni promouvoir sans accord explicite d'Adrien.**
 - **Langues** : Français (défaut) + Anglais (i18n maison via `src/content/`, pas de `next-intl`)
@@ -408,12 +415,7 @@ CONTACT_EMAIL=contact@synapgeek.com      # Destinataire du formulaire de contact
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY=****      # reCAPTCHA v2 site key
 RECAPTCHA_SECRET_KEY=****                # reCAPTCHA v2 secret key
 NEXT_PUBLIC_GA_MEASUREMENT_ID=****       # GA4 — chargé via ConsentBootstrap, derrière Consent Mode v2
-NEXT_PUBLIC_FUNDING_CHOICES_ID=****      # ID publisher AdSense (ca-pub-…) de la CMP Google Funding
-                                          # Choices. ABSENTE aujourd'hui : sans elle, aucune CMP ne
-                                          # charge, le lien « Gérer mes cookies » du footer ne
-                                          # s'affiche pas, et le consentement reste régi uniquement
-                                          # par les défauts Consent Mode v2 régionalisés (accordé hors
-                                          # UE/EEE/Royaume-Uni/Suisse, refusé dedans). Voir
+                                          # et le bandeau maison ConsentBanner. Voir
                                           # src/lib/consent/ et src/components/consent/.
 ```
 
@@ -469,6 +471,21 @@ Contradictions constatées, non arbitrées — à lever, pas à recopier.
    soumettent les litiges à « la compétence exclusive des tribunaux de Paris », alors que
    le siège social de Synapgeek SAS (mentions légales du même site, `/legal`) est à
    Frontenas (69620), pas à Paris. À faire trancher par un juriste avant de corriger.
+6. **Consent Mode avancé hors zone RGPD** : `ConsentBootstrap` pousse `analytics_storage:
+   "granted"` par défaut à tout visiteur hors des 43 juridictions de `GDPR_REGIONS`, donc
+   des signaux sans cookie partent vers Google avant tout choix explicite. Ce point n'a
+   jamais été soumis à un avis juridique dédié pour synapgeek.com (réutilisation de
+   mécanisme depuis Word Search Trove) — l'arbitrage doit être validé explicitement, pas
+   seulement hérité.
+7. **Mesures améliorées GA4** : le défilement et les clics sortants (« enhanced
+   measurement ») sont activés par défaut côté admin GA4, indépendamment de ce dépôt — à
+   vérifier dans l'admin GA4 que leur périmètre reste cohérent avec ce que la privacy
+   policy documente comme collecté.
+8. **`GDPR_REGIONS` de Word Search Trove** : la liste de `src/lib/consent/regions.ts` vient
+   d'être corrigée ici pour couvrir les territoires ultrapériphériques français à code ISO
+   propre (GF, GP, MQ, RE, YT, MF) et Åland (AX) — jusque-là absents malgré une liste UE
+   nominalement complète. La liste source dans Word Search Trove porte le même défaut et
+   n'a pas encore été corrigée.
 
 ---
 

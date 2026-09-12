@@ -4,7 +4,6 @@ import type { Locale } from "@/lib/i18n";
 import { getLocalePath } from "@/lib/i18n";
 import type { Dictionary } from "@/content";
 import { APP_STORE_URL, GOOGLE_PLAY_URL } from "@/lib/app";
-import { hasConfiguredConsentScreen } from "@/lib/consent/env";
 import { ReopenConsentLink } from "@/components/consent/ReopenConsentLink";
 
 export function Footer({
@@ -14,10 +13,6 @@ export function Footer({
   locale: Locale;
   dict: Dictionary["common"];
 }) {
-  // Rendu seulement quand la CMP Google (Funding Choices) est configurée —
-  // sinon rien n'écoute jamais ce bouton (voir ReopenConsentLink).
-  const showManageCookies = hasConfiguredConsentScreen();
-
   return (
     <footer className="bg-[#1A1A2E] text-white">
       <div className="mx-auto max-w-6xl px-6 py-16">
@@ -104,11 +99,9 @@ export function Footer({
                   {dict.footer.legalNotice}
                 </Link>
               </li>
-              {showManageCookies && (
-                <li>
-                  <ReopenConsentLink label={dict.footer.manageCookies} />
-                </li>
-              )}
+              <li>
+                <ReopenConsentLink label={dict.footer.manageCookies} />
+              </li>
             </ul>
           </div>
 

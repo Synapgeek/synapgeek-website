@@ -69,9 +69,18 @@ Checklist non-négociable (chaque point vérifié explicitement) :
    aucun objet schema.org construit ailleurs) ; le `FAQPage` de la landing
    reprend mot pour mot le texte visible de la FAQ, jamais un texte dupliqué
    ou divergent.
-7. **Consentement** : aucun tag ni cookie Google ajouté tant qu'aucun gate de
-   consentement n'existe (`grep -rn consent src/` ne rend que du contenu
-   légal ; GA4 se charge déjà pour tous dans `src/app/[locale]/layout.tsx`).
+7. **Consentement** : aucun tag ni cookie Google ajouté hors du mécanisme
+   existant (`src/lib/consent/`, `src/components/consent/`) — tout nouveau
+   SDK Google passe par `ConsentBootstrap`/`trackEvent`, jamais un `<script>`
+   ou un appel `gtag` posé ailleurs. Les trois signaux publicitaires
+   (`ad_storage`, `ad_user_data`, `ad_personalization`) restent `denied`
+   INCONDITIONNELLEMENT — en défaut global comme en défaut régional, jamais
+   accordés par `ConsentBanner` (ce site n'affiche aucune publicité) ; seul
+   `analytics_storage` est gouverné par le bandeau. `ConsentBanner` affiche
+   Accepter/Refuser au même niveau visuel (pas de refus en lien discret ou en
+   second niveau), reste rouvrable via « Gérer mes cookies »
+   (`ReopenConsentLink`, toujours affiché dans le pied de page), et le choix
+   stocké (`sg-consent`, `localStorage`, 6 mois) n'est jamais un cookie.
 8. **A11y** : skip-link vers `#main-content` conservé, `alt` sur chaque
    `next/image` porteuse de sens, `tabIndex={-1}` sur les sections ancrées de
    `LegalPage.tsx`, bloc `prefers-reduced-motion` intact, `npm run lint`

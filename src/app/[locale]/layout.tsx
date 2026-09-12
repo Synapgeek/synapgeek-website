@@ -13,6 +13,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
 import { ConsentBootstrap } from "@/components/consent/ConsentBootstrap";
+import { ConsentBanner } from "@/components/consent/ConsentBanner";
 
 export { genParams as generateStaticParams };
 
@@ -77,7 +78,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${dmSans.variable} ${inter.variable} antialiased`}>
-        {/* Défauts Consent Mode v2 + CMP + GA4 : premier enfant de <body>, avant tout autre contenu (voir ConsentBootstrap). */}
+        {/* Défauts Consent Mode v2 + GA4 : premier enfant de <body>, avant tout autre contenu (voir ConsentBootstrap). */}
         <ConsentBootstrap />
         <a
           href="#main-content"
@@ -85,6 +86,10 @@ export default async function LocaleLayout({
         >
           {locale === "fr" ? "Aller au contenu" : "Skip to content"}
         </a>
+        {/* Non modal, position fixed (l'emplacement dans le DOM n'affecte pas son rendu) :
+            monté tôt, juste après le lien d'évitement, pour qu'un utilisateur clavier
+            l'atteigne sans devoir traverser toute la page. */}
+        <ConsentBanner locale={locale} dict={dict.common.consent} />
         <div className="flex min-h-screen flex-col">
           <JsonLd data={organizationSchema(locale)} />
           <JsonLd data={websiteSchema(locale)} />
