@@ -6,7 +6,7 @@ import { Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { StoreButtons } from "@/components/ui/StoreButtons";
 import { IPhoneSlider } from "@/components/landing/IPhoneSlider";
-import type { StoreDownload } from "@/content/types";
+import type { StoreDownload, HeroSlider } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 
 // Breakpoint Tailwind `lg` : au-delà, le fond desktop s'affiche ; en-deçà, le
@@ -98,6 +98,7 @@ export function Hero({
     cta: string;
     ctaSecondary: string;
     store: StoreDownload;
+    slider: HeroSlider;
   };
 }) {
   return (
@@ -107,7 +108,7 @@ export function Hero({
       {/* Overlay for text readability */}
       <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-transparent lg:from-white/85 lg:via-white/50 lg:to-transparent" />
 
-      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-12 px-6 py-20 lg:flex-row lg:items-start lg:gap-16 lg:py-12 xl:py-16 2xl:py-20">
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-12 px-6 py-20 lg:flex-row lg:items-start lg:gap-16 lg:py-12 xl:py-16 2xl:py-20 [@media(min-width:1280px)_and_(max-height:800px)]:py-10">
         {/* Text content */}
         <div className="flex flex-1 flex-col items-center text-center lg:items-start lg:text-left">
           {/* Cerebrum identity lockup */}
@@ -175,7 +176,7 @@ export function Hero({
         {/* iPhone mockup slider */}
         <div className="animate-fade-in-up delay-400 flex flex-1 justify-center lg:justify-end">
           <div className="iphone-tilt">
-            <IPhoneSlider locale={locale} />
+            <IPhoneSlider locale={locale} dict={dict.slider} />
           </div>
         </div>
       </div>

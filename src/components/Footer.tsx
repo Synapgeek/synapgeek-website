@@ -35,7 +35,7 @@ export function Footer({
           {/* Product */}
           <div>
             <p className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-400">
-              Product
+              {dict.footer.productHeading}
             </p>
             <ul className="space-y-3 text-sm">
               <li>
@@ -43,7 +43,7 @@ export function Footer({
                   href={getLocalePath(locale, "/#features")}
                   className="text-gray-400 transition-colors hover:text-white"
                 >
-                  {locale === "fr" ? "Fonctionnalités" : "Features"}
+                  {dict.footer.features}
                 </Link>
               </li>
               <li>
@@ -72,7 +72,7 @@ export function Footer({
           {/* Legal */}
           <div>
             <p className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-400">
-              {locale === "fr" ? "Légal" : "Legal"}
+              {dict.footer.legalHeading}
             </p>
             <ul className="space-y-3 text-sm">
               <li>
@@ -108,7 +108,7 @@ export function Footer({
           {/* Contact */}
           <div>
             <p className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-400">
-              Contact
+              {dict.footer.contactHeading}
             </p>
             <ul className="space-y-3 text-sm">
               <li>
@@ -116,7 +116,7 @@ export function Footer({
                   href={getLocalePath(locale, "/#contact")}
                   className="text-gray-400 transition-colors hover:text-white"
                 >
-                  {locale === "fr" ? "Nous écrire" : "Write to us"}
+                  {dict.footer.writeToUs}
                 </Link>
               </li>
               <li>
@@ -137,9 +137,9 @@ export function Footer({
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-gray-800 pt-8 text-xs text-gray-400 sm:flex-row">
           <p>{dict.footer.copyright}</p>
           <p className="flex items-center gap-1">
-            {locale === "fr" ? "Fait avec" : "Made with"}
+            {dict.footer.madeWith}
             <span className="text-accent-coral">❤</span>
-            {locale === "fr" ? "en France" : "in France"}
+            {dict.footer.inFrance}
           </p>
         </div>
       </div>

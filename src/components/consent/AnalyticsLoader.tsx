@@ -12,12 +12,12 @@ import Script from "next/script";
  * ce fichier charge et la traite ; ce composant n'a plus qu'à le requêter.
  *
  * `strategy="lazyOnload"` (chargement après l'événement `load` de la
- * fenêtre) — reprend le choix déjà en production sur ce site (quelques
- * visites très courtes ne seront pas mesurées, contre du JS retiré de la
- * fenêtre de rendu initiale). Ce choix reste sûr : les défauts et le rejeu du
- * choix stocké sont déjà dans `dataLayer` avant que `lazyOnload` ne
- * déclenche quoi que ce soit — l'ordre « consentement avant tag » ne dépend
- * donc pas de la stratégie de chargement choisie ici.
+ * fenêtre) — remplace le `strategy="afterInteractive"` utilisé jusqu'ici sur
+ * `main` (quelques visites très courtes ne seront pas mesurées, contre du JS
+ * retiré de la fenêtre de rendu initiale). Ce choix reste sûr : les défauts
+ * et le rejeu du choix stocké sont déjà dans `dataLayer` avant que
+ * `lazyOnload` ne déclenche quoi que ce soit — l'ordre « consentement avant
+ * tag » ne dépend donc pas de la stratégie de chargement choisie ici.
  */
 interface AnalyticsLoaderProps {
   gaId: string;

@@ -20,10 +20,17 @@ const en: Dictionary = {
       legalNotice: "Legal Notice",
       contact: "Contact",
       manageCookies: "Manage cookies",
+      productHeading: "Product",
+      legalHeading: "Legal",
+      contactHeading: "Contact",
+      features: "Features",
+      writeToUs: "Write to us",
+      madeWith: "Made with",
+      inFrance: "in France",
     },
     consent: {
       title: "Your choice on audience measurement",
-      body: 'With your consent, we use Google Analytics (audience measurement cookies) to understand how this site is used. We do not display any advertising. You can change your mind at any time via "Manage cookies".',
+      body: 'We use Google Analytics (audience measurement cookies) to understand how this site is used. Depending on your country, this measurement either waits for your consent or is on by default: accept or refuse it here, and change your mind at any time via "Manage cookies". This website shows no ads.',
       learnMore: "Learn more",
       accept: "Accept",
       refuse: "Refuse",
@@ -48,6 +55,23 @@ const en: Dictionary = {
         availableNow: "Available now",
         appStoreLabel: "Download on the App Store",
         googlePlayLabel: "Get it on Google Play",
+      },
+      slider: {
+        carouselLabel: "Cerebrum app screenshots",
+        slideLabel: "Slide {index} of {total}",
+        controlsLabel: "Slide controls",
+        goToSlide: "Go to slide {index}",
+        alts: {
+          home: "Cerebrum home screen showing its six games: Sudoku, Crossword, Word Search, Cross Math, Trace and Maze",
+          sudoku:
+            "Cerebrum Sudoku gameplay with a partially filled grid and number pad",
+          daily:
+            "Cerebrum Daily Challenge calendar with completed days marked by stars",
+          victory:
+            "Cerebrum victory screen with three stars, a new record and league progress",
+          profile:
+            "Cerebrum profile screen with the player's avatar, league progress and monthly trophies",
+        },
       },
     },
     stats: {
@@ -218,6 +242,8 @@ const en: Dictionary = {
         successTitle: "Message sent!",
         successBody: "We'll get back to you as soon as possible.",
         error: "An error occurred. Please try again or contact us directly.",
+        unavailable:
+          "The form is temporarily unavailable. Please write to us directly at contact@synapgeek.com.",
       },
     },
   },
@@ -255,7 +281,7 @@ const en: Dictionary = {
         id: "website",
         title: "The synapgeek.com website",
         content:
-          "This section covers the synapgeek.com website itself, as distinct from the App described elsewhere in this policy.\n\n**Account**\nThe website has no sign-up or sign-in: browsing it never requires an email address or password.\n\n**Vercel audience measurement**\nWe use Vercel Analytics and Vercel Speed Insights to measure the site's traffic and performance. These tools set no cookies and only produce aggregated statistics, with no individual identifier.\n\n**Google Analytics 4**\nWe use Google Analytics 4 to understand how the site is used: pages viewed, homepage sections displayed, language changes, clicks through to the App Store and Google Play, and contact form submissions (with the chosen subject). A banner lets you accept or refuse this audience measurement; it stays displayed until you make a choice. Your choice is then remembered for 6 months as a simple indicator in your browser's local storage — never a cookie for the choice itself — and you can change it at any time via \"Manage cookies\" in the footer. In the European Economic Area, the United Kingdom, Switzerland, the EU's outermost regions, and a few associated territories, the measurement cookie (_ga and _ga_*, kept for a maximum of 13 months) is only set if you accepted; if you refuse, or before you respond, no measurement cookie is set. Outside these territories, measurement is active by default unless you refuse through the same banner, with the same measurement cookie kept for a maximum of 13 months. Regardless of your country, as long as cookie-based measurement is not active — before you consent in the territories listed above, or after a refusal anywhere — cookie-free measurement signals with no persistent identifier (page viewed, action taken, timestamp, browser type) may nonetheless be sent to Google, which receives your IP address in the process and uses these signals in aggregate to model traffic. You can also opt out using Google Analytics' browser opt-out add-on (https://tools.google.com/dlpage/gaoptout), a content blocker, or by writing to privacy@synapgeek.com. This website does not display any advertising and does not use this data for advertising purposes: advertising consent signals (ad_storage, ad_user_data, ad_personalization) remain refused at all times. Google's privacy policy: https://policies.google.com/privacy\n\n**Contact form**\nIf you use the contact form, we collect your name, email address, chosen subject, and message, solely to reply to you. This information is sent to us by email through our business mailbox and is not kept in a separate database. The form is protected by reCAPTCHA, a Google service whose script only loads once you interact with the form (click, tap, or focusing a field).",
+          "This section covers the synapgeek.com website itself, as distinct from the App described elsewhere in this policy.\n\n**Account**\nThe website has no sign-up or sign-in: browsing it never requires an email address or password.\n\n**Vercel audience measurement**\nWe use Vercel Analytics and Vercel Speed Insights to measure the site's traffic and performance. These tools set no cookies and only produce aggregated statistics, with no individual identifier.\n\n**Google Analytics 4**\nWe use Google Analytics 4 to understand how the site is used: pages viewed, homepage sections displayed, language changes, clicks through to the App Store and Google Play, and contact form submissions (with the chosen subject). A banner lets you accept or refuse this audience measurement; it stays displayed until you make a choice. Your choice is then remembered for 6 months as a simple indicator in your browser's local storage — never a cookie for the choice itself — and you can change it at any time via \"Manage cookies\" in the footer. In the European Economic Area, the United Kingdom, Switzerland, the EU's outermost regions, and a few associated territories, the measurement cookie (_ga and _ga_*, kept for a maximum of 13 months) is only set if you accepted; if you refuse, or before you respond, no measurement cookie is set. Outside these territories, measurement is active by default unless you refuse through the same banner, with the same measurement cookie kept for a maximum of 13 months. Regardless of your country, as long as cookie-based measurement is not active — before you consent in the territories listed above, or after a refusal anywhere — cookie-free measurement signals with no persistent identifier (page viewed, action taken, timestamp, browser type) may nonetheless be sent to Google, which receives your IP address in the process and uses these signals in aggregate to model traffic. You can also opt out using Google Analytics' browser opt-out add-on, a content blocker, or by writing to privacy@synapgeek.com. Google Analytics browser opt-out add-on: https://tools.google.com/dlpage/gaoptout This website does not display any advertising and does not use this data for advertising purposes: advertising consent signals (ad_storage, ad_user_data, ad_personalization) remain refused at all times. Google's privacy policy: https://policies.google.com/privacy\n\n**Contact form**\nIf you use the contact form, we collect your name, email address, chosen subject, and message, solely to reply to you. This information is sent to us by email through our business mailbox and is not kept in a separate database. The form is protected by reCAPTCHA, a Google service whose script only loads once you interact with the form (click, tap, or focusing a field).",
       },
       {
         title: "Third-party sharing",
@@ -318,7 +344,7 @@ const en: Dictionary = {
       {
         title: "Service description",
         content:
-          "Synapgeek develops and distributes mobile puzzle game applications. Cerebrum is a mobile application for iOS and Android, featuring six puzzle games: Sudoku, Crossword, Word Search, Cross Math, Trace, and Maze.\n\nThe App includes:\n- Hundreds of puzzles across multiple difficulty levels\n- A progression system with stars, XP, and leaderboards\n- Daily challenges and play streaks\n- A virtual currency system (gems) and avatars\n- Optional in-app purchases and subscriptions\n- An ad-supported and ad-free mode",
+          "Synapgeek develops and distributes mobile puzzle game applications. Cerebrum is a mobile application for iOS and Android, featuring six puzzle games: Sudoku, Crossword, Word Search, Cross Math, Trace, and Maze.\n\nThe App includes:\n- More than 1,000 puzzles across multiple difficulty levels\n- A progression system with stars, XP, and leaderboards\n- Daily challenges and play streaks\n- A virtual currency system (gems) and avatars\n- Optional in-app purchases and subscriptions\n- An ad-supported and ad-free mode",
       },
       {
         title: "License to use",
@@ -423,6 +449,12 @@ const en: Dictionary = {
           "For any questions regarding this website or this legal notice:\n\n**Synapgeek**\nEmail: contact@synapgeek.com\nWebsite: https://synapgeek.com",
       },
     ],
+  },
+  // /play reste en français quelle que soit la locale (voir src/app/play/page.tsx) ;
+  // ces clés existent ici pour la complétude du type Dictionary.
+  play: {
+    title: "Télécharger Cerebrum",
+    chooseStore: "Choisissez votre store pour installer l'application.",
   },
 };
 

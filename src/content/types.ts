@@ -7,6 +7,22 @@ export interface StoreDownload {
   googlePlayLabel: string;
 }
 
+/** Identifiant stable de chaque capture du carrousel du hero (indépendant de la locale). */
+export type HeroSlideId = "home" | "sudoku" | "daily" | "victory" | "profile";
+
+/**
+ * Textes localisés du carrousel de captures d'écran (`IPhoneSlider`).
+ * `slideLabel` et `goToSlide` sont des gabarits où le composant remplace
+ * `{index}` (et `{total}` pour `slideLabel`) par les valeurs réelles.
+ */
+export interface HeroSlider {
+  carouselLabel: string;
+  slideLabel: string;
+  controlsLabel: string;
+  goToSlide: string;
+  alts: Record<HeroSlideId, string>;
+}
+
 /**
  * Sujet du message de contact. `value` part au serveur et doit exister à
  * l'identique dans `CONTACT_TOPICS` (src/app/api/contact/route.ts) : le serveur
@@ -59,6 +75,17 @@ export interface Dictionary {
       contact: string;
       /** Lien de retrait/modification du consentement Google Analytics, toujours affiché — rouvre `ConsentBanner`. */
       manageCookies: string;
+      /** Titres des colonnes du footer. */
+      productHeading: string;
+      legalHeading: string;
+      contactHeading: string;
+      /** Libellé du lien vers la section fonctionnalités de la home. */
+      features: string;
+      /** Libellé du lien vers la section contact de la home. */
+      writeToUs: string;
+      /** Mention « Fait avec ❤ en France », coupée en deux autour du cœur. */
+      madeWith: string;
+      inFrance: string;
     };
     /** Bandeau de consentement maison (`ConsentBanner`). Une seule finalité (mesure d'audience) : pas de bouton "Personnaliser". */
     consent: {
@@ -86,6 +113,7 @@ export interface Dictionary {
       cta: string;
       ctaSecondary: string;
       store: StoreDownload;
+      slider: HeroSlider;
     };
     stats: {
       items: readonly { value: string; label: string }[];
@@ -128,6 +156,8 @@ export interface Dictionary {
         successTitle: string;
         successBody: string;
         error: string;
+        /** Repli affiché à la place du bouton d'envoi quand reCAPTCHA n'a pas de clé au build. */
+        unavailable: string;
       };
     };
   };
@@ -151,5 +181,10 @@ export interface Dictionary {
     /** Date ISO (AAAA-MM-JJ) de dernière mise à jour, utilisée par le sitemap et le JSON-LD. */
     updatedAt: string;
     sections: readonly LegalSection[];
+  };
+  /** Repli de /play (desktop, iPad en mode bureau, robot) — reste en français quelle que soit la locale. */
+  play: {
+    title: string;
+    chooseStore: string;
   };
 }

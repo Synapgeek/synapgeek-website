@@ -20,10 +20,17 @@ const fr: Dictionary = {
       legalNotice: "Mentions légales",
       contact: "Contact",
       manageCookies: "Gérer mes cookies",
+      productHeading: "Produit",
+      legalHeading: "Légal",
+      contactHeading: "Contact",
+      features: "Fonctionnalités",
+      writeToUs: "Nous écrire",
+      madeWith: "Fait avec",
+      inFrance: "en France",
     },
     consent: {
       title: "Votre choix sur la mesure d'audience",
-      body: "Avec votre accord, nous utilisons Google Analytics (cookies de mesure d'audience) pour comprendre comment ce site est utilisé. Nous n'affichons aucune publicité. Vous pouvez changer d'avis à tout moment via « Gérer mes cookies ».",
+      body: "Nous utilisons Google Analytics (cookies de mesure d'audience) pour comprendre comment ce site est utilisé. Selon votre pays, cette mesure attend votre accord ou est active par défaut : acceptez-la ou refusez-la ici, et changez d'avis à tout moment via « Gérer mes cookies ». Ce site n'affiche aucune publicité.",
       learnMore: "En savoir plus",
       accept: "Accepter",
       refuse: "Refuser",
@@ -48,6 +55,23 @@ const fr: Dictionary = {
         availableNow: "Disponible maintenant",
         appStoreLabel: "Télécharger dans l'App Store",
         googlePlayLabel: "Disponible sur Google Play",
+      },
+      slider: {
+        carouselLabel: "Captures d'écran de l'application Cerebrum",
+        slideLabel: "Diapositive {index} sur {total}",
+        controlsLabel: "Contrôles du diaporama",
+        goToSlide: "Aller à la diapositive {index}",
+        alts: {
+          home: "Écran d'accueil de Cerebrum présentant ses six jeux : Sudoku, Mots Croisés, Mots Mêlés, Cross Math, Trace et Labyrinthe",
+          sudoku:
+            "Partie de Sudoku dans Cerebrum avec une grille partiellement remplie et le pavé numérique",
+          daily:
+            "Calendrier du défi quotidien de Cerebrum avec les jours complétés marqués d'étoiles",
+          victory:
+            "Écran de victoire de Cerebrum avec trois étoiles, un nouveau record et la progression de ligue",
+          profile:
+            "Écran de profil de Cerebrum avec l'avatar du joueur, sa progression de ligue et ses trophées mensuels",
+        },
       },
     },
     stats: {
@@ -222,6 +246,8 @@ const fr: Dictionary = {
         successBody: "Nous vous répondrons dans les plus brefs délais.",
         error:
           "Une erreur est survenue. Réessayez ou contactez-nous directement.",
+        unavailable:
+          "Le formulaire est momentanément indisponible. Écrivez-nous directement à contact@synapgeek.com.",
       },
     },
   },
@@ -259,7 +285,7 @@ const fr: Dictionary = {
         id: "website",
         title: "Site web synapgeek.com",
         content:
-          "Cette section concerne le site synapgeek.com lui-même, distinct de l'Application décrite par ailleurs dans cette politique.\n\n**Compte**\nLe site ne propose ni création de compte ni connexion : sa consultation ne requiert ni email ni mot de passe.\n\n**Mesure d'audience Vercel**\nNous utilisons Vercel Analytics et Vercel Speed Insights pour mesurer la fréquentation et les performances du site. Ces outils ne déposent aucun cookie et ne produisent que des statistiques agrégées, sans identifiant individuel.\n\n**Google Analytics 4**\nNous utilisons Google Analytics 4 pour comprendre l'usage du site : pages consultées, sections de la page d'accueil affichées, changement de langue, clics vers l'App Store et Google Play, envoi du formulaire de contact (avec le sujet choisi). Un bandeau vous permet d'accepter ou de refuser cette mesure d'audience ; il reste affiché tant que vous n'avez pas fait de choix. Votre choix est ensuite mémorisé pendant 6 mois sous la forme d'un simple indicateur dans le stockage local de votre navigateur — jamais un cookie pour ce choix lui-même — et vous pouvez le modifier à tout moment via « Gérer mes cookies » dans le pied de page. Dans l'Espace Économique Européen, au Royaume-Uni, en Suisse, dans les régions ultrapériphériques de l'Union européenne et dans quelques territoires associés, le cookie de mesure (_ga et _ga_*, conservé 13 mois maximum) n'est déposé que si vous avez accepté ; en cas de refus, ou tant que vous n'avez pas répondu, aucun cookie de mesure n'est déposé. En dehors de ces territoires, la mesure est active par défaut sauf si vous refusez via ce même bandeau, avec le même cookie de mesure conservé 13 mois maximum. Quel que soit votre pays, tant que la mesure avec cookies n'est pas active — avant votre accord dans les territoires listés ci-dessus, ou après un refus où que vous soyez — des signaux de mesure sans cookie ni identifiant persistant (page consultée, action effectuée, horodatage, type de navigateur) peuvent néanmoins être envoyés à Google, qui reçoit à cette occasion votre adresse IP et utilise ces signaux de façon agrégée pour modéliser la fréquentation. Vous pouvez aussi vous opposer à cette mesure avec le module de désactivation de Google Analytics (https://tools.google.com/dlpage/gaoptout), un bloqueur de contenu, ou en écrivant à privacy@synapgeek.com. Le site n'affiche aucune publicité et n'utilise pas ces données à des fins publicitaires : les signaux de consentement publicitaire (ad_storage, ad_user_data, ad_personalization) restent refusés en toutes circonstances. Politique de confidentialité de Google : https://policies.google.com/privacy\n\n**Formulaire de contact**\nSi vous utilisez le formulaire de contact, nous collectons votre nom, votre adresse email, le sujet choisi et votre message, dans le seul but de vous répondre. Ces informations nous sont transmises par email via notre messagerie professionnelle et ne sont pas conservées dans une base de données distincte. Le formulaire est protégé par reCAPTCHA, un service de Google dont le script n'est chargé que lorsque vous interagissez avec le formulaire (clic, appui ou placement du curseur dans un champ).",
+          "Cette section concerne le site synapgeek.com lui-même, distinct de l'Application décrite par ailleurs dans cette politique.\n\n**Compte**\nLe site ne propose ni création de compte ni connexion : sa consultation ne requiert ni email ni mot de passe.\n\n**Mesure d'audience Vercel**\nNous utilisons Vercel Analytics et Vercel Speed Insights pour mesurer la fréquentation et les performances du site. Ces outils ne déposent aucun cookie et ne produisent que des statistiques agrégées, sans identifiant individuel.\n\n**Google Analytics 4**\nNous utilisons Google Analytics 4 pour comprendre l'usage du site : pages consultées, sections de la page d'accueil affichées, changement de langue, clics vers l'App Store et Google Play, envoi du formulaire de contact (avec le sujet choisi). Un bandeau vous permet d'accepter ou de refuser cette mesure d'audience ; il reste affiché tant que vous n'avez pas fait de choix. Votre choix est ensuite mémorisé pendant 6 mois sous la forme d'un simple indicateur dans le stockage local de votre navigateur — jamais un cookie pour ce choix lui-même — et vous pouvez le modifier à tout moment via « Gérer mes cookies » dans le pied de page. Dans l'Espace Économique Européen, au Royaume-Uni, en Suisse, dans les régions ultrapériphériques de l'Union européenne et dans quelques territoires associés, le cookie de mesure (_ga et _ga_*, conservé 13 mois maximum) n'est déposé que si vous avez accepté ; en cas de refus, ou tant que vous n'avez pas répondu, aucun cookie de mesure n'est déposé. En dehors de ces territoires, la mesure est active par défaut sauf si vous refusez via ce même bandeau, avec le même cookie de mesure conservé 13 mois maximum. Quel que soit votre pays, tant que la mesure avec cookies n'est pas active — avant votre accord dans les territoires listés ci-dessus, ou après un refus où que vous soyez — des signaux de mesure sans cookie ni identifiant persistant (page consultée, action effectuée, horodatage, type de navigateur) peuvent néanmoins être envoyés à Google, qui reçoit à cette occasion votre adresse IP et utilise ces signaux de façon agrégée pour modéliser la fréquentation. Vous pouvez aussi vous opposer à cette mesure avec le module de désactivation de Google Analytics, un bloqueur de contenu, ou en écrivant à privacy@synapgeek.com. Module de désactivation de Google Analytics : https://tools.google.com/dlpage/gaoptout Le site n'affiche aucune publicité et n'utilise pas ces données à des fins publicitaires : les signaux de consentement publicitaire (ad_storage, ad_user_data, ad_personalization) restent refusés en toutes circonstances. Politique de confidentialité de Google : https://policies.google.com/privacy\n\n**Formulaire de contact**\nSi vous utilisez le formulaire de contact, nous collectons votre nom, votre adresse email, le sujet choisi et votre message, dans le seul but de vous répondre. Ces informations nous sont transmises par email via notre messagerie professionnelle et ne sont pas conservées dans une base de données distincte. Le formulaire est protégé par reCAPTCHA, un service de Google dont le script n'est chargé que lorsque vous interagissez avec le formulaire (clic, appui ou placement du curseur dans un champ).",
       },
       {
         title: "Partage avec des tiers",
@@ -322,7 +348,7 @@ const fr: Dictionary = {
       {
         title: "Description du service",
         content:
-          "Synapgeek développe et distribue des applications mobiles de jeux de réflexion. Cerebrum est une application mobile pour iOS et Android, réunissant six jeux de puzzle : Sudoku, Mots Croisés, Mots Mêlés, Cross Math, Trace et Labyrinthe.\n\nL'Application propose notamment :\n- Des centaines de puzzles avec plusieurs niveaux de difficulté\n- Un système de progression avec étoiles, XP et classements\n- Des défis quotidiens et des séries de jeu (streaks)\n- Un système de monnaie virtuelle (gemmes) et d'avatars\n- Des achats in-app et des abonnements optionnels\n- Un mode avec ou sans publicité",
+          "Synapgeek développe et distribue des applications mobiles de jeux de réflexion. Cerebrum est une application mobile pour iOS et Android, réunissant six jeux de puzzle : Sudoku, Mots Croisés, Mots Mêlés, Cross Math, Trace et Labyrinthe.\n\nL'Application propose notamment :\n- Plus de 1 000 puzzles avec plusieurs niveaux de difficulté\n- Un système de progression avec étoiles, XP et classements\n- Des défis quotidiens et des séries de jeu (streaks)\n- Un système de monnaie virtuelle (gemmes) et d'avatars\n- Des achats in-app et des abonnements optionnels\n- Un mode avec ou sans publicité",
       },
       {
         title: "Licence d'utilisation",
@@ -427,6 +453,10 @@ const fr: Dictionary = {
           "Pour toute question relative au site ou à ces mentions légales :\n\n**Synapgeek**\nEmail : contact@synapgeek.com\nSite web : https://synapgeek.com",
       },
     ],
+  },
+  play: {
+    title: "Télécharger Cerebrum",
+    chooseStore: "Choisissez votre store pour installer l'application.",
   },
 };
 

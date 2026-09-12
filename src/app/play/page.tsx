@@ -21,7 +21,7 @@ import { getDictionary } from "@/content";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Télécharger Cerebrum",
+  title: getDictionary("fr").play.title,
   // Page de service, sans contenu propre : hors index et hors sitemap.
   robots: { index: false, follow: false },
 };
@@ -48,7 +48,17 @@ function formatGamesList(titles: readonly string[]): string {
   return `${titles.slice(0, -1).join(", ")} et ${titles[titles.length - 1]}.`;
 }
 
-/** Transmet les paramètres reçus (?src=…) à l'URL de sortie, sans rien inventer. */
+/**
+ * Transmet les paramètres reçus (?src=…) à l'URL de sortie, sans rien inventer
+ * et sans jamais écraser un paramètre déjà présent sur la cible.
+ *
+ * `url.searchParams.set` écraserait un paramètre existant : un simple
+ * `/play?id=com.autre.app` enverrait alors un Android vers la fiche Play d'une
+ * AUTRE app depuis synapgeek.com, et `/play?ct=x&pt=y` fausserait le jeton de
+ * campagne Apple. On ignore donc toute clé entrante déjà présente sur la
+ * cible ; seuls les paramètres de campagne réellement absents (ex. `?src=…`)
+ * sont ajoutés.
+ */
 function withIncomingParams(
   target: string,
   incoming: Record<string, string | string[] | undefined>,
@@ -56,6 +66,7 @@ function withIncomingParams(
   const url = new URL(target);
   for (const [key, value] of Object.entries(incoming)) {
     if (value === undefined) continue;
+    if (url.searchParams.has(key)) continue;
     url.searchParams.set(key, Array.isArray(value) ? value[0] : value);
   }
   return url.toString();
@@ -72,8 +83,9 @@ export default async function PlayPage({
   if (target) redirect(withIncomingParams(target, await searchParams));
 
   // Calculée après la redirection : un scan mobile n'a pas besoin du texte.
+  const dict = getDictionary("fr");
   const gamesList = formatGamesList(
-    getDictionary("fr").landing.features.items.map((item) => item.title),
+    dict.landing.features.items.map((item) => item.title),
   );
 
   // Repli : desktop, iPad en mode bureau, robot, User-Agent vide.
@@ -94,8 +106,7 @@ export default async function PlayPage({
             Cerebrum
           </h1>
           <p className="mt-3 max-w-sm text-lg text-text-secondary">
-            {gamesList} Choisissez votre store pour installer
-            l&apos;application.
+            {gamesList} {dict.play.chooseStore}
           </p>
 
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
@@ -105,7 +116,7 @@ export default async function PlayPage({
             >
               <Image
                 src="/images/brand/badge-appstore-fr.svg"
-                alt="Télécharger dans l'App Store"
+                alt={dict.landing.hero.store.appStoreLabel}
                 width={127}
                 height={40}
                 className="h-[48px] w-auto"
@@ -117,7 +128,7 @@ export default async function PlayPage({
             >
               <Image
                 src="/images/brand/badge-googleplay-fr.png"
-                alt="Disponible sur Google Play"
+                alt={dict.landing.hero.store.googlePlayLabel}
                 width={646}
                 height={192}
                 className="h-[48px] w-auto"

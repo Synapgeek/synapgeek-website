@@ -69,10 +69,13 @@ export async function POST(request: Request) {
 
     // Le sujet ne sert à composer l'objet de l'email qu'après cette vérification :
     // il finit dans un en-tête, il ne peut donc pas venir tel quel du client.
-    const topicLabel = CONTACT_TOPICS[topic];
-    if (!topicLabel) {
+    // Object.hasOwn (et non `in` ou un accès direct) : un `topic` comme
+    // "constructor" ou "toString" viserait sinon une propriété héritée de
+    // Object.prototype et non une entrée de la table.
+    if (typeof topic !== "string" || !Object.hasOwn(CONTACT_TOPICS, topic)) {
       return NextResponse.json({ error: "Invalid topic" }, { status: 400 });
     }
+    const topicLabel = CONTACT_TOPICS[topic];
 
     // Validate input lengths
     if (

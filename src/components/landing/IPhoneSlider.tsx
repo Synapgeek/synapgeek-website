@@ -3,92 +3,34 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
 import type { Locale } from "@/lib/i18n";
+import type { HeroSlideId, HeroSlider } from "@/content/types";
 
-// Identifiant stable de chaque écran (indépendant de la locale, sert de clé React)
-type SlideId = "home" | "sudoku" | "daily" | "victory" | "profile";
-
-interface SlideDefinition {
-  id: SlideId;
-  // Texte alternatif par locale — doit décrire ce qui est réellement visible à l'écran
-  alt: Record<Locale, string>;
-}
+// Identifiant stable de chaque écran (indépendant de la locale, sert de clé React) :
+// dérivé de `alts`, dont les clés sont figées dans src/content/types.ts.
+const SLIDE_IDS: HeroSlideId[] = [
+  "home",
+  "sudoku",
+  "daily",
+  "victory",
+  "profile",
+];
 
 interface Slide {
-  id: SlideId;
+  id: HeroSlideId;
   src: string;
   alt: string;
 }
-
-const SLIDE_DEFINITIONS: SlideDefinition[] = [
-  {
-    id: "home",
-    alt: {
-      fr: "Écran d'accueil de Cerebrum présentant les jeux Sudoku, Mots Croisés, Mots Mêlés et Cross Math",
-      en: "Cerebrum home screen showing the Sudoku, Crossword, Word Search, and Cross Math games",
-    },
-  },
-  {
-    id: "sudoku",
-    alt: {
-      fr: "Partie de Sudoku dans Cerebrum avec une grille partiellement remplie et le pavé numérique",
-      en: "Cerebrum Sudoku gameplay with a partially filled grid and number pad",
-    },
-  },
-  {
-    id: "daily",
-    alt: {
-      fr: "Calendrier du défi quotidien de Cerebrum avec les jours complétés marqués d'étoiles",
-      en: "Cerebrum Daily Challenge calendar with completed days marked by stars",
-    },
-  },
-  {
-    id: "victory",
-    alt: {
-      fr: "Écran de victoire de Cerebrum avec trois étoiles, un nouveau record et la progression de ligue",
-      en: "Cerebrum victory screen with three stars, a new record and league progress",
-    },
-  },
-  {
-    id: "profile",
-    alt: {
-      fr: "Écran de profil de Cerebrum avec l'avatar du joueur, sa progression de ligue et ses trophées mensuels",
-      en: "Cerebrum profile screen with the player's avatar, league progress and monthly trophies",
-    },
-  },
-];
-
-// Libellés ARIA du carrousel, localisés (le composant connaît désormais la locale
-// affichée : autant éviter de mélanger de l'anglais dans une page servie en français)
-const UI_TEXT: Record<
-  Locale,
-  {
-    carouselLabel: string;
-    slideLabel: (index: number, total: number) => string;
-    tablistLabel: string;
-    goToSlide: (index: number) => string;
-  }
-> = {
-  fr: {
-    carouselLabel: "Captures d'écran de l'application Cerebrum",
-    slideLabel: (index, total) => `Diapositive ${index} sur ${total}`,
-    tablistLabel: "Contrôles du diaporama",
-    goToSlide: (index) => `Aller à la diapositive ${index}`,
-  },
-  en: {
-    carouselLabel: "Cerebrum app screenshots",
-    slideLabel: (index, total) => `Slide ${index} of ${total}`,
-    tablistLabel: "Slide controls",
-    goToSlide: (index) => `Go to slide ${index}`,
-  },
-};
 
 const AUTOPLAY_INTERVAL = 4000;
 
 interface IPhoneSliderProps {
   locale: Locale;
+  // Textes localisés du carrousel, fournis par src/content/{fr,en}.ts — aucun texte
+  // en dur ici, ces libellés sont lus par les lecteurs d'écran et indexés par Google Images.
+  dict: HeroSlider;
 }
 
-export function IPhoneSlider({ locale }: IPhoneSliderProps) {
+export function IPhoneSlider({ locale, dict }: IPhoneSliderProps) {
   // `previous` reste monté, pleinement opaque, sous `active` pendant le
   // fondu : sans lui, les deux captures fondent l'une SUR l'autre au même
   // rythme et leurs textes se lisent en transparence l'un à travers l'autre.
@@ -107,15 +49,13 @@ export function IPhoneSlider({ locale }: IPhoneSliderProps) {
   // Slides résolues pour la locale courante (source de l'image + alt traduit)
   const slides = useMemo<Slide[]>(
     () =>
-      SLIDE_DEFINITIONS.map((slide) => ({
-        id: slide.id,
-        src: `/images/hero/screen-${slide.id}-${locale}.webp`,
-        alt: slide.alt[locale],
+      SLIDE_IDS.map((id) => ({
+        id,
+        src: `/images/hero/screen-${id}-${locale}.webp`,
+        alt: dict.alts[id],
       })),
-    [locale],
+    [locale, dict],
   );
-
-  const text = UI_TEXT[locale];
 
   const goToSlide = useCallback((index: number) => {
     setSlideIndex((prev) => ({ active: index, previous: prev.active }));
@@ -170,7 +110,7 @@ export function IPhoneSlider({ locale }: IPhoneSliderProps) {
         className="iphone-frame"
         role="region"
         aria-roledescription="carousel"
-        aria-label={text.carouselLabel}
+        aria-label={dict.carouselLabel}
       >
         {/* Biseau + tranche titane : boîte dédiée à fond opaque (pas de
             `border`) — cf. commentaire sur .iphone-frame dans globals.css,
@@ -202,7 +142,9 @@ export function IPhoneSlider({ locale }: IPhoneSliderProps) {
                   className="iphone-slide"
                   role="group"
                   aria-roledescription="slide"
-                  aria-label={text.slideLabel(index + 1, slides.length)}
+                  aria-label={dict.slideLabel
+                    .replace("{index}", String(index + 1))
+                    .replace("{total}", String(slides.length))}
                   aria-hidden={index !== activeIndex}
                   data-state={state}
                 >
@@ -245,13 +187,13 @@ export function IPhoneSlider({ locale }: IPhoneSliderProps) {
       <div
         className="flex items-center gap-0.5 rounded-full bg-white/75 px-1.5 backdrop-blur-sm"
         role="group"
-        aria-label={text.tablistLabel}
+        aria-label={dict.controlsLabel}
       >
         {slides.map((slide, index) => (
           <button
             key={slide.id}
             type="button"
-            aria-label={text.goToSlide(index + 1)}
+            aria-label={dict.goToSlide.replace("{index}", String(index + 1))}
             aria-current={index === activeIndex ? "true" : undefined}
             onClick={() => handleDotClick(index)}
             className="flex items-center justify-center rounded-full p-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-white"
