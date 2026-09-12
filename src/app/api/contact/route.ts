@@ -28,6 +28,24 @@ function stripNewlines(str: string): string {
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+/**
+ * Sujets acceptés. Le client envoie une `value` ; le serveur ne fait JAMAIS
+ * confiance à son libellé et compose lui-même l'objet de l'email à partir de
+ * cette table. Toute valeur hors liste est rejetée en 400.
+ *
+ * Les `value` doivent rester synchronisées avec `landing.contact.form.topics`
+ * dans `src/content/fr.ts` ET `src/content/en.ts` — un sujet ajouté d'un seul
+ * côté passe le build et échoue à l'envoi.
+ */
+const CONTACT_TOPICS: Record<string, string> = {
+  support: "Support technique",
+  purchases: "Achats & abonnements",
+  account: "Compte & données personnelles",
+  feedback: "Suggestion / retour",
+  press: "Presse & partenariats",
+  other: "Autre",
+};
+
 const MAX_NAME_LENGTH = 200;
 const MAX_EMAIL_LENGTH = 320;
 const MAX_MESSAGE_LENGTH = 5000;
@@ -35,14 +53,21 @@ const MAX_MESSAGE_LENGTH = 5000;
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, message, recaptchaToken } = body;
+    const { name, email, topic, message, recaptchaToken } = body;
 
     // Validate required fields
-    if (!name || !email || !message || !recaptchaToken) {
+    if (!name || !email || !topic || !message || !recaptchaToken) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 },
       );
+    }
+
+    // Le sujet ne sert à composer l'objet de l'email qu'après cette vérification :
+    // il finit dans un en-tête, il ne peut donc pas venir tel quel du client.
+    const topicLabel = CONTACT_TOPICS[topic];
+    if (!topicLabel) {
+      return NextResponse.json({ error: "Invalid topic" }, { status: 400 });
     }
 
     // Validate input lengths
@@ -93,10 +118,11 @@ export async function POST(request: Request) {
       from: `"Synapgeek Website" <${process.env.SMTP_USER}>`,
       replyTo: safeEmail,
       to: process.env.CONTACT_EMAIL,
-      subject: `[Contact] ${safeName}`,
-      text: `Nom: ${safeName}\nEmail: ${safeEmail}\n\nMessage:\n${message}`,
+      subject: `[Contact][${topicLabel}] ${safeName}`,
+      text: `Sujet: ${topicLabel}\nNom: ${safeName}\nEmail: ${safeEmail}\n\nMessage:\n${message}`,
       html: `
         <h3>Nouveau message de contact</h3>
+        <p><strong>Sujet:</strong> ${escapeHtml(topicLabel)}</p>
         <p><strong>Nom:</strong> ${escapeHtml(safeName)}</p>
         <p><strong>Email:</strong> ${escapeHtml(safeEmail)}</p>
         <hr />

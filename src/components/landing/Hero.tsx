@@ -5,13 +5,14 @@ import { Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { StoreButtons } from "@/components/ui/StoreButtons";
 import { IPhoneSlider } from "@/components/landing/IPhoneSlider";
-import type { StoreDownload, Waitlist } from "@/content/types";
+import type { StoreDownload } from "@/content/types";
+import type { Locale } from "@/lib/i18n";
 
 export function Hero({
   locale,
   dict,
 }: {
-  locale: "fr" | "en";
+  locale: Locale;
   dict: {
     badge: string;
     title: string;
@@ -19,7 +20,6 @@ export function Hero({
     cta: string;
     ctaSecondary: string;
     store: StoreDownload;
-    waitlist: Waitlist;
   };
 }) {
   return (
@@ -46,7 +46,7 @@ export function Hero({
       {/* Overlay for text readability */}
       <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-transparent lg:from-white/85 lg:via-white/50 lg:to-transparent" />
 
-      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-12 px-6 py-20 lg:flex-row lg:gap-16 lg:py-32">
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-12 px-6 py-20 lg:flex-row lg:items-start lg:gap-16 lg:py-16 xl:py-24 2xl:py-28">
         {/* Text content */}
         <div className="flex flex-1 flex-col items-center text-center lg:items-start lg:text-left">
           {/* Cerebrum identity lockup */}
@@ -72,10 +72,7 @@ export function Hero({
                   className="cerebrum-icon-img h-[88px] w-[88px] sm:h-[104px] sm:w-[104px] lg:h-[120px] lg:w-[120px]"
                   priority
                 />
-                <div
-                  className="cerebrum-icon-reflection"
-                  aria-hidden="true"
-                />
+                <div className="cerebrum-icon-reflection" aria-hidden="true" />
               </div>
 
               {/* Name */}
@@ -104,18 +101,14 @@ export function Hero({
           </p>
 
           <div className="animate-fade-in-up delay-400 mt-8">
-            <StoreButtons
-              locale={locale}
-              dict={dict.store}
-              waitlist={dict.waitlist}
-            />
+            <StoreButtons locale={locale} dict={dict.store} />
           </div>
         </div>
 
         {/* iPhone mockup slider */}
         <div className="animate-fade-in-up delay-400 flex flex-1 justify-center lg:justify-end">
           <div className="iphone-tilt">
-            <IPhoneSlider />
+            <IPhoneSlider locale={locale} />
           </div>
         </div>
       </div>

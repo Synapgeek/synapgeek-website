@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import Script from "next/script";
 import { trackEvent } from "@/lib/gtag";
+import type { Dictionary } from "@/content/types";
 
 declare global {
   interface Window {
@@ -23,7 +24,9 @@ declare global {
 
 type FormStatus = "idle" | "sending" | "success" | "error";
 
-export function ContactForm({ locale }: { locale: string }) {
+type ContactFormDict = Dictionary["landing"]["contact"]["form"];
+
+export function ContactForm({ dict }: { dict: ContactFormDict }) {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const [recaptchaReady, setRecaptchaReady] = useState(false);
@@ -34,7 +37,11 @@ export function ContactForm({ locale }: { locale: string }) {
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
   const renderRecaptcha = useCallback(() => {
-    if (recaptchaRef.current && window.grecaptcha && widgetIdRef.current === null) {
+    if (
+      recaptchaRef.current &&
+      window.grecaptcha &&
+      widgetIdRef.current === null
+    ) {
       widgetIdRef.current = window.grecaptcha.render(recaptchaRef.current, {
         sitekey: siteKey,
         callback: (token: string) => setRecaptchaToken(token),
@@ -53,8 +60,6 @@ export function ContactForm({ locale }: { locale: string }) {
     }
   }, [renderRecaptcha]);
 
-  const isFr = locale === "fr";
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!recaptchaToken) return;
@@ -70,6 +75,7 @@ export function ContactForm({ locale }: { locale: string }) {
         body: JSON.stringify({
           name: formData.get("name"),
           email: formData.get("email"),
+          topic: formData.get("topic"),
           message: formData.get("message"),
           recaptchaToken,
         }),
@@ -79,7 +85,9 @@ export function ContactForm({ locale }: { locale: string }) {
         setStatus("success");
         formRef.current?.reset();
         setRecaptchaToken(null);
-        trackEvent("contact_form_submit");
+        trackEvent("contact_form_submit", {
+          topic: String(formData.get("topic") ?? "unknown"),
+        });
         if (widgetIdRef.current !== null) {
           window.grecaptcha.reset(widgetIdRef.current);
         }
@@ -99,7 +107,10 @@ export function ContactForm({ locale }: { locale: string }) {
       />
 
       {status === "success" ? (
-        <div role="status" className="rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center">
+        <div
+          role="status"
+          className="rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center"
+        >
           {/* Checkmark circle */}
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
             <svg
@@ -117,21 +128,13 @@ export function ContactForm({ locale }: { locale: string }) {
               />
             </svg>
           </div>
-          <p className="text-xl font-bold text-primary">
-            {isFr ? "Message envoyé !" : "Message sent!"}
-          </p>
+          <p className="text-xl font-bold text-primary">{dict.successTitle}</p>
           <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-            {isFr
-              ? "Nous vous répondrons dans les plus brefs délais."
-              : "We'll get back to you as soon as possible."}
+            {dict.successBody}
           </p>
         </div>
       ) : (
-        <form
-          ref={formRef}
-          onSubmit={handleSubmit}
-          className="space-y-6"
-        >
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
           <div className="grid gap-6 sm:grid-cols-2">
             {/* Name */}
             <div className="input-group relative">
@@ -145,7 +148,7 @@ export function ContactForm({ locale }: { locale: string }) {
                 placeholder=" "
               />
               <label htmlFor="contact-name" className="input-label">
-                {isFr ? "Nom" : "Name"}
+                {dict.name}
               </label>
             </div>
 
@@ -161,9 +164,37 @@ export function ContactForm({ locale }: { locale: string }) {
                 placeholder=" "
               />
               <label htmlFor="contact-email" className="input-label">
-                Email
+                {dict.email}
               </label>
             </div>
+          </div>
+
+          {/* Sujet — un select natif : accessible au clavier et aux lecteurs
+              d'écran sans une ligne de JS, et lisible sur mobile. */}
+          <div>
+            <label
+              htmlFor="contact-topic"
+              className="mb-2 block text-sm font-medium text-text-secondary"
+            >
+              {dict.topicLabel}
+            </label>
+            <select
+              id="contact-topic"
+              name="topic"
+              required
+              aria-required="true"
+              defaultValue=""
+              className="input-field w-full"
+            >
+              <option value="" disabled>
+                {dict.topicPlaceholder}
+              </option>
+              {dict.topics.map((topic) => (
+                <option key={topic.value} value={topic.value}>
+                  {topic.label}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Message */}
@@ -178,19 +209,23 @@ export function ContactForm({ locale }: { locale: string }) {
               placeholder=" "
             />
             <label htmlFor="contact-message" className="input-label">
-              Message
+              {dict.message}
             </label>
           </div>
 
           {/* reCAPTCHA — visually toned down */}
-          <div ref={recaptchaRef} className="flex justify-center [&>div]:!mx-auto" />
+          <div
+            ref={recaptchaRef}
+            className="flex justify-center [&>div]:!mx-auto"
+          />
 
           {status === "error" && (
-            <div role="alert" className="rounded-xl border border-accent-coral/20 bg-accent-coral/5 px-4 py-3">
+            <div
+              role="alert"
+              className="rounded-xl border border-accent-coral/20 bg-accent-coral/5 px-4 py-3"
+            >
               <p className="text-center text-sm text-accent-coral">
-                {isFr
-                  ? "Une erreur est survenue. Réessayez ou contactez-nous directement."
-                  : "An error occurred. Please try again or contact us directly."}
+                {dict.error}
               </p>
             </div>
           )}
@@ -225,12 +260,10 @@ export function ContactForm({ locale }: { locale: string }) {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
                     />
                   </svg>
-                  {isFr ? "Envoi en cours..." : "Sending..."}
+                  {dict.sending}
                 </span>
-              ) : isFr ? (
-                "Envoyer le message"
               ) : (
-                "Send message"
+                dict.submit
               )}
             </button>
           </div>

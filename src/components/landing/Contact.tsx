@@ -1,16 +1,8 @@
 import { ContactForm } from "@/components/ContactForm";
 import { Mail } from "lucide-react";
+import type { Dictionary } from "@/content/types";
 
-export function Contact({
-  locale,
-  dict,
-}: {
-  locale: string;
-  dict: {
-    title: string;
-    subtitle: string;
-  };
-}) {
+export function Contact({ dict }: { dict: Dictionary["landing"]["contact"] }) {
   return (
     <section
       id="contact"
@@ -46,7 +38,7 @@ export function Contact({
           </div>
 
           {/* Form */}
-          <ContactForm locale={locale} />
+          <ContactForm dict={dict.form} />
         </div>
       </div>
     </section>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
+import { notFound } from "next/navigation";
 import Script from "next/script";
 import { DM_Sans, Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
@@ -45,7 +46,9 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale: raw } = await params;
-  const locale: Locale = isLocale(raw) ? raw : "fr";
+  // Segment inconnu (ex. "wp-login.php", "llms.txt") : ne pas servir la home en 200.
+  if (!isLocale(raw)) notFound();
+  const locale: Locale = raw;
 
   return {
     // Safari smart App Banner — now that Cerebrum is live on the App Store.
@@ -72,7 +75,9 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale: rawLocale } = await params;
-  const locale: Locale = isLocale(rawLocale) ? rawLocale : "fr";
+  // Segment inconnu : 404 au lieu de retomber silencieusement sur "fr".
+  if (!isLocale(rawLocale)) notFound();
+  const locale: Locale = rawLocale;
   const dict = getDictionary(locale);
 
   const organizationSchema = {

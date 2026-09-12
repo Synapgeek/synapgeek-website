@@ -8,29 +8,29 @@
   --font-mono: var(--font-jetbrains-mono);
 
   /* Primary — Vibrant Green (like Duolingo) */
-  --color-primary: #58CC02;
-  --color-primary-dark: #4CAF00;
-  --color-primary-light: #7ED321;
+  --color-primary: #58cc02;
+  --color-primary-dark: #4caf00;
+  --color-primary-light: #7ed321;
 
   /* Secondary — Warm Purple */
-  --color-secondary: #8549BA;
-  --color-secondary-light: #A560E8;
+  --color-secondary: #8549ba;
+  --color-secondary-light: #a560e8;
 
   /* Accent — Fun palette */
-  --color-accent-blue: #1CB0F6;
-  --color-accent-yellow: #FFC800;
-  --color-accent-orange: #FF9600;
-  --color-accent-coral: #FF6B6B;
-  --color-accent-teal: #2DD4BF;
+  --color-accent-blue: #1cb0f6;
+  --color-accent-yellow: #ffc800;
+  --color-accent-orange: #ff9600;
+  --color-accent-coral: #ff6b6b;
+  --color-accent-teal: #2dd4bf;
 
   /* Neutrals */
-  --color-background: #FFFFFF;
-  --color-surface: #F7F7F7;
-  --color-surface-elevated: #FFFFFF;
-  --color-border: #E5E5E5;
-  --color-text-primary: #1A1A2E;
-  --color-text-secondary: #6B7280;
-  --color-text-tertiary: #9CA3AF;
+  --color-background: #ffffff;
+  --color-surface: #f7f7f7;
+  --color-surface-elevated: #ffffff;
+  --color-border: #e5e5e5;
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #6b7280;
+  --color-text-tertiary: #9ca3af;
 }
 
 body {
@@ -39,29 +39,34 @@ body {
   font-family: var(--font-body), system-ui, sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
 /* ===== UTILITIES ===== */
 .gradient-hero {
-  background: linear-gradient(135deg, #F0FFF0 0%, #F5F0FF 50%, #FFF8E1 100%);
+  background: linear-gradient(135deg, #f0fff0 0%, #f5f0ff 50%, #fff8e1 100%);
 }
 
 .gradient-cta {
-  background: linear-gradient(135deg, #58CC02, #7ED321);
+  background: linear-gradient(135deg, #58cc02, #7ed321);
 }
 
 .gradient-section {
-  background: linear-gradient(180deg, #F7F7F7 0%, #FFFFFF 100%);
+  background: linear-gradient(180deg, #f7f7f7 0%, #ffffff 100%);
 }
 
 .gradient-purple {
-  background: linear-gradient(135deg, #8549BA, #A560E8);
+  background: linear-gradient(135deg, #8549ba, #a560e8);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #58CC02, #1CB0F6);
+  background: linear-gradient(135deg, #58cc02, #1cb0f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -82,18 +87,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .coming-soon-card {
   background:
-    linear-gradient(
-      rgba(255, 255, 255, 0.75),
-      rgba(255, 255, 255, 0.6)
-    ) padding-box,
+    linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.6))
+      padding-box,
     conic-gradient(
-      from var(--border-angle),
-      transparent 50%,
-      var(--color-primary) 72%,
-      var(--color-accent-blue) 84%,
-      var(--color-primary) 92%,
-      transparent 100%
-    ) border-box;
+        from var(--border-angle),
+        transparent 50%,
+        var(--color-primary) 72%,
+        var(--color-accent-blue) 84%,
+        var(--color-primary) 92%,
+        transparent 100%
+      )
+      border-box;
   border: 2px solid transparent;
   animation: rotate-border 4s linear infinite;
   backdrop-filter: blur(12px);
@@ -173,19 +177,36 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 @keyframes bounce-soft {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @keyframes wiggle {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-3deg); }
-  75% { transform: rotate(3deg); }
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-3deg);
+  }
+  75% {
+    transform: rotate(3deg);
+  }
 }
 
 .animate-fade-in-up {
@@ -205,12 +226,24 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Stagger delays */
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
-.delay-600 { animation-delay: 600ms; }
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-300 {
+  animation-delay: 300ms;
+}
+.delay-400 {
+  animation-delay: 400ms;
+}
+.delay-500 {
+  animation-delay: 500ms;
+}
+.delay-600 {
+  animation-delay: 600ms;
+}
 
 /* ===== DECORATIVE SHAPES ===== */
 .blob {
@@ -218,110 +251,237 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Organic blob variants for About section — matches OG image aesthetic */
-.blob-1 { border-radius: 40% 60% 55% 45% / 55% 35% 65% 45%; }
-.blob-2 { border-radius: 55% 45% 35% 65% / 40% 60% 40% 60%; }
-.blob-3 { border-radius: 35% 65% 50% 50% / 60% 40% 55% 45%; }
-.blob-4 { border-radius: 60% 40% 45% 55% / 35% 65% 40% 60%; }
-.blob-5 { border-radius: 45% 55% 60% 40% / 50% 50% 45% 55%; }
+.blob-1 {
+  border-radius: 40% 60% 55% 45% / 55% 35% 65% 45%;
+}
+.blob-2 {
+  border-radius: 55% 45% 35% 65% / 40% 60% 40% 60%;
+}
+.blob-3 {
+  border-radius: 35% 65% 50% 50% / 60% 40% 55% 45%;
+}
+.blob-4 {
+  border-radius: 60% 40% 45% 55% / 35% 65% 40% 60%;
+}
+.blob-5 {
+  border-radius: 45% 55% 60% 40% / 50% 50% 45% 55%;
+}
 
 @keyframes blob-drift-1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(12px, -18px) scale(1.04); }
-  50% { transform: translate(-8px, 10px) scale(0.97); }
-  75% { transform: translate(6px, 14px) scale(1.02); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(12px, -18px) scale(1.04);
+  }
+  50% {
+    transform: translate(-8px, 10px) scale(0.97);
+  }
+  75% {
+    transform: translate(6px, 14px) scale(1.02);
+  }
 }
 
 @keyframes blob-drift-2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(-14px, 10px) scale(0.96); }
-  50% { transform: translate(10px, -14px) scale(1.05); }
-  75% { transform: translate(-6px, -8px) scale(0.98); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(-14px, 10px) scale(0.96);
+  }
+  50% {
+    transform: translate(10px, -14px) scale(1.05);
+  }
+  75% {
+    transform: translate(-6px, -8px) scale(0.98);
+  }
 }
 
 @keyframes blob-drift-3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(16px, 8px) scale(1.03); }
-  66% { transform: translate(-10px, -12px) scale(0.97); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(16px, 8px) scale(1.03);
+  }
+  66% {
+    transform: translate(-10px, -12px) scale(0.97);
+  }
 }
 
-.animate-blob-drift-1 { animation: blob-drift-1 18s ease-in-out infinite; }
-.animate-blob-drift-2 { animation: blob-drift-2 22s ease-in-out infinite; }
-.animate-blob-drift-3 { animation: blob-drift-3 16s ease-in-out infinite; }
+.animate-blob-drift-1 {
+  animation: blob-drift-1 18s ease-in-out infinite;
+}
+.animate-blob-drift-2 {
+  animation: blob-drift-2 22s ease-in-out infinite;
+}
+.animate-blob-drift-3 {
+  animation: blob-drift-3 16s ease-in-out infinite;
+}
 
 /* About section warm cream background — matches OG image */
 .bg-about-cream {
-  background-color: #F8F5EF;
+  background-color: #f8f5ef;
 }
 
-/* ===== iPHONE MOCKUP ===== */
+/* ===== iPHONE MOCKUP — proportions iPhone 16 / 17 Pro ===== */
+/*
+ * Toute la géométrie découle de deux nombres : --iphone-width (la seule valeur
+ * qui change selon le breakpoint) et --iphone-bezel-ratio. Biseau, rayons,
+ * rails, boutons et Dynamic Island sont exprimés en fraction de la largeur,
+ * donc l'agrandissement reste cohérent à n'importe quelle taille.
+ */
 .iphone-frame {
-  --iphone-width: 260px;
-  --iphone-bezel: 10px;
-  --iphone-radius: 40px;
-  --iphone-screen-radius: 32px;
-  --iphone-aspect: 2.165;
+  /* ~300px sur mobile ; min() garde la maquette dans la colonne (px-6 du hero)
+     sur les très petits écrans plutôt que de la laisser rogner. */
+  --iphone-width: min(300px, calc(100vw - 4rem));
+
+  /* Ratio de l'ÉCRAN = celui des captures iPhone 16 Pro Max (2868 / 1320).
+     Le <Image> est en object-cover : si ce ratio dérive, l'image est recadrée
+     en haut de l'écran, là où c'est le plus visible. */
+  --iphone-screen-aspect: 2.1727;
+
+  /* Biseau = 3 % de la largeur (l'iPhone 16 Pro Max mesure 77,6 mm de large
+     pour 72,9 mm d'écran, soit 2,35 mm de biseau ≈ 3 %). */
+  --iphone-bezel-ratio: 0.03;
+
+  /* Ratio EXTÉRIEUR déduit du ratio d'écran :
+       A_ext = A_écran − 2 × ratio_biseau × (A_écran − 1)
+     Le biseau étant proportionnel à la largeur, la coque garde exactement
+     l'écran au bon ratio, quelle que soit --iphone-width. */
+  --iphone-aspect: calc(
+    var(--iphone-screen-aspect) - 2 * var(--iphone-bezel-ratio) *
+      (var(--iphone-screen-aspect) - 1)
+  );
+
+  /* Géométrie dérivée */
+  --iphone-bezel: calc(var(--iphone-width) * var(--iphone-bezel-ratio));
+  --iphone-rail: calc(var(--iphone-width) * 0.009); /* tranche titane visible */
+  /* biseau noir entre la tranche titane et l'écran */
+  --iphone-pad: calc(var(--iphone-bezel) - var(--iphone-rail));
+  --iphone-radius: calc(var(--iphone-width) * 0.1625);
+  /* Rayon intérieur = rayon extérieur − épaisseur totale du biseau : c'est la
+     seule façon d'obtenir des coins concentriques (sinon le coin « casse »). */
+  --iphone-screen-radius: calc(var(--iphone-radius) - var(--iphone-bezel));
+  --iphone-screen-width: calc(var(--iphone-width) - 2 * var(--iphone-bezel));
+  --iphone-button-depth: calc(var(--iphone-width) * 0.009);
+  /* Dynamic Island : 126 pt sur 440 pt de large d'écran, hauteur 37,3 pt */
+  --iphone-island-width: calc(var(--iphone-screen-width) * 0.286);
 
   position: relative;
+  box-sizing: border-box;
   width: var(--iphone-width);
   aspect-ratio: 1 / var(--iphone-aspect);
-  background: linear-gradient(145deg, #2a2a2e, #1a1a1e);
+  border: var(--iphone-rail) solid transparent;
   border-radius: var(--iphone-radius);
-  padding: var(--iphone-bezel);
-  box-shadow:
-    /* Outer bezel highlight */
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    /* Main shadow */
-    0 25px 60px -12px rgba(0, 0, 0, 0.35),
-    /* Ambient shadow */
-    0 8px 24px -4px rgba(0, 0, 0, 0.2),
-    /* Subtle reflection on top */
-    0 -1px 3px 0 rgba(255, 255, 255, 0.05);
+  padding: var(--iphone-pad);
 
-  /* Side buttons — left */
+  /* Deux couches : le biseau noir remplit la padding-box, la tranche titane
+     n'apparaît que dans l'aire de bordure — un vrai rail, pas un aplat gris. */
+  background:
+    linear-gradient(#0a0a0c, #0a0a0c) padding-box,
+    linear-gradient(
+        150deg,
+        #efece5 0%,
+        #b0aba1 14%,
+        #7d7870 28%,
+        #d5d0c6 46%,
+        #969188 62%,
+        #67635b 78%,
+        #c4bfb4 92%,
+        #8b867d 100%
+      )
+      border-box;
+
+  /* Liseré poli (tranche / biseau), puis contact, ombre principale et ambiance :
+     il faut du volume pour que la coque tienne sur le fond clair du hero. */
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 2px 6px -2px rgba(26, 22, 14, 0.25),
+    0 20px 40px -14px rgba(26, 22, 14, 0.35),
+    0 44px 80px -28px rgba(26, 22, 14, 0.3);
+
+  /*
+   * Boutons latéraux. Chaque rail est une bande unique dont le masque découpe
+   * les boutons : positions et longueurs en % de la hauteur, donc ils suivent
+   * l'agrandissement sans retouche (l'ancienne version les figeait en px).
+   * Le dégradé horizontal donne le galbe métallique du bouton.
+   */
+
+  /* Rail gauche — bouton Action, Volume +, Volume − */
   &::before {
     content: "";
     position: absolute;
-    left: -3px;
-    top: 80px;
-    width: 3px;
-    height: 28px;
-    background: linear-gradient(180deg, #3a3a3e, #2a2a2e);
-    border-radius: 2px 0 0 2px;
-    box-shadow:
-      0 38px 0 0 #2a2a2e,
-      0 38px 0 0 #2a2a2e;
+    top: 0;
+    bottom: 0;
+    left: calc(-1 * (var(--iphone-rail) + var(--iphone-button-depth)));
+    width: calc(var(--iphone-rail) + var(--iphone-button-depth));
+    background: linear-gradient(90deg, #cdc8be 0%, #9b968d 55%, #6c675f 100%);
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      transparent 17.6%,
+      #000 17.8% 23.8%,
+      transparent 24% 27.6%,
+      #000 27.8% 38.2%,
+      transparent 38.4% 41.2%,
+      #000 41.4% 51.8%,
+      transparent 52%
+    );
+    mask-image: linear-gradient(
+      180deg,
+      transparent 17.6%,
+      #000 17.8% 23.8%,
+      transparent 24% 27.6%,
+      #000 27.8% 38.2%,
+      transparent 38.4% 41.2%,
+      #000 41.4% 51.8%,
+      transparent 52%
+    );
   }
 
-  /* Side button — right (power) */
+  /* Rail droit — bouton veille puis Contrôle de l'appareil photo (16 Pro) */
   &::after {
     content: "";
     position: absolute;
-    right: -3px;
-    top: 110px;
-    width: 3px;
-    height: 48px;
-    background: linear-gradient(180deg, #3a3a3e, #2a2a2e);
-    border-radius: 0 2px 2px 0;
+    top: 0;
+    bottom: 0;
+    right: calc(-1 * (var(--iphone-rail) + var(--iphone-button-depth)));
+    width: calc(var(--iphone-rail) + var(--iphone-button-depth));
+    background: linear-gradient(90deg, #6c675f 0%, #9b968d 45%, #cdc8be 100%);
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      transparent 26.6%,
+      #000 26.8% 42.2%,
+      transparent 42.4% 55.4%,
+      #000 55.6% 63%,
+      transparent 63.2%
+    );
+    mask-image: linear-gradient(
+      180deg,
+      transparent 26.6%,
+      #000 26.8% 42.2%,
+      transparent 42.4% 55.4%,
+      #000 55.6% 63%,
+      transparent 63.2%
+    );
   }
 }
 
-/* Volume buttons (separate element via left side) */
-.iphone-frame::before {
-  box-shadow:
-    0 34px 0 0 #2a2a2e,
-    0 62px 0 0 #2a2a2e;
-}
-
-/* Dynamic Island */
+/* Dynamic Island — proportionnelle à la largeur d'écran, jamais en px figés */
 .iphone-dynamic-island {
   position: absolute;
-  top: calc(var(--iphone-bezel) + 10px);
+  /* top:0 = haut de la padding-box, donc juste sous la tranche titane */
+  top: calc(var(--iphone-pad) + var(--iphone-screen-width) * 0.026);
   left: 50%;
   transform: translateX(-50%);
-  width: 90px;
-  height: 26px;
+  width: var(--iphone-island-width);
+  height: calc(var(--iphone-island-width) * 0.296);
   background: #000;
-  border-radius: 20px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
   z-index: 10;
 }
 
@@ -349,26 +509,7 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: auto;
 }
 
-/* Responsive scaling */
-@media (min-width: 640px) {
-  .iphone-frame {
-    --iphone-width: 280px;
-    --iphone-bezel: 11px;
-    --iphone-radius: 44px;
-    --iphone-screen-radius: 35px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .iphone-frame {
-    --iphone-width: 300px;
-    --iphone-bezel: 12px;
-    --iphone-radius: 48px;
-    --iphone-screen-radius: 38px;
-  }
-}
-
-/* Glass reflection on screen */
+/* Reflet de verre + liseré interne, au-dessus des captures */
 .iphone-screen::after {
   content: "";
   position: absolute;
@@ -381,8 +522,49 @@ h1, h2, h3, h4, h5, h6 {
     rgba(255, 255, 255, 0) 60%,
     rgba(255, 255, 255, 0.03) 100%
   );
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
   z-index: 5;
   pointer-events: none;
+}
+
+/* Agrandissement responsive — seule --iphone-width bouge, tout le reste suit.
+   Les paliers restent sous la largeur de colonne du hero (max-w-6xl, deux
+   flex-1 séparés par gap-16) : 456px de colonne à 1024px, 520px à 1280px.
+
+   À partir de lg, le hero passe en rangée : le téléphone partage alors la
+   hauteur du fold avec le CTA store et les points du carrousel. Un palier
+   purement horizontal ne suffit plus — un 1536x864 est large mais court, et le
+   téléphone y sortait de l'écran avec ses contrôles. D'où --iphone-height-fit,
+   qui borne la largeur par la hauteur réellement disponible :
+     13rem ≈ en-tête + padding vertical de la section + respiration.
+   Le téléphone est donc aussi grand que l'écran le permet. Le plancher à 280px
+   est la taille d'avant la refonte : sur un écran très court, on préfère laisser
+   l'appareil mordre légèrement sous le fold plutôt que de le rendre plus petit
+   qu'il ne l'était. Les points du carrousel passent alors sous la ligne de
+   flottaison — c'est un agrément, le défilement automatique fait le travail. */
+@media (min-width: 640px) {
+  .iphone-frame {
+    --iphone-width: min(320px, calc(100vw - 4rem));
+  }
+}
+
+@media (min-width: 1024px) {
+  .iphone-frame {
+    --iphone-height-fit: calc((100vh - 13rem) / var(--iphone-aspect));
+    --iphone-width: max(280px, min(330px, var(--iphone-height-fit)));
+  }
+}
+
+@media (min-width: 1280px) {
+  .iphone-frame {
+    --iphone-width: max(280px, min(350px, var(--iphone-height-fit)));
+  }
+}
+
+@media (min-width: 1536px) {
+  .iphone-frame {
+    --iphone-width: max(280px, min(380px, var(--iphone-height-fit)));
+  }
 }
 
 /* ===== iPHONE TILT ===== */
@@ -423,10 +605,24 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-primary);
 }
 
+/* Select natif habillé comme .input-field. `appearance: none` retire la flèche
+   du système, donc on en redessine une : sans elle, plus rien n'indique que le
+   champ se déroule. Le padding droit lui réserve sa place. */
+.input-field:is(select) {
+  appearance: none;
+  padding-right: 2.75rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.1em;
+  cursor: pointer;
+}
+
 .input-field:focus {
   border-color: var(--color-primary);
   background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-primary) 12%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in oklch, var(--color-primary) 12%, transparent);
 }
 
 .input-label {
@@ -474,12 +670,9 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow:
     /* Ambient light from above */
     0 2px 8px rgba(184, 134, 11, 0.15),
-    /* Directional shadow */
-    0 8px 32px -4px rgba(120, 80, 0, 0.25),
-    /* Deep shadow for depth */
-    0 20px 48px -8px rgba(80, 50, 0, 0.2),
-    /* Inner edge highlight (simulated) */
-    0 -1px 2px rgba(255, 215, 0, 0.15);
+    /* Directional shadow */ 0 8px 32px -4px rgba(120, 80, 0, 0.25),
+    /* Deep shadow for depth */ 0 20px 48px -8px rgba(80, 50, 0, 0.2),
+    /* Inner edge highlight (simulated) */ 0 -1px 2px rgba(255, 215, 0, 0.15);
 }
 
 .cerebrum-icon-glow {
@@ -543,13 +736,24 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes cerebrum-glow-ambient {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.08); }
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
 }
 
 @keyframes cerebrum-ring-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* --- Name treatment — premium metallic gold with shimmer --- */
@@ -589,11 +793,11 @@ h1, h2, h3, h4, h5, h6 {
 .cerebrum-name {
   background: linear-gradient(
     135deg,
-    #5B4B7A 0%,
-    #7B6B9B 25%,
-    #9B8BB8 50%,
-    #7B6B9B 75%,
-    #5B4B7A 100%
+    #5b4b7a 0%,
+    #7b6b9b 25%,
+    #9b8bb8 50%,
+    #7b6b9b 75%,
+    #5b4b7a 100%
   );
   background-clip: text;
   -webkit-background-clip: text;
@@ -615,7 +819,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: radial-gradient(circle, #FFD700, #D4A030);
+  background: radial-gradient(circle, #ffd700, #d4a030);
   box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.5);
   animation: cerebrum-sparkle-float 3s ease-in-out infinite;
   opacity: 0;
@@ -627,7 +831,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 6px;
   border-radius: 1px;
   transform: rotate(45deg);
-  background: #FFD700;
+  background: #ffd700;
   box-shadow:
     0 0 4px 1px rgba(255, 215, 0, 0.6),
     0 0 12px 2px rgba(255, 215, 0, 0.2);
@@ -635,32 +839,38 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Position and timing variants — distributed around the lockup */
 .cerebrum-sparkle:nth-child(1) {
-  top: -8px; left: 15%;
+  top: -8px;
+  left: 15%;
   animation-delay: 0s;
   animation-duration: 2.8s;
 }
 .cerebrum-sparkle:nth-child(2) {
-  top: 5px; right: 10%;
+  top: 5px;
+  right: 10%;
   animation-delay: 0.8s;
   animation-duration: 3.4s;
 }
 .cerebrum-sparkle:nth-child(3) {
-  bottom: -5px; left: 25%;
+  bottom: -5px;
+  left: 25%;
   animation-delay: 1.5s;
   animation-duration: 2.6s;
 }
 .cerebrum-sparkle:nth-child(4) {
-  bottom: 0; right: 20%;
+  bottom: 0;
+  right: 20%;
   animation-delay: 0.3s;
   animation-duration: 3.2s;
 }
 .cerebrum-sparkle:nth-child(5) {
-  top: 40%; left: -10px;
+  top: 40%;
+  left: -10px;
   animation-delay: 2s;
   animation-duration: 2.4s;
 }
 .cerebrum-sparkle:nth-child(6) {
-  top: 30%; right: -8px;
+  top: 30%;
+  right: -8px;
   animation-delay: 1.1s;
   animation-duration: 3s;
 }
@@ -706,8 +916,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes separator-shimmer {
-  0%, 100% { --separator-pos: 30%; }
-  50% { --separator-pos: 70%; }
+  0%,
+  100% {
+    --separator-pos: 30%;
+  }
+  50% {
+    --separator-pos: 70%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

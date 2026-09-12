@@ -8,5 +8,9 @@ export function generateStaticParams() {
 
 export function getLocalePath(locale: Locale, path: string) {
   if (locale === DEFAULT_LOCALE) return path;
+  // Racine d'une locale non par défaut : "/en" sans slash final, sinon 308 vers "/en".
+  if (path === "/") return `/${locale}`;
+  // Ancre sur la racine ("/#features") : "/en#features", pas "/en/#features".
+  if (path.startsWith("/#")) return `/${locale}${path.slice(1)}`;
   return `/${locale}${path}`;
 }

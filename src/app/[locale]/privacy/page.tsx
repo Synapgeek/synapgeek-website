@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { generateStaticParams } from "@/lib/i18n";
 import { getDictionary, getLocale } from "@/content";
-import { getAlternates } from "@/lib/seo";
+import { getAlternates, buildOpenGraph } from "@/lib/seo";
 import { LegalPage } from "@/components/LegalPage";
 
 export { generateStaticParams };
@@ -24,11 +24,12 @@ export async function generateMetadata({
     title: dict.privacy.title,
     description,
     alternates: getAlternates(locale, "/privacy"),
-    openGraph: {
-      title: dict.privacy.title,
+    openGraph: buildOpenGraph(
+      locale,
+      "/privacy",
+      dict.privacy.title,
       description,
-      type: "website",
-    },
+    ),
   };
 }
 

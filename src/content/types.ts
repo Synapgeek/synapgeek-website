@@ -1,17 +1,20 @@
 import type { Locale } from "@/lib/i18n";
 
-/** Download block: iOS live on the App Store, Android still coming soon. */
+/** Download block: les deux plateformes sont en ligne depuis le lancement Android. */
 export interface StoreDownload {
   availableNow: string;
-  androidSoon: string;
+  appStoreLabel: string;
+  googlePlayLabel: string;
 }
 
-/** Android-only "notify me" waitlist form. */
-export interface Waitlist {
-  placeholder: string;
-  button: string;
-  success: string;
-  error: string;
+/**
+ * Sujet du message de contact. `value` part au serveur et doit exister à
+ * l'identique dans `CONTACT_TOPICS` (src/app/api/contact/route.ts) : le serveur
+ * refuse toute autre valeur, et c'est lui qui compose l'objet de l'email.
+ */
+export interface ContactTopic {
+  value: string;
+  label: string;
 }
 
 /** Une section d'un document légal. `id` n'est posé que sur les sections ciblées par une ancre. */
@@ -44,7 +47,6 @@ export interface Dictionary {
       cta: string;
       ctaSecondary: string;
       store: StoreDownload;
-      waitlist: Waitlist;
     };
     stats: {
       items: readonly { value: string; label: string }[];
@@ -52,7 +54,8 @@ export interface Dictionary {
     features: {
       title: string;
       subtitle: string;
-      items: readonly { title: string; description: string }[];
+      /** `id` mappe vers le visuel du jeu — l'ordre du tableau n'a donc plus d'effet. */
+      items: readonly { id: string; title: string; description: string }[];
     };
     about: {
       title: string;
@@ -65,11 +68,23 @@ export interface Dictionary {
       cta: string;
       note: string;
       store: StoreDownload;
-      waitlist: Waitlist;
     };
     contact: {
       title: string;
       subtitle: string;
+      form: {
+        name: string;
+        email: string;
+        message: string;
+        topicLabel: string;
+        topicPlaceholder: string;
+        topics: readonly ContactTopic[];
+        submit: string;
+        sending: string;
+        successTitle: string;
+        successBody: string;
+        error: string;
+      };
     };
   };
   privacy: {

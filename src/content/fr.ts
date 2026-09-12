@@ -21,55 +21,66 @@ const fr: Dictionary = {
   },
   landing: {
     hero: {
-      badge: "Disponible sur iOS · Android bientôt",
+      badge: "Disponible sur iOS et Android",
       title: "Entraînez votre cerveau, un puzzle à la fois",
       subtitle:
-        "Cerebrum réunit Sudoku, Mots-Croisés, Mots-Mêlés et Cross Math dans une seule app conçue pour stimuler votre esprit au quotidien.",
+        "Cerebrum réunit Sudoku, Mots Croisés, Mots Mêlés, Cross Math, Trace et Labyrinthe dans une seule app conçue pour stimuler votre esprit au quotidien.",
       cta: "Télécharger Cerebrum",
       ctaSecondary: "Découvrir",
       store: {
         availableNow: "Disponible maintenant",
-        androidSoon: "Android — bientôt disponible",
-      },
-      waitlist: {
-        placeholder: "Votre email",
-        button: "Me notifier",
-        success: "Parfait ! Vous serez notifié dès la sortie sur Android.",
-        error: "Une erreur est survenue. Réessayez.",
+        appStoreLabel: "Télécharger dans l'App Store",
+        googlePlayLabel: "Disponible sur Google Play",
       },
     },
     stats: {
       items: [
-        { value: "4", label: "Jeux en 1" },
+        { value: "6", label: "Jeux en 1" },
         { value: "1000+", label: "Puzzles" },
         { value: "FR & EN", label: "Langues" },
         { value: "Gratuit", label: "Téléchargement" },
       ],
     },
     features: {
-      title: "Un cerveau, quatre disciplines",
+      title: "Un cerveau, six disciplines",
       subtitle:
         "Chaque jeu stimule des compétences cognitives différentes. Combinez-les pour un entraînement complet.",
       items: [
         {
+          id: "sudoku",
           title: "Sudoku",
           description:
             "Logique pure et raisonnement déductif. Des grilles de tous niveaux, du débutant à l'expert, avec des indices intelligents.",
         },
         {
-          title: "Mots-Croisés",
+          id: "crossword",
+          title: "Mots Croisés",
           description:
             "Enrichissez votre vocabulaire et votre culture générale. Des grilles originales mises à jour régulièrement.",
         },
         {
-          title: "Mots-Mêlés",
+          id: "wordsearch",
+          title: "Mots Mêlés",
           description:
             "Retrouvez les mots cachés dans la grille. Un classique des jeux de lettres pour entraîner votre sens de l'observation.",
         },
         {
+          id: "crossmath",
           title: "Cross Math",
           description:
             "Des équations croisées qui mêlent calcul et logique. Le défi parfait pour les esprits mathématiques.",
+        },
+        {
+          id: "trace",
+          title: "Trace",
+          description:
+            "Un seul trait, toutes les cases, sans jamais lever le doigt. Des points de passage numérotés qui corsent le tracé niveau après niveau.",
+        },
+        {
+          id: "maze",
+          title: "Labyrinthe",
+          description:
+            "Exploration libre et sens de l'orientation. Guidez votre luciole vers la sortie en ramassant gemmes et bulles magiques en chemin.",
         },
       ],
     },
@@ -97,23 +108,40 @@ const fr: Dictionary = {
     cta: {
       title: "Prêt à entraîner votre cerveau ?",
       subtitle:
-        "Cerebrum est disponible sur iOS. Quatre jeux de puzzle dans une seule app.",
+        "Cerebrum est disponible sur iOS et Android. Des jeux de puzzle dans une seule app.",
       cta: "Télécharger gratuitement",
       note: "Gratuit avec achats optionnels dans l'app.",
       store: {
         availableNow: "Disponible maintenant",
-        androidSoon: "Android — bientôt disponible",
-      },
-      waitlist: {
-        placeholder: "Votre email",
-        button: "Me notifier",
-        success: "Parfait ! Vous serez notifié dès la sortie sur Android.",
-        error: "Une erreur est survenue. Réessayez.",
+        appStoreLabel: "Télécharger dans l'App Store",
+        googlePlayLabel: "Disponible sur Google Play",
       },
     },
     contact: {
       title: "Une question ?",
-      subtitle: "N'hésitez pas à nous écrire, nous vous répondrons dans les plus brefs délais.",
+      subtitle:
+        "N'hésitez pas à nous écrire, nous vous répondrons dans les plus brefs délais.",
+      form: {
+        name: "Nom",
+        email: "Email",
+        message: "Message",
+        topicLabel: "Sujet",
+        topicPlaceholder: "Choisissez un sujet",
+        topics: [
+          { value: "support", label: "Problème technique ou bug" },
+          { value: "purchases", label: "Achats, abonnements, remboursement" },
+          { value: "account", label: "Compte et données personnelles" },
+          { value: "feedback", label: "Suggestion ou retour sur un jeu" },
+          { value: "press", label: "Presse et partenariats" },
+          { value: "other", label: "Autre" },
+        ],
+        submit: "Envoyer le message",
+        sending: "Envoi en cours...",
+        successTitle: "Message envoyé !",
+        successBody: "Nous vous répondrons dans les plus brefs délais.",
+        error:
+          "Une erreur est survenue. Réessayez ou contactez-nous directement.",
+      },
     },
   },
   privacy: {

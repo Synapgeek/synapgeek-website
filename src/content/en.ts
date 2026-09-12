@@ -21,55 +21,66 @@ const en: Dictionary = {
   },
   landing: {
     hero: {
-      badge: "Now on iOS · Android coming soon",
+      badge: "Now on iOS and Android",
       title: "Train your brain, one puzzle at a time",
       subtitle:
-        "Cerebrum brings Sudoku, Crosswords, Word Search, and Cross Math into one beautifully crafted app designed to challenge your mind every single day.",
+        "Cerebrum brings Sudoku, Crossword, Word Search, Cross Math, Trace, and Maze into one beautifully crafted app designed to challenge your mind every single day.",
       cta: "Download Cerebrum",
       ctaSecondary: "Learn more",
       store: {
         availableNow: "Available now",
-        androidSoon: "Android — coming soon",
-      },
-      waitlist: {
-        placeholder: "Your email",
-        button: "Notify me",
-        success: "You're in! We'll email you when Android launches.",
-        error: "Something went wrong. Try again.",
+        appStoreLabel: "Download on the App Store",
+        googlePlayLabel: "Get it on Google Play",
       },
     },
     stats: {
       items: [
-        { value: "4", label: "Games in 1" },
+        { value: "6", label: "Games in 1" },
         { value: "1000+", label: "Puzzles" },
         { value: "FR & EN", label: "Languages" },
         { value: "Free", label: "Download" },
       ],
     },
     features: {
-      title: "One brain, four disciplines",
+      title: "One brain, six disciplines",
       subtitle:
         "Each game stimulates different cognitive skills. Combine them for a complete workout.",
       items: [
         {
+          id: "sudoku",
           title: "Sudoku",
           description:
             "Pure logic and deductive reasoning. Grids for every level, from beginner to expert, with smart hints.",
         },
         {
-          title: "Crosswords",
+          id: "crossword",
+          title: "Crossword",
           description:
-            "Expand your vocabulary and general knowledge. Original grids updated regularly.",
+            "Expand your vocabulary and general knowledge. Original grids, updated regularly.",
         },
         {
+          id: "wordsearch",
           title: "Word Search",
           description:
-            "Find hidden words in the grid. A timeless word game to sharpen your observation skills.",
+            "Find the words hidden in the grid. A letter-game classic to sharpen your eye for detail.",
         },
         {
+          id: "crossmath",
           title: "Cross Math",
           description:
-            "Crossword-style equations blending arithmetic and logic. The perfect challenge for math lovers.",
+            "Crossed equations blending arithmetic and logic. The perfect challenge for mathematical minds.",
+        },
+        {
+          id: "trace",
+          title: "Trace",
+          description:
+            "One line, every cell, without lifting your finger. Numbered checkpoints make the path trickier level after level.",
+        },
+        {
+          id: "maze",
+          title: "Maze",
+          description:
+            "Free roaming and a sense of direction. Guide your firefly to the exit, collecting gems and magic bubbles along the way.",
         },
       ],
     },
@@ -96,23 +107,38 @@ const en: Dictionary = {
     cta: {
       title: "Ready to train your brain?",
       subtitle:
-        "Cerebrum is out now on iOS. Four puzzle games in one app.",
+        "Cerebrum is out now on iOS and Android. Puzzle games in one app.",
       cta: "Download for free",
       note: "Free with optional in-app purchases.",
       store: {
         availableNow: "Available now",
-        androidSoon: "Android — coming soon",
-      },
-      waitlist: {
-        placeholder: "Your email",
-        button: "Notify me",
-        success: "You're in! We'll email you when Android launches.",
-        error: "Something went wrong. Try again.",
+        appStoreLabel: "Download on the App Store",
+        googlePlayLabel: "Get it on Google Play",
       },
     },
     contact: {
       title: "Got a question?",
       subtitle: "Drop us a line and we'll get back to you as soon as possible.",
+      form: {
+        name: "Name",
+        email: "Email",
+        message: "Message",
+        topicLabel: "Topic",
+        topicPlaceholder: "Choose a topic",
+        topics: [
+          { value: "support", label: "Technical issue or bug" },
+          { value: "purchases", label: "Purchases, subscriptions, refunds" },
+          { value: "account", label: "Account and personal data" },
+          { value: "feedback", label: "Suggestion or feedback on a game" },
+          { value: "press", label: "Press and partnerships" },
+          { value: "other", label: "Other" },
+        ],
+        submit: "Send message",
+        sending: "Sending...",
+        successTitle: "Message sent!",
+        successBody: "We'll get back to you as soon as possible.",
+        error: "An error occurred. Please try again or contact us directly.",
+      },
     },
   },
   privacy: {
@@ -122,12 +148,12 @@ const en: Dictionary = {
       {
         title: "Who we are",
         content:
-          "Synapgeek is an indie studio based in France, developing mobile puzzle game applications. This privacy policy applies to all Synapgeek applications and services, including Cerebrum (hereinafter \"the App\").\n\nFor any questions regarding the protection of your data, you can contact us at: privacy@synapgeek.com",
+          'Synapgeek is an indie studio based in France, developing mobile puzzle game applications. This privacy policy applies to all Synapgeek applications and services, including Cerebrum (hereinafter "the App").\n\nFor any questions regarding the protection of your data, you can contact us at: privacy@synapgeek.com',
       },
       {
         title: "Data collected and sources",
         content:
-          "We collect the following categories of data:\n\n**Account data**\nIf you create an account via Apple, Google, or Facebook: unique identifier, email address, display name, and profile photo (depending on the provider). You may also use the App without an account (anonymous mode).\n\n**Gameplay and progression data**\nScores, completion times, hints used, mistakes, stars earned, levels completed, difficulty level, attempts, best records, daily challenges, play streaks.\n\n**Virtual currency and customization data**\nCoin balance, in-app transaction history, unlocked avatars, monthly trophies, experience points (XP), league/ranking.\n\n**Device and usage data**\nDevice type, operating system version, language, anonymized usage data, diagnostics, error logs, app performance data.\n\n**Advertising data**\nAdvertising identifier (IDFA on iOS, with your consent via App Tracking Transparency; AAID on Android, see \"Advertising and tracking technologies\"), ad interactions, conversion events, attribution data via SKAdNetwork on iOS.\n\n**Transaction data**\nIn-app purchase and subscription history, processed by Apple via StoreKit 2 on iOS and by Google Play Billing on Android. Synapgeek does not collect or store your payment information.\n\n**Data we do NOT collect**\nWe do not collect any geolocation, health, contacts, photos, camera, calendar, or microphone data.",
+          'We collect the following categories of data:\n\n**Account data**\nIf you create an account via Apple, Google, or Facebook: unique identifier, email address, display name, and profile photo (depending on the provider). You may also use the App without an account (anonymous mode).\n\n**Gameplay and progression data**\nScores, completion times, hints used, mistakes, stars earned, levels completed, difficulty level, attempts, best records, daily challenges, play streaks.\n\n**Virtual currency and customization data**\nCoin balance, in-app transaction history, unlocked avatars, monthly trophies, experience points (XP), league/ranking.\n\n**Device and usage data**\nDevice type, operating system version, language, anonymized usage data, diagnostics, error logs, app performance data.\n\n**Advertising data**\nAdvertising identifier (IDFA on iOS, with your consent via App Tracking Transparency; AAID on Android, see "Advertising and tracking technologies"), ad interactions, conversion events, attribution data via SKAdNetwork on iOS.\n\n**Transaction data**\nIn-app purchase and subscription history, processed by Apple via StoreKit 2 on iOS and by Google Play Billing on Android. Synapgeek does not collect or store your payment information.\n\n**Data we do NOT collect**\nWe do not collect any geolocation, health, contacts, photos, camera, calendar, or microphone data.',
       },
       {
         title: "Legal basis for processing",
@@ -172,7 +198,7 @@ const en: Dictionary = {
       {
         title: "Your rights",
         content:
-          "**Rights under GDPR (EU/EEA)**\nIn accordance with the GDPR, you have the following rights:\n\n- **Access**: request a copy of your personal data\n- **Rectification**: correct inaccurate or incomplete data\n- **Erasure**: request deletion of your data\n- **Restriction**: request restriction of processing\n- **Objection**: object to processing based on legitimate interest\n- **Portability**: receive your data in a structured, machine-readable format\n- **Withdraw consent**: withdraw your consent at any time\n\nYou also have the right to lodge a complaint with a supervisory authority (in France: CNIL — www.cnil.fr).\n\n**Rights under CCPA/CPRA (California, United States)**\nIf you reside in California, you have the following rights:\n- Right to know what data is collected and how it is used\n- Right to request deletion of your data\n- Right to opt out of the \"sale\" or \"sharing\" of your data (we do not sell your data)\n- Right to non-discrimination for exercising your rights\n\n**Exercising your rights**\nTo exercise any of these rights, contact us at: privacy@synapgeek.com. We will respond within 30 days.",
+          '**Rights under GDPR (EU/EEA)**\nIn accordance with the GDPR, you have the following rights:\n\n- **Access**: request a copy of your personal data\n- **Rectification**: correct inaccurate or incomplete data\n- **Erasure**: request deletion of your data\n- **Restriction**: request restriction of processing\n- **Objection**: object to processing based on legitimate interest\n- **Portability**: receive your data in a structured, machine-readable format\n- **Withdraw consent**: withdraw your consent at any time\n\nYou also have the right to lodge a complaint with a supervisory authority (in France: CNIL — www.cnil.fr).\n\n**Rights under CCPA/CPRA (California, United States)**\nIf you reside in California, you have the following rights:\n- Right to know what data is collected and how it is used\n- Right to request deletion of your data\n- Right to opt out of the "sale" or "sharing" of your data (we do not sell your data)\n- Right to non-discrimination for exercising your rights\n\n**Exercising your rights**\nTo exercise any of these rights, contact us at: privacy@synapgeek.com. We will respond within 30 days.',
       },
       {
         id: "account-deletion",
@@ -199,7 +225,7 @@ const en: Dictionary = {
       {
         title: "Acceptance of terms",
         content:
-          "By downloading, installing, or using Synapgeek applications (hereinafter \"the App\"), you agree to these Terms of Use (hereinafter \"the Terms\"). If you do not agree to these Terms, please do not use the App.\n\nThe App is intended for users aged 13 and older. If you are between 13 and 18 years old, your parent or legal guardian must read and accept these Terms on your behalf.",
+          'By downloading, installing, or using Synapgeek applications (hereinafter "the App"), you agree to these Terms of Use (hereinafter "the Terms"). If you do not agree to these Terms, please do not use the App.\n\nThe App is intended for users aged 13 and older. If you are between 13 and 18 years old, your parent or legal guardian must read and accept these Terms on your behalf.',
       },
       {
         title: "Service description",
@@ -219,7 +245,7 @@ const en: Dictionary = {
       {
         title: "In-app purchases and subscriptions",
         content:
-          "The App offers optional in-app purchases and subscriptions. All purchases are processed exclusively by your platform's app store: Apple (StoreKit 2) on iOS, Google (Google Play Billing) on Android.\n\n**Consumable purchases**\nCoin packs (virtual currency) may be purchased. Coins can be used within the App to unlock hints, avatars, and other features.\n\n**Non-consumable purchases**\nSome purchases are permanent, such as the \"Lifetime Ad-Free\" or \"Lifetime Premium\" plans.\n\n**Subscriptions**\nMonthly and annual subscriptions are available (Ad-Free, Premium). Subscriptions auto-renew unless cancelled at least 24 hours before the end of the current period. Subscription management and cancellation are done through your Apple account settings on iOS, or through Google Play > Payments & subscriptions on Android.\n\n**Refunds**\nPurchases are subject to the refund policy of the relevant platform. To request a refund, contact Apple at https://reportaproblem.apple.com (iOS) or Google Play at https://support.google.com/googleplay/answer/2479637 (Android).\n\nPrices are displayed in the App before any purchase and may vary by country.",
+          'The App offers optional in-app purchases and subscriptions. All purchases are processed exclusively by your platform\'s app store: Apple (StoreKit 2) on iOS, Google (Google Play Billing) on Android.\n\n**Consumable purchases**\nCoin packs (virtual currency) may be purchased. Coins can be used within the App to unlock hints, avatars, and other features.\n\n**Non-consumable purchases**\nSome purchases are permanent, such as the "Lifetime Ad-Free" or "Lifetime Premium" plans.\n\n**Subscriptions**\nMonthly and annual subscriptions are available (Ad-Free, Premium). Subscriptions auto-renew unless cancelled at least 24 hours before the end of the current period. Subscription management and cancellation are done through your Apple account settings on iOS, or through Google Play > Payments & subscriptions on Android.\n\n**Refunds**\nPurchases are subject to the refund policy of the relevant platform. To request a refund, contact Apple at https://reportaproblem.apple.com (iOS) or Google Play at https://support.google.com/googleplay/answer/2479637 (Android).\n\nPrices are displayed in the App before any purchase and may vary by country.',
       },
       {
         title: "Virtual goods",
@@ -244,7 +270,7 @@ const en: Dictionary = {
       {
         title: "Limitation of liability",
         content:
-          "The App is provided \"as is\" and \"as available.\" Synapgeek does not warrant that the App will operate without interruption, without errors, or that defects will be corrected.\n\nTo the fullest extent permitted by law, Synapgeek shall not be liable for:\n- Any indirect, incidental, special, or consequential damages\n- Loss of data, progress, or virtual goods\n- Any service interruption or App unavailability\n\nSynapgeek's total cumulative liability is limited to the amount you actually paid for the App in the 12 months preceding the claim.",
+          'The App is provided "as is" and "as available." Synapgeek does not warrant that the App will operate without interruption, without errors, or that defects will be corrected.\n\nTo the fullest extent permitted by law, Synapgeek shall not be liable for:\n- Any indirect, incidental, special, or consequential damages\n- Loss of data, progress, or virtual goods\n- Any service interruption or App unavailability\n\nSynapgeek\'s total cumulative liability is limited to the amount you actually paid for the App in the 12 months preceding the claim.',
       },
       {
         title: "Termination and account deletion",
@@ -295,7 +321,7 @@ const en: Dictionary = {
       {
         title: "Intellectual property",
         content:
-          "All elements of this website — including but not limited to text, graphics, logos, icons, images, and the \"Synapgeek\" and \"Cerebrum\" trademarks — are the exclusive property of Synapgeek and are protected by French and international intellectual property laws.\n\nAny reproduction, representation, modification, or exploitation, in whole or in part, of these elements without Synapgeek's prior written consent is prohibited and constitutes infringement.",
+          'All elements of this website — including but not limited to text, graphics, logos, icons, images, and the "Synapgeek" and "Cerebrum" trademarks — are the exclusive property of Synapgeek and are protected by French and international intellectual property laws.\n\nAny reproduction, representation, modification, or exploitation, in whole or in part, of these elements without Synapgeek\'s prior written consent is prohibited and constitutes infringement.',
       },
       {
         title: "Personal data and cookies",

@@ -2,12 +2,18 @@ import Image from "next/image";
 import { Card } from "@/components/ui/Card";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
-const featureImages = [
-  "/images/games/feature-sudoku.webp",
-  "/images/games/feature-crosswords.webp",
-  "/images/games/feature-wordsearch.webp",
-  "/images/games/feature-crossmath.webp",
-];
+/**
+ * Visuel par jeu, indexé par `id` et non par position : l'ordre du tableau du
+ * dictionnaire peut changer sans désynchroniser les images.
+ */
+const FEATURE_IMAGES: Record<string, string> = {
+  sudoku: "/images/games/feature-sudoku.webp",
+  crossword: "/images/games/feature-crosswords.webp",
+  wordsearch: "/images/games/feature-wordsearch.webp",
+  crossmath: "/images/games/feature-crossmath.webp",
+  trace: "/images/games/feature-trace.webp",
+  maze: "/images/games/feature-maze.webp",
+};
 
 export function Features({
   dict,
@@ -15,19 +21,19 @@ export function Features({
   dict: {
     title: string;
     subtitle: string;
-    items: readonly { title: string; description: string }[];
+    items: readonly { id: string; title: string; description: string }[];
   };
 }) {
   return (
     <section id="features" className="bg-surface px-6 py-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeading title={dict.title} subtitle={dict.subtitle} />
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {dict.items.map((feature, i) => (
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {dict.items.map((feature) => (
             <Card key={feature.title}>
               <div className="mb-6">
                 <Image
-                  src={featureImages[i]}
+                  src={FEATURE_IMAGES[feature.id]}
                   alt={feature.title}
                   width={80}
                   height={80}

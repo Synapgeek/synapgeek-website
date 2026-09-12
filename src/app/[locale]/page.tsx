@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { generateStaticParams } from "@/lib/i18n";
 import { getDictionary, getLocale } from "@/content";
-import { getAlternates } from "@/lib/seo";
-import { APP_STORE_URL } from "@/lib/app";
+import { getAlternates, buildOpenGraph } from "@/lib/seo";
+import { APP_STORE_URL, GOOGLE_PLAY_URL } from "@/lib/app";
 import { JsonLd } from "@/components/JsonLd";
 import { Hero } from "@/components/landing/Hero";
 import { Stats } from "@/components/landing/Stats";
@@ -29,11 +29,12 @@ export async function generateMetadata({
     },
     description: dict.landing.hero.subtitle,
     alternates: getAlternates(locale, "/"),
-    openGraph: {
-      title: `${dict.common.siteName} — ${dict.common.tagline}`,
-      description: dict.landing.hero.subtitle,
-      type: "website",
-    },
+    openGraph: buildOpenGraph(
+      locale,
+      "/",
+      `${dict.common.siteName} — ${dict.common.tagline}`,
+      dict.landing.hero.subtitle,
+    ),
   };
 }
 
@@ -53,10 +54,10 @@ export default async function HomePage({
     description: dict.landing.hero.subtitle,
     image: "https://synapgeek.com/images/brand/og-image.jpeg",
     applicationCategory: "GameApplication",
-    operatingSystem: "iOS",
+    operatingSystem: ["iOS", "Android"],
     inLanguage: ["fr", "en"],
     url: APP_STORE_URL,
-    downloadUrl: APP_STORE_URL,
+    downloadUrl: [APP_STORE_URL, GOOGLE_PLAY_URL],
     datePublished: "2026-06-03",
     offers: {
       "@type": "Offer",
@@ -84,7 +85,7 @@ export default async function HomePage({
         <CTAFinal locale={locale} dict={dict.landing.cta} />
       </TrackSection>
       <TrackSection name="contact">
-        <Contact locale={locale} dict={dict.landing.contact} />
+        <Contact dict={dict.landing.contact} />
       </TrackSection>
     </>
   );

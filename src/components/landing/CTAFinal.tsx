@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { StoreButtons } from "@/components/ui/StoreButtons";
-import type { StoreDownload, Waitlist } from "@/content/types";
+import type { StoreDownload } from "@/content/types";
 
 export function CTAFinal({
   locale,
@@ -12,7 +12,6 @@ export function CTAFinal({
     subtitle: string;
     note: string;
     store: StoreDownload;
-    waitlist: Waitlist;
   };
 }) {
   return (
@@ -42,7 +41,6 @@ export function CTAFinal({
           <StoreButtons
             locale={locale}
             dict={dict.store}
-            waitlist={dict.waitlist}
             className="lg:items-center"
           />
         </div>

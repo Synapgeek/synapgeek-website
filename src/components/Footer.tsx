@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { getLocalePath } from "@/lib/i18n";
 import type { Dictionary } from "@/content";
-import { APP_STORE_URL } from "@/lib/app";
+import { APP_STORE_URL, GOOGLE_PLAY_URL } from "@/lib/app";
 
 export function Footer({
   locale,
@@ -28,9 +28,7 @@ export function Footer({
               />
               Synapgeek
             </div>
-            <p className="mt-3 text-sm text-gray-400">
-              {dict.tagline}
-            </p>
+            <p className="mt-3 text-sm text-gray-400">{dict.tagline}</p>
           </div>
 
           {/* Product */}
@@ -55,6 +53,16 @@ export function Footer({
                   className="text-gray-400 transition-colors hover:text-white"
                 >
                   App Store
+                </a>
+              </li>
+              <li>
+                <a
+                  href={GOOGLE_PLAY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 transition-colors hover:text-white"
+                >
+                  Google Play
                 </a>
               </li>
             </ul>
@@ -105,6 +113,16 @@ export function Footer({
                   className="text-gray-400 transition-colors hover:text-white"
                 >
                   {locale === "fr" ? "Nous écrire" : "Write to us"}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={getLocalePath(dict.languageSwitchLocale, "/")}
+                  hrefLang={dict.languageSwitchLocale}
+                  lang={dict.languageSwitchLocale}
+                  className="text-gray-400 transition-colors hover:text-white"
+                >
+                  {dict.languageSwitch}
                 </Link>
               </li>
             </ul>
