@@ -75,9 +75,11 @@ automatiques du repo. Tout le reste est humain ou passe par un sous-agent.
   entre parenthèses est **tronquée** par la regex `[^\s),]+` — et rien ne le détecte :
   ni lint, ni build.
 - Aucun texte en dur dans les composants localisés : tout passe par `Dictionary`
-  (`src/content/fr.ts` + `en.ts` + `types.ts`). ⚠ Dette connue : **1 ternaire
-  `locale === "fr" ? … : …`** subsiste, dans `[locale]/layout.tsx` (lien « aller au
-  contenu »). `Footer.tsx` a été assaini (ternaires remplacés par des clés `Dictionary`).
+  (`src/content/fr.ts` + `en.ts` + `types.ts`). ⚠ Dette connue : **4 ternaires
+  `locale === "fr" ? … : …`** subsistent — dans `[locale]/layout.tsx` (lien « aller au
+  contenu ») et dans `generateMetadata` de `[locale]/legal/page.tsx`,
+  `[locale]/privacy/page.tsx` et `[locale]/terms/page.tsx` (description SEO).
+  `Footer.tsx` a été assaini (ternaires remplacés par des clés `Dictionary`).
   `site-reviewer` refuse toute PR qui fait monter ce compte.
 - Tout lien interne passe par `getLocalePath()`
 
@@ -488,7 +490,7 @@ Contradictions constatées, non arbitrées — à lever, pas à recopier.
    le siège social de Synapgeek SAS (mentions légales du même site, `/legal`) est à
    Frontenas (69620), pas à Paris. À faire trancher par un juriste avant de corriger.
 4. **Consent Mode avancé hors zone RGPD** : `ConsentBootstrap` pousse `analytics_storage:
-   "granted"` par défaut à tout visiteur hors des 43 juridictions de `GDPR_REGIONS`, donc
+"granted"` par défaut à tout visiteur hors des 43 juridictions de `GDPR_REGIONS`, donc
    des signaux sans cookie partent vers Google avant tout choix explicite. Ce point n'a
    jamais été soumis à un avis juridique dédié pour synapgeek.com (réutilisation de
    mécanisme depuis Word Search Trove) — l'arbitrage doit être validé explicitement, pas

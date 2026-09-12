@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import Image from "next/image";
 import type { Locale } from "@/lib/i18n";
 import type { HeroSlideId, HeroSlider } from "@/content/types";
@@ -23,6 +23,12 @@ interface Slide {
 
 const AUTOPLAY_INTERVAL = 4000;
 
+// Lu à chaque (re)démarrage du minuteur (effet ou clic sur un point) plutôt que
+// mémorisé une seule fois : le réglage système peut changer pendant la visite.
+function prefersReducedMotion(): boolean {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 interface IPhoneSliderProps {
   locale: Locale;
   // Textes localisés du carrousel, fournis par src/content/{fr,en}.ts — aucun texte
@@ -40,7 +46,10 @@ export function IPhoneSlider({ locale, dict }: IPhoneSliderProps) {
   }>({ active: 0, previous: null });
   const { active: activeIndex, previous: previousIndex } = slideIndex;
   const [isPaused, setIsPaused] = useState(false);
-  const [restartKey, setRestartKey] = useState(0);
+  // Id du `setInterval` en cours : conservé dans un ref (et non un état) pour
+  // pouvoir le stopper/relancer de façon synchrone depuis `handleDotClick`,
+  // sans modéliser ce clic comme un état supplémentaire consommé par l'effet.
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   // Les diapositives 2 à 5 ne sont montées qu'une fois la première chargée :
   // au premier rendu, les 5 captures se téléchargeaient alors que 4 étaient
   // invisibles.
@@ -73,28 +82,30 @@ export function IPhoneSlider({ locale, dict }: IPhoneSliderProps) {
    *
    * Il est coupé net si l'utilisateur a demandé moins d'animation : neutraliser
    * le fondu en CSS ne suffisait pas, les captures se remplaçaient alors en
-   * coupe franche toutes les 4 s (WCAG 2.2.2). `restartKey` est incrémenté à
-   * chaque clic pour relancer un cycle complet plutôt que de reprendre au
-   * milieu du précédent.
+   * coupe franche toutes les 4 s (WCAG 2.2.2).
    */
   useEffect(() => {
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    if (reduceMotion || isPaused) return;
+    if (prefersReducedMotion() || isPaused) return;
 
-    const id = setInterval(goToNext, AUTOPLAY_INTERVAL);
-    return () => clearInterval(id);
-  }, [isPaused, goToNext, restartKey]);
+    intervalRef.current = setInterval(goToNext, AUTOPLAY_INTERVAL);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [isPaused, goToNext]);
 
   const handleDotClick = useCallback(
     (index: number) => {
       goToSlide(index);
-      // Sans ceci, l'effet ci-dessus n'est pas réexécuté : au tap tactile (pas
-      // de `mouseleave` pour rattraper), le carrousel ne repartait jamais.
-      setRestartKey((k) => k + 1);
+      // Redémarre le minuteur d'autoplay directement dans le gestionnaire :
+      // sans ce clear/set synchrone (plutôt qu'un état consommé par l'effet
+      // ci-dessus), le tap tactile (pas de `mouseleave` pour rattraper) ne
+      // relançait jamais le carrousel.
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (!prefersReducedMotion() && !isPaused) {
+        intervalRef.current = setInterval(goToNext, AUTOPLAY_INTERVAL);
+      }
     },
-    [goToSlide],
+    [goToSlide, goToNext, isPaused],
   );
 
   return (

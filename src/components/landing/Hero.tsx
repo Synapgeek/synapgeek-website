@@ -1,5 +1,3 @@
-"use client";
-
 import ReactDOM from "react-dom";
 import Image, { getImageProps } from "next/image";
 import { Sparkles } from "lucide-react";
