@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import { generateStaticParams } from "@/lib/i18n";
 import { getDictionary, getLocale } from "@/content";
-import { getAlternates } from "@/lib/seo";
-import { APP_STORE_URL } from "@/lib/app";
+import { getAlternates, buildOpenGraph } from "@/lib/seo";
+import {
+  faqPageSchema,
+  softwareApplicationSchema,
+} from "@/lib/structured-data";
 import { JsonLd } from "@/components/JsonLd";
 import { Hero } from "@/components/landing/Hero";
 import { Stats } from "@/components/landing/Stats";
 import { Features } from "@/components/landing/Features";
+import { FAQ } from "@/components/landing/FAQ";
 import { About } from "@/components/landing/About";
 import { CTAFinal } from "@/components/landing/CTAFinal";
 import { Contact } from "@/components/landing/Contact";
@@ -21,19 +25,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: raw } = await params;
   const locale = getLocale(raw);
-  const dict = getDictionary(locale);
+  const { meta } = getDictionary(locale).landing;
 
   return {
     title: {
-      absolute: `${dict.common.siteName} — ${dict.common.tagline}`,
+      absolute: meta.title,
     },
-    description: dict.landing.hero.subtitle,
+    description: meta.description,
     alternates: getAlternates(locale, "/"),
-    openGraph: {
-      title: `${dict.common.siteName} — ${dict.common.tagline}`,
-      description: dict.landing.hero.subtitle,
-      type: "website",
-    },
+    openGraph: buildOpenGraph(locale, "/", meta.title, meta.description),
   };
 }
 
@@ -46,36 +46,22 @@ export default async function HomePage({
   const locale = getLocale(rawLocale);
   const dict = getDictionary(locale);
 
-  const softwareAppSchema = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: "Cerebrum",
-    description: dict.landing.hero.subtitle,
-    image: "https://synapgeek.com/images/brand/og-image.jpeg",
-    applicationCategory: "GameApplication",
-    operatingSystem: "iOS",
-    inLanguage: ["fr", "en"],
-    url: APP_STORE_URL,
-    downloadUrl: APP_STORE_URL,
-    datePublished: "2026-06-03",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "EUR",
-      availability: "https://schema.org/InStock",
-    },
-    author: {
-      "@id": "https://synapgeek.com/#organization",
-    },
-  };
-
   return (
     <>
-      <JsonLd data={softwareAppSchema} />
+      <JsonLd
+        data={softwareApplicationSchema(locale, {
+          description: dict.landing.hero.subtitle,
+        })}
+      />
+      {/* Mêmes questions/réponses que la FAQ visible, en texte brut. */}
+      <JsonLd data={faqPageSchema(dict.landing.faq.items)} />
       <Hero locale={locale} dict={dict.landing.hero} />
       <Stats items={dict.landing.stats.items} />
       <TrackSection name="features">
         <Features dict={dict.landing.features} />
+      </TrackSection>
+      <TrackSection name="faq">
+        <FAQ locale={locale} dict={dict.landing.faq} />
       </TrackSection>
       <TrackSection name="about">
         <About dict={dict.landing.about} />
@@ -84,7 +70,7 @@ export default async function HomePage({
         <CTAFinal locale={locale} dict={dict.landing.cta} />
       </TrackSection>
       <TrackSection name="contact">
-        <Contact locale={locale} dict={dict.landing.contact} />
+        <Contact dict={dict.landing.contact} />
       </TrackSection>
     </>
   );

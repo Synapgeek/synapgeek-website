@@ -3,7 +3,8 @@ import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { getLocalePath } from "@/lib/i18n";
 import type { Dictionary } from "@/content";
-import { APP_STORE_URL } from "@/lib/app";
+import { APP_STORE_URL, GOOGLE_PLAY_URL } from "@/lib/app";
+import { ReopenConsentLink } from "@/components/consent/ReopenConsentLink";
 
 export function Footer({
   locale,
@@ -28,15 +29,13 @@ export function Footer({
               />
               Synapgeek
             </div>
-            <p className="mt-3 text-sm text-gray-400">
-              {dict.tagline}
-            </p>
+            <p className="mt-3 text-sm text-gray-400">{dict.tagline}</p>
           </div>
 
           {/* Product */}
           <div>
             <p className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-400">
-              Product
+              {dict.footer.productHeading}
             </p>
             <ul className="space-y-3 text-sm">
               <li>
@@ -44,7 +43,7 @@ export function Footer({
                   href={getLocalePath(locale, "/#features")}
                   className="text-gray-400 transition-colors hover:text-white"
                 >
-                  {locale === "fr" ? "Fonctionnalités" : "Features"}
+                  {dict.footer.features}
                 </Link>
               </li>
               <li>
@@ -57,13 +56,23 @@ export function Footer({
                   App Store
                 </a>
               </li>
+              <li>
+                <a
+                  href={GOOGLE_PLAY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 transition-colors hover:text-white"
+                >
+                  Google Play
+                </a>
+              </li>
             </ul>
           </div>
 
           {/* Legal */}
           <div>
             <p className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-400">
-              {locale === "fr" ? "Légal" : "Legal"}
+              {dict.footer.legalHeading}
             </p>
             <ul className="space-y-3 text-sm">
               <li>
@@ -90,13 +99,16 @@ export function Footer({
                   {dict.footer.legalNotice}
                 </Link>
               </li>
+              <li>
+                <ReopenConsentLink label={dict.footer.manageCookies} />
+              </li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
             <p className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-400">
-              Contact
+              {dict.footer.contactHeading}
             </p>
             <ul className="space-y-3 text-sm">
               <li>
@@ -104,7 +116,17 @@ export function Footer({
                   href={getLocalePath(locale, "/#contact")}
                   className="text-gray-400 transition-colors hover:text-white"
                 >
-                  {locale === "fr" ? "Nous écrire" : "Write to us"}
+                  {dict.footer.writeToUs}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={getLocalePath(dict.languageSwitchLocale, "/")}
+                  hrefLang={dict.languageSwitchLocale}
+                  lang={dict.languageSwitchLocale}
+                  className="text-gray-400 transition-colors hover:text-white"
+                >
+                  {dict.languageSwitch}
                 </Link>
               </li>
             </ul>
@@ -115,9 +137,9 @@ export function Footer({
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-gray-800 pt-8 text-xs text-gray-400 sm:flex-row">
           <p>{dict.footer.copyright}</p>
           <p className="flex items-center gap-1">
-            {locale === "fr" ? "Fait avec" : "Made with"}
+            {dict.footer.madeWith}
             <span className="text-accent-coral">❤</span>
-            {locale === "fr" ? "en France" : "in France"}
+            {dict.footer.inFrance}
           </p>
         </div>
       </div>

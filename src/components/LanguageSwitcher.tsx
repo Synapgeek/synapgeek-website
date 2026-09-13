@@ -61,28 +61,31 @@ export function LanguageSwitcher({ locale }: { locale: Locale }) {
           role="listbox"
           aria-label="Languages"
         >
-          {(Object.entries(LANGUAGES) as [Locale, { label: string; flag: string }][]).map(
-            ([lang, { label, flag }]) => (
-              <Link
-                key={lang}
-                href={getLocalizedPath(lang)}
-                onClick={() => {
-                  setOpen(false);
-                  if (lang !== locale) {
-                    trackEvent("language_switched", { from: locale, to: lang });
-                  }
-                }}
-                role="option"
-                aria-selected={lang === locale}
-                className={`flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors hover:bg-surface ${
-                  lang === locale ? "bg-primary/5 text-primary" : ""
-                }`}
-              >
-                <span aria-hidden="true">{flag}</span>
-                <span>{label}</span>
-              </Link>
-            ),
-          )}
+          {(
+            Object.entries(LANGUAGES) as [
+              Locale,
+              { label: string; flag: string },
+            ][]
+          ).map(([lang, { label, flag }]) => (
+            <Link
+              key={lang}
+              href={getLocalizedPath(lang)}
+              onClick={() => {
+                setOpen(false);
+                if (lang !== locale) {
+                  trackEvent("language_switched", { from: locale, to: lang });
+                }
+              }}
+              role="option"
+              aria-selected={lang === locale}
+              className={`flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors hover:bg-surface ${
+                lang === locale ? "bg-primary/5 text-primary" : ""
+              }`}
+            >
+              <span aria-hidden="true">{flag}</span>
+              <span>{label}</span>
+            </Link>
+          ))}
         </div>
       )}
     </div>

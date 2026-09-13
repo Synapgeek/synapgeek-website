@@ -8,6 +8,10 @@ const fr: Dictionary = {
       home: "Accueil",
       privacy: "Confidentialité",
       terms: "CGU",
+      features: "Jeux",
+      about: "À propos",
+      faq: "FAQ",
+      contact: "Contact",
     },
     footer: {
       copyright: `© ${new Date().getFullYear()} Synapgeek. Tous droits réservés.`,
@@ -15,110 +19,242 @@ const fr: Dictionary = {
       terms: "Conditions d'utilisation",
       legalNotice: "Mentions légales",
       contact: "Contact",
+      manageCookies: "Gérer mes cookies",
+      productHeading: "Produit",
+      legalHeading: "Légal",
+      contactHeading: "Contact",
+      features: "Fonctionnalités",
+      writeToUs: "Nous écrire",
+      madeWith: "Fait avec",
+      inFrance: "en France",
+    },
+    consent: {
+      title: "Votre choix sur la mesure d'audience",
+      body: "Nous utilisons Google Analytics (cookies de mesure d'audience) pour comprendre comment ce site est utilisé. Selon votre pays, cette mesure attend votre accord ou est active par défaut : acceptez-la ou refusez-la ici, et changez d'avis à tout moment via « Gérer mes cookies ». Ce site n'affiche aucune publicité.",
+      learnMore: "En savoir plus",
+      accept: "Accepter",
+      refuse: "Refuser",
     },
     languageSwitch: "English",
     languageSwitchLocale: "en",
   },
   landing: {
+    meta: {
+      title: "Cerebrum : jeux de puzzle hors ligne, sans wifi | Synapgeek",
+      description:
+        "Jouez sans wifi au Sudoku, aux Mots Croisés, Mots Mêlés, Cross Math, Trace et Labyrinthe avec Cerebrum. Gratuit sur iPhone, iPad et Android : téléchargez-le.",
+    },
     hero: {
-      badge: "Disponible sur iOS · Android bientôt",
+      badge: "Disponible sur iOS et Android",
       title: "Entraînez votre cerveau, un puzzle à la fois",
       subtitle:
-        "Cerebrum réunit Sudoku, Mots-Croisés, Mots-Mêlés et Cross Math dans une seule app conçue pour stimuler votre esprit au quotidien.",
+        "Cerebrum réunit Sudoku, Mots Croisés, Mots Mêlés, Cross Math, Trace et Labyrinthe dans une seule app, jouable hors ligne et sans wifi, pour stimuler votre esprit au quotidien.",
       cta: "Télécharger Cerebrum",
       ctaSecondary: "Découvrir",
       store: {
         availableNow: "Disponible maintenant",
-        androidSoon: "Android — bientôt disponible",
+        appStoreLabel: "Télécharger dans l'App Store",
+        googlePlayLabel: "Disponible sur Google Play",
       },
-      waitlist: {
-        placeholder: "Votre email",
-        button: "Me notifier",
-        success: "Parfait ! Vous serez notifié dès la sortie sur Android.",
-        error: "Une erreur est survenue. Réessayez.",
+      slider: {
+        carouselLabel: "Captures d'écran de l'application Cerebrum",
+        slideLabel: "Diapositive {index} sur {total}",
+        controlsLabel: "Contrôles du diaporama",
+        goToSlide: "Aller à la diapositive {index}",
+        alts: {
+          home: "Écran d'accueil de Cerebrum présentant ses six jeux : Sudoku, Mots Croisés, Mots Mêlés, Cross Math, Trace et Labyrinthe",
+          sudoku:
+            "Partie de Sudoku dans Cerebrum avec une grille partiellement remplie et le pavé numérique",
+          daily:
+            "Calendrier du défi quotidien de Cerebrum avec les jours complétés marqués d'étoiles",
+          victory:
+            "Écran de victoire de Cerebrum avec trois étoiles, un nouveau record et la progression de ligue",
+          profile:
+            "Écran de profil de Cerebrum avec l'avatar du joueur, sa progression de ligue et ses trophées mensuels",
+        },
       },
     },
     stats: {
       items: [
-        { value: "4", label: "Jeux en 1" },
+        { value: "6", label: "Jeux en 1" },
         { value: "1000+", label: "Puzzles" },
         { value: "FR & EN", label: "Langues" },
         { value: "Gratuit", label: "Téléchargement" },
       ],
     },
     features: {
-      title: "Un cerveau, quatre disciplines",
+      title: "Un cerveau, six disciplines",
       subtitle:
         "Chaque jeu stimule des compétences cognitives différentes. Combinez-les pour un entraînement complet.",
       items: [
         {
+          id: "sudoku",
           title: "Sudoku",
           description:
             "Logique pure et raisonnement déductif. Des grilles de tous niveaux, du débutant à l'expert, avec des indices intelligents.",
         },
         {
-          title: "Mots-Croisés",
+          id: "crossword",
+          title: "Mots Croisés",
           description:
-            "Enrichissez votre vocabulaire et votre culture générale. Des grilles originales mises à jour régulièrement.",
+            "Enrichissez votre vocabulaire et votre culture générale. Des grilles en français et en anglais.",
         },
         {
-          title: "Mots-Mêlés",
+          id: "wordsearch",
+          title: "Mots Mêlés",
           description:
             "Retrouvez les mots cachés dans la grille. Un classique des jeux de lettres pour entraîner votre sens de l'observation.",
         },
         {
+          id: "crossmath",
           title: "Cross Math",
           description:
             "Des équations croisées qui mêlent calcul et logique. Le défi parfait pour les esprits mathématiques.",
+        },
+        {
+          id: "trace",
+          title: "Trace",
+          description:
+            "Un seul trait, toutes les cases, sans jamais lever le doigt. Des points de passage numérotés qui corsent le tracé niveau après niveau.",
+        },
+        {
+          id: "maze",
+          title: "Labyrinthe",
+          description:
+            "Exploration libre et sens de l'orientation. Guidez votre luciole vers la sortie en ramassant les cristaux en chemin.",
         },
       ],
     },
     about: {
       title: "Construit par des passionnés",
       description:
-        "Synapgeek est un studio indie français passionné de jeux mobiles. Nous croyons que les meilleurs jeux sont ceux qui allient élégance, challenge et plaisir.",
+        "Synapgeek est le studio indépendant français qui conçoit et édite Cerebrum, disponible sur l'App Store et Google Play. Nous croyons que les meilleurs jeux sont ceux qui allient élégance, challenge et plaisir.",
       values: [
         {
-          title: "Qualité avant quantité",
+          title: "Des puzzles vérifiés",
           description:
-            "Chaque puzzle est conçu avec soin. Pas de contenu généré en masse.",
+            "Nos puzzles sont générés par nos propres outils, puis contrôlés automatiquement par des solveurs avant d'arriver dans l'app.",
         },
         {
-          title: "Respect de votre vie privée",
+          title: "Vos choix, vos données",
           description:
-            "Vos données vous appartiennent. Pas de tracking invasif.",
+            "Sur iPhone et iPad, aucun suivi publicitaire sans votre autorisation ; dans l'EEE, au Royaume-Uni et en Suisse, votre consentement est demandé avant toute publicité personnalisée. Votre compte se supprime à tout moment depuis l'app.",
         },
         {
           title: "Fait en France",
-          description: "Conçu et développé à Paris avec passion.",
+          description:
+            "Conçu et développé en France par Synapgeek, studio indépendant.",
+        },
+      ],
+    },
+    faq: {
+      title: "Questions fréquentes sur Cerebrum",
+      subtitle:
+        "Gratuité, jeu hors ligne, appareils compatibles, compte : l'essentiel à savoir avant de télécharger l'app.",
+      items: [
+        {
+          question: "Quels jeux propose Cerebrum ?",
+          answer:
+            "Cerebrum est une app de jeux de puzzle qui réunit six jeux : Sudoku, Mots Croisés, Mots Mêlés, Cross Math, Trace et Labyrinthe. L'app propose plusieurs niveaux de difficulté par jeu, des défis quotidiens et une progression niveau après niveau.",
+        },
+        {
+          question: "Cerebrum est-il gratuit ?",
+          answer:
+            "Oui, Cerebrum se télécharge et se joue gratuitement sur l'App Store et Google Play. L'app propose des achats intégrés facultatifs (monnaie virtuelle, packs thématiques de Mots Croisés et Mots Mêlés) et un abonnement Premium, dont les prix sont affichés dans l'app et varient selon le pays.",
+        },
+        {
+          question:
+            "Y a-t-il des publicités dans Cerebrum, et comment les retirer ?",
+          answer:
+            "La version gratuite de Cerebrum affiche des bannières, des interstitiels et des publicités récompensées, que vous choisissez de regarder en échange d'un bonus. Un abonnement Premium, hebdomadaire, mensuel ou annuel, supprime les publicités imposées ; les publicités récompensées restent disponibles si vous le souhaitez.",
+        },
+        {
+          question: "Peut-on jouer à Cerebrum hors ligne, sans wifi ?",
+          answer:
+            "Oui, tous les jeux de Cerebrum, y compris les défis quotidiens, se jouent sans connexion internet : les puzzles sont intégrés à l'app et votre progression est enregistrée sur l'appareil. Une connexion reste nécessaire pour synchroniser votre progression, consulter les classements, effectuer un achat, vous connecter à un compte et afficher les publicités.",
+        },
+        {
+          question: "Sur quels appareils Cerebrum est-il disponible ?",
+          answer:
+            "Cerebrum est disponible sur iPhone et iPad (iOS 17 ou version ultérieure) via l'App Store, et sur les appareils Android (Android 8.0 ou version ultérieure) via Google Play. L'app se joue en mode portrait.",
+        },
+        {
+          question: "Faut-il créer un compte pour jouer à Cerebrum ?",
+          answer:
+            "Non, Cerebrum se joue sans créer de compte : une session anonyme est ouverte automatiquement au premier lancement. Vous pouvez ensuite vous connecter avec Apple, Google ou Facebook si vous le souhaitez.",
+        },
+        {
+          question:
+            "Ma progression dans Cerebrum est-elle synchronisée entre mes appareils ?",
+          answer:
+            "Oui, dès que vous vous connectez à Cerebrum avec un compte Apple, Google ou Facebook : votre progression est sauvegardée en ligne et vous la retrouvez sur vos autres appareils connectés au même compte. Sans compte connecté, la progression reste liée à l'appareil et ne peut pas être récupérée si vous en changez.",
+        },
+        {
+          question: "En quelles langues Cerebrum est-il disponible ?",
+          answer:
+            "Cerebrum est disponible en français et en anglais, sur iOS comme sur Android. Les Mots Croisés et les Mots Mêlés proposent des grilles dans ces deux langues.",
+        },
+        {
+          question: "Comment supprimer mon compte Cerebrum ?",
+          answer:
+            "Dans Cerebrum, ouvrez Profil puis « Supprimer le compte » : après confirmation, votre compte et les données associées (progression, succès, historique de série, données synchronisées) sont supprimés. Si vous n'avez plus accès à l'app, la marche à suivre est décrite dans notre politique de confidentialité.",
+          link: {
+            text: "notre politique de confidentialité",
+            path: "/privacy#account-deletion",
+          },
+        },
+        {
+          question: "Qui édite Cerebrum ?",
+          answer:
+            "Cerebrum est édité par Synapgeek SAS, un studio indépendant français de jeux mobiles basé à Frontenas, dans le Rhône. Pour toute question sur l'app, le formulaire de contact de synapgeek.com sert aussi de support.",
         },
       ],
     },
     cta: {
       title: "Prêt à entraîner votre cerveau ?",
       subtitle:
-        "Cerebrum est disponible sur iOS. Quatre jeux de puzzle dans une seule app.",
+        "Cerebrum est disponible sur iOS et Android. Des jeux de puzzle dans une seule app.",
       cta: "Télécharger gratuitement",
       note: "Gratuit avec achats optionnels dans l'app.",
       store: {
         availableNow: "Disponible maintenant",
-        androidSoon: "Android — bientôt disponible",
-      },
-      waitlist: {
-        placeholder: "Votre email",
-        button: "Me notifier",
-        success: "Parfait ! Vous serez notifié dès la sortie sur Android.",
-        error: "Une erreur est survenue. Réessayez.",
+        appStoreLabel: "Télécharger dans l'App Store",
+        googlePlayLabel: "Disponible sur Google Play",
       },
     },
     contact: {
       title: "Une question ?",
-      subtitle: "N'hésitez pas à nous écrire, nous vous répondrons dans les plus brefs délais.",
+      subtitle:
+        "N'hésitez pas à nous écrire, nous vous répondrons dans les plus brefs délais.",
+      form: {
+        name: "Nom",
+        email: "Email",
+        message: "Message",
+        topicLabel: "Sujet",
+        topicPlaceholder: "Choisissez un sujet",
+        topics: [
+          { value: "support", label: "Problème technique ou bug" },
+          { value: "purchases", label: "Achats, abonnements, remboursement" },
+          { value: "account", label: "Compte et données personnelles" },
+          { value: "feedback", label: "Suggestion ou retour sur un jeu" },
+          { value: "press", label: "Presse et partenariats" },
+          { value: "other", label: "Autre" },
+        ],
+        submit: "Envoyer le message",
+        sending: "Envoi en cours...",
+        successTitle: "Message envoyé !",
+        successBody: "Nous vous répondrons dans les plus brefs délais.",
+        error:
+          "Une erreur est survenue. Réessayez ou contactez-nous directement.",
+        unavailable:
+          "Le formulaire est momentanément indisponible. Écrivez-nous directement à contact@synapgeek.com.",
+      },
     },
   },
   privacy: {
     title: "Politique de confidentialité",
-    lastUpdated: "Dernière mise à jour : 22 juillet 2026",
+    lastUpdated: "Dernière mise à jour : 12 septembre 2026",
+    updatedAt: "2026-09-12",
     sections: [
       {
         title: "Qui sommes-nous",
@@ -128,12 +264,12 @@ const fr: Dictionary = {
       {
         title: "Données collectées et sources",
         content:
-          "Nous collectons les catégories de données suivantes :\n\n**Données de compte**\nSi vous créez un compte via Apple, Google ou Facebook : identifiant unique, adresse email, nom d'affichage et photo de profil (selon le fournisseur). Vous pouvez également utiliser l'Application sans compte (mode anonyme).\n\n**Données de jeu et de progression**\nScores, temps de complétion, indices utilisés, erreurs, étoiles obtenues, niveaux complétés, niveau de difficulté, tentatives, meilleurs records, défis quotidiens, séries de jeu (streaks).\n\n**Données de monnaie virtuelle et de personnalisation**\nSolde de pièces, historique de transactions in-app, avatars débloqués, trophées mensuels, points d'expérience (XP), ligue/classement.\n\n**Données d'appareil et d'utilisation**\nType d'appareil, version du système d'exploitation, langue, données d'utilisation anonymisées, diagnostics, journaux d'erreur, données de performance applicative.\n\n**Données publicitaires**\nIdentifiant publicitaire (IDFA sur iOS, avec votre consentement via App Tracking Transparency ; AAID sur Android, voir la section « Publicités et technologies de suivi »), interactions avec les publicités, événements de conversion, données d'attribution via SKAdNetwork sur iOS.\n\n**Données de transaction**\nHistorique des achats in-app et abonnements, traités par Apple via StoreKit 2 sur iOS et par Google Play Billing sur Android. Synapgeek ne collecte ni ne stocke vos informations de paiement.\n\n**Données que nous ne collectons PAS**\nNous ne collectons aucune donnée de géolocalisation, de santé, de contacts, de photos, de caméra, de calendrier ni de microphone.",
+          "Nous collectons les catégories de données suivantes :\n\n**Données de compte**\nSi vous créez un compte via Apple, Google ou Facebook : identifiant unique, adresse email, nom d'affichage et photo de profil (selon le fournisseur). Vous pouvez également utiliser l'Application sans compte (mode anonyme).\n\n**Données de jeu et de progression**\nScores, temps de complétion, indices utilisés, erreurs, étoiles obtenues, niveaux complétés, niveau de difficulté, tentatives, meilleurs records, défis quotidiens, séries de jeu (streaks).\n\n**Données de monnaie virtuelle et de personnalisation**\nSolde de gemmes, historique de transactions in-app, avatars débloqués, trophées mensuels, points d'expérience (XP), ligue/classement.\n\n**Données d'appareil et d'utilisation**\nType d'appareil, version du système d'exploitation, langue, données d'utilisation anonymisées, diagnostics, journaux d'erreur, données de performance applicative.\n\n**Données de notification**\nPour vous envoyer des notifications et mettre à jour les Live Activities sur iOS, nous associons à votre appareil : le jeton FCM (Firebase Cloud Messaging), les jetons ActivityKit (démarrage et mise à jour des Live Activities) sur iOS, votre fuseau horaire, votre langue, la version de l'Application, l'état d'activation des Live Activities, ainsi que la plateforme (iOS ou Android). Sur Android, cette fonctionnalité repose sur l'autorisation de notifications et Firebase Cloud Messaging. Ces données sont supprimées avec votre compte.\n\n**Données publicitaires**\nIdentifiant publicitaire (IDFA sur iOS, avec votre consentement via App Tracking Transparency ; AAID sur Android, voir la section « Publicités et technologies de suivi »), interactions avec les publicités, événements de conversion, données d'attribution via SKAdNetwork sur iOS. Notre régie publicitaire (Google AdMob) déduit également une localisation approximative à partir de votre adresse IP à des fins de ciblage publicitaire, et notre plateforme de gestion du consentement (CMP) utilise cette localisation approximative pour déterminer si vous vous trouvez dans l'Espace Économique Européen, au Royaume-Uni ou en Suisse.\n\n**Données de transaction**\nHistorique des achats in-app et abonnements, traités par Apple via StoreKit 2 sur iOS et par Google Play Billing sur Android. Synapgeek ne collecte ni ne stocke vos informations de paiement.\n\n**Données que nous ne collectons PAS**\nL'Application ne demande jamais l'accès à votre position et n'utilise aucune donnée GPS. Une localisation approximative est toutefois déduite de votre adresse IP par notre régie publicitaire, comme décrit dans « Données publicitaires » ci-dessus et « Publicités et technologies de suivi » ci-dessous. Nous ne collectons par ailleurs aucune donnée de santé, de contacts, de photos, de caméra, de calendrier ni de microphone.",
       },
       {
         title: "Base légale du traitement",
         content:
-          "Conformément au Règlement Général sur la Protection des Données (RGPD), nous traitons vos données sur les bases légales suivantes :\n\n- **Exécution du contrat** : traitement nécessaire à la fourniture du service (compte, progression, achats, synchronisation)\n- **Consentement** : publicités personnalisées, identifiant publicitaire (IDFA sur iOS, AAID sur Android), cookies et technologies de suivi non essentiels\n- **Intérêt légitime** : analytics de première partie, amélioration de l'Application, détection de fraude, sécurité\n\nVous pouvez retirer votre consentement à tout moment via les paramètres de confidentialité de l'Application ou les réglages de votre appareil.",
+          "Conformément au Règlement Général sur la Protection des Données (RGPD), nous traitons vos données sur les bases légales suivantes.\n\n**Concernant l'Application.** Nous nous appuyons sur l'exécution du contrat pour le traitement nécessaire à la fourniture du service (compte, progression, achats, synchronisation), sur votre consentement pour les publicités personnalisées, l'identifiant publicitaire (IDFA sur iOS, AAID sur Android) et les cookies et technologies de suivi non essentiels, ainsi que sur notre intérêt légitime pour les analytics de première partie, l'amélioration de l'Application, la détection de fraude et la sécurité.\n\n**Concernant le site synapgeek.com.** Nous nous appuyons sur votre consentement pour la mesure d'audience Google Analytics 4, là où votre accord est requis (voir la section « Site web synapgeek.com »), sur notre intérêt légitime pour la mesure sans cookie de la fréquentation et des performances via Vercel Analytics et Vercel Speed Insights, la protection du formulaire de contact par reCAPTCHA, et la mesure d'audience Google Analytics 4 active par défaut en dehors des zones où votre accord est requis — vous pouvez vous y opposer à tout moment via le bandeau de consentement ou « Gérer mes cookies » —, ainsi que sur les mesures précontractuelles ou l'intérêt légitime, selon l'objet de votre message, pour le traitement des messages envoyés via le formulaire de contact, afin de vous répondre.\n\nVous pouvez retirer votre consentement à tout moment via les paramètres de confidentialité de l'Application, les réglages de votre appareil ou, pour le site, le bandeau accessible via « Gérer mes cookies ».",
       },
       {
         title: "Finalités du traitement",
@@ -143,27 +279,33 @@ const fr: Dictionary = {
       {
         title: "Publicités et technologies de suivi",
         content:
-          "L'Application affiche des publicités fournies par Google AdMob. Les utilisateurs disposant d'un abonnement ou d'un achat « sans publicité » ne voient pas de publicités.\n\n**Consentement publicitaire (EEE/Royaume-Uni/Suisse)**\nPour les utilisateurs situés dans l'Espace Économique Européen, au Royaume-Uni et en Suisse, une plateforme de gestion du consentement (CMP) est affichée au premier lancement. Vous pouvez modifier vos préférences à tout moment via les paramètres de confidentialité de l'Application.\n\n**App Tracking Transparency (ATT)**\nSur iOS 14.5 et ultérieur, l'Application demande votre autorisation avant d'accéder à votre identifiant publicitaire (IDFA). Si vous refusez, seules des publicités contextuelles (non personnalisées) sont affichées. Le refus du suivi n'affecte aucune fonctionnalité de l'Application.\n\n**Identifiant publicitaire Android (AAID)**\nSur Android, l'Application peut accéder à votre identifiant publicitaire Google (AAID) pour afficher des publicités personnalisées — sous réserve, pour les utilisateurs de l'EEE, du Royaume-Uni et de la Suisse, du consentement recueilli via la plateforme de gestion du consentement décrite ci-dessus. Vous pouvez à tout moment réinitialiser cet identifiant ou refuser toute personnalisation depuis les réglages de votre appareil (voir « Désactivation des publicités personnalisées » ci-dessous). Ce refus n'affecte aucune fonctionnalité de l'Application.\n\n**SKAdNetwork (iOS uniquement)**\nSur iOS, l'Application utilise le framework SKAdNetwork d'Apple pour l'attribution publicitaire. Ce mécanisme ne permet pas de vous identifier personnellement.\n\n**Désactivation des publicités personnalisées**\nVous pouvez désactiver les publicités personnalisées à tout moment via :\n- Les paramètres de confidentialité dans l'Application\n- Réglages iOS > Confidentialité et sécurité > Suivi\n- Paramètres Android > Google > Annonces\n- L'achat d'un abonnement ou d'un forfait sans publicité",
+          "L'Application affiche des publicités fournies par Google AdMob. Les utilisateurs disposant d'un abonnement Premium, ou d'un ancien abonnement « Sans publicité », ne voient pas de publicités imposées (bannières et interstitiels) ; les publicités récompensées restent disponibles s'ils choisissent de les regarder.\n\n**Consentement publicitaire (EEE/Royaume-Uni/Suisse)**\nPour les utilisateurs situés dans l'Espace Économique Européen, au Royaume-Uni et en Suisse, une plateforme de gestion du consentement (CMP) est affichée au premier lancement. Vous pouvez modifier vos préférences à tout moment via les paramètres de confidentialité de l'Application.\n\n**App Tracking Transparency (ATT)**\nSur iOS 14.5 et ultérieur, l'Application demande votre autorisation avant d'accéder à votre identifiant publicitaire (IDFA). Si vous refusez, les publicités ne sont pas personnalisées à partir de votre identifiant publicitaire. Le refus du suivi n'affecte aucune fonctionnalité de l'Application.\n\n**Identifiant publicitaire Android (AAID)**\nSur Android, l'Application peut accéder à votre identifiant publicitaire Google (AAID) pour afficher des publicités personnalisées — sous réserve, pour les utilisateurs de l'EEE, du Royaume-Uni et de la Suisse, du consentement recueilli via la plateforme de gestion du consentement décrite ci-dessus. Vous pouvez à tout moment réinitialiser cet identifiant ou refuser toute personnalisation depuis les réglages de votre appareil (voir « Désactivation des publicités personnalisées » ci-dessous). Ce refus n'affecte aucune fonctionnalité de l'Application.\n\n**SKAdNetwork (iOS uniquement)**\nSur iOS, l'Application utilise le framework SKAdNetwork d'Apple pour l'attribution publicitaire. Ce mécanisme ne permet pas de vous identifier personnellement.\n\n**Désactivation des publicités personnalisées**\nVous pouvez désactiver les publicités personnalisées à tout moment via :\n- Les paramètres de confidentialité dans l'Application\n- Réglages iOS > Confidentialité et sécurité > Suivi\n- Paramètres Android > Google > Annonces\n- L'abonnement Premium, qui retire les publicités imposées (bannières et interstitiels) — les publicités récompensées restent disponibles si vous choisissez de les regarder (voir les Conditions Générales d'Utilisation)",
+      },
+      {
+        id: "website",
+        title: "Site web synapgeek.com",
+        content:
+          "Cette section concerne le site synapgeek.com lui-même, distinct de l'Application décrite par ailleurs dans cette politique.\n\n**Compte**\nLe site ne propose ni création de compte ni connexion : sa consultation ne requiert ni email ni mot de passe.\n\n**Mesure d'audience Vercel**\nNous utilisons Vercel Analytics et Vercel Speed Insights pour mesurer la fréquentation et les performances du site. Ces outils ne déposent aucun cookie et ne produisent que des statistiques agrégées, sans identifiant individuel.\n\n**Google Analytics 4**\nNous utilisons Google Analytics 4 pour comprendre l'usage du site : pages consultées, sections de la page d'accueil affichées, changement de langue, clics vers l'App Store et Google Play, envoi du formulaire de contact (avec le sujet choisi). Un bandeau vous permet d'accepter ou de refuser cette mesure d'audience ; il reste affiché tant que vous n'avez pas fait de choix. Votre choix est ensuite mémorisé pendant 6 mois sous la forme d'un simple indicateur dans le stockage local de votre navigateur — jamais un cookie pour ce choix lui-même — et vous pouvez le modifier à tout moment via « Gérer mes cookies » dans le pied de page. Dans l'Espace Économique Européen, au Royaume-Uni, en Suisse, dans les régions ultrapériphériques de l'Union européenne et dans quelques territoires associés, le cookie de mesure (_ga et _ga_*, conservé 13 mois maximum) n'est déposé que si vous avez accepté ; en cas de refus, ou tant que vous n'avez pas répondu, aucun cookie de mesure n'est déposé. En dehors de ces territoires, la mesure est active par défaut sauf si vous refusez via ce même bandeau, avec le même cookie de mesure conservé 13 mois maximum. Quel que soit votre pays, tant que la mesure avec cookies n'est pas active — avant votre accord dans les territoires listés ci-dessus, ou après un refus où que vous soyez — des signaux de mesure sans cookie ni identifiant persistant (page consultée, action effectuée, horodatage, type de navigateur) peuvent néanmoins être envoyés à Google, qui reçoit à cette occasion votre adresse IP et utilise ces signaux de façon agrégée pour modéliser la fréquentation. Vous pouvez aussi vous opposer à cette mesure avec le module de désactivation de Google Analytics, un bloqueur de contenu, ou en écrivant à privacy@synapgeek.com. Module de désactivation de Google Analytics : https://tools.google.com/dlpage/gaoptout Le site n'affiche aucune publicité et n'utilise pas ces données à des fins publicitaires : les signaux de consentement publicitaire (ad_storage, ad_user_data, ad_personalization) restent refusés en toutes circonstances. Politique de confidentialité de Google : https://policies.google.com/privacy\n\n**Formulaire de contact**\nSi vous utilisez le formulaire de contact, nous collectons votre nom, votre adresse email, le sujet choisi et votre message, dans le seul but de vous répondre. Ces informations nous sont transmises par email via notre messagerie professionnelle et ne sont pas conservées dans une base de données distincte. Le formulaire est protégé par reCAPTCHA, un service de Google dont le script n'est chargé que lorsque vous interagissez avec le formulaire (clic, appui ou placement du curseur dans un champ).",
       },
       {
         title: "Partage avec des tiers",
         content:
-          "Vos données peuvent être partagées avec les partenaires techniques suivants, dans le cadre strict des finalités décrites ci-dessus :\n\n- **Google (Firebase Analytics, Firebase Crashlytics, Firebase Performance, Firebase Firestore, Firebase Auth, AdMob, Google Play Billing, Google Sign-In)** — pour l'analyse, le stockage de données, l'authentification, le monitoring, la publicité et les achats intégrés sur Android. Politique de confidentialité : https://policies.google.com/privacy\n- **Apple (Sign in with Apple ; StoreKit 2 et SKAdNetwork sur iOS)** — pour l'authentification sur iOS et Android, ainsi que pour les achats in-app et l'attribution publicitaire sur iOS. Politique de confidentialité : https://www.apple.com/legal/privacy/\n- **Meta (Facebook SDK)** — pour l'authentification via Facebook et, sous réserve de votre consentement publicitaire, la mesure de conversions (achat, création de compte, premier puzzle terminé). Politique de confidentialité : https://www.facebook.com/privacy/policy/\n\nNous ne vendons pas vos données personnelles. Nous ne partageons pas vos données avec des systèmes d'intelligence artificielle tiers à des fins d'entraînement de modèles.",
+          "Vos données peuvent être partagées avec les partenaires techniques suivants, dans le cadre strict des finalités décrites ci-dessus.\n\n**Concernant l'Application.** Nous partageons vos données avec Google (Firebase Analytics, Firebase Crashlytics, Firebase Performance, Firebase Firestore, Firebase Auth, Firebase Cloud Messaging, AdMob, Google Play Billing, Google Sign-In) pour l'analyse, le stockage de données, l'authentification, le monitoring, les notifications, la publicité et les achats intégrés sur Android : politique de confidentialité https://policies.google.com/privacy\n\nNous partageons également vos données avec Apple (Sign in with Apple ; StoreKit 2 et SKAdNetwork sur iOS) pour l'authentification sur iOS et Android, ainsi que pour les achats in-app et l'attribution publicitaire sur iOS : politique de confidentialité https://www.apple.com/legal/privacy/\n\nEnfin, nous partageons vos données avec Meta (Facebook SDK) pour l'authentification via Facebook et, sous réserve de votre consentement publicitaire, la mesure de conversions (ouverture de l'Application, achat, création de compte, premier puzzle terminé) : politique de confidentialité https://www.facebook.com/privacy/policy/\n\n**Concernant le site synapgeek.com.** Nous partageons des données avec Google (Google Analytics 4, reCAPTCHA) pour la mesure d'audience du site, selon le choix exprimé via le bandeau décrit dans la section « Site web synapgeek.com », et pour protéger le formulaire de contact contre les soumissions automatisées : politique de confidentialité https://policies.google.com/privacy\n\nNous partageons aussi des données avec Vercel Inc., notre hébergeur, qui traite les requêtes techniques nécessaires pour servir les pages du site, ainsi que Vercel Analytics et Vercel Speed Insights (mesure sans cookie de la fréquentation et des performances) : politique de confidentialité https://vercel.com/legal/privacy-policy\n\nNous ne vendons pas vos données personnelles. Nous ne partageons pas vos données avec des systèmes d'intelligence artificielle tiers à des fins d'entraînement de modèles.",
       },
       {
         title: "Transferts internationaux de données",
         content:
-          "Certains de nos partenaires techniques (Google, Meta, Apple) traitent des données en dehors de l'Espace Économique Européen, notamment aux États-Unis. Ces transferts sont encadrés par des clauses contractuelles types approuvées par la Commission européenne, conformément aux articles 46 et 49 du RGPD, afin de garantir un niveau de protection adéquat de vos données.",
+          "Certains de nos partenaires techniques (Google, Meta, Apple, Vercel Inc.) traitent des données en dehors de l'Espace Économique Européen, notamment aux États-Unis — c'est le cas de Vercel Inc., notre hébergeur, établi aux États-Unis. Ces transferts sont encadrés par des clauses contractuelles types approuvées par la Commission européenne, conformément aux articles 46 et 49 du RGPD, afin de garantir un niveau de protection adéquat de vos données.",
       },
       {
         title: "Conservation des données",
         content:
-          "Nous conservons vos données selon les durées suivantes :\n\n- **Données analytiques** : 14 mois maximum (politique par défaut de Firebase Analytics)\n- **Données de compte et de progression** : tant que votre compte est actif\n- **Données de transaction** : nous conservons un historique minimal de vos achats lié à votre compte (notamment l'identifiant du produit, le type et la date d'achat), tant que votre compte est actif. Les enregistrements de facturation et vos informations de paiement sont détenus exclusivement par Apple et Google Play en qualité de vendeurs ; nos obligations comptables portent sur leurs relevés agrégés, qui ne permettent pas de vous identifier\n- **Journaux d'erreur (Crashlytics)** : 90 jours\n\nAprès suppression de votre compte, toutes vos données personnelles sont supprimées de nos serveurs. Certaines données agrégées et anonymisées peuvent être conservées à des fins statistiques.",
+          "Nous conservons vos données selon les durées suivantes :\n\n- **Données analytiques** : 14 mois maximum\n- **Données de compte et de progression** : tant que votre compte est actif\n- **Données de transaction** : nous conservons un historique minimal de vos achats lié à votre compte (notamment l'identifiant du produit, le type et la date d'achat), tant que votre compte est actif. Les enregistrements de facturation et vos informations de paiement sont détenus exclusivement par Apple et Google Play en qualité de vendeurs ; nos obligations comptables portent sur leurs relevés agrégés, qui ne permettent pas de vous identifier\n- **Journaux d'erreur (Crashlytics)** : 90 jours\n\nAprès suppression de votre compte, toutes vos données personnelles sont supprimées de nos serveurs. Certaines données agrégées et anonymisées peuvent être conservées à des fins statistiques.",
       },
       {
         title: "Sécurité des données",
         content:
-          "Nous mettons en place les mesures techniques suivantes pour protéger vos données :\n\n- Chiffrement des données en transit (HTTPS/TLS)\n- Règles de sécurité Firebase (accès limité à l'utilisateur authentifié)\n- Authentification sécurisée via les protocoles OAuth 2.0 et nonce pour Apple Sign-In\n- Stockage local chiffré sur l'appareil\n\nAucun système n'est infaillible. En cas de violation de données affectant vos droits, nous vous en informerons conformément aux délais légaux applicables.",
+          "Nous mettons en place les mesures techniques suivantes pour protéger vos données :\n\n- Chiffrement des données en transit (HTTPS/TLS)\n- Règles de sécurité Firebase (accès limité à l'utilisateur authentifié)\n- Authentification sécurisée via les protocoles OAuth 2.0 et nonce pour Apple Sign-In\n- Données stockées localement sur l'appareil, protégées par le chiffrement du système d'exploitation (iOS et Android chiffrent par défaut les données des applications sur un appareil verrouillé par un code)\n\nAucun système n'est infaillible. En cas de violation de données affectant vos droits, nous vous en informerons conformément aux délais légaux applicables.",
       },
       {
         title: "Limite d'âge",
@@ -195,7 +337,8 @@ const fr: Dictionary = {
   },
   terms: {
     title: "Conditions Générales d'Utilisation",
-    lastUpdated: "Dernière mise à jour : 22 juillet 2026",
+    lastUpdated: "Dernière mise à jour : 12 septembre 2026",
+    updatedAt: "2026-09-12",
     sections: [
       {
         title: "Acceptation des conditions",
@@ -205,7 +348,7 @@ const fr: Dictionary = {
       {
         title: "Description du service",
         content:
-          "Synapgeek développe et distribue des applications mobiles de jeux de réflexion. Cerebrum est une application mobile pour iOS et Android, réunissant quatre jeux de puzzle : Sudoku, Mots-Croisés, Mots-Mêlés et Cross Math.\n\nL'Application propose notamment :\n- Des centaines de puzzles avec plusieurs niveaux de difficulté\n- Un système de progression avec étoiles, XP et classements\n- Des défis quotidiens et des séries de jeu (streaks)\n- Un système de monnaie virtuelle (pièces) et d'avatars\n- Des achats in-app et des abonnements optionnels\n- Un mode avec ou sans publicité",
+          "Synapgeek développe et distribue des applications mobiles de jeux de réflexion. Cerebrum est une application mobile pour iOS et Android, réunissant six jeux de puzzle : Sudoku, Mots Croisés, Mots Mêlés, Cross Math, Trace et Labyrinthe.\n\nL'Application propose notamment :\n- Plus de 1 000 puzzles avec plusieurs niveaux de difficulté\n- Un système de progression avec étoiles, XP et classements\n- Des défis quotidiens et des séries de jeu (streaks)\n- Un système de monnaie virtuelle (gemmes) et d'avatars\n- Des achats in-app et des abonnements optionnels\n- Un mode avec ou sans publicité",
       },
       {
         title: "Licence d'utilisation",
@@ -220,17 +363,17 @@ const fr: Dictionary = {
       {
         title: "Achats intégrés et abonnements",
         content:
-          "L'Application propose des achats intégrés (in-app purchases) et des abonnements optionnels. Tous les achats sont traités exclusivement par la boutique de votre plateforme : Apple (StoreKit 2) sur iOS, Google (Google Play Billing) sur Android.\n\n**Achats consommables**\nDes packs de pièces (monnaie virtuelle) peuvent être achetés. Les pièces sont utilisables dans l'Application pour débloquer des indices, des avatars et d'autres fonctionnalités.\n\n**Achats non consommables**\nCertains achats sont permanents, comme le forfait « Sans publicité à vie » ou le « Premium à vie ».\n\n**Abonnements**\nDes abonnements mensuels et annuels sont disponibles (Sans publicité, Premium). Les abonnements se renouvellent automatiquement sauf annulation au moins 24 heures avant la fin de la période en cours. La gestion et l'annulation des abonnements s'effectuent via les réglages de votre compte Apple sur iOS, ou via Google Play > Paiements et abonnements sur Android.\n\n**Remboursements**\nLes achats sont soumis aux conditions de remboursement de la plateforme concernée. Pour demander un remboursement, contactez Apple via https://reportaproblem.apple.com (iOS) ou Google Play via https://support.google.com/googleplay/answer/2479637 (Android).\n\nLes prix sont affichés dans l'Application avant tout achat et peuvent varier selon le pays.",
+          "L'Application propose des achats intégrés (in-app purchases) et des abonnements optionnels. Tous les achats sont traités exclusivement par la boutique de votre plateforme : Apple (StoreKit 2) sur iOS, Google (Google Play Billing) sur Android.\n\n**Achats consommables**\nDes packs de gemmes (monnaie virtuelle) peuvent être achetés. Les gemmes sont utilisables dans l'Application pour débloquer des indices, des avatars et d'autres fonctionnalités.\n\n**Achats non consommables**\nCertains achats sont permanents : des packs thématiques de Mots Croisés et Mots Mêlés (Cinéma, Cuisine, Voyage) et un pack de démarrage de gemmes, disponible une seule fois par utilisateur.\n\n**Abonnements**\nUn abonnement Premium est disponible en formule hebdomadaire, mensuelle ou annuelle. Les abonnements se renouvellent automatiquement sauf annulation au moins 24 heures avant la fin de la période en cours. Certains utilisateurs disposent d'un abonnement « Sans publicité » souscrit avant son retrait de la vente : il reste actif tant qu'il n'est pas résilié, mais n'est plus proposé à l'achat. La gestion et l'annulation des abonnements s'effectuent via les réglages de votre compte Apple sur iOS, ou via Google Play > Paiements et abonnements sur Android.\n\n**Remboursements**\nLes achats sont soumis aux conditions de remboursement de la plateforme concernée. Pour demander un remboursement, contactez Apple via https://reportaproblem.apple.com (iOS) ou Google Play via https://support.google.com/googleplay/answer/2479637 (Android).\n\nLes prix sont affichés dans l'Application avant tout achat et peuvent varier selon le pays.",
       },
       {
         title: "Biens virtuels",
         content:
-          "L'Application contient des biens virtuels, incluant des pièces (monnaie virtuelle), des avatars, des trophées et des points d'expérience (XP).\n\nLes biens virtuels :\n- N'ont aucune valeur monétaire en dehors de l'Application\n- Ne sont ni transférables, ni échangeables, ni remboursables (sauf obligation légale)\n- Peuvent être obtenus par le jeu, le visionnage de publicités ou l'achat in-app\n- Sont liés à votre compte et ne peuvent être transférés à un autre utilisateur\n\nSynapgeek se réserve le droit de modifier les prix, la disponibilité ou la fonctionnalité des biens virtuels à tout moment.",
+          "L'Application contient des biens virtuels, incluant des gemmes (monnaie virtuelle), des avatars, des trophées et des points d'expérience (XP).\n\nLes biens virtuels :\n- N'ont aucune valeur monétaire en dehors de l'Application\n- Ne sont ni transférables, ni échangeables, ni remboursables (sauf obligation légale)\n- Peuvent être obtenus par le jeu, le visionnage de publicités ou l'achat in-app\n- Sont liés à votre compte et ne peuvent être transférés à un autre utilisateur\n\nSynapgeek se réserve le droit de modifier les prix, la disponibilité ou la fonctionnalité des biens virtuels à tout moment.",
       },
       {
         title: "Publicités",
         content:
-          "L'Application affiche des publicités fournies par Google AdMob. Les publicités peuvent inclure des bannières, des interstitiels, des publicités récompensées (que vous choisissez de visionner) et des publicités à l'ouverture de l'application.\n\nVous pouvez supprimer les publicités en souscrivant à un abonnement « Sans publicité » ou en effectuant l'achat « Sans publicité à vie ». Les publicités récompensées restent accessibles optionnellement même pour les utilisateurs sans publicité.",
+          "L'Application affiche des publicités fournies par Google AdMob. Les publicités incluent des bannières, des interstitiels et des publicités récompensées (que vous choisissez de visionner).\n\nVous pouvez retirer les publicités imposées (bannières et interstitiels) en souscrivant à un abonnement Premium. Les publicités récompensées restent accessibles de manière optionnelle même avec un abonnement actif. Les utilisateurs disposant encore d'un abonnement « Sans publicité » souscrit avant son retrait de la vente continuent également de ne pas voir de publicités imposées.",
       },
       {
         title: "Propriété intellectuelle",
@@ -250,7 +393,7 @@ const fr: Dictionary = {
       {
         title: "Résiliation et suppression de compte",
         content:
-          "Vous pouvez cesser d'utiliser l'Application à tout moment en la désinstallant.\n\nVous pouvez supprimer votre compte à tout moment via Profil > Supprimer le compte dans l'Application. La suppression est irréversible et entraîne la perte définitive de toutes vos données : progression, pièces, avatars, trophées et classements.\n\nSynapgeek se réserve le droit de résilier ou suspendre votre accès en cas de violation des présentes Conditions.\n\nLes sections relatives à la propriété intellectuelle, la limitation de responsabilité et le droit applicable survivent à toute résiliation.",
+          "Vous pouvez cesser d'utiliser l'Application à tout moment en la désinstallant.\n\nVous pouvez supprimer votre compte à tout moment via Profil > Supprimer le compte dans l'Application. La suppression est irréversible et entraîne la perte définitive de toutes vos données : progression, gemmes, avatars, trophées et classements.\n\nSynapgeek se réserve le droit de résilier ou suspendre votre accès en cas de violation des présentes Conditions.\n\nLes sections relatives à la propriété intellectuelle, la limitation de responsabilité et le droit applicable survivent à toute résiliation.",
       },
       {
         title: "Notice pour les utilisateurs d'appareils Apple",
@@ -277,6 +420,7 @@ const fr: Dictionary = {
   legal: {
     title: "Mentions légales",
     lastUpdated: "Dernière mise à jour : 4 juin 2026",
+    updatedAt: "2026-06-04",
     sections: [
       {
         title: "Éditeur du site",
@@ -309,6 +453,10 @@ const fr: Dictionary = {
           "Pour toute question relative au site ou à ces mentions légales :\n\n**Synapgeek**\nEmail : contact@synapgeek.com\nSite web : https://synapgeek.com",
       },
     ],
+  },
+  play: {
+    title: "Télécharger Cerebrum",
+    chooseStore: "Choisissez votre store pour installer l'application.",
   },
 };
 

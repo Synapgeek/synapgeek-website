@@ -1,0 +1,27 @@
+# Synapgeek
+
+> Synapgeek is an independent French mobile game studio (Synapgeek SAS, based in Frontenas, France) that designs and publishes Cerebrum, a brain-training puzzle game app for iOS and Android.
+
+Synapgeek est un studio indépendant français de jeux mobiles (Synapgeek SAS, basé à Frontenas, dans le Rhône), éditeur de Cerebrum, une application de jeux de puzzle disponible sur iOS et Android.
+
+## About Cerebrum
+
+- Cerebrum combines six puzzle games in one app: Sudoku, Crossword, Word Search, Cross Math, Trace, and Maze.
+- Each game offers multiple difficulty levels, daily challenges, and level-by-level progression.
+- Cerebrum is free to download and play on the App Store and Google Play, with optional in-app purchases (virtual currency, themed Crossword and Word Search packs) and an optional Premium subscription.
+- All games, including daily challenges, can be played offline without an internet connection; a connection is needed to sync progress, view leaderboards, purchase, sign in, and show ads.
+- Cerebrum works without creating an account (anonymous session); players can optionally sign in with Apple, Google, or Facebook to sync progress across devices.
+- Available in French and English, on iPhone and iPad (iOS 17+) and on Android (Android 8.0+), portrait mode.
+
+## Pages
+
+- [Home (French, default)](https://synapgeek.com/): Landing page for Synapgeek and Cerebrum, in French.
+- [Home (English)](https://synapgeek.com/en): Landing page for Synapgeek and Cerebrum, in English.
+- [Privacy Policy](https://synapgeek.com/privacy): Data collection and privacy practices for Cerebrum and Synapgeek services.
+- [Terms of Use / EULA](https://synapgeek.com/terms): Terms of use and end-user license agreement for Cerebrum.
+- [Legal Notice](https://synapgeek.com/legal): Publisher identification for the Synapgeek website (Synapgeek SAS, French SAS).
+
+## App stores
+
+- [Cerebrum on the App Store](https://apps.apple.com/app/cerebrum-sudoku-crossword/id6763915130): iOS app listing (iPhone and iPad).
+- [Cerebrum on Google Play](https://play.google.com/store/apps/details?id=com.synapgeek.cerebrum): Android app listing.

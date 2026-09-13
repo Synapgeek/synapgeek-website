@@ -33,35 +33,21 @@ export function About({
       {/* ---- Decorative blobs (matches OG image) ---- */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         {/* Top-left — teal/mint cluster */}
-        <div
-          className="blob-1 animate-blob-drift-1 absolute -left-20 -top-16 h-72 w-72 bg-accent-teal/25 blur-3xl sm:h-96 sm:w-96"
-        />
-        <div
-          className="blob-3 animate-blob-drift-3 absolute left-16 top-8 h-48 w-48 bg-accent-teal/15 blur-3xl sm:h-64 sm:w-64"
-        />
+        <div className="blob-1 animate-blob-drift-1 absolute -left-20 -top-16 h-72 w-72 bg-accent-teal/25 blur-3xl sm:h-96 sm:w-96" />
+        <div className="blob-3 animate-blob-drift-3 absolute left-16 top-8 h-48 w-48 bg-accent-teal/15 blur-3xl sm:h-64 sm:w-64" />
 
         {/* Top-right — lavender/purple */}
-        <div
-          className="blob-2 animate-blob-drift-2 absolute -right-12 -top-10 h-64 w-64 bg-secondary/20 blur-3xl sm:h-80 sm:w-80"
-        />
+        <div className="blob-2 animate-blob-drift-2 absolute -right-12 -top-10 h-64 w-64 bg-secondary/20 blur-3xl sm:h-80 sm:w-80" />
 
         {/* Bottom-right — coral/orange */}
-        <div
-          className="blob-4 animate-blob-drift-1 absolute -bottom-20 -right-16 h-80 w-80 bg-accent-coral/20 blur-3xl sm:h-[28rem] sm:w-[28rem] delay-500"
-        />
-        <div
-          className="blob-1 animate-blob-drift-3 absolute -bottom-8 right-24 h-48 w-48 bg-accent-orange/15 blur-3xl sm:h-64 sm:w-64 delay-300"
-        />
+        <div className="blob-4 animate-blob-drift-1 absolute -bottom-20 -right-16 h-80 w-80 bg-accent-coral/20 blur-3xl sm:h-[28rem] sm:w-[28rem] delay-500" />
+        <div className="blob-1 animate-blob-drift-3 absolute -bottom-8 right-24 h-48 w-48 bg-accent-orange/15 blur-3xl sm:h-64 sm:w-64 delay-300" />
 
         {/* Bottom-left — mint/teal (softer) */}
-        <div
-          className="blob-5 animate-blob-drift-2 absolute -bottom-12 -left-8 h-64 w-64 bg-accent-teal/15 blur-3xl sm:h-80 sm:w-80 delay-200"
-        />
+        <div className="blob-5 animate-blob-drift-2 absolute -bottom-12 -left-8 h-64 w-64 bg-accent-teal/15 blur-3xl sm:h-80 sm:w-80 delay-200" />
 
         {/* Center-right — subtle coral glow */}
-        <div
-          className="blob-2 animate-blob-drift-3 absolute right-0 top-1/2 h-48 w-48 -translate-y-1/2 bg-accent-orange/10 blur-3xl sm:h-64 sm:w-64 delay-400"
-        />
+        <div className="blob-2 animate-blob-drift-3 absolute right-0 top-1/2 h-48 w-48 -translate-y-1/2 bg-accent-orange/10 blur-3xl sm:h-64 sm:w-64 delay-400" />
       </div>
 
       {/* ---- Content ---- */}
@@ -90,7 +76,11 @@ export function About({
 
           {/* Title + Description — right two thirds */}
           <div className="text-center lg:w-2/3 lg:text-left">
-            <SectionHeading title={dict.title} align="left" className="lg:text-left text-center" />
+            <SectionHeading
+              title={dict.title}
+              align="left"
+              className="lg:text-left text-center"
+            />
             <p className="text-lg leading-relaxed text-text-secondary">
               {dict.description}
             </p>
@@ -115,11 +105,7 @@ export function About({
                     strokeWidth={2.5}
                     style={{
                       color:
-                        i === 0
-                          ? "#FF6B6B"
-                          : i === 1
-                            ? "#8549BA"
-                            : "#1CB0F6",
+                        i === 0 ? "#FF6B6B" : i === 1 ? "#8549BA" : "#1CB0F6",
                     }}
                   />
                 </div>

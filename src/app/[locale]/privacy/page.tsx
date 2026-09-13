@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { generateStaticParams } from "@/lib/i18n";
 import { getDictionary, getLocale } from "@/content";
-import { getAlternates } from "@/lib/seo";
+import { getAlternates, buildOpenGraph } from "@/lib/seo";
+import { webPageSchema } from "@/lib/structured-data";
+import { JsonLd } from "@/components/JsonLd";
 import { LegalPage } from "@/components/LegalPage";
 
 export { generateStaticParams };
@@ -24,11 +26,12 @@ export async function generateMetadata({
     title: dict.privacy.title,
     description,
     alternates: getAlternates(locale, "/privacy"),
-    openGraph: {
-      title: dict.privacy.title,
+    openGraph: buildOpenGraph(
+      locale,
+      "/privacy",
+      dict.privacy.title,
       description,
-      type: "website",
-    },
+    ),
   };
 }
 
@@ -41,11 +44,21 @@ export default async function PrivacyPage({
   const locale = getLocale(raw);
   const dict = getDictionary(locale);
 
+  const webPage = webPageSchema({
+    locale,
+    path: "/privacy",
+    name: dict.privacy.title,
+    dateModified: dict.privacy.updatedAt,
+  });
+
   return (
-    <LegalPage
-      title={dict.privacy.title}
-      lastUpdated={dict.privacy.lastUpdated}
-      sections={dict.privacy.sections}
-    />
+    <>
+      <JsonLd data={webPage} />
+      <LegalPage
+        title={dict.privacy.title}
+        lastUpdated={dict.privacy.lastUpdated}
+        sections={dict.privacy.sections}
+      />
+    </>
   );
 }
