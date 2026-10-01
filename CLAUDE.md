@@ -16,8 +16,8 @@ AdMob consent (UMP).
 
 ## Stack technique
 
-- **Framework** : Next.js `16.1.6` (App Router, `src/`) — version épinglée exactement,
-  comme `eslint-config-next`. React épinglé à `19.2.3`.
+- **Framework** : Next.js `16.3.8` (App Router, `src/`) — version épinglée exactement,
+  comme `eslint-config-next` (`16.3.8`). React et React DOM épinglés à `19.2.8`.
 - **Style** : Tailwind CSS 4.x (CSS-first, `@import "tailwindcss"` + `@theme inline {}`
   dans `src/app/globals.css`, pas de `tailwind.config.js`). Ce fichier de 1006 lignes EST
   le design system : tokens `--color-primary` (#58CC02), `--color-secondary` (#8549BA),
@@ -28,7 +28,8 @@ AdMob consent (UMP).
   hex en dur, jamais un sixième bouton.**
 - **Langage** : TypeScript strict mode
 - **Linter** : ESLint 9 + eslint-config-next + Prettier
-- **Email** : Nodemailer via SMTP Google Workspace
+- **Email** : Nodemailer `10.0.13` (épinglé, types embarqués — pas de `@types/nodemailer`)
+  via SMTP Google Workspace
 - **Captcha** : Google reCAPTCHA v2 (sur `/api/contact` uniquement)
 - **Analytics** : Vercel Analytics + Vercel Speed Insights (sans cookie) + **Google
   Analytics 4** derrière **Consent Mode v2 régionalisé** (`src/lib/consent/`,
@@ -418,8 +419,9 @@ inter-sites), `vercel:nextjs`, `vercel:react-best-practices`. Un clone frais ne 
 correspond à un skill, le lire et appliquer ses recommandations automatiquement.
 
 ⚠ Les 3 skills Cache Components / Partial Prefetching supposent un modèle de rendu que ce
-site n'a pas (SSG pur) et, pour l'optimizer, Next 16.3+ alors qu'on est en 16.1.6. Ils ne
-se déclenchent que si on demande explicitement une migration.
+site n'a pas (SSG pur) ; le site est en Next 16.3.8, donc le seuil 16.3+ de l'optimizer est
+atteint, mais pas le modèle de rendu. Ils ne se déclenchent que si on demande
+explicitement une migration.
 
 ## Variables d'environnement
 
@@ -509,3 +511,13 @@ Contradictions constatées, non arbitrées — à lever, pas à recopier.
 
 Les trois sous-agents de `.claude/agents/` contiennent des copies partielles de ce
 fichier. Quand celui-ci change, les relire — sinon ils jugent contre une version périmée.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
