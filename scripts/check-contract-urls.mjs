@@ -8,11 +8,21 @@
  *
  * Ces URLs sont référencées hors du dépôt : App Store Connect (privacy, support
  * `/#contact` et `/en#contact`), formulaire Data Safety de la Play Console
- * (`/account-deletion`), config AdMob consent (UMP), QR codes imprimés (`/play`),
- * vérification AdMob (`/app-ads.txt`). Les attentes ci-dessous sont le
- * comportement OBSERVÉ en production le 2026-10-01, pas une supposition : les
- * valeurs restent écrites en clair, comme dans un test, pour qu'un changement de
- * destination se voie ici avant d'atteindre un store.
+ * (`/account-deletion`), config AdMob consent (UMP), QR codes imprimés
+ * (`/cerebrum/play`, et `/play` ou `/jouer` pour les premiers), vérification
+ * AdMob (`/app-ads.txt`). Les valeurs attendues sont écrites en clair, comme dans
+ * un test, pour qu'un changement de destination se voie ici avant d'atteindre un
+ * store. Elles sont le comportement OBSERVÉ en production le 2026-10-01, pas une
+ * supposition — sauf pour la route des QR (paragraphe suivant).
+ *
+ * Route des QR : ce script encode le contrat tel qu'il est APRÈS la fusion de la
+ * PR #11 (lot 0c) : `/cerebrum/play` est la route canonique, `/play` et `/jouer`
+ * y redirigent en 307, query conservée. Ces attentes ont été vérifiées le
+ * 2026-10-01 contre un `next start` local, pas observées en production : tant que
+ * la PR #11 n'est pas fusionnée (donc déployée), un contrôle contre la production
+ * signale des écarts sur ces trois URLs, ce qui est attendu. Les variantes de
+ * casse (`/Play`) ne sont pas contrôlées : `next start` et Vercel ne s'accordent
+ * pas sur la casse.
  *
  * Toutes les requêtes partent en `redirect: "manual"` : on lit le statut et le
  * Location réels, jamais la page d'arrivée.
@@ -33,11 +43,15 @@ const USER_AGENTS = {
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
 };
 
-// Destinations de /play (src/lib/app.ts : APP_STORE_QR_URL, GOOGLE_PLAY_URL).
+// Destinations de /cerebrum/play (src/lib/app.ts : APP_STORE_QR_URL, GOOGLE_PLAY_URL).
 const APP_STORE_QR_URL =
   "https://apps.apple.com/app/apple-store/id6763915130?pt=128805365&ct=plv-comptoir&mt=8";
 const GOOGLE_PLAY_URL =
   "https://play.google.com/store/apps/details?id=com.synapgeek.cerebrum";
+
+// Paramètre de campagne factice : il doit traverser les redirections et s'ajouter à
+// l'URL du store, sans jamais en écraser un paramètre déjà présent.
+const CAMPAIGN_PARAM = "src=contract-check";
 
 const SITEMAP_URL_COUNT = 8;
 
@@ -97,27 +111,33 @@ function contractChecks(base) {
     redirect("/en/account-deletion", 307, "/en/privacy#account-deletion"),
     redirect("/fr/account-deletion", 307, "/privacy#account-deletion"),
     {
-      path: "/play",
-      label: "/play (iPhone)",
+      path: "/cerebrum/play",
+      label: "/cerebrum/play (iPhone)",
       userAgent: USER_AGENTS.iphone,
       expect: [status(307), location(APP_STORE_QR_URL)],
     },
     {
-      path: "/play",
-      label: "/play (Android)",
+      path: `/cerebrum/play?${CAMPAIGN_PARAM}`,
+      label: "/cerebrum/play?src (iPhone)",
+      userAgent: USER_AGENTS.iphone,
+      expect: [status(307), location(`${APP_STORE_QR_URL}&${CAMPAIGN_PARAM}`)],
+    },
+    {
+      path: "/cerebrum/play",
+      label: "/cerebrum/play (Android)",
       userAgent: USER_AGENTS.android,
       expect: [status(307), location(GOOGLE_PLAY_URL)],
     },
     {
       // Un paramètre entrant déjà présent sur la cible (?id=) ne l'écrase jamais.
-      path: "/play?src=contract-check&id=com.example.other",
-      label: "/play?src&id (Android)",
+      path: `/cerebrum/play?${CAMPAIGN_PARAM}&id=com.example.other`,
+      label: "/cerebrum/play?src&id (Android)",
       userAgent: USER_AGENTS.android,
-      expect: [status(307), location(`${GOOGLE_PLAY_URL}&src=contract-check`)],
+      expect: [status(307), location(`${GOOGLE_PLAY_URL}&${CAMPAIGN_PARAM}`)],
     },
     {
-      path: "/play",
-      label: "/play (desktop)",
+      path: "/cerebrum/play",
+      label: "/cerebrum/play (desktop)",
       userAgent: USER_AGENTS.desktop,
       expect: [
         status(200),
@@ -126,6 +146,19 @@ function contractChecks(base) {
         bodyMatches(/<meta name="robots" content="noindex/),
       ],
     },
+    // Alias des premiers QR : 307 vers la route canonique, query conservée telle quelle.
+    redirect("/play", 307, "/cerebrum/play"),
+    redirect(
+      `/play?${CAMPAIGN_PARAM}`,
+      307,
+      `/cerebrum/play?${CAMPAIGN_PARAM}`,
+    ),
+    redirect("/jouer", 307, "/cerebrum/play"),
+    redirect(
+      `/jouer?${CAMPAIGN_PARAM}`,
+      307,
+      `/cerebrum/play?${CAMPAIGN_PARAM}`,
+    ),
     ...WELL_KNOWN.map((path) =>
       ok(path, [contentType("application/json"), bodyIsJson()]),
     ),
@@ -168,7 +201,9 @@ function wwwChecks() {
     "/account-deletion",
     "/en/account-deletion",
     "/fr/account-deletion",
+    "/cerebrum/play",
     "/play",
+    "/jouer",
     ...WELL_KNOWN,
     "/app-ads.txt",
     "/robots.txt",

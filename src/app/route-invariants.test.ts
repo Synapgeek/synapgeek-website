@@ -3,7 +3,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { posix as posixPath } from "node:path";
 import nextConfig from "../../next.config";
 import sitemap from "@/app/sitemap";
-import { metadata as playMetadata } from "@/app/play/page";
+import { metadata as playMetadata } from "@/app/cerebrum/play/page";
 import { getDictionary } from "@/content";
 import { LOCALES } from "@/lib/i18n";
 
@@ -57,9 +57,9 @@ function directLocalImports(file: string): string[] {
 }
 
 describe("rendu — SSG pur (CLAUDE.md, « Structure des routes »)", () => {
-  // « Trois fichiers seulement exportent `dynamic` — /play en force-dynamic et
-  // les deux route handlers .well-known en force-static. Aucun fichier n'exporte
-  // revalidate, dynamicParams, "use cache" ni cacheComponents. »
+  // « Trois fichiers seulement exportent `dynamic` — /cerebrum/play en
+  // force-dynamic et les deux route handlers .well-known en force-static. Aucun
+  // fichier n'exporte revalidate, dynamicParams, "use cache" ni cacheComponents. »
   const SEGMENT_NAMES = "dynamic|revalidate|dynamicParams|runtime";
   // Déclaration simple, avec ou sans annotation de type
   // (`export const revalidate: number = 3600`).
@@ -89,7 +89,7 @@ describe("rendu — SSG pur (CLAUDE.md, « Structure des routes »)", () => {
     expect(found).toEqual([
       'src/app/.well-known/apple-app-site-association/route.ts dynamic="force-static"',
       'src/app/.well-known/assetlinks.json/route.ts dynamic="force-static"',
-      'src/app/play/page.tsx dynamic="force-dynamic"',
+      'src/app/cerebrum/play/page.tsx dynamic="force-dynamic"',
     ]);
     for (const file of sources) {
       expect(read(file), file).not.toMatch(SEGMENT_CONFIG_OTHER_FORMS);
@@ -178,9 +178,30 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
     );
   });
 
-  // « /play ne doit jamais changer ni disparaître » ; « robots.txt : aucun
-  // noindex dans src/ (sauf /play, marquée robots: { index: false }) ».
-  it("/play reste noindex", () => {
+  // « /play, /jouer → 307 vers /cerebrum/play, query conservée (next.config.ts) —
+  // QR historiques, JAMAIS casser. » Aucune query dans `destination` : Next la
+  // fusionne à la query entrante en lui donnant priorité, et la page transmet
+  // ensuite tout ce qu'elle reçoit à l'URL du store.
+  it.each(["/play", "/jouer"])(
+    "next.config.ts garde l'alias %s en 307 vers /cerebrum/play, sans query dans la destination",
+    async (source) => {
+      expect(nextConfig.redirects).toBeTypeOf("function");
+      const redirects = await nextConfig.redirects!();
+      const alias = redirects.find((redirect) => redirect.source === source);
+      expect(alias, `aucune redirection pour ${source}`).toBeDefined();
+      expect(alias!.destination, `destination de ${source}`).not.toContain("?");
+      expect(alias).toEqual({
+        source,
+        destination: "/cerebrum/play",
+        permanent: false,
+      });
+    },
+  );
+
+  // « /cerebrum/play (cible des QR), /play et /jouer (redirections) ne doivent
+  // jamais changer ni disparaître » ; « robots.txt : aucun noindex dans src/
+  // (sauf /cerebrum/play, marquée robots: { index: false }) ».
+  it("/cerebrum/play reste noindex", () => {
     expect(playMetadata.robots).toMatchObject({ index: false });
   });
 
@@ -207,6 +228,18 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
       }
     }
   });
+
+  // /cerebrum/play est une « page de service, sans contenu propre : hors index et
+  // hors sitemap » (src/app/cerebrum/play/page.tsx). Un slug qui commence par
+  // « play- » (/blog/play-sudoku-online) n'est pas cette page.
+  it("sitemap() n'expose aucune URL /play ni /cerebrum/play", () => {
+    for (const entry of sitemap()) {
+      const languages = entry.alternates?.languages ?? {};
+      for (const url of [entry.url, ...Object.values(languages)]) {
+        expect(url, entry.url).not.toMatch(/\/play(?![\w-])/);
+      }
+    }
+  });
 });
 
 describe("proxy i18n (CLAUDE.md, « Architecture i18n »)", () => {
@@ -223,6 +256,18 @@ describe("proxy i18n (CLAUDE.md, « Architecture i18n »)", () => {
       'export const config = { matcher: ["…"] } introuvable',
     ).not.toBeNull();
     expect(match![1]).toBe(DOCUMENTED_MATCHER);
+  });
+
+  // « LOCALE_FREE_ROUTES exclut en plus les routes servies hors du segment
+  // [locale] : il vaut ["/cerebrum/play"] et ne couvre PAS /cerebrum. » Le proxy
+  // exempte une route ET ses sous-chemins : y ajouter /cerebrum sortirait tout ce
+  // sous-arbre du rewrite vers /fr/…
+  it('LOCALE_FREE_ROUTES vaut exactement ["/cerebrum/play"], jamais /cerebrum seul', () => {
+    const match = read("src/proxy.ts").match(
+      /const LOCALE_FREE_ROUTES\s*=\s*(\[[^\]]*\])\s*;/,
+    );
+    expect(match, "const LOCALE_FREE_ROUTES = […] introuvable").not.toBeNull();
+    expect(match![1]).toBe('["/cerebrum/play"]');
   });
 });
 
