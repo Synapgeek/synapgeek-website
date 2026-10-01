@@ -74,7 +74,7 @@ de tous les outils (Skill, nbpro, navigateur, WebFetch…).
 ## Règles critiques
 
 - JAMAIS casser `/privacy`, `/terms`, `/legal`, `/account-deletion` (+ pendants `/en/`,
-  `/fr/`), ni `/play` (QR codes imprimés). `/account-deletion` reste une redirection 307
+  `/fr/`), ni `/cerebrum/play` (QR codes imprimés) ni ses alias `/play` et `/jouer`. `/account-deletion` reste une redirection 307
   vers `/privacy#account-deletion`.
 - Pages légales lisibles sans JavaScript (SSG) ; aucun `"use client"` dans leur chaîne.
 - JAMAIS de vente de contenu digital ni de lien de paiement externe (Apple 3.1.1).

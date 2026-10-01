@@ -59,7 +59,7 @@ Checklist non-négociable (chaque point vérifié explicitement) :
    (`grep -rhoE 'href="https?://[^"]+' src/`) — wordsearchtrove ou
    maze-foundry = bloquant (`synapgeek-portfolio-rules` 2).
 4. **Rendu & effets de bord** : exactement trois `export const dynamic` autorisés —
-   `play/page.tsx` (`force-dynamic`, lecture du User-Agent) et les deux route
+   `cerebrum/play/page.tsx` (`force-dynamic`, lecture du User-Agent) et les deux route
    handlers `.well-known` (`force-static`, prérendu exigé par Apple et Google) ;
    tout quatrième est bloquant. Aucun `revalidate`/`runtime`/`dynamicParams`,
    aucun `"use cache"`/`cacheLife`/`cacheTag` ; `/.well-known/*` répond 200 en
