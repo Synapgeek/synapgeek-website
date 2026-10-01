@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { BASE_URL } from "@/lib/routes";
+import { THEME_COLOR } from "@/design/theme-color";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#58CC02",
+  themeColor: THEME_COLOR,
 };
 
 export default function RootLayout({

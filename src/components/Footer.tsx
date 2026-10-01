@@ -18,7 +18,7 @@ export function Footer({
   languageTable: LanguageSwitchTable;
 }) {
   return (
-    <footer className="bg-[#1A1A2E] text-white">
+    <footer className="bg-ink text-white">
       <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}

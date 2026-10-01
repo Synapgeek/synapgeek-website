@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { notFound } from "next/navigation";
-import { DM_Sans, Inter } from "next/font/google";
+import { Fredoka, Figtree } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { LOCALES, generateStaticParams as genParams } from "@/lib/i18n";
@@ -19,17 +19,19 @@ import { ConsentBanner } from "@/components/consent/ConsentBanner";
 
 export { genParams as generateStaticParams };
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
+  subsets: ["latin", "latin-ext"],
+  weight: ["600", "700"],
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+// Police variable : sans `weight`, next/font charge l'axe complet (400 à 800
+// compris). Une liste explicite de graisses fait échouer le build Turbopack
+// ("next/font/google queries have exactly one entry") sur Next 16.3.8.
+const figtree = Figtree({
+  variable: "--font-figtree",
+  subsets: ["latin", "latin-ext"],
   display: "swap",
 });
 
@@ -80,7 +82,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${dmSans.variable} ${inter.variable} antialiased`}>
+      <body className={`${fredoka.variable} ${figtree.variable} antialiased`}>
         {/* Défauts Consent Mode v2 + GA4 : premier enfant de <body>, avant tout autre contenu (voir ConsentBootstrap). */}
         <ConsentBootstrap />
         <a

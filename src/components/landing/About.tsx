@@ -10,6 +10,8 @@ const iconGradients = [
   "from-accent-blue to-accent-teal",
 ];
 
+const iconColors = ["text-accent-coral", "text-secondary", "text-accent-blue"];
+
 const iconBgColors = [
   "bg-accent-coral/15",
   "bg-secondary/15",
@@ -101,12 +103,8 @@ export function About({
                   className={`mb-5 flex h-12 w-12 items-center justify-center rounded-xl ${iconBgColors[i]} transition-transform duration-300 group-hover:scale-110`}
                 >
                   <Icon
-                    className={`h-6 w-6 bg-gradient-to-br ${iconGradients[i]} bg-clip-text`}
+                    className={`h-6 w-6 bg-gradient-to-br ${iconGradients[i]} bg-clip-text ${iconColors[i]}`}
                     strokeWidth={2.5}
-                    style={{
-                      color:
-                        i === 0 ? "#FF6B6B" : i === 1 ? "#8549BA" : "#1CB0F6",
-                    }}
                   />
                 </div>
 
