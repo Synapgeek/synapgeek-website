@@ -8,7 +8,7 @@
 export const APP_STORE_ID = "6763915130";
 
 // Geo-neutral App Store URL — Apple redirects to the visitor's local storefront.
-export const APP_STORE_URL = `https://apps.apple.com/app/cerebrum-sudoku-crossword/id${APP_STORE_ID}`;
+export const APP_STORE_URL = `https://apps.apple.com/app/id${APP_STORE_ID}`;
 
 // Fiche Google Play, en ligne.
 export const GOOGLE_PLAY_URL =

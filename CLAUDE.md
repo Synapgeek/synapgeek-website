@@ -101,6 +101,10 @@ Routes actives :
 /                      → Landing page (FR, locale par défaut, sans préfixe), section FAQ
                          ancrée en `#faq`
 /en                    → Landing page (EN), `#faq`
+/#contact, /en#contact → URLs de support déclarées dans App Store Connect (FR : `/#contact`,
+                         les 19 autres locales : `/en#contact`). L'ancre `id="contact"` de la
+                         landing (`Contact.tsx`) est donc une URL CONTRAT : ne jamais la
+                         renommer ni la retirer
 /privacy               → Privacy Policy (FR)          /en/privacy
 /terms                 → CGU / EULA (FR)              /en/terms
 /legal                 → Mentions légales (FR)        /en/legal
@@ -227,20 +231,30 @@ public/
     │   ├── badge-appstore-fr.svg    badge-appstore-en.svg
     │   └── badge-googleplay-fr.png  badge-googleplay-en.png
     ├── games/                        (icônes de jeu, reprises du design-system)
-    │   ├── feature-sudoku.webp      feature-crosswords.webp
-    │   ├── feature-wordsearch.webp  feature-crossmath.webp
-    │   └── feature-trace.webp       feature-maze.webp
+    │   ├── feature-sudoku.webp      feature-pandoku.webp
+    │   ├── feature-minesweeper.webp feature-pixelart.webp
+    │   ├── feature-crossmath.webp   feature-crosswords.webp
+    │   ├── feature-wordsearch.webp  feature-trace.webp
+    │   └── feature-maze.webp        feature-arrowmaze.webp
     └── hero/
         ├── hero-bg-desktop.webp     hero-bg-mobile.webp
-        ├── screen-home-{fr,en}.webp      screen-sudoku-{fr,en}.webp
-        ├── screen-daily-{fr,en}.webp     screen-victory-{fr,en}.webp
-        └── screen-profile-{fr,en}.webp
+        └── v3/
+            ├── screen-home-{fr,en}.webp      screen-pandoku-{fr,en}.webp
+            ├── screen-pixelart-{fr,en}.webp  screen-daily-{fr,en}.webp
+            └── screen-progression-{fr,en}.webp
 ```
 
+Les icônes de jeu (240×240) viennent des icônes LIVRÉES dans l'app iOS
+(`cerebrum-ios/Cerebrum/Assets.xcassets/Icons/Games/<jeu>-icon.imageset`, le @3x).
+
 Les captures du slider sont **localisées** : `IPhoneSlider` compose le chemin en
-`screen-<écran>-<locale>.webp`. Elles viennent de
-`cerebrum-design-system/marketing/AppleStoreConnect/release-2.0.0/raw-screenshot/iphone`
-(1320×2868, iPhone 16 Pro Max), converties en webp 800 px de large.
+`<SCREENSHOT_DIR>/screen-<écran>-<locale>.webp` (`SCREENSHOT_DIR` = `/images/hero/v3`).
+Elles viennent de
+`cerebrum-design-system/marketing/ASC-images/release-3.x.x/raw-screenshot/iphone`
+(1320×2868, iPhone 16 Pro Max), converties en webp 800 px de large. Le dossier est versionné
+(`v3`) à cause du cache 7 jours de `/images/*` : un nouveau lot de captures = un nouveau
+dossier (`v4`…), jamais un écrasement. Écrans retenus : `homepage` (→ `home`), `pandoku`,
+`pixelart-b` (→ `pixelart`), `daily`, `progression`.
 
 `cerebrum-icon.png` a été réduite de 1024 px à 512 px (poids ≈ 459 Ko).
 
@@ -281,19 +295,28 @@ stores ont des dimensions codées en dur **différentes par locale** (`StoreButt
 Repos (tous sous `/Users/adrienmonte/Documents/projects/synapgeek/cerebrum/`) :
 `cerebrum-ios`, `cerebrum-android`, `cerebrum-design-system`, `cerebrum-generator`.
 
-**Versions** : App Store sert la **2.1.5** (bundle `com.synapgeek.cerebrumgame`, gratuit,
-classée 4+, dernière mise à jour 2026-09-07). Le repo iOS est à **3.0.0** en interne — non
-publiée. Android est publié sur Google Play (package `com.synapgeek.cerebrum` — noter que
-le bundle iOS et le package Android **diffèrent**, ce n'est pas une coquille).
+**Versions** : l'App Store sert la **3.0.0** depuis le 2026-09-28 (bundle
+`com.synapgeek.cerebrumgame`, gratuit, classée 4+). Android **3.0.0** est publié sur Google
+Play depuis le 2026-10-01 (package `com.synapgeek.cerebrum` — noter que le bundle iOS et le
+package Android **diffèrent**, ce n'est pas une coquille). Source de ces deux dates : Adrien.
 
 ### Jeux
 
-**Les versions publiées annoncent 6 jeux** : Sudoku, Mots-Croisés, Mots-Mêlés, Cross Math,
-**Trace** et **Maze/Labyrinthe** (description App Store 2.1.5, mot pour mot : « six
-brain-teasing games … Sudoku, Crossword, Word Search, Cross Math, Trace, and Maze » ;
-fiche Play : « 6 relaxing brain games »). Le site présente désormais les **6** jeux
-(« Un cerveau, six disciplines »). L'enum `GameType` d'iOS 3.0.0 (non publiée) en
-déclare 8, avec Pandoku et Minesweeper en plus — non publiés, ne pas les annoncer.
+**Les versions 3.0.0 publiées annoncent 10 jeux en français et en anglais, 8 ailleurs.**
+Logique et chiffres : Sudoku, Pandoku (Star Battle), Démineur/Minesweeper, Pixel Art
+(nonogrammes, « logimages » en français), Cross Math (mots croisés de calcul). Mots :
+Mots Croisés/Crossword, Mots Mêlés/Word Search. Parcours : Trace (un seul trait),
+Labyrinthe/Maze, Arrow Maze (casse-tête de flèches). Mots Croisés et Mots Mêlés n'existent
+qu'en français et en anglais : dans les 14 autres langues de l'app (16 au total), le joueur
+n'en voit que 8. Le site présente les 10 jeux, **sans jamais écrire de nombre de jeux ni de
+niveaux** (ni « six », ni « 10 jeux », ni « 1000+ ») : la liste nommée reste vraie quelle que
+soit la langue. Chaque jeu maison est accolé à son genre générique. Textes de référence :
+`cerebrum-design-system/marketing/ASO/3.x.x/` (`asc-metadata.md`, `geo-assistants-ia.md`).
+
+Nom « Zip » : c'est le **nom de code interne** de Trace (`GameType.zip`, `rawValue "zip"`
+dans iOS et Android), pas un onzième jeu. Ne jamais écrire « Zip » (ni « Queens », ni
+« Picross ») sur le site. Les « cristaux » ramassés au Labyrinthe ne sont pas les « gemmes »
+(la monnaie).
 
 - 3-4 niveaux de difficulté par jeu (Easy, Medium, Hard, Elite)
 - 100 niveaux de progression par difficulté + mode endless

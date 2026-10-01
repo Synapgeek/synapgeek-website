@@ -42,13 +42,13 @@ const en: Dictionary = {
     meta: {
       title: "Cerebrum: Offline Puzzle Games, No Wi-Fi Needed | Synapgeek",
       description:
-        "Play Sudoku, Crossword, Word Search, Cross Math, Trace and Maze offline in one app. Cerebrum is free on iPhone, iPad and Android. Download it today.",
+        "Cerebrum is an offline puzzle games app for iPhone, iPad and Android by Synapgeek: Sudoku, Pandoku, Minesweeper, Pixel Art, Cross Math, Crossword and more.",
     },
     hero: {
       badge: "Now on iOS and Android",
       title: "Train your brain, one puzzle at a time",
       subtitle:
-        "Cerebrum brings Sudoku, Crossword, Word Search, Cross Math, Trace, and Maze into one app you can play offline, no Wi-Fi needed, to challenge your mind every single day.",
+        "Cerebrum is an offline puzzle games app for iPhone, iPad and Android, made by Synapgeek. Sudoku, Pandoku, Minesweeper, Pixel Art, Cross Math, Crossword, Word Search, Trace, Maze and Arrow Maze: play them all without Wi-Fi, every day.",
       cta: "Download Cerebrum",
       ctaSecondary: "Learn more",
       store: {
@@ -62,66 +62,90 @@ const en: Dictionary = {
         controlsLabel: "Slide controls",
         goToSlide: "Go to slide {index}",
         alts: {
-          home: "Cerebrum home screen showing its six games: Sudoku, Crossword, Word Search, Cross Math, Trace and Maze",
-          sudoku:
-            "Cerebrum Sudoku gameplay with a partially filled grid and number pad",
+          home: "Cerebrum home screen with the Daily Challenge, the themes and game cards including Sudoku, Word Search, Pandoku and Minesweeper",
+          pandoku:
+            "Cerebrum Pandoku, a Star Battle logic puzzle: a colored region grid with pandas placed one per row, column and region",
+          pixelart:
+            "Cerebrum Pixel Art, a nonogram solved to reveal a pixel art panda",
           daily:
             "Cerebrum Daily Challenge calendar with completed days marked by stars",
-          victory:
-            "Cerebrum victory screen with three stars, a new record and league progress",
-          profile:
-            "Cerebrum profile screen with the player's avatar, league progress and monthly trophies",
+          progression:
+            "Cerebrum Sudoku level path with a difficulty selector and levels rated with stars",
         },
       },
     },
     stats: {
       items: [
-        { value: "6", label: "Games in 1" },
-        { value: "1000+", label: "Puzzles" },
-        { value: "FR & EN", label: "Languages" },
+        { value: "iOS & Android", label: "Platforms" },
+        { value: "Offline", label: "No Wi-Fi needed" },
+        { value: "16", label: "Languages" },
         { value: "Free", label: "Download" },
       ],
     },
     features: {
-      title: "One brain, six disciplines",
+      title: "One brain, every kind of puzzle",
       subtitle:
-        "Each game stimulates different cognitive skills. Combine them for a complete workout.",
+        "Logic and numbers, words, paths: each family of games exercises a different skill. Combine them for a complete workout.",
       items: [
         {
           id: "sudoku",
           title: "Sudoku",
           description:
-            "Pure logic and deductive reasoning. Grids for every level, from beginner to expert, with smart hints.",
+            "The classic 9×9 grid, solved by pure deduction. Difficulty levels from Easy to Elite, with notes and hints.",
         },
         {
-          id: "crossword",
-          title: "Crossword",
+          id: "pandoku",
+          title: "Pandoku",
           description:
-            "Expand your vocabulary and general knowledge. Grids in English and French.",
+            "A Star Battle logic puzzle. Place one panda in every row, column and region, with no two pandas touching, not even diagonally.",
         },
         {
-          id: "wordsearch",
-          title: "Word Search",
+          id: "minesweeper",
+          title: "Minesweeper",
           description:
-            "Find the words hidden in the grid. A letter-game classic to sharpen your eye for detail.",
+            "The classic. Use the numbers to reveal every safe cell and flag every mine.",
+        },
+        {
+          id: "pixelart",
+          title: "Pixel Art",
+          description:
+            "Nonograms, also known as hanjie. Fill in cells from the row and column clues to reveal a hidden picture.",
         },
         {
           id: "crossmath",
           title: "Cross Math",
           description:
-            "Crossed equations blending arithmetic and logic. The perfect challenge for mathematical minds.",
+            "A math crossword. Every “word” in the grid is an equation, to complete with numbers from the pool.",
+        },
+        {
+          id: "crossword",
+          title: "Crossword",
+          description:
+            "Clue-based grids to expand your vocabulary and general knowledge. Available in English and French only.",
+        },
+        {
+          id: "wordsearch",
+          title: "Word Search",
+          description:
+            "Swipe to find the words hidden in the grid. Available in English and French only.",
         },
         {
           id: "trace",
           title: "Trace",
           description:
-            "One line, every cell, without lifting your finger. Numbered checkpoints make the path trickier level after level.",
+            "A one-line path puzzle. Draw a single path through every cell, hitting the numbers in order.",
         },
         {
           id: "maze",
           title: "Maze",
           description:
-            "Free roaming and a sense of direction. Guide your firefly to the exit, collecting crystals along the way.",
+            "Guide your firefly to the exit and collect crystals along the way.",
+        },
+        {
+          id: "arrowmaze",
+          title: "Arrow Maze",
+          description:
+            "A relaxing arrow puzzle. Tap an arrow to slide it off the board when its way is clear, until the board is empty.",
         },
       ],
     },
@@ -155,22 +179,22 @@ const en: Dictionary = {
         {
           question: "What games are in Cerebrum?",
           answer:
-            "Cerebrum is a puzzle game app with six games in one: Sudoku, Crossword, Word Search, Cross Math, Trace and Maze. It offers several difficulty levels per game, daily challenges and level-by-level progression.",
+            "Cerebrum is an offline puzzle games app for iPhone, iPad and Android, made by Synapgeek. Logic and number puzzles: Sudoku, Pandoku (a Star Battle logic puzzle), Minesweeper, Pixel Art (nonograms) and Cross Math (a math crossword). Word games: Crossword and Word Search, in English and French only. Path puzzles: Trace (a one-line path puzzle), Maze and Arrow Maze (an arrow puzzle). Every game has several difficulty levels, and the app adds a daily challenge, streaks and level-by-level progression.",
         },
         {
           question: "Is Cerebrum free?",
           answer:
-            "Yes, Cerebrum is free to download and play on the App Store and Google Play. It offers optional in-app purchases (virtual currency, themed Crossword and Word Search packs) and a Premium subscription, with prices shown in the app that vary by country.",
+            "Yes, Cerebrum is free to download and play on the App Store and Google Play, and no game or difficulty level is locked behind a purchase. It is free with ads, and offers optional in-app purchases (gem packs, and the Movies, Cooking and Travel theme packs for themed crosswords and word searches) and a Premium subscription.",
         },
         {
           question: "Does Cerebrum have ads, and how do I remove them?",
           answer:
-            "The free version of Cerebrum shows banner ads, interstitial ads and rewarded ads, which you choose to watch in exchange for a bonus. A weekly, monthly or yearly Premium subscription removes forced ads, while rewarded ads stay available if you want them.",
+            "Yes. Cerebrum is free and supported by ads: a banner during play and ads between some games. Rewarded ads are always optional: you choose to watch one for gems, a hint or a second chance. A weekly, monthly or yearly Premium subscription removes the banner and the ads between games. It also adds infinite lives, 5 free hints a day in each game, your first mistake forgiven in every puzzle, free daily gems and double gems after every win. Gem packs and the theme packs are in-app purchases and are not included in Premium.",
         },
         {
           question: "Can I play Cerebrum offline, without Wi-Fi?",
           answer:
-            "Yes, every Cerebrum game, daily challenges included, works without an internet connection: the puzzles are built into the app and your progress is saved on your device. You still need a connection to sync your progress, view leaderboards, make a purchase, sign in to an account and load ads.",
+            "Yes, every Cerebrum game works without an internet connection, daily challenge and streak included: all the puzzles are already in the app and your progress is saved on your device. You still need a connection to sync your progress, view leaderboards, make a purchase, sign in to an account and load ads.",
         },
         {
           question: "Which devices does Cerebrum run on?",
@@ -190,7 +214,7 @@ const en: Dictionary = {
         {
           question: "What languages is Cerebrum available in?",
           answer:
-            "Cerebrum is available in English and French, on both iOS and Android. Crossword and Word Search offer grids in both languages.",
+            "Cerebrum is available in 16 languages, on both iOS and Android. Crossword and Word Search exist in French and English only, so they are offered when the app is set to one of those two languages.",
         },
         {
           question: "How do I delete my Cerebrum account?",
@@ -213,7 +237,7 @@ const en: Dictionary = {
       subtitle:
         "Cerebrum is out now on iOS and Android. Puzzle games in one app.",
       cta: "Download for free",
-      note: "Free with optional in-app purchases.",
+      note: "Free with ads. Premium and in-app purchases are optional.",
       store: {
         availableNow: "Available now",
         appStoreLabel: "Download on the App Store",
@@ -333,8 +357,8 @@ const en: Dictionary = {
   },
   terms: {
     title: "Terms of Use",
-    lastUpdated: "Last updated: September 12, 2026",
-    updatedAt: "2026-09-12",
+    lastUpdated: "Last updated: October 1, 2026",
+    updatedAt: "2026-10-01",
     sections: [
       {
         title: "Acceptance of terms",
@@ -344,7 +368,7 @@ const en: Dictionary = {
       {
         title: "Service description",
         content:
-          "Synapgeek develops and distributes mobile puzzle game applications. Cerebrum is a mobile application for iOS and Android, featuring six puzzle games: Sudoku, Crossword, Word Search, Cross Math, Trace, and Maze.\n\nThe App includes:\n- More than 1,000 puzzles across multiple difficulty levels\n- A progression system with stars, XP, and leaderboards\n- Daily challenges and play streaks\n- A virtual currency system (gems) and avatars\n- Optional in-app purchases and subscriptions\n- An ad-supported and ad-free mode",
+          "Synapgeek develops and distributes mobile puzzle game applications. Cerebrum is a mobile puzzle and brain game application for iOS and Android.\n\nThe App includes:\n- Puzzles across multiple difficulty levels\n- A progression system with stars, XP, and leaderboards\n- Daily challenges and play streaks\n- A virtual currency system (gems) and avatars\n- Optional in-app purchases and subscriptions\n- An ad-supported and ad-free mode",
       },
       {
         title: "License to use",

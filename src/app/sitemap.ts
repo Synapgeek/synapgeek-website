@@ -8,7 +8,7 @@ const BASE_URL = "https://synapgeek.com";
 // Date de dernière modification du contenu de la home — pas de champ
 // `updatedAt` dans le dictionnaire pour cette page (pas de sections légales).
 // À mettre à jour quand le contenu de la home change.
-const LANDING_UPDATED_AT = "2026-09-12";
+const LANDING_UPDATED_AT = "2026-10-01";
 
 const routes = ["/", "/privacy", "/terms", "/legal"];
 

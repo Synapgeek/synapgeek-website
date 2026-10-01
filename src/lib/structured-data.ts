@@ -8,7 +8,7 @@
  */
 
 import type { Locale } from "./i18n";
-import { LOCALES, getLocalePath } from "./i18n";
+import { getLocalePath } from "./i18n";
 import { APP_STORE_URL, GOOGLE_PLAY_URL } from "./app";
 
 const BASE_URL = "https://synapgeek.com";
@@ -26,6 +26,27 @@ const APP_STORE_TITLE_FR = "Cerebrum : Jeux zen sans wifi";
 const APP_STORE_TITLE_EN = "Cerebrum: Offline Puzzle Games";
 const GOOGLE_PLAY_TITLE_FR = "Cerebrum : Jeux zen sans wifi";
 const GOOGLE_PLAY_TITLE_EN = "Cerebrum: Offline Puzzle Games";
+
+// Langues de l'interface de l'app (16, iOS et Android), en BCP 47. Distinctes
+// de `LOCALES`, qui ne liste que les langues du site web.
+const CEREBRUM_APP_LANGUAGES = [
+  "en",
+  "fr",
+  "de",
+  "es",
+  "it",
+  "pt-BR",
+  "nl",
+  "tr",
+  "hi",
+  "id",
+  "ja",
+  "ko",
+  "th",
+  "vi",
+  "zh-Hans",
+  "zh-Hant",
+] as const;
 
 // Date de première publication de la fiche Cerebrum (iOS), conservée telle
 // quelle depuis le JSON-LD SoftwareApplication existant.
@@ -184,7 +205,7 @@ export function softwareApplicationSchema(
     downloadUrl: [APP_STORE_URL, GOOGLE_PLAY_URL],
     author: { "@id": `${BASE_URL}/#organization` },
     publisher: { "@id": `${BASE_URL}/#organization` },
-    inLanguage: [...LOCALES],
+    inLanguage: CEREBRUM_APP_LANGUAGES,
     datePublished: CEREBRUM_DATE_PUBLISHED,
   };
 }

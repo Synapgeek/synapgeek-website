@@ -8,7 +8,12 @@ export interface StoreDownload {
 }
 
 /** Identifiant stable de chaque capture du carrousel du hero (indépendant de la locale). */
-export type HeroSlideId = "home" | "sudoku" | "daily" | "victory" | "profile";
+export type HeroSlideId =
+  | "home"
+  | "pandoku"
+  | "pixelart"
+  | "daily"
+  | "progression";
 
 /**
  * Textes localisés du carrousel de captures d'écran (`IPhoneSlider`).

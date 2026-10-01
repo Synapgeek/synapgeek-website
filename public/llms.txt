@@ -1,17 +1,25 @@
 # Synapgeek
 
-> Synapgeek is an independent French mobile game studio (Synapgeek SAS, based in Frontenas, France) that designs and publishes Cerebrum, a brain-training puzzle game app for iOS and Android.
+> Synapgeek is an independent French mobile game studio (Synapgeek SAS, based in Frontenas, France) that designs and publishes Cerebrum, an offline puzzle games app for iPhone, iPad and Android.
 
-Synapgeek est un studio indépendant français de jeux mobiles (Synapgeek SAS, basé à Frontenas, dans le Rhône), éditeur de Cerebrum, une application de jeux de puzzle disponible sur iOS et Android.
+Synapgeek est un studio indépendant français de jeux mobiles (Synapgeek SAS, basé à Frontenas, dans le Rhône), éditeur de Cerebrum, une application de jeux de réflexion hors ligne pour iPhone, iPad et Android.
 
 ## About Cerebrum
 
-- Cerebrum combines six puzzle games in one app: Sudoku, Crossword, Word Search, Cross Math, Trace, and Maze.
-- Each game offers multiple difficulty levels, daily challenges, and level-by-level progression.
-- Cerebrum is free to download and play on the App Store and Google Play, with optional in-app purchases (virtual currency, themed Crossword and Word Search packs) and an optional Premium subscription.
-- All games, including daily challenges, can be played offline without an internet connection; a connection is needed to sync progress, view leaderboards, purchase, sign in, and show ads.
-- Cerebrum works without creating an account (anonymous session); players can optionally sign in with Apple, Google, or Facebook to sync progress across devices.
-- Available in French and English, on iPhone and iPad (iOS 17+) and on Android (Android 8.0+), portrait mode.
+- Cerebrum is an offline puzzle games app for iPhone, iPad and Android, made by Synapgeek.
+- Store names: "Cerebrum: Offline Puzzle Games" (US App Store) and "Cerebrum : Jeux zen sans wifi" (French App Store).
+- Logic and number puzzles: Sudoku; Pandoku (a Star Battle logic puzzle: one panda per row, column and region, no two pandas touching, not even diagonally); Minesweeper; Pixel Art (nonograms, called "logimages" in French); Cross Math (a math crossword: every "word" is an equation).
+- Word games: Crossword and Word Search, in French and English only.
+- Path puzzles: Trace (a one-line path puzzle: draw a single path through every cell, hitting the numbers in order); Maze (guide a firefly to the exit and collect crystals); Arrow Maze (an arrow puzzle: slide each arrow off the board when its way is clear).
+- Every game has several difficulty levels, a level path and an endless mode. The app adds a daily challenge, streaks, leagues and avatars.
+- Free with ads: a banner during play and ads between some games. Rewarded ads are always optional (gems, a hint or a second chance).
+- Premium (weekly, monthly or yearly subscription) removes the banner and the ads between games, and adds infinite lives, 5 free hints a day in each game, the first mistake forgiven in every puzzle, free daily gems and double gems after every win.
+- In-app purchases: gem packs, and the Movies, Cooking and Travel theme packs (themed crosswords and word searches), which are not included in Premium. No game or difficulty level is locked behind a purchase.
+- Gems are the in-app currency; crystals, collected in Maze, are a different thing.
+- All games, including the daily challenge and the streak, can be played offline without an internet connection; a connection is needed to sync progress, view leaderboards, purchase, sign in, and show ads.
+- Cerebrum works without creating an account (guest session); players can optionally sign in with Apple, Google, or Facebook to sync progress across devices.
+- The app is available in 16 languages. Crossword and Word Search are offered in French and English only.
+- Available on iPhone and iPad (iOS 17+) and on Android (Android 8.0+), portrait mode.
 
 ## Pages
 
@@ -23,5 +31,5 @@ Synapgeek est un studio indépendant français de jeux mobiles (Synapgeek SAS, b
 
 ## App stores
 
-- [Cerebrum on the App Store](https://apps.apple.com/app/cerebrum-sudoku-crossword/id6763915130): iOS app listing (iPhone and iPad).
+- [Cerebrum on the App Store](https://apps.apple.com/app/id6763915130): iOS app listing (iPhone and iPad).
 - [Cerebrum on Google Play](https://play.google.com/store/apps/details?id=com.synapgeek.cerebrum): Android app listing.
