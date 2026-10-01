@@ -653,6 +653,69 @@ describe("contrôles positifs des gardes structurelles", () => {
     ).toEqual([]);
   });
 
+  it("entryViolations (la composition appliquée aux modules enregistrés) lève une violation par règle", () => {
+    // Un seul module fautif sur toutes les règles à la fois : si une garde
+    // quitte la composition, sa violation disparaît et ce test échoue.
+    const entry = fixtureApp("en", {
+      pandoku: fixtureGame({
+        meta: { title: "Pandoku | Cerebrum", description: "x".repeat(156) },
+        hero: {
+          h1: "Pandoku",
+          definition: DEFINITION_OK.replace(
+            "Star Battle logic puzzle",
+            "puzzle",
+          ),
+        },
+        howToPlay: { title: "How to play", steps: ["Only one step."] },
+        tips: {
+          title: "Tips",
+          items: ["Also on Android soon.", "Tip 2", "Tip 3"],
+        },
+        faq: {
+          title: "FAQ",
+          items: [
+            { question: "Is it for kids?", answer: "Fine." },
+            { question: "B?", answer: "B." },
+            { question: "C?", answer: "C." },
+          ],
+        },
+      }),
+    });
+    const expectedByRule: ReadonlyArray<[string, RegExp]> = [
+      [
+        "forbiddenViolations",
+        /faq\.items\.0\.question: never address children/,
+      ],
+      ["lengthViolations", /meta\.description is 156 characters/],
+      [
+        "genreViolations",
+        /cerebrum:en:pandoku: definition must name its genre/,
+      ],
+      ["androidViolations", /tips\.items\.0: mentions Android/],
+      ["shapeViolations", /cerebrum:en:pandoku: 1 steps, expected/],
+      ["coverageViolations", /published game "sudoku" has no copy/],
+    ];
+    const violations = entryViolations(entry);
+    for (const [rule, expected] of expectedByRule) {
+      expect(
+        violations.some((violation) => expected.test(violation)),
+        `${rule} absent de entryViolations: ${violations.join(" | ")}`,
+      ).toBe(true);
+    }
+  });
+
+  it("entryViolations s'applique aussi à un module sans jeux (hub)", () => {
+    const entry = fixtureHub({
+      hero: {
+        h1: "Synapgeek",
+        definition: `${DEFINITION_OK} Cerebrum \u2014 puzzles.`,
+      },
+    });
+    expect(entryViolations(entry)).toEqual([
+      expect.stringContaining("no em dash in visible copy"),
+    ]);
+  });
+
   it("la parité attrape une langue absente", () => {
     const en = fixtureHub();
     expect(parityViolations([en])).toEqual(["hub: no fr module"]);
