@@ -1,0 +1,346 @@
+#!/usr/bin/env node
+/**
+ * Contrôle des URLs contractuelles de synapgeek.com (CLAUDE.md, « Règles critiques »).
+ *
+ * Usage :
+ *   node scripts/check-contract-urls.mjs              → https://synapgeek.com + https://www.synapgeek.com
+ *   node scripts/check-contract-urls.mjs <baseUrl>    → une seule base (preview, http://localhost:PORT)
+ *
+ * Ces URLs sont référencées hors du dépôt : App Store Connect (privacy, support
+ * `/#contact` et `/en#contact`), formulaire Data Safety de la Play Console
+ * (`/account-deletion`), config AdMob consent (UMP), QR codes imprimés (`/play`),
+ * vérification AdMob (`/app-ads.txt`). Les attentes ci-dessous sont le
+ * comportement OBSERVÉ en production le 2026-10-01, pas une supposition : les
+ * valeurs restent écrites en clair, comme dans un test, pour qu'un changement de
+ * destination se voie ici avant d'atteindre un store.
+ *
+ * Toutes les requêtes partent en `redirect: "manual"` : on lit le statut et le
+ * Location réels, jamais la page d'arrivée.
+ *
+ * Sortie : un tableau lisible, code de sortie 1 au premier écart.
+ */
+import { readFileSync } from "node:fs";
+
+const APEX = "https://synapgeek.com";
+const WWW = "https://www.synapgeek.com";
+
+const USER_AGENTS = {
+  iphone:
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+  android:
+    "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Mobile Safari/537.36",
+  desktop:
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
+};
+
+// Destinations de /play (src/lib/app.ts : APP_STORE_QR_URL, GOOGLE_PLAY_URL).
+const APP_STORE_QR_URL =
+  "https://apps.apple.com/app/apple-store/id6763915130?pt=128805365&ct=plv-comptoir&mt=8";
+const GOOGLE_PLAY_URL =
+  "https://play.google.com/store/apps/details?id=com.synapgeek.cerebrum";
+
+const SITEMAP_URL_COUNT = 8;
+
+const LEGAL_PAGES = ["/privacy", "/terms", "/legal"];
+const LOCALIZED_LEGAL_PAGES = LEGAL_PAGES.flatMap((page) => [
+  page,
+  `/en${page}`,
+  `/fr${page}`,
+]);
+const WELL_KNOWN = [
+  "/.well-known/apple-app-site-association",
+  "/.well-known/assetlinks.json",
+];
+
+/** Les 7 en-têtes de sécurité posés par vercel.json sur toutes les routes. */
+function vercelSecurityHeaders() {
+  const config = JSON.parse(
+    readFileSync(new URL("../vercel.json", import.meta.url), "utf8"),
+  );
+  const catchAll = config.headers.find((rule) => rule.source === "/(.*)");
+  if (!catchAll) throw new Error('vercel.json : règle "/(.*)" introuvable');
+  return catchAll.headers;
+}
+
+const PLAIN_TEXT = "text/plain";
+
+/**
+ * Une vérification : `path`, options de requête, et la liste des attentes.
+ * Chaque attente renvoie `null` si elle est tenue, sinon l'observé.
+ */
+function contractChecks(base) {
+  const isLocal = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(base);
+  const resolve = (path) => new URL(path, base).href;
+
+  const ok = (path, extra = []) => ({
+    path,
+    expect: [status(200), noLocation(), ...extra],
+  });
+  const redirect = (path, code, target) => ({
+    path,
+    expect: [status(code), location(resolve(target))],
+  });
+
+  const checks = [
+    ok("/", [contentType("text/html"), bodyIncludes('id="contact"')]),
+    ok("/en", [contentType("text/html"), bodyIncludes('id="contact"')]),
+    redirect("/en/", 308, "/en"),
+    // /fr répond 200 (dédoublonnée par le seul canonical, CLAUDE.md « Architecture i18n »).
+    ok("/fr", [contentType("text/html")]),
+    redirect("/fr/", 308, "/fr"),
+    ...LOCALIZED_LEGAL_PAGES.map((path) =>
+      ok(path, [contentType("text/html")]),
+    ),
+    ok("/privacy", [bodyIncludes('id="account-deletion"')]),
+    ok("/en/privacy", [bodyIncludes('id="account-deletion"')]),
+    redirect("/account-deletion", 307, "/privacy#account-deletion"),
+    redirect("/en/account-deletion", 307, "/en/privacy#account-deletion"),
+    redirect("/fr/account-deletion", 307, "/privacy#account-deletion"),
+    {
+      path: "/play",
+      label: "/play (iPhone)",
+      userAgent: USER_AGENTS.iphone,
+      expect: [status(307), location(APP_STORE_QR_URL)],
+    },
+    {
+      path: "/play",
+      label: "/play (Android)",
+      userAgent: USER_AGENTS.android,
+      expect: [status(307), location(GOOGLE_PLAY_URL)],
+    },
+    {
+      // Un paramètre entrant déjà présent sur la cible (?id=) ne l'écrase jamais.
+      path: "/play?src=contract-check&id=com.example.other",
+      label: "/play?src&id (Android)",
+      userAgent: USER_AGENTS.android,
+      expect: [status(307), location(`${GOOGLE_PLAY_URL}&src=contract-check`)],
+    },
+    {
+      path: "/play",
+      label: "/play (desktop)",
+      userAgent: USER_AGENTS.desktop,
+      expect: [
+        status(200),
+        noLocation(),
+        contentType("text/html"),
+        bodyMatches(/<meta name="robots" content="noindex/),
+      ],
+    },
+    ...WELL_KNOWN.map((path) =>
+      ok(path, [contentType("application/json"), bodyIsJson()]),
+    ),
+    ok("/app-ads.txt", [
+      contentType(PLAIN_TEXT),
+      bodyIncludes("google.com, pub-"),
+    ]),
+    ok("/robots.txt", [
+      contentType(PLAIN_TEXT),
+      bodyIncludes("Allow: /"),
+      bodyExcludes(/^Disallow:/im, "aucun Disallow"),
+    ]),
+    ok("/sitemap.xml", [contentType("xml"), locCount(SITEMAP_URL_COUNT)]),
+    ok("/llms.txt", [contentType(PLAIN_TEXT)]),
+  ];
+
+  if (isLocal) {
+    // vercel.json n'est appliqué que par la plateforme Vercel, jamais par `next start`.
+    return { checks, skipped: ["en-têtes vercel.json (base locale)"] };
+  }
+  checks.push({
+    ...ok(
+      "/",
+      vercelSecurityHeaders().map(({ key, value }) => header(key, value)),
+    ),
+    label: "/ (en-têtes vercel.json)",
+  });
+  return { checks, skipped: [] };
+}
+
+/**
+ * Hôte www : chaque URL contractuelle répond 308 vers l'apex, même chemin
+ * (observé en production le 2026-10-01, /.well-known/* compris).
+ */
+function wwwChecks() {
+  const paths = [
+    "/",
+    "/en",
+    ...LOCALIZED_LEGAL_PAGES,
+    "/account-deletion",
+    "/en/account-deletion",
+    "/fr/account-deletion",
+    "/play",
+    ...WELL_KNOWN,
+    "/app-ads.txt",
+    "/robots.txt",
+    "/sitemap.xml",
+    "/llms.txt",
+  ];
+  return paths.map((path) => ({
+    path,
+    expect: [status(308), location(`${APEX}${path}`)],
+  }));
+}
+
+// --- attentes -------------------------------------------------------------
+
+function status(code) {
+  return {
+    describe: `${code}`,
+    test: (res) => (res.status === code ? null : `${res.status}`),
+  };
+}
+function noLocation() {
+  return {
+    describe: "sans Location",
+    test: (res) => (res.location ? `Location ${res.location}` : null),
+  };
+}
+function location(expected) {
+  return {
+    describe: `→ ${expected}`,
+    test: (res) =>
+      res.location === expected ? null : `→ ${res.location ?? "(aucun)"}`,
+  };
+}
+function contentType(fragment) {
+  return {
+    describe: `type ${fragment}`,
+    test: (res) =>
+      res.contentType.includes(fragment)
+        ? null
+        : `type ${res.contentType || "(aucun)"}`,
+  };
+}
+function header(key, value) {
+  return {
+    describe: `${key}: ${value}`,
+    test: (res) => {
+      const observed = res.headers.get(key);
+      return observed === value ? null : `${key}: ${observed ?? "(absent)"}`;
+    },
+  };
+}
+function bodyIncludes(fragment) {
+  return {
+    describe: `contient ${fragment}`,
+    test: (res) => (res.body.includes(fragment) ? null : `${fragment} absent`),
+  };
+}
+function bodyMatches(pattern, description = `${pattern}`) {
+  return {
+    describe: description,
+    test: (res) => (pattern.test(res.body) ? null : `${description} : non`),
+  };
+}
+function bodyExcludes(pattern, description) {
+  return {
+    describe: description,
+    test: (res) => (pattern.test(res.body) ? `${description} : non` : null),
+  };
+}
+function bodyIsJson() {
+  return {
+    describe: "JSON valide",
+    test: (res) => {
+      try {
+        JSON.parse(res.body);
+        return null;
+      } catch (error) {
+        return `JSON invalide (${error.message})`;
+      }
+    },
+  };
+}
+function locCount(expected) {
+  return {
+    describe: `${expected} <loc>`,
+    test: (res) => {
+      const count = (res.body.match(/<loc>/g) ?? []).length;
+      return count === expected ? null : `${count} <loc>`;
+    },
+  };
+}
+
+// --- exécution ------------------------------------------------------------
+
+async function fetchContract(base, check) {
+  const url = new URL(check.path, base);
+  const response = await fetch(url, {
+    redirect: "manual",
+    headers: check.userAgent ? { "user-agent": check.userAgent } : {},
+  });
+  const rawLocation = response.headers.get("location");
+  return {
+    status: response.status,
+    headers: response.headers,
+    contentType: response.headers.get("content-type") ?? "",
+    // Next renvoie un Location relatif en local, Vercel un Location absolu.
+    location: rawLocation ? new URL(rawLocation, url).href : null,
+    body: await response.text(),
+  };
+}
+
+async function runCheck(base, check) {
+  const label = `${new URL(base).host}${check.label ?? check.path}`;
+  const expected = check.expect.map((e) => e.describe).join(", ");
+  try {
+    const res = await fetchContract(base, check);
+    const failures = check.expect
+      .map((e) => e.test(res))
+      .filter((f) => f !== null);
+    return {
+      label,
+      expected,
+      observed: failures.join(", ") || "conforme",
+      ok: !failures.length,
+    };
+  } catch (error) {
+    return {
+      label,
+      expected,
+      observed: `erreur réseau : ${error.message}`,
+      ok: false,
+    };
+  }
+}
+
+function printTable(rows) {
+  const width = (key) => Math.max(...rows.map((row) => row[key].length));
+  const labelWidth = width("label");
+  for (const row of rows) {
+    const verdict = row.ok ? "OK  " : "FAIL";
+    console.log(`${verdict}  ${row.label.padEnd(labelWidth)}  ${row.expected}`);
+    if (!row.ok)
+      console.log(`      ${"".padEnd(labelWidth)}  observé : ${row.observed}`);
+  }
+}
+
+async function main() {
+  const [baseArgument] = process.argv.slice(2);
+  const targets = [];
+  const skipped = [];
+
+  if (baseArgument) {
+    const base = new URL(baseArgument).origin;
+    const contract = contractChecks(base);
+    targets.push(...contract.checks.map((check) => [base, check]));
+    skipped.push(...contract.skipped, "hôte www (base unique)");
+  } else {
+    targets.push(...contractChecks(APEX).checks.map((check) => [APEX, check]));
+    targets.push(...wwwChecks().map((check) => [WWW, check]));
+  }
+
+  const rows = await Promise.all(
+    targets.map(([base, check]) => runCheck(base, check)),
+  );
+  printTable(rows);
+  for (const reason of skipped) console.log(`SKIP  ${reason}`);
+
+  const failed = rows.filter((row) => !row.ok).length;
+  console.log(
+    `\n${rows.length - failed}/${rows.length} conformes, ${failed} écart(s).`,
+  );
+  if (failed) process.exitCode = 1;
+}
+
+await main();

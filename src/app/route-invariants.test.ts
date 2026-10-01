@@ -1,0 +1,278 @@
+import { describe, expect, it } from "vitest";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { posix as posixPath } from "node:path";
+import nextConfig from "../../next.config";
+import sitemap from "@/app/sitemap";
+import { metadata as playMetadata } from "@/app/play/page";
+import { getDictionary } from "@/content";
+import { LOCALES } from "@/lib/i18n";
+
+/**
+ * Gardes automatiques des règles « JAMAIS / toujours » de CLAUDE.md.
+ *
+ * Chaque `it` nomme la règle qu'il fait respecter. Les scans sont des lectures
+ * de TEXTE source (aucun AST) : une forme volontairement contournée (import
+ * dynamique construit, `eval`) leur échappe — limite assumée, écrite ici plutôt
+ * que silencieuse. Les fichiers `*.test.*` sont exclus de tous les scans : ce
+ * fichier cite lui-même les motifs qu'il interdit.
+ */
+
+function listFiles(dir: string): string[] {
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir, { recursive: true })
+    .map((entry) => posixPath.join(dir, String(entry)))
+    .filter((file) => statSync(file).isFile())
+    .sort();
+}
+
+const isTestFile = (file: string) => /\.test\.[cm]?[jt]sx?$/.test(file);
+
+const sources = listFiles("src").filter(
+  (file) => /\.(ts|tsx)$/.test(file) && !isTestFile(file),
+);
+const sourceSet = new Set(sources);
+const read = (file: string) => readFileSync(file, "utf8");
+
+/** Résout un import local (`@/…`, `./…`, `../…`) vers un fichier de `src/`. */
+function resolveLocalImport(
+  fromFile: string,
+  specifier: string,
+): string | null {
+  let base: string;
+  if (specifier.startsWith("@/")) base = `src/${specifier.slice(2)}`;
+  else if (specifier.startsWith(".")) {
+    base = posixPath.join(posixPath.dirname(fromFile), specifier);
+  } else return null;
+  const candidates = [base, `${base}.ts`, `${base}.tsx`, `${base}/index.ts`];
+  return candidates.find((candidate) => sourceSet.has(candidate)) ?? null;
+}
+
+const IMPORT_SPECIFIER =
+  /(?:from\s+|import\s*\(\s*|^\s*import\s+)["']([^"']+)["']/gm;
+
+function directLocalImports(file: string): string[] {
+  return [...read(file).matchAll(IMPORT_SPECIFIER)]
+    .map((match) => resolveLocalImport(file, match[1]))
+    .filter((resolved): resolved is string => resolved !== null);
+}
+
+describe("rendu — SSG pur (CLAUDE.md, « Structure des routes »)", () => {
+  // « Trois fichiers seulement exportent `dynamic` — /play en force-dynamic et
+  // les deux route handlers .well-known en force-static. Aucun fichier n'exporte
+  // revalidate, dynamicParams, "use cache" ni cacheComponents. »
+  const SEGMENT_CONFIG_EXPORT =
+    /export\s+(?:const|let|var)\s+(dynamic|revalidate|dynamicParams|runtime)\b\s*=\s*([^;\n]+)/g;
+  const SEGMENT_CONFIG_REEXPORT =
+    /export\s*\{[^}]*\b(dynamic|revalidate|dynamicParams|runtime)\b[^}]*\}/;
+
+  it("exactement trois fichiers exportent `dynamic`, avec les valeurs documentées ; aucun revalidate/dynamicParams/runtime", () => {
+    const found = sources.flatMap((file) =>
+      [...read(file).matchAll(SEGMENT_CONFIG_EXPORT)].map(
+        (match) => `${file} ${match[1]}=${match[2].trim()}`,
+      ),
+    );
+    expect(found).toEqual([
+      'src/app/.well-known/apple-app-site-association/route.ts dynamic="force-static"',
+      'src/app/.well-known/assetlinks.json/route.ts dynamic="force-static"',
+      'src/app/play/page.tsx dynamic="force-dynamic"',
+    ]);
+    for (const file of sources) {
+      expect(read(file), file).not.toMatch(SEGMENT_CONFIG_REEXPORT);
+    }
+  });
+
+  it('aucun "use cache", cacheLife, cacheTag ni cacheComponents dans src/ ni next.config.ts', () => {
+    for (const file of [...sources, "next.config.ts"]) {
+      expect(read(file), file).not.toMatch(
+        /["']use cache(?::[^"']*)?["']|\bcacheLife\b|\bcacheTag\b|\bcacheComponents\b/,
+      );
+    }
+  });
+});
+
+describe("JSON-LD — source unique (CLAUDE.md, « SEO »)", () => {
+  // « src/lib/structured-data.ts est la source unique de tout le JSON-LD du
+  // site — aucun objet @type schema.org ne doit être construit ailleurs. »
+  const STRUCTURED_DATA = "src/lib/structured-data.ts";
+  const JSON_LD_RENDERER = "src/components/JsonLd.tsx";
+
+  it("aucun littéral @context/@type/schema.org hors de src/lib/structured-data.ts", () => {
+    for (const file of sources.filter((f) => f !== STRUCTURED_DATA)) {
+      expect(read(file), file).not.toMatch(
+        /["']@(?:context|type)["']|schema\.org/,
+      );
+    }
+  });
+
+  it("application/ld+json n'est émis que par src/components/JsonLd.tsx", () => {
+    const emitters = sources.filter((file) =>
+      read(file).includes("application/ld+json"),
+    );
+    expect(emitters).toEqual([JSON_LD_RENDERER]);
+  });
+
+  it("tout fichier qui rend <JsonLd> importe ses données de @/lib/structured-data", () => {
+    // structured-data.ts cite `<JsonLd data=…>` dans un commentaire, sans le rendre.
+    const renderers = sources.filter(
+      (file) => file !== STRUCTURED_DATA && /<JsonLd\b/.test(read(file)),
+    );
+    expect(renderers.length).toBeGreaterThan(0);
+    for (const file of renderers) {
+      expect(read(file), file).toMatch(
+        /from\s+["']@\/lib\/structured-data["']/,
+      );
+    }
+  });
+});
+
+describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
+  // « JAMAIS casser /account-deletion (+ pendants /en/, /fr/) — URL déclarée dans
+  // le formulaire Data Safety de la Play Console. »
+  it.each(LOCALES)(
+    "l'ancre #account-deletion existe dans la politique de confidentialité (%s)",
+    (locale) => {
+      const ids = getDictionary(locale).privacy.sections.map(
+        (section) => section.id,
+      );
+      expect(ids).toContain("account-deletion");
+    },
+  );
+
+  it("next.config.ts garde les trois redirections /account-deletion en 307 vers leurs destinations documentées", async () => {
+    expect(nextConfig.redirects).toBeTypeOf("function");
+    const redirects = await nextConfig.redirects!();
+    expect(redirects).toEqual(
+      expect.arrayContaining([
+        {
+          source: "/account-deletion",
+          destination: "/privacy#account-deletion",
+          permanent: false,
+        },
+        {
+          source: "/en/account-deletion",
+          destination: "/en/privacy#account-deletion",
+          permanent: false,
+        },
+        {
+          source: "/fr/account-deletion",
+          destination: "/privacy#account-deletion",
+          permanent: false,
+        },
+      ]),
+    );
+  });
+
+  // « /play ne doit jamais changer ni disparaître » ; « robots.txt : aucun
+  // noindex dans src/ (sauf /play, marquée robots: { index: false }) ».
+  it("/play reste noindex", () => {
+    expect(playMetadata.robots).toMatchObject({ index: false });
+  });
+
+  // « sitemap.xml : /, /privacy, /terms, /legal × 2 locales » ; « /fr/... ni
+  // sitemapées » ; « Locale par défaut : fr (pas de préfixe dans l'URL) ».
+  it("sitemap() renvoie exactement les 8 URLs documentées, FR canonique sans préfixe /fr", () => {
+    const entries = sitemap();
+    expect(entries.map((entry) => entry.url)).toEqual([
+      "https://synapgeek.com/",
+      "https://synapgeek.com/privacy",
+      "https://synapgeek.com/terms",
+      "https://synapgeek.com/legal",
+      "https://synapgeek.com/en",
+      "https://synapgeek.com/en/privacy",
+      "https://synapgeek.com/en/terms",
+      "https://synapgeek.com/en/legal",
+    ]);
+    for (const entry of entries) {
+      const languages = entry.alternates?.languages ?? {};
+      for (const url of [entry.url, ...Object.values(languages)]) {
+        expect(url, entry.url).not.toMatch(
+          /^https:\/\/synapgeek\.com\/fr(?:\/|$)/,
+        );
+      }
+    }
+  });
+});
+
+describe("proxy i18n (CLAUDE.md, « Architecture i18n »)", () => {
+  // Next lit `config.matcher` par analyse STATIQUE : une constante importée ou
+  // calculée est ignorée en silence. D'où une comparaison sur le texte source.
+  const DOCUMENTED_MATCHER = String.raw`/((?!_next|api|favicon\\.ico|.*\\..*).*)`;
+
+  it("src/proxy.ts exporte un matcher littéral inline égal au matcher documenté", () => {
+    const match = read("src/proxy.ts").match(
+      /export const config = \{\s*matcher:\s*\[\s*"((?:[^"\\]|\\.)*)"\s*,?\s*\],?\s*\};?/,
+    );
+    expect(
+      match,
+      'export const config = { matcher: ["…"] } introuvable',
+    ).not.toBeNull();
+    expect(match![1]).toBe(DOCUMENTED_MATCHER);
+  });
+});
+
+describe("pages légales sans JavaScript client (CLAUDE.md, « Règles critiques »)", () => {
+  // « Les pages légales doivent rester accessibles sans JavaScript (SSG). »
+  const LEGAL_ENTRY_POINTS = [
+    "src/components/LegalPage.tsx",
+    "src/app/[locale]/privacy/page.tsx",
+    "src/app/[locale]/terms/page.tsx",
+    "src/app/[locale]/legal/page.tsx",
+  ];
+  const USE_CLIENT_DIRECTIVE = /^\s*["']use client["'];?\s*$/m;
+
+  it('LegalPage, les trois pages légales et leurs imports locaux directs n\'ont aucun "use client"', () => {
+    const checked = new Set(
+      LEGAL_ENTRY_POINTS.flatMap((file) => [file, ...directLocalImports(file)]),
+    );
+    expect(checked).toContain("src/components/ui/Badge.tsx");
+    for (const file of checked) {
+      expect(read(file), file).not.toMatch(USE_CLIENT_DIRECTIVE);
+    }
+  });
+});
+
+describe("portefeuille Synapgeek (CLAUDE.md, « Règles critiques » ; skill synapgeek-portfolio-rules)", () => {
+  // « JAMAIS de lien vers un autre site du portefeuille Synapgeek. »
+  it("aucune mention wordsearchtrove / mazefoundry / maze-foundry / drawmytattoo dans src/ ni public/", () => {
+    const files = [...listFiles("src"), ...listFiles("public")].filter(
+      (file) => !isTestFile(file),
+    );
+    for (const file of files) {
+      expect(read(file), file).not.toMatch(
+        /wordsearchtrove|mazefoundry|maze-foundry|drawmytattoo/i,
+      );
+    }
+  });
+});
+
+describe("dette i18n — cliquet (CLAUDE.md, « Conventions de code »)", () => {
+  // « 4 ternaires locale === "fr" ? … : … subsistent […] site-reviewer refuse
+  // toute PR qui fait monter ce compte. » Le plafond ne remonte jamais : quand un
+  // ternaire disparaît, baisser MAX_LOCALE_TERNARIES et CLAUDE.md ensemble.
+  const MAX_LOCALE_TERNARIES = 4;
+  const LOCALE_TERNARY =
+    /\b\w*(?:locale|lang)\w*\s*[!=]==?\s*["'](?:fr|en)["']\s*\?|["'](?:fr|en)["']\s*[!=]==?\s*\w*(?:locale|lang)\w*\s*\?/gi;
+
+  it(`au plus ${MAX_LOCALE_TERNARIES} ternaires de locale dans src/`, () => {
+    const occurrences = sources.flatMap((file) =>
+      [...read(file).matchAll(LOCALE_TERNARY)].map(
+        (match) => `${file}: ${match[0].replace(/\s+/g, " ")}`,
+      ),
+    );
+    expect(occurrences.length, occurrences.join("\n")).toBeLessThanOrEqual(
+      MAX_LOCALE_TERNARIES,
+    );
+  });
+});
+
+describe("secrets (CLAUDE.md, « Sécurité »)", () => {
+  // « Aucune process.env sans NEXT_PUBLIC_ lue hors de src/app/api/. »
+  // NODE_ENV n'est lu nulle part aujourd'hui : il n'a donc aucune exemption.
+  it("process.env n'est lu sans préfixe NEXT_PUBLIC_ que sous src/app/api/", () => {
+    for (const file of sources.filter((f) => !f.startsWith("src/app/api/"))) {
+      const offenders =
+        read(file).match(/process\.env(?!\.NEXT_PUBLIC_)\S*/g) ?? [];
+      expect(offenders, file).toEqual([]);
+    }
+  });
+});
