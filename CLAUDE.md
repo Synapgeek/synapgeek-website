@@ -61,10 +61,14 @@ npm run build     # Build de production
 npm run start     # Serveur de production (build préalable requis)
 npm run lint      # ESLint
 npm run format    # Prettier — ÉCRIT les fichiers (npx prettier --check pour vérifier)
+npm test          # vitest : invariants de routes (SSG, JSON-LD, redirects, sitemap…)
+npm run check:contract  # URLs référencées par les stores, apex et www (réseau ; preview/prod)
 ```
 
-**Il n'y a ni test ni CI.** `npm run lint` et `npm run build` sont les deux seules portes
-automatiques du repo. Tout le reste est humain ou passe par un sous-agent.
+Portes automatiques : `npm run lint`, `npm test`, `npm run build`, rejouées par la CI
+(`.github/workflows/ci.yml`, sans secret). `check:contract` n'est pas dans la CI : à lancer
+contre la preview ou la production avant tout merge touchant routage, redirects ou
+`.well-known`. Tout le reste est humain ou passe par un sous-agent.
 
 ## Conventions de code
 
@@ -384,11 +388,30 @@ Ordre attendu sur tout chantier non trivial, plan formel ou pas :
 Un NO-GO ou un « mergeable non » se corrige dans la session principale, jamais par
 l'agent qui l'a rendu.
 
+Règles de process (leçons de Word Search Trove) :
+
+- Architecte et reviewer ne modifient jamais le code.
+- Chaque brief de tâche recopie la liste ET l'ordre des skills à invoquer : une règle portée
+  seulement par les contraintes globales d'un plan a été violée 3 tâches sur 5.
+- Devant une maquette validée, l'agent l'implémente ou s'arrête et escalade, jamais il ne diverge.
+- Agents écrivains en parallèle : un worktree chacun ; rien n'est commité dans l'arbre
+  partagé pendant un workflow. Un process ne se tue que par son PID noté, port dédié par
+  serveur. Preuve de mutation : copie isolée (`git archive | tar -x`, jamais `cp`/`rsync`).
+- Génération d'images nbpro : plafond quotidien partagé par toute la machine (~0,13 USD
+  l'image en pro). Plafond atteint : stop et rapport, jamais un mode CLI, jamais lire la
+  variable ni `~/.claude.json`. Sortie d'abord au scratchpad, puis import avec conversion
+  et budget de poids.
+- Modèle passé EXPLICITEMENT à chaque sous-agent : Haiku mécanique et docs ; Sonnet
+  CSS/layout/composant simple et vérifications factuelles ; Opus état, frontière client,
+  a11y fine, architecture et revues. Un correctif après revue ne part jamais sur Haiku.
+- Faits Cerebrum : `cerebrum-design-system/marketing/ASO/3.x.x/asc-metadata.md` et les sessions
+  iOS/Android/Design System ; copy selon `geo-assistants-ia.md` du même dossier.
+
 ## Skills auto-chargés
 
 Le contenu réel vit dans `.agents/skills/` (versionné par git) ; `.claude/skills/<nom>`
 n'est qu'un symlink vers `../../.agents/skills/<nom>`. L'inventaire et la provenance
-(source GitHub + hash) sont dans `skills-lock.json`. **23 skills installés.**
+(source GitHub + hash) sont dans `skills-lock.json`. **23 skills installés**, plus `design-references` (local, absent de `skills-lock.json`).
 
 | Skill                               | Quand l'utiliser                                                               |
 | ----------------------------------- | ------------------------------------------------------------------------------ |
@@ -415,11 +438,15 @@ n'est qu'un symlink vers `../../.agents/skills/<nom>`. L'inventaire et la proven
 | `app-store-review`                  | Conformité App Store Review Guidelines, privacy manifests                      |
 | `privacy-policy`                    | Scaffold structuré de privacy policy                                           |
 | `localization-strategy`             | SEO multilingue (hreflang, structure URLs i18n, keywords)                      |
+| `design-references`                 | AVANT toute idéation visuelle : moodboard, « Parti pris » écrit (skill local)  |
 
 **Quatre skills obligatoires vivent HORS du repo** (niveau utilisateur ou plugin) et ne
 sont donc pas dans ce tableau : `clean-code` (standards de code maison — c'est lui qui
 définit le format de verdict de `site-reviewer`), `synapgeek-portfolio-rules` (règles
 inter-sites), `vercel:nextjs`, `vercel:react-best-practices`. Un clone frais ne les a pas.
+
+Le serveur MCP `shadcn` est déclaré dans `.mcp.json` (Adrien l'approuve au démarrage de
+session) : explorer avec `view`, réécrire en style maison, jamais ajouter tel quel.
 
 **Règle** : Ne pas attendre qu'on demande explicitement un skill. Si la tâche en cours
 correspond à un skill, le lire et appliquer ses recommandations automatiquement.

@@ -1,6 +1,6 @@
 ---
 name: site-reviewer
-description: Revue finale d'un chantier synapgeek.com avant merge — non-négociables (URLs légales App Store/Play, exactitude de la privacy policy, Apple 3.1.1, secrets, headers), SEO/i18n, a11y et qualité du code. À utiliser en fin de plan d'implémentation, une fois `npm run lint` et `npm run build` verts, ou avant tout merge substantiel sur `main`.
+description: Revue finale d'un chantier synapgeek.com avant merge — non-négociables (URLs légales App Store/Play, exactitude de la privacy policy, Apple 3.1.1, secrets, headers), SEO/i18n, a11y et qualité du code. À utiliser en fin de plan d'implémentation, une fois `npm run lint`, `npm test` et `npm run build` verts, ou avant tout merge substantiel sur `main`.
 tools: Read, Glob, Grep, Bash, Skill
 model: opus
 ---
@@ -10,6 +10,7 @@ maison, hôte des pages légales de Cerebrum). Tu constates, tu ne corriges pas
 (aucun Edit : un reviewer qui patche maquille ce qu'il devait juger).
 
 Avant la revue, dans cet ordre :
+
 1. Lis `CLAUDE.md` (vérifié contre le code le 2026-09-12 ; en cas de doute le code fait
    toujours foi), puis les fichiers qui FONT le contrat :
    `src/proxy.ts`, `src/lib/i18n.ts`, `src/lib/seo.ts`, `src/app/sitemap.ts`,
@@ -21,11 +22,22 @@ Avant la revue, dans cet ordre :
 3. Vérifications mécaniques : `npm run lint`, `npm run build` (sans warning),
    `npx tsc --noEmit` (désynchro fr.ts/en.ts contre `Dictionary`) et
    `npx prettier --check $(git diff --name-only main...HEAD)` (le script
-   `format` écrit, il ne vérifie pas) ; puis chaque chemin d'asset du diff
+   `format` écrit, il ne vérifie pas), `npm test` (invariants vitest) ; la CI
+   (`.github/workflows/ci.yml`) doit être verte, et `npm run check:contract`
+   se lance contre la preview ou la production quand le diff touche routage,
+   redirects, proxy ou `.well-known` ; puis chaque chemin d'asset du diff
    existe sous `public/` (`grep -rhoE '/images/[^"]+' src/` — le build ne les
-   valide pas), et le diff complet. Aucun test ici : pas de `npm test`.
+   valide pas), et le diff complet.
+   Faits Cerebrum : chaque affirmation du diff se recoupe avec
+   `cerebrum/cerebrum-design-system/marketing/ASO/3.x.x/asc-metadata.md` ; la
+   copy suit `geo-assistants-ia.md` du même dossier (aucun nombre de jeux ou
+   de niveaux, nom maison + genre générique, modèle publicité/Premium honnête,
+   jamais « sans pub », cristaux ≠ gemmes). Un fait non sourcé est bloquant.
+   `synapgeek-portfolio-rules` est invoqué pour tout changement de contenu,
+   SEO, indexation ou cross-site.
 
 Checklist non-négociable (chaque point vérifié explicitement) :
+
 1. **URLs de conformité** : `/privacy`, `/terms`, `/legal` + pendants `/en/`
    sortent en ● SSG ; les 3 redirects de `next.config.ts` restent
    `permanent: false` (307 jamais 301 — `/account-deletion` nu = champ
