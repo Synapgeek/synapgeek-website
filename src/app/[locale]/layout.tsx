@@ -9,6 +9,8 @@ import { getDictionary } from "@/content";
 import { getOgLocale, getOgAlternateLocales } from "@/lib/seo";
 import { organizationSchema, websiteSchema } from "@/lib/structured-data";
 import { APP_STORE_ID } from "@/lib/app";
+import { pagePath } from "@/lib/routes";
+import { buildLanguageSwitchTable } from "@/lib/language-switch-table";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
@@ -74,6 +76,7 @@ export default async function LocaleLayout({
   if (!isLocale(rawLocale)) notFound();
   const locale: Locale = rawLocale;
   const dict = getDictionary(locale);
+  const languageTable = buildLanguageSwitchTable();
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -89,15 +92,22 @@ export default async function LocaleLayout({
         {/* Non modal, position fixed (l'emplacement dans le DOM n'affecte pas son rendu) :
             monté tôt, juste après le lien d'évitement, pour qu'un utilisateur clavier
             l'atteigne sans devoir traverser toute la page. */}
-        <ConsentBanner locale={locale} dict={dict.common.consent} />
+        <ConsentBanner
+          privacyHref={pagePath("privacy", locale, "website")}
+          dict={dict.common.consent}
+        />
         <div className="flex min-h-screen flex-col">
-          <JsonLd data={organizationSchema(locale)} />
+          <JsonLd data={organizationSchema()} />
           <JsonLd data={websiteSchema(locale)} />
-          <Header locale={locale} />
+          <Header locale={locale} languageTable={languageTable} />
           <main id="main-content" className="flex-1">
             {children}
           </main>
-          <Footer locale={locale} dict={dict.common} />
+          <Footer
+            locale={locale}
+            dict={dict.common}
+            languageTable={languageTable}
+          />
         </div>
         <Analytics />
         <SpeedInsights />

@@ -1,27 +1,12 @@
 import type { Metadata } from "next";
 import type { Locale } from "./i18n";
-import { LOCALES, getLocalePath } from "./i18n";
+import { LOCALES } from "./i18n";
+import { absoluteUrl, alternatesFor, type PageId } from "./routes";
 
-const BASE_URL = "https://synapgeek.com";
-
-// Locale ciblée par l'annotation hreflang "x-default" (utilisateurs sans
-// préférence de langue détectée). Distincte de DEFAULT_LOCALE (fr), qui régit
-// le routage sans préfixe : on ne touche qu'à l'annotation SEO, pas aux URLs.
-export const X_DEFAULT_LOCALE: Locale = "en";
-
-export function getAlternates(locale: Locale, path: string) {
-  const canonical = `${BASE_URL}${getLocalePath(locale, path)}`;
-
-  const languages: Record<string, string> = {};
-  for (const loc of LOCALES) {
-    languages[loc] = `${BASE_URL}${getLocalePath(loc, path)}`;
-  }
-  languages["x-default"] =
-    `${BASE_URL}${getLocalePath(X_DEFAULT_LOCALE, path)}`;
-
+export function getAlternates(pageId: PageId, locale: Locale) {
   return {
-    canonical,
-    languages,
+    canonical: absoluteUrl(pageId, locale),
+    languages: alternatesFor(pageId).languages,
   };
 }
 
@@ -52,7 +37,7 @@ export function getOgAlternateLocales(locale: Locale): string[] {
  */
 export function buildOpenGraph(
   locale: Locale,
-  path: string,
+  pageId: PageId,
   title: string,
   description: string,
 ): NonNullable<Metadata["openGraph"]> {
@@ -60,7 +45,7 @@ export function buildOpenGraph(
     title,
     description,
     type: "website",
-    url: `${BASE_URL}${getLocalePath(locale, path)}`,
+    url: absoluteUrl(pageId, locale),
     siteName: "Synapgeek",
     locale: getOgLocale(locale),
     alternateLocale: getOgAlternateLocales(locale),

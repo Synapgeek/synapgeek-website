@@ -8,11 +8,15 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
  */
 const FEATURE_IMAGES: Record<string, string> = {
   sudoku: "/images/games/feature-sudoku.webp",
+  pandoku: "/images/games/feature-pandoku.webp",
+  minesweeper: "/images/games/feature-minesweeper.webp",
+  pixelart: "/images/games/feature-pixelart.webp",
+  crossmath: "/images/games/feature-crossmath.webp",
   crossword: "/images/games/feature-crosswords.webp",
   wordsearch: "/images/games/feature-wordsearch.webp",
-  crossmath: "/images/games/feature-crossmath.webp",
   trace: "/images/games/feature-trace.webp",
   maze: "/images/games/feature-maze.webp",
+  arrowmaze: "/images/games/feature-arrowmaze.webp",
 };
 
 export function Features({
@@ -28,7 +32,8 @@ export function Features({
     <section id="features" className="bg-surface px-6 py-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeading title={dict.title} subtitle={dict.subtitle} />
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Dernière carte seule sur sa rangée à 3 colonnes : centrée plutôt qu'orpheline à gauche. */}
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:[&>*:last-child:nth-child(3n+1)]:col-start-2">
           {dict.items.map((feature) => (
             <Card key={feature.title}>
               <div className="mb-6">

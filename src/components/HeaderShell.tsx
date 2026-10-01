@@ -5,12 +5,12 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
-import { getLocalePath } from "@/lib/i18n";
+import type { LanguageSwitchTable } from "@/lib/language-alternates";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
-/** Entrée de navigation : ancre de la home (ex. "/#faq") et libellé localisé. */
+/** Entrée de navigation : URL déjà résolue (ex. "/#faq", "/fr#faq") et libellé localisé. */
 export interface HeaderNavLink {
-  path: string;
+  href: string;
   label: string;
 }
 
@@ -21,10 +21,14 @@ export interface HeaderNavLink {
  */
 export function HeaderShell({
   locale,
+  homeHref,
   links,
+  languageTable,
 }: {
   locale: Locale;
+  homeHref: string;
   links: readonly HeaderNavLink[];
+  languageTable: LanguageSwitchTable;
 }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -57,7 +61,7 @@ export function HeaderShell({
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link
-          href={getLocalePath(locale, "/")}
+          href={homeHref}
           className="flex items-center gap-2 text-xl font-extrabold tracking-tight"
         >
           <Image
@@ -74,14 +78,14 @@ export function HeaderShell({
         <div className="hidden items-center gap-8 text-sm font-medium md:flex">
           {links.map((link) => (
             <Link
-              key={link.path}
-              href={getLocalePath(locale, link.path)}
+              key={link.href}
+              href={link.href}
               className="text-text-secondary transition-colors hover:text-primary"
             >
               {link.label}
             </Link>
           ))}
-          <LanguageSwitcher locale={locale} />
+          <LanguageSwitcher locale={locale} table={languageTable} />
         </div>
 
         {/* Mobile menu button */}
@@ -109,8 +113,8 @@ export function HeaderShell({
           <div className="flex flex-col gap-4 px-6 py-6">
             {links.map((link) => (
               <Link
-                key={link.path}
-                href={getLocalePath(locale, link.path)}
+                key={link.href}
+                href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className="text-lg font-medium text-text-secondary hover:text-primary"
               >
@@ -118,7 +122,7 @@ export function HeaderShell({
               </Link>
             ))}
             <div className="border-t border-border pt-4">
-              <LanguageSwitcher locale={locale} />
+              <LanguageSwitcher locale={locale} table={languageTable} />
             </div>
           </div>
         </div>

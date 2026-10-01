@@ -32,8 +32,8 @@ export async function generateMetadata({
       absolute: meta.title,
     },
     description: meta.description,
-    alternates: getAlternates(locale, "/"),
-    openGraph: buildOpenGraph(locale, "/", meta.title, meta.description),
+    alternates: getAlternates("home", locale),
+    openGraph: buildOpenGraph(locale, "home", meta.title, meta.description),
   };
 }
 

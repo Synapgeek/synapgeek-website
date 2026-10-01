@@ -9,11 +9,16 @@ import type { HeroSlideId, HeroSlider } from "@/content/types";
 // dérivé de `alts`, dont les clés sont figées dans src/content/types.ts.
 const SLIDE_IDS: HeroSlideId[] = [
   "home",
-  "sudoku",
+  "pandoku",
+  "pixelart",
   "daily",
-  "victory",
-  "profile",
+  "progression",
 ];
+
+// Dossier versionné : /images/* est mis en cache 7 jours (vercel.json), un
+// remplacement sous le même nom ne suffirait pas. Nouveau lot de captures =
+// nouveau dossier (v4, …).
+const SCREENSHOT_DIR = "/images/hero/v3";
 
 interface Slide {
   id: HeroSlideId;
@@ -60,7 +65,7 @@ export function IPhoneSlider({ locale, dict }: IPhoneSliderProps) {
     () =>
       SLIDE_IDS.map((id) => ({
         id,
-        src: `/images/hero/screen-${id}-${locale}.webp`,
+        src: `${SCREENSHOT_DIR}/screen-${id}-${locale}.webp`,
         alt: dict.alts[id],
       })),
     [locale, dict],

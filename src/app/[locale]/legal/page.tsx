@@ -25,8 +25,8 @@ export async function generateMetadata({
   return {
     title: dict.legal.title,
     description,
-    alternates: getAlternates(locale, "/legal"),
-    openGraph: buildOpenGraph(locale, "/legal", dict.legal.title, description),
+    alternates: getAlternates("legal", locale),
+    openGraph: buildOpenGraph(locale, "legal", dict.legal.title, description),
   };
 }
 
@@ -41,7 +41,7 @@ export default async function LegalNoticePage({
 
   const webPage = webPageSchema({
     locale,
-    path: "/legal",
+    pageId: "legal",
     name: dict.legal.title,
     dateModified: dict.legal.updatedAt,
   });

@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n";
+import type { PageId } from "@/lib/routes";
 
 /** Download block: les deux plateformes sont en ligne depuis le lancement Android. */
 export interface StoreDownload {
@@ -8,7 +9,12 @@ export interface StoreDownload {
 }
 
 /** Identifiant stable de chaque capture du carrousel du hero (indépendant de la locale). */
-export type HeroSlideId = "home" | "sudoku" | "daily" | "victory" | "profile";
+export type HeroSlideId =
+  | "home"
+  | "pandoku"
+  | "pixelart"
+  | "daily"
+  | "progression";
 
 /**
  * Textes localisés du carrousel de captures d'écran (`IPhoneSlider`).
@@ -40,8 +46,8 @@ export interface ContactTopic {
  */
 export interface FaqLink {
   text: string;
-  /** Chemin sans préfixe de locale (ex. "/privacy#account-deletion"), résolu via getLocalePath. */
-  path: string;
+  /** Page cible et ancre éventuelle, résolues par `pagePath` dans la locale du lecteur. */
+  path: { page: PageId; hash?: string };
 }
 
 /** Une question/réponse de la FAQ de la home. Réponse autonome, en texte brut. */
@@ -182,7 +188,7 @@ export interface Dictionary {
     updatedAt: string;
     sections: readonly LegalSection[];
   };
-  /** Repli de /play (desktop, iPad en mode bureau, robot) — reste en français quelle que soit la locale. */
+  /** Repli de /cerebrum/play (desktop, iPad en mode bureau, robot) — reste en français quelle que soit la locale. */
   play: {
     title: string;
     chooseStore: string;
