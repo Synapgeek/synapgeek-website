@@ -90,6 +90,14 @@ describe("pagePath : table de vérité", () => {
     expect(FROZEN_LEGAL_PATHS).toEqual(["/privacy", "/terms", "/legal"]);
   });
 
+  it("refuse un identifiant de jeu inconnu, dans toutes les langues", () => {
+    for (const locale of LOCALES) {
+      expect(() => pagePath("game:inconnu" as PageId, locale)).toThrow(
+        /non publié ou inconnu/,
+      );
+    }
+  });
+
   it("ajoute les ancres sans slash parasite", () => {
     expect(pagePath("home", "en", "contact")).toBe("/#contact");
     expect(pagePath("home", "fr", "contact")).toBe("/fr#contact");

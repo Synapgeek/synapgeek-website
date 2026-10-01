@@ -12,8 +12,9 @@ import { DEFAULT_LOCALE, LOCALES } from "@/lib/i18n";
 import {
   absoluteUrl,
   alternatesFor,
-  publishedPageIds,
   renderedPageIds,
+  BASE_URL,
+  type PageId,
 } from "@/lib/routes";
 import { proxy } from "@/proxy";
 
@@ -354,12 +355,13 @@ describe("tout lien interne passe par les helpers de routes (CLAUDE.md, « Conve
 });
 
 describe("proxy i18n — source des chemins figés", () => {
-  it("src/proxy.ts lit FROZEN_LEGAL_PATHS dans frozen-legal-paths, sans liste en dur", () => {
+  it("src/proxy.ts lit FROZEN_LEGAL_PATHS et FROZEN_LEGAL_LOCALE dans frozen-legal-paths, sans copie locale", () => {
     const source = read("src/proxy.ts");
     expect(source).toMatch(
-      /import \{ FROZEN_LEGAL_PATHS \} from "@\/lib\/frozen-legal-paths";/,
+      /import \{\s*FROZEN_LEGAL_LOCALE,\s*FROZEN_LEGAL_PATHS,?\s*\} from "@\/lib\/frozen-legal-paths";/,
     );
     expect(source).not.toMatch(/["']\/privacy["']/);
+    expect(source).not.toMatch(/const FROZEN_LEGAL_LOCALE\b/);
   });
 });
 
@@ -431,6 +433,7 @@ describe("secrets (CLAUDE.md, « Sécurité »)", () => {
 });
 
 describe("sitemap — dérivé du registre de pages (spec §5, SEO)", () => {
+  const LEGAL_PAGES = ["privacy", "terms", "legal"] as const;
   const entries = sitemap();
   const urls = entries.map((entry) => entry.url);
   const expectedUrls = renderedPageIds().flatMap((pageId) =>
@@ -442,18 +445,33 @@ describe("sitemap — dérivé du registre de pages (spec §5, SEO)", () => {
     expect(new Set(urls).size).toBe(urls.length);
   });
 
-  it("ne liste que des pages publiées (jamais une page rendue mais non indexable)", () => {
-    expect(publishedPageIds()).toEqual(
-      expect.arrayContaining(renderedPageIds()),
-    );
+  it("n'expose jamais /cerebrum/play ni /fr/<page légale>", () => {
+    expect(urls.some((url) => url.includes("/play"))).toBe(false);
+    for (const page of LEGAL_PAGES) {
+      expect(urls).not.toContain(`${BASE_URL}/fr/${page}`);
+    }
   });
 
-  it("n'expose jamais /cerebrum/play, ni /en/<page>, ni /fr/<page légale>", () => {
-    expect(urls.some((url) => url.includes("/play"))).toBe(false);
-    expect(urls).not.toContain("https://synapgeek.com/en");
-    for (const page of ["privacy", "terms", "legal"]) {
-      expect(urls).not.toContain(`https://synapgeek.com/fr/${page}`);
-    }
+  // L'anglais vit à la racine : sous /en, seules les trois pages légales figées
+  // (schéma §5.2) ont une URL. Toute autre /en/… serait une redirection 308 listée
+  // dans le sitemap.
+  it("n'expose aucune URL /en… hors les trois pages légales", () => {
+    const allUrls = entries.flatMap((entry) => [
+      entry.url,
+      ...Object.values(entry.alternates?.languages ?? {}).filter(
+        (url): url is string => url !== undefined,
+      ),
+    ]);
+    const underEn = allUrls.filter((url) => {
+      const { origin, pathname } = new URL(url);
+      return (
+        origin === BASE_URL &&
+        (pathname === "/en" || pathname.startsWith("/en/"))
+      );
+    });
+    expect([...new Set(underEn)].sort()).toEqual(
+      LEGAL_PAGES.map((page) => `${BASE_URL}/en/${page}`).sort(),
+    );
   });
 
   it("chaque entrée porte les alternates hreflang de sa page", () => {
@@ -485,17 +503,26 @@ describe("sitemap — dérivé du registre de pages (spec §5, SEO)", () => {
     }
   });
 
-  it("changeFrequency : hebdomadaire pour le hub et l'app, mensuelle pour le reste", () => {
-    const weekly = new Set(
-      (["home", "cerebrum"] as const).flatMap((page) =>
-        LOCALES.map((locale) => absoluteUrl(page, locale)),
+  // Règle de fréquence (CLAUDE.md, « SEO ») : hebdomadaire pour le hub et la page
+  // de l'app, mensuelle pour tout le reste. Comparée page par page, pas seulement
+  // sur un sous-ensemble : une nouvelle page rendue sans règle propre est mensuelle.
+  const WEEKLY_PAGE_IDS: readonly PageId[] = ["home", "cerebrum"];
+
+  it("changeFrequency : hebdomadaire pour le hub et l'app, mensuelle pour toute autre page rendue", () => {
+    const expected = new Map(
+      renderedPageIds().flatMap((pageId) =>
+        LOCALES.map(
+          (locale) =>
+            [
+              absoluteUrl(pageId, locale),
+              WEEKLY_PAGE_IDS.includes(pageId) ? "weekly" : "monthly",
+            ] as const,
+        ),
       ),
     );
-    for (const entry of entries) {
-      expect(entry.changeFrequency, entry.url).toBe(
-        weekly.has(entry.url) ? "weekly" : "monthly",
-      );
-    }
+    expect(
+      new Map(entries.map((entry) => [entry.url, entry.changeFrequency])),
+    ).toEqual(expected);
   });
 });
 

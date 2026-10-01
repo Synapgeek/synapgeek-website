@@ -211,6 +211,18 @@ describe("registre des jeux", () => {
     expect(games.every((game) => game.published)).toBe(true);
   });
 
+  it("garde exactement les mêmes clés dans page-slugs et dans le registre, dans les deux sens", () => {
+    // page-slugs.ts n'importe rien (next.config.ts le charge en relatif) : il ne peut pas
+    // se typer sur GameId. Ce test est donc le seul garde-fou de l'égalité des deux ensembles.
+    const slugKeys = Object.keys(GAME_SLUGS);
+    const registryIds = games.map((game) => game.id);
+    expect(
+      slugKeys.filter((key) => !registryIds.includes(key as GameId)),
+    ).toEqual([]);
+    expect(registryIds.filter((id) => !slugKeys.includes(id))).toEqual([]);
+    expect(slugKeys).toHaveLength(registryIds.length);
+  });
+
   it("lit ses slugs dans le module partagé page-slugs", () => {
     for (const game of games) {
       expect(game.slug).toBe(GAME_SLUGS[game.id]);
@@ -218,7 +230,10 @@ describe("registre des jeux", () => {
   });
 
   it("nomme les couleurs par propriété CSS, définie dans globals.css, jamais en hexadécimal", () => {
-    const globals = readFileSync("src/app/globals.css", "utf8");
+    const globals = readFileSync(
+      path.join(import.meta.dirname, "../../app/globals.css"),
+      "utf8",
+    );
     for (const game of games) {
       expect(game.color.wash).toBe(`--game-${game.id}-wash`);
       expect(game.color.deep).toBe(`--game-${game.id}-deep`);

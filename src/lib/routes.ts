@@ -1,4 +1,10 @@
-import { findGameBySlug, getGames, type GameId } from "@/content/apps";
+import {
+  findGameBySlug,
+  gameSlug,
+  getGames,
+  type GameId,
+} from "@/content/apps";
+import { FROZEN_LEGAL_LOCALE } from "./frozen-legal-paths";
 import { LOCALES, type Locale } from "./i18n";
 import { SECTION_SLUGS } from "./page-slugs";
 
@@ -33,8 +39,13 @@ const isGame = (pageId: PageId): pageId is `game:${GameId}` =>
 /** L'anglais n'a pas de préfixe, le français vit sous /fr. */
 const LOCALE_PREFIX: Record<Locale, string> = { en: "", fr: "/fr" };
 
-/** Schéma légal figé : français sans préfixe, anglais sous /en (jamais /fr/privacy). */
-const LEGAL_PREFIX: Record<Locale, string> = { en: "/en", fr: "" };
+/** Schéma légal figé : la langue figée sans préfixe, l'autre sous son préfixe (jamais /fr/privacy). */
+function legalPrefix(locale: Locale): string {
+  return locale === FROZEN_LEGAL_LOCALE ? "" : `/${locale}`;
+}
+
+const isPublishedGame = (gameId: GameId): boolean =>
+  getGames(APP_SEGMENT).some((game) => game.id === gameId && game.published);
 
 function gameIdOf(pageId: `game:${GameId}`): GameId {
   return pageId.slice("game:".length) as GameId;
@@ -42,16 +53,17 @@ function gameIdOf(pageId: `game:${GameId}`): GameId {
 
 function basePath(pageId: PageId, locale: Locale): string {
   if (pageId === "home") return LOCALE_PREFIX[locale] || "/";
-  if (isLegal(pageId)) return `${LEGAL_PREFIX[locale]}/${pageId}`;
+  if (isLegal(pageId)) return `${legalPrefix(locale)}/${pageId}`;
   const prefix = LOCALE_PREFIX[locale];
   if (pageId === "cerebrum") return `${prefix}/${APP_SEGMENT}`;
   if (isSection(pageId)) return `${prefix}/${SECTION_SLUGS[pageId][locale]}`;
   if (isGame(pageId)) {
-    const game = getGames(APP_SEGMENT).find(
-      (entry) => entry.id === gameIdOf(pageId),
-    );
-    if (!game) throw new Error(`Jeu inconnu : ${pageId}`);
-    return `${prefix}/${APP_SEGMENT}/${game.slug[locale]}`;
+    const gameId = gameIdOf(pageId);
+    // Un jeu non publié n'a pas de page : lui fabriquer une URL ferait pointer un lien vers un 404.
+    if (!isPublishedGame(gameId)) {
+      throw new Error(`Jeu non publié ou inconnu : ${pageId}`);
+    }
+    return `${prefix}/${APP_SEGMENT}/${gameSlug(APP_SEGMENT, gameId, locale)}`;
   }
   throw new Error(`Page inconnue : ${pageId satisfies never}`);
 }

@@ -51,7 +51,7 @@ describe("redirections /en historiques (spec §5.2)", () => {
   });
 
   it.each(ENGLISH_GAME_SLUGS)(
-    "/en/cerebrum/%s → 308 vers /cerebrum/%s",
+    "/en/cerebrum/%s → 308 vers la même URL sans /en",
     async (slug) => {
       expect(await respond(`/en/cerebrum/${slug}`)).toEqual({
         status: 308,
@@ -60,12 +60,15 @@ describe("redirections /en historiques (spec §5.2)", () => {
     },
   );
 
-  it.each(ENGLISH_SECTION_SLUGS)("/en/%s → 308 vers /%s", async (slug) => {
-    expect(await respond(`/en/${slug}`)).toEqual({
-      status: 308,
-      location: `${ORIGIN}/${slug}`,
-    });
-  });
+  it.each(ENGLISH_SECTION_SLUGS)(
+    "/en/%s → 308 vers la même URL sans /en",
+    async (slug) => {
+      expect(await respond(`/en/${slug}`)).toEqual({
+        status: 308,
+        location: `${ORIGIN}/${slug}`,
+      });
+    },
+  );
 
   it("couvre dix jeux et deux sections, rien de plus", () => {
     expect(ENGLISH_GAME_SLUGS).toHaveLength(10);

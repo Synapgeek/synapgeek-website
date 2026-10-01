@@ -25,6 +25,12 @@
  * casse (`/Play`) ne sont pas contrôlées : `next start` et Vercel ne s'accordent
  * pas sur la casse.
  *
+ * Attentes de PRÉ-PRODUCTION : les lignes `/en` (redirection 308 vers la racine),
+ * `/en/<page>` et `/cerebrum/play` (avec ses alias `/play` et `/jouer`) décrivent le
+ * contrat des PR du lot routage. Tant que ces PR ne sont pas fusionnées puis
+ * déployées, un contrôle contre la production signale des écarts sur ces lignes :
+ * c'est attendu, pas une régression.
+ *
  * Contrat de langue (spec §5.2, après le basculement sur l'anglais par défaut) :
  * `/` sert l'anglais et `/fr` le français, tous deux avec `id="contact"` ; les
  * pages légales SANS préfixe (`/privacy`, `/terms`, `/legal`) restent en
@@ -72,17 +78,17 @@ const CAMPAIGN_PARAM = "src=contract-check";
 const SITEMAP_URL_COUNT = 8;
 
 const LEGAL_PAGES = ["/privacy", "/terms", "/legal"];
-// Transitoire : `/fr${page}` répond encore 200 (canonical), 307 dans un PR ultérieur.
+// Les trois variantes de chaque page légale ; sur l'hôte www, chacune redirige en 308
+// vers l'apex (le 200 de `/fr${page}` est celui de l'apex, contrôlé dans contractChecks).
 const LOCALIZED_LEGAL_PAGES = LEGAL_PAGES.flatMap((page) => [
   page,
   `/en${page}`,
   `/fr${page}`,
 ]);
 
-const ORIGIN = "https://synapgeek.com";
 const LEGAL_LANGUAGES = {
-  fr: (page) => `${ORIGIN}${page}`,
-  en: (page) => `${ORIGIN}/en${page}`,
+  fr: (page) => `${APEX}${page}`,
+  en: (page) => `${APEX}/en${page}`,
 };
 const WELL_KNOWN = [
   "/.well-known/apple-app-site-association",
@@ -123,8 +129,8 @@ function contractChecks(base) {
       contentType("text/html"),
       htmlLang("en"),
       bodyIncludes('id="contact"'),
-      canonical(ORIGIN),
-      hreflangs({ en: ORIGIN, fr: `${ORIGIN}/fr`, "x-default": ORIGIN }),
+      canonical(APEX),
+      hreflangs({ en: APEX, fr: `${APEX}/fr`, "x-default": APEX }),
     ]),
     // Spec §5.2 : /en n'est plus une page, 308 vers la racine, query conservée.
     redirect("/en", 308, "/"),
@@ -137,8 +143,8 @@ function contractChecks(base) {
       contentType("text/html"),
       htmlLang("fr"),
       bodyIncludes('id="contact"'),
-      canonical(`${ORIGIN}/fr`),
-      hreflangs({ en: ORIGIN, fr: `${ORIGIN}/fr`, "x-default": ORIGIN }),
+      canonical(`${APEX}/fr`),
+      hreflangs({ en: APEX, fr: `${APEX}/fr`, "x-default": APEX }),
     ]),
     redirect("/fr/", 308, "/fr"),
     ...LEGAL_PAGES.flatMap((page) => [
@@ -224,8 +230,8 @@ function contractChecks(base) {
     ok("/sitemap.xml", [
       contentType("xml"),
       locCount(SITEMAP_URL_COUNT),
-      bodyIncludes(`<loc>${ORIGIN}</loc>`),
-      bodyIncludes(`<loc>${ORIGIN}/fr</loc>`),
+      bodyIncludes(`<loc>${APEX}</loc>`),
+      bodyIncludes(`<loc>${APEX}/fr</loc>`),
     ]),
     ok("/llms.txt", [contentType(PLAIN_TEXT)]),
   ];
@@ -448,14 +454,28 @@ function printTable(rows) {
  * la base contrôlée (local, preview ou production).
  */
 async function sitemapChecks(base) {
-  const res = await fetchContract(base, { path: "/sitemap.xml" });
+  const label = `${new URL(base).host}/sitemap.xml`;
+  let res;
+  try {
+    res = await fetchContract(base, { path: "/sitemap.xml" });
+  } catch (error) {
+    // Un réseau en panne ne doit pas masquer le tableau déjà calculé : l'écart est une ligne de plus.
+    return [
+      {
+        label,
+        expected: "sitemap lisible",
+        observed: `erreur réseau : ${error.message}`,
+        ok: false,
+      },
+    ];
+  }
   const locs = [...res.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
     (match) => match[1],
   );
   if (!locs.length) {
     return [
       {
-        label: `${new URL(base).host}/sitemap.xml`,
+        label,
         expected: "au moins un <loc>",
         observed: "aucun <loc>",
         ok: false,

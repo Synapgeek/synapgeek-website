@@ -113,17 +113,22 @@ Routes actives :
 /en/<page>             → 308 vers `/<page>` pour chaque ancienne page anglaise NON légale
                          (`/en/cerebrum`…) : une règle LITTÉRALE par page, jamais de regex ni
                          de `/en/:path*` (elle capterait `/en/privacy`)
-/#contact, /fr#contact → URLs de support déclarées dans App Store Connect (`/#contact` et
-                         `/en#contact` : ce dernier redirige en 308 vers `/#contact`). L'ancre
-                         `id="contact"` de la landing (`Contact.tsx`) est donc une URL
-                         CONTRAT : ne jamais la renommer ni la retirer, dans les deux langues
+/#contact, /fr#contact → URLs de support. App Store Connect déclare `/#contact` (fr-FR) et
+                         `/en#contact` (autres langues) ; `/en#contact` redirige désormais en
+                         308 vers `/#contact`. L'URL de support française `/#contact` atterrit
+                         donc sur l'accueil ANGLAIS tant que App Store Connect fr-FR n'est pas
+                         basculé sur `/fr#contact` (suite côté session iOS). L'ancre
+                         `id="contact"` de la landing (`Contact.tsx`) est une URL CONTRAT :
+                         ne jamais la renommer ni la retirer, dans les deux langues
 /privacy               → Privacy Policy en FRANÇAIS   /en/privacy (anglais)
 /terms                 → CGU / EULA en FRANÇAIS       /en/terms (anglais)
 /legal                 → Mentions légales en FRANÇAIS /en/legal (anglais)
                          Schéma légal FIGÉ (`FROZEN_LEGAL_PATHS`, `src/lib/frozen-legal-paths.ts`) :
                          l'app installée et les stores ouvrent `/privacy` en attendant du
                          français. `/fr/<page légale>` est TRANSITOIRE (200 + canonical vers
-                         l'URL sans préfixe) en attendant sa redirection 308
+                         l'URL sans préfixe) en attendant une redirection 307
+                         (`permanent: false`) posée dans un PR ultérieur, après preuve en
+                         production (jamais 308 : un permanent se met en cache chez les clients)
 /cerebrum/play         → Redirection QR → App Store / Play Store selon le User-Agent.
                          Les paramètres entrants (`?src=…`) sont transmis à la cible mais
                          ne peuvent jamais écraser un paramètre déjà présent dessus
@@ -191,8 +196,9 @@ dans la politique de confidentialité (formulaire Data Safety, lien du bandeau d
   `src/content/index.ts` (`getDictionary`, `getLocale`), `src/lib/seo.ts`
   (`getAlternates(pageId, locale)`, `buildOpenGraph`), `src/lib/app.ts` (identité store)
 - ⚠ `/fr/privacy`, `/fr/terms`, `/fr/legal` répondent encore 200 et ne sont dédoublonnées
-  que par le canonical (vers l'URL sans préfixe). Ni noindexées ni sitemapées ; leur 308
-  vers l'URL sans préfixe arrivera dans un PR ultérieur, après preuve en production.
+  que par le canonical (vers l'URL sans préfixe). Ni noindexées ni sitemapées ; leur
+  redirection 307 (`permanent: false`) vers l'URL sans préfixe arrivera dans un PR
+  ultérieur, après preuve en production.
 - Un segment qui n'est pas une locale connue (`/wp-login.php` : tout chemin contenant un
   point échappe au proxy et atterrit dans `[locale]`) déclenche `notFound()` dans
   `[locale]/layout.tsx` → vrai 404. **Jamais `dynamicParams = false`** pour ça. `/llms.txt`

@@ -50,7 +50,8 @@ Le plan doit trancher ; vérifie SYSTÉMATIQUEMENT qu'il le fait :
   les 3 redirects `/account-deletion` de `next.config.ts` restent
   `permanent: false` ; le schéma légal est FIGÉ (`FROZEN_LEGAL_PATHS` : `/privacy`,
   `/terms`, `/legal` servent le FRANÇAIS, `/en/<page>` l'anglais, `/fr/<page>`
-  transitoire 200 puis 308 vers l'URL sans préfixe) ; un plan qui change la
+  transitoire 200, puis 307 `permanent: false` vers l'URL sans préfixe dans un PR
+  ultérieur, après preuve en production : jamais 308) ; un plan qui change la
   langue ou le chemin d'une de ces URLs est NO-GO ;
 - **Où vit chaque route ajoutée, et comment elle s'indexe** : le plan la nomme
   et dit sous quel layout elle vit. Le proxy réécrit et ne redirige jamais :

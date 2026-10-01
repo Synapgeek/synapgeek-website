@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/lib/i18n";
-import { FROZEN_LEGAL_PATHS } from "@/lib/frozen-legal-paths";
+import { DEFAULT_LOCALE, LOCALES } from "@/lib/i18n";
+import {
+  FROZEN_LEGAL_LOCALE,
+  FROZEN_LEGAL_PATHS,
+} from "@/lib/frozen-legal-paths";
 
 /**
  * Routes servies hors du segment `[locale]`, que le proxy ne doit donc jamais
@@ -12,8 +15,6 @@ import { FROZEN_LEGAL_PATHS } from "@/lib/frozen-legal-paths";
  * créer `[locale]/cerebrum/play`.
  */
 const LOCALE_FREE_ROUTES = ["/cerebrum/play"];
-
-const FROZEN_LEGAL_LOCALE: Locale = "fr";
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
