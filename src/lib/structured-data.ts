@@ -3,15 +3,13 @@
  *
  * Chaque builder est une fonction pure : elle ne fait aucun accès I/O et
  * renvoie un objet sérialisable en JSON-LD (rendu ensuite via <JsonLd data=…>).
- * Les URLs sont reconstruites à partir des helpers déjà en place dans
- * `src/lib/seo.ts` et `src/lib/i18n.ts` pour ne jamais diverger du canonical.
+ * Les URLs viennent de `src/lib/routes.ts` (`absoluteUrl`), la même source que
+ * le canonical, pour ne jamais en diverger.
  */
 
 import type { Locale } from "./i18n";
-import { getLocalePath } from "./i18n";
 import { APP_STORE_URL, GOOGLE_PLAY_URL } from "./app";
-
-const BASE_URL = "https://synapgeek.com";
+import { BASE_URL, absoluteUrl, type PageId } from "./routes";
 
 // Pages développeur des stores — utilisées comme `sameAs` de l'organisation.
 // Faits stores fournis par la tâche ; on omet une URL introuvable plutôt que
@@ -51,10 +49,6 @@ const CEREBRUM_APP_LANGUAGES = [
 // Date de première publication de la fiche Cerebrum (iOS), conservée telle
 // quelle depuis le JSON-LD SoftwareApplication existant.
 const CEREBRUM_DATE_PUBLISHED = "2026-06-03";
-
-function absoluteUrl(locale: Locale, path: string): string {
-  return `${BASE_URL}${getLocalePath(locale, path)}`;
-}
 
 function ogLocale(locale: Locale): string {
   const map: Record<Locale, string> = {
@@ -105,7 +99,7 @@ export function organizationSchema(locale: Locale): OrganizationSchema {
     "@id": `${BASE_URL}/#organization`,
     name: "Synapgeek",
     legalName: "Synapgeek SAS",
-    url: absoluteUrl(locale, "/"),
+    url: absoluteUrl("home", locale),
     logo: `${BASE_URL}/images/brand/logo-synapgeek.png`,
     address: {
       "@type": "PostalAddress",
@@ -138,7 +132,7 @@ export function websiteSchema(locale: Locale): WebSiteSchema {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": `${BASE_URL}/#website`,
-    url: absoluteUrl(locale, "/"),
+    url: absoluteUrl("home", locale),
     name: "Synapgeek",
     inLanguage: ogLocale(locale),
     publisher: { "@id": `${BASE_URL}/#organization` },
@@ -191,7 +185,7 @@ export function softwareApplicationSchema(
       GOOGLE_PLAY_TITLE_EN,
     ].filter((value, index, all) => all.indexOf(value) === index),
     description,
-    url: absoluteUrl(locale, "/"),
+    url: absoluteUrl("home", locale),
     sameAs: [APP_STORE_URL, GOOGLE_PLAY_URL],
     operatingSystem: ["iOS", "Android"],
     applicationCategory: "GameApplication",
@@ -254,19 +248,19 @@ interface WebPageSchema {
 
 export function webPageSchema({
   locale,
-  path,
+  pageId,
   name,
   dateModified,
 }: {
   readonly locale: Locale;
-  readonly path: string;
+  readonly pageId: PageId;
   readonly name: string;
   readonly dateModified: string;
 }): WebPageSchema {
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    url: absoluteUrl(locale, path),
+    url: absoluteUrl(pageId, locale),
     name,
     inLanguage: ogLocale(locale),
     dateModified,

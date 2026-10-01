@@ -224,7 +224,7 @@ const fr: Dictionary = {
             "Dans Cerebrum, ouvrez Profil puis « Supprimer le compte » : après confirmation, votre compte et les données associées (progression, succès, historique de série, données synchronisées) sont supprimés. Si vous n'avez plus accès à l'app, la marche à suivre est décrite dans notre politique de confidentialité.",
           link: {
             text: "notre politique de confidentialité",
-            path: "/privacy#account-deletion",
+            path: { page: "privacy", hash: "account-deletion" },
           },
         },
         {

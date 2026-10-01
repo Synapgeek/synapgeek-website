@@ -2,7 +2,8 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { Dictionary, FaqItem } from "@/content/types";
-import { getLocalePath, type Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n";
+import { pagePath } from "@/lib/routes";
 
 /**
  * Réponse rendue en texte brut, avec le lien optionnel posé sur l'extrait
@@ -20,7 +21,7 @@ function Answer({ item, locale }: { item: FaqItem; locale: Locale }) {
     <>
       {answer.slice(0, index)}
       <Link
-        href={getLocalePath(locale, link.path)}
+        href={pagePath(link.path.page, locale, link.path.hash)}
         className="font-medium text-secondary underline underline-offset-2 hover:no-underline"
       >
         {link.text}

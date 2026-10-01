@@ -25,10 +25,10 @@ export async function generateMetadata({
   return {
     title: dict.privacy.title,
     description,
-    alternates: getAlternates(locale, "/privacy"),
+    alternates: getAlternates("privacy", locale),
     openGraph: buildOpenGraph(
       locale,
-      "/privacy",
+      "privacy",
       dict.privacy.title,
       description,
     ),
@@ -46,7 +46,7 @@ export default async function PrivacyPage({
 
   const webPage = webPageSchema({
     locale,
-    path: "/privacy",
+    pageId: "privacy",
     name: dict.privacy.title,
     dateModified: dict.privacy.updatedAt,
   });

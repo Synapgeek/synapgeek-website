@@ -7,7 +7,8 @@
  *   node scripts/check-contract-urls.mjs <baseUrl>    → une seule base (preview, http://localhost:PORT)
  *
  * Ces URLs sont référencées hors du dépôt : App Store Connect (privacy, support
- * `/#contact` et `/en#contact`), formulaire Data Safety de la Play Console
+ * `/#contact` et `/en#contact` : depuis la bascule, `/#contact` sert l'anglais et
+ * `/en#contact` redirigera vers lui, tâche 5), formulaire Data Safety de la Play Console
  * (`/account-deletion`), config AdMob consent (UMP), QR codes imprimés
  * (`/cerebrum/play`, et `/play` ou `/jouer` pour les premiers), vérification
  * AdMob (`/app-ads.txt`). Les valeurs attendues sont écrites en clair, comme dans
@@ -23,6 +24,18 @@
  * signale des écarts sur ces trois URLs, ce qui est attendu. Les variantes de
  * casse (`/Play`) ne sont pas contrôlées : `next start` et Vercel ne s'accordent
  * pas sur la casse.
+ *
+ * Contrat de langue (spec §5.2, après le basculement sur l'anglais par défaut) :
+ * `/` sert l'anglais et `/fr` le français, tous deux avec `id="contact"` ; les
+ * pages légales SANS préfixe (`/privacy`, `/terms`, `/legal`) restent en
+ * FRANÇAIS (l'app installée et les stores les ouvrent en l'attendant), leurs
+ * pendants anglais vivent sous `/en/`. Chaque page légale est canonique vers
+ * elle-même et déclare hreflang en/fr/x-default, x-default pointant l'anglais.
+ *
+ * TRANSITOIRE (flippé par la tâche 5, redirections littérales) : `/en` sert encore
+ * l'accueil anglais en 200 (il redirigera en 308 vers `/`), et `/fr/privacy`,
+ * `/fr/terms`, `/fr/legal` répondent encore 200 (ils redirigeront en 308 vers
+ * l'URL sans préfixe). Ces attentes sont marquées « transitoire » ci-dessous.
  *
  * Toutes les requêtes partent en `redirect: "manual"` : on lit le statut et le
  * Location réels, jamais la page d'arrivée.
@@ -56,11 +69,18 @@ const CAMPAIGN_PARAM = "src=contract-check";
 const SITEMAP_URL_COUNT = 8;
 
 const LEGAL_PAGES = ["/privacy", "/terms", "/legal"];
+// Transitoire : `/fr${page}` répond 200 jusqu'à la tâche 5 (308 ensuite).
 const LOCALIZED_LEGAL_PAGES = LEGAL_PAGES.flatMap((page) => [
   page,
   `/en${page}`,
   `/fr${page}`,
 ]);
+
+const ORIGIN = "https://synapgeek.com";
+const LEGAL_LANGUAGES = {
+  fr: (page) => `${ORIGIN}${page}`,
+  en: (page) => `${ORIGIN}/en${page}`,
+};
 const WELL_KNOWN = [
   "/.well-known/apple-app-site-association",
   "/.well-known/assetlinks.json",
@@ -96,17 +116,44 @@ function contractChecks(base) {
   });
 
   const checks = [
-    ok("/", [contentType("text/html"), bodyIncludes('id="contact"')]),
-    ok("/en", [contentType("text/html"), bodyIncludes('id="contact"')]),
+    ok("/", [
+      contentType("text/html"),
+      htmlLang("en"),
+      bodyIncludes('id="contact"'),
+      canonical(ORIGIN),
+      hreflangs({ en: ORIGIN, fr: `${ORIGIN}/fr`, "x-default": ORIGIN }),
+    ]),
+    // Transitoire (tâche 5 : 308 vers /) : /en sert encore l'accueil anglais en 200.
+    ok("/en", [
+      contentType("text/html"),
+      htmlLang("en"),
+      bodyIncludes('id="contact"'),
+    ]),
     redirect("/en/", 308, "/en"),
-    // /fr répond 200 (dédoublonnée par le seul canonical, CLAUDE.md « Architecture i18n »).
-    ok("/fr", [contentType("text/html")]),
+    ok("/fr", [
+      contentType("text/html"),
+      htmlLang("fr"),
+      bodyIncludes('id="contact"'),
+      canonical(`${ORIGIN}/fr`),
+      hreflangs({ en: ORIGIN, fr: `${ORIGIN}/fr`, "x-default": ORIGIN }),
+    ]),
     redirect("/fr/", 308, "/fr"),
-    ...LOCALIZED_LEGAL_PAGES.map((path) =>
-      ok(path, [contentType("text/html")]),
+    ...LEGAL_PAGES.flatMap((page) => [
+      ok(page, legalExpectations("fr", page)),
+      ok(`/en${page}`, legalExpectations("en", page)),
+    ]),
+    // Transitoire (tâche 5 : 308 vers l'URL sans préfixe) : /fr/<page> répond encore 200.
+    ...LEGAL_PAGES.map((page) =>
+      ok(`/fr${page}`, [contentType("text/html"), htmlLang("fr")]),
     ),
-    ok("/privacy", [bodyIncludes('id="account-deletion"')]),
-    ok("/en/privacy", [bodyIncludes('id="account-deletion"')]),
+    ok("/privacy", [
+      bodyIncludes('id="account-deletion"'),
+      bodyIncludes('id="website"'),
+    ]),
+    ok("/en/privacy", [
+      bodyIncludes('id="account-deletion"'),
+      bodyIncludes('id="website"'),
+    ]),
     redirect("/account-deletion", 307, "/privacy#account-deletion"),
     redirect("/en/account-deletion", 307, "/en/privacy#account-deletion"),
     redirect("/fr/account-deletion", 307, "/privacy#account-deletion"),
@@ -171,7 +218,12 @@ function contractChecks(base) {
       bodyIncludes("Allow: /"),
       bodyExcludes(/^Disallow:/im, "aucun Disallow"),
     ]),
-    ok("/sitemap.xml", [contentType("xml"), locCount(SITEMAP_URL_COUNT)]),
+    ok("/sitemap.xml", [
+      contentType("xml"),
+      locCount(SITEMAP_URL_COUNT),
+      bodyIncludes(`<loc>${ORIGIN}</loc>`),
+      bodyIncludes(`<loc>${ORIGIN}/fr</loc>`),
+    ]),
     ok("/llms.txt", [contentType(PLAIN_TEXT)]),
   ];
 
@@ -217,6 +269,42 @@ function wwwChecks() {
 }
 
 // --- attentes -------------------------------------------------------------
+
+/** Page légale : langue de l'URL, canonique vers elle-même, hreflang en/fr/x-default (anglais). */
+function legalExpectations(language, page) {
+  return [
+    contentType("text/html"),
+    htmlLang(language),
+    canonical(LEGAL_LANGUAGES[language](page)),
+    hreflangs({
+      en: LEGAL_LANGUAGES.en(page),
+      fr: LEGAL_LANGUAGES.fr(page),
+      "x-default": LEGAL_LANGUAGES.en(page),
+    }),
+  ];
+}
+function htmlLang(language) {
+  return bodyMatches(
+    new RegExp(`<html[^>]*\\blang="${language}"`),
+    `<html lang="${language}">`,
+  );
+}
+function canonical(url) {
+  return bodyIncludes(`<link rel="canonical" href="${url}"/>`);
+}
+function hreflangs(urls) {
+  const expected = Object.entries(urls).map(
+    ([language, url]) =>
+      `<link rel="alternate" hrefLang="${language}" href="${url}"/>`,
+  );
+  return {
+    describe: `hreflang ${Object.keys(urls).join("/")}`,
+    test: (res) => {
+      const missing = expected.filter((link) => !res.body.includes(link));
+      return missing.length ? `absent : ${missing.join(" ")}` : null;
+    },
+  };
+}
 
 function status(code) {
   return {

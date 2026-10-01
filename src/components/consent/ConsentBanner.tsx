@@ -2,8 +2,6 @@
 
 import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import Link from "next/link";
-import type { Locale } from "@/lib/i18n";
-import { getLocalePath } from "@/lib/i18n";
 import type { Dictionary } from "@/content";
 import {
   clearGaCookies,
@@ -116,10 +114,11 @@ function getServerSnapshot(): BannerState {
  * qui ne doit pas voler le focus courant.
  */
 export function ConsentBanner({
-  locale,
+  privacyHref,
   dict,
 }: {
-  locale: Locale;
+  /** URL déjà résolue de la politique de confidentialité (ancre #website) : ce composant client ne connaît pas le registre des routes. */
+  privacyHref: string;
   dict: Dictionary["common"]["consent"];
 }) {
   const { visible: isVisible, focusToken } = useSyncExternalStore(
@@ -175,7 +174,7 @@ export function ConsentBanner({
         <p className="mt-2 text-sm text-text-secondary">
           {dict.body}{" "}
           <Link
-            href={getLocalePath(locale, "/privacy#website")}
+            href={privacyHref}
             className="font-semibold text-text-primary underline underline-offset-2"
           >
             {dict.learnMore}

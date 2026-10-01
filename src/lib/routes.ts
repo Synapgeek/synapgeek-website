@@ -3,7 +3,7 @@ import { LOCALES, type Locale } from "./i18n";
 import { SECTION_SLUGS } from "./page-slugs";
 
 export const BASE_URL = "https://synapgeek.com";
-/** Langue servie aux visiteurs sans préférence : distincte de DEFAULT_LOCALE tant que le routage n'a pas basculé. */
+/** Langue ciblée par hreflang "x-default" (visiteurs sans préférence) : l'anglais, comme la locale par défaut du routage. */
 export const X_DEFAULT_LOCALE: Locale = "en";
 
 export type SectionId = keyof typeof SECTION_SLUGS;

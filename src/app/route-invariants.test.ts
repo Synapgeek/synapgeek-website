@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
+import { NextRequest } from "next/server";
+import { getRewrittenUrl, isRewrite } from "next/experimental/testing/server";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { posix as posixPath } from "node:path";
 import nextConfig from "../../next.config";
 import sitemap from "@/app/sitemap";
 import { metadata as playMetadata } from "@/app/cerebrum/play/page";
 import { getDictionary } from "@/content";
-import { LOCALES } from "@/lib/i18n";
+import { DEFAULT_LOCALE, LOCALES } from "@/lib/i18n";
+import { proxy } from "@/proxy";
 
 /**
  * Gardes automatiques des règles « JAMAIS / toujours » de CLAUDE.md.
@@ -144,13 +147,15 @@ describe("JSON-LD — source unique (CLAUDE.md, « SEO »)", () => {
 describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
   // « JAMAIS casser /account-deletion (+ pendants /en/, /fr/) — URL déclarée dans
   // le formulaire Data Safety de la Play Console. »
+  // « #website » : cible du lien « en savoir plus » du bandeau de consentement.
   it.each(LOCALES)(
-    "l'ancre #account-deletion existe dans la politique de confidentialité (%s)",
+    "les ancres #account-deletion et #website existent dans la politique de confidentialité (%s)",
     (locale) => {
       const ids = getDictionary(locale).privacy.sections.map(
         (section) => section.id,
       );
       expect(ids).toContain("account-deletion");
+      expect(ids).toContain("website");
     },
   );
 
@@ -205,26 +210,38 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
     expect(playMetadata.robots).toMatchObject({ index: false });
   });
 
-  // « sitemap.xml : /, /privacy, /terms, /legal × 2 locales » ; « /fr/... ni
-  // sitemapées » ; « Locale par défaut : fr (pas de préfixe dans l'URL) ».
-  it("sitemap() renvoie exactement les 8 URLs documentées, FR canonique sans préfixe /fr", () => {
+  // Spec §5.2 : l'anglais est la langue par défaut (racine sans préfixe), le
+  // français vit sous /fr, sauf les trois pages légales figées (français sans
+  // préfixe, anglais sous /en). x-default pointe toujours vers l'anglais.
+  it("sitemap() renvoie exactement les 8 URLs du nouveau schéma, x-default anglais", () => {
     const entries = sitemap();
     expect(entries.map((entry) => entry.url)).toEqual([
-      "https://synapgeek.com/",
-      "https://synapgeek.com/privacy",
-      "https://synapgeek.com/terms",
-      "https://synapgeek.com/legal",
-      "https://synapgeek.com/en",
+      "https://synapgeek.com",
+      "https://synapgeek.com/fr",
       "https://synapgeek.com/en/privacy",
+      "https://synapgeek.com/privacy",
       "https://synapgeek.com/en/terms",
+      "https://synapgeek.com/terms",
       "https://synapgeek.com/en/legal",
+      "https://synapgeek.com/legal",
     ]);
-    for (const entry of entries) {
-      const languages = entry.alternates?.languages ?? {};
-      for (const url of [entry.url, ...Object.values(languages)]) {
-        expect(url, entry.url).not.toMatch(
-          /^https:\/\/synapgeek\.com\/fr(?:\/|$)/,
-        );
+    const homeLanguages = {
+      en: "https://synapgeek.com",
+      fr: "https://synapgeek.com/fr",
+      "x-default": "https://synapgeek.com",
+    };
+    expect(entries[0].alternates?.languages).toEqual(homeLanguages);
+    expect(entries[1].alternates?.languages).toEqual(homeLanguages);
+    for (const page of ["privacy", "terms", "legal"]) {
+      const languages = {
+        en: `https://synapgeek.com/en/${page}`,
+        fr: `https://synapgeek.com/${page}`,
+        "x-default": `https://synapgeek.com/en/${page}`,
+      };
+      const pair = entries.filter((entry) => entry.url.endsWith(`/${page}`));
+      expect(pair).toHaveLength(2);
+      for (const entry of pair) {
+        expect(entry.alternates?.languages).toEqual(languages);
       }
     }
   });
@@ -268,6 +285,66 @@ describe("proxy i18n (CLAUDE.md, « Architecture i18n »)", () => {
     );
     expect(match, "const LOCALE_FREE_ROUTES = […] introuvable").not.toBeNull();
     expect(match![1]).toBe('["/cerebrum/play"]');
+  });
+});
+
+describe("proxy i18n — comportement (spec §5.2)", () => {
+  const rewriteOf = (pathname: string) => {
+    const response = proxy(new NextRequest(`https://synapgeek.com${pathname}`));
+    return isRewrite(response)
+      ? new URL(getRewrittenUrl(response)!).pathname
+      : null;
+  };
+
+  it("l'anglais est la locale par défaut", () => {
+    expect(DEFAULT_LOCALE).toBe("en");
+    expect([...LOCALES]).toEqual(["en", "fr"]);
+  });
+
+  it.each([
+    ["/", "/en"],
+    ["/cerebrum", "/en/cerebrum"],
+    ["/about", "/en/about"],
+    // Les pages légales sans préfixe gardent leur langue historique : le français.
+    ["/privacy", "/fr/privacy"],
+    ["/terms", "/fr/terms"],
+    ["/legal", "/fr/legal"],
+    // Seuls les chemins exacts sont figés, pas les préfixes de chaîne.
+    ["/privacy-notes", "/en/privacy-notes"],
+    ["/legal/archive", "/en/legal/archive"],
+  ])("réécrit %s vers %s", (pathname, target) => {
+    expect(rewriteOf(pathname)).toBe(target);
+  });
+
+  it.each([
+    "/en",
+    "/fr",
+    "/en/privacy",
+    "/fr/privacy",
+    "/en/cerebrum",
+    "/fr/cerebrum",
+    "/cerebrum/play",
+    "/cerebrum/play/qr",
+  ])("laisse passer %s sans réécriture", (pathname) => {
+    expect(rewriteOf(pathname)).toBeNull();
+  });
+});
+
+describe("tout lien interne passe par les helpers de routes (CLAUDE.md, « Conventions de code »)", () => {
+  it("getLocalePath n'existe plus nulle part dans src/", () => {
+    for (const file of sources) {
+      expect(read(file), file).not.toMatch(/\bgetLocalePath\b/);
+    }
+  });
+});
+
+describe("proxy i18n — source des chemins figés", () => {
+  it("src/proxy.ts lit FROZEN_LEGAL_PATHS dans frozen-legal-paths, sans liste en dur", () => {
+    const source = read("src/proxy.ts");
+    expect(source).toMatch(
+      /import \{ FROZEN_LEGAL_PATHS \} from "@\/lib\/frozen-legal-paths";/,
+    );
+    expect(source).not.toMatch(/["']\/privacy["']/);
   });
 });
 

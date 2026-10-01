@@ -25,8 +25,8 @@ export async function generateMetadata({
   return {
     title: dict.terms.title,
     description,
-    alternates: getAlternates(locale, "/terms"),
-    openGraph: buildOpenGraph(locale, "/terms", dict.terms.title, description),
+    alternates: getAlternates("terms", locale),
+    openGraph: buildOpenGraph(locale, "terms", dict.terms.title, description),
   };
 }
 
@@ -41,7 +41,7 @@ export default async function TermsPage({
 
   const webPage = webPageSchema({
     locale,
-    path: "/terms",
+    pageId: "terms",
     name: dict.terms.title,
     dateModified: dict.terms.updatedAt,
   });

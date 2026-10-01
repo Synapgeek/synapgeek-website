@@ -1,17 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
-import { getLocalePath } from "@/lib/i18n";
+import type { LanguageSwitchTable } from "@/lib/language-alternates";
+import { pagePath } from "@/lib/routes";
 import type { Dictionary } from "@/content";
 import { APP_STORE_URL, GOOGLE_PLAY_URL } from "@/lib/app";
 import { ReopenConsentLink } from "@/components/consent/ReopenConsentLink";
+import { AlternateLanguageLink } from "@/components/AlternateLanguageLink";
 
 export function Footer({
   locale,
   dict,
+  languageTable,
 }: {
   locale: Locale;
   dict: Dictionary["common"];
+  languageTable: LanguageSwitchTable;
 }) {
   return (
     <footer className="bg-[#1A1A2E] text-white">
@@ -40,7 +44,7 @@ export function Footer({
             <ul className="space-y-3 text-sm">
               <li>
                 <Link
-                  href={getLocalePath(locale, "/#features")}
+                  href={pagePath("home", locale, "features")}
                   className="text-gray-400 transition-colors hover:text-white"
                 >
                   {dict.footer.features}
@@ -77,7 +81,7 @@ export function Footer({
             <ul className="space-y-3 text-sm">
               <li>
                 <Link
-                  href={getLocalePath(locale, "/privacy")}
+                  href={pagePath("privacy", locale)}
                   className="text-gray-400 transition-colors hover:text-white"
                 >
                   {dict.footer.privacy}
@@ -85,7 +89,7 @@ export function Footer({
               </li>
               <li>
                 <Link
-                  href={getLocalePath(locale, "/terms")}
+                  href={pagePath("terms", locale)}
                   className="text-gray-400 transition-colors hover:text-white"
                 >
                   {dict.footer.terms}
@@ -93,7 +97,7 @@ export function Footer({
               </li>
               <li>
                 <Link
-                  href={getLocalePath(locale, "/legal")}
+                  href={pagePath("legal", locale)}
                   className="text-gray-400 transition-colors hover:text-white"
                 >
                   {dict.footer.legalNotice}
@@ -113,21 +117,19 @@ export function Footer({
             <ul className="space-y-3 text-sm">
               <li>
                 <Link
-                  href={getLocalePath(locale, "/#contact")}
+                  href={pagePath("home", locale, "contact")}
                   className="text-gray-400 transition-colors hover:text-white"
                 >
                   {dict.footer.writeToUs}
                 </Link>
               </li>
               <li>
-                <Link
-                  href={getLocalePath(dict.languageSwitchLocale, "/")}
-                  hrefLang={dict.languageSwitchLocale}
-                  lang={dict.languageSwitchLocale}
+                <AlternateLanguageLink
+                  table={languageTable}
+                  targetLocale={dict.languageSwitchLocale}
+                  label={dict.languageSwitch}
                   className="text-gray-400 transition-colors hover:text-white"
-                >
-                  {dict.languageSwitch}
-                </Link>
+                />
               </li>
             </ul>
           </div>

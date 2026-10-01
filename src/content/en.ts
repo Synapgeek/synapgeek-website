@@ -222,7 +222,7 @@ const en: Dictionary = {
             "In Cerebrum, open Profile and tap Delete Account: once you confirm, your account and its data (progress, achievements, streak history, synced data) are deleted. If you can no longer access the app, the steps to follow are described in our privacy policy.",
           link: {
             text: "our privacy policy",
-            path: "/privacy#account-deletion",
+            path: { page: "privacy", hash: "account-deletion" },
           },
         },
         {
