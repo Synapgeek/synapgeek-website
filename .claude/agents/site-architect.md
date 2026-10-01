@@ -86,10 +86,8 @@ Le plan doit trancher ; vérifie SYSTÉMATIQUEMENT qu'il le fait :
   s'intercale entre layout et contenu légal ; toute chaîne NOUVELLE passe par
   `Dictionary` (`fr.ts` + `en.ts` + `src/content/types.ts`) et tout lien
   interne par `pagePath()` (`getLocalePath()` n'existe plus) — un plan qui branche du texte sur un
-  ternaire `locale === "fr" ?` plutôt que sur le dictionnaire creuse une
-  dette déjà présente dans `[locale]/layout.tsx` (1 occurrence actuelle, lien
-  « aller au contenu » — `Footer.tsx` a été assaini, ne pas en ajouter
-  ailleurs) ; tout JSON-LD nouveau ou modifié passe par un builder de
+  ternaire `locale === "fr" ?` plutôt que sur le dictionnaire crée une
+  dette que le cliquet de `route-invariants.test.ts` (0 occurrence) refuse ; tout JSON-LD nouveau ou modifié passe par un builder de
   `src/lib/structured-data.ts` — seule source du schema.org du site — jamais
   construit inline dans une page ou un composant ; une FAQ visible doit avoir
   son JSON-LD `FAQPage` reprenant mot pour mot le texte affiché (même tableau

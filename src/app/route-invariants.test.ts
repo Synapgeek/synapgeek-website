@@ -401,10 +401,10 @@ describe("portefeuille Synapgeek (CLAUDE.md, « Règles critiques » ; skill syn
 });
 
 describe("dette i18n — cliquet (CLAUDE.md, « Conventions de code »)", () => {
-  // « 4 ternaires locale === "fr" ? … : … subsistent […] site-reviewer refuse
-  // toute PR qui fait monter ce compte. » Le plafond ne remonte jamais : quand un
-  // ternaire disparaît, baisser MAX_LOCALE_TERNARIES et CLAUDE.md ensemble.
-  const MAX_LOCALE_TERNARIES = 4;
+  // Plus aucun ternaire de locale : tout texte localisé passe par le Dictionary
+  // ou un module de copie. Le plafond ne remonte jamais ; site-reviewer refuse
+  // toute PR qui le fait monter.
+  const MAX_LOCALE_TERNARIES = 0;
   const LOCALE_TERNARY =
     /\b\w*(?:locale|lang)\w*\s*[!=]==?\s*["'](?:fr|en)["']\s*\?|["'](?:fr|en)["']\s*[!=]==?\s*\w*(?:locale|lang)\w*\s*\?/gi;
 

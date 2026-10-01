@@ -105,6 +105,28 @@ export interface Dictionary {
     };
     languageSwitch: string;
     languageSwitchLocale: Locale;
+    a11y: {
+      /** Texte du lien d'évitement, premier élément focusable de la page. */
+      skipToContent: string;
+    };
+    breadcrumb: {
+      /** Premier maillon du fil d'Ariane (Accueil / Home). */
+      home: string;
+    };
+    /**
+     * Suggestion de langue, rédigée dans la langue qu'elle propose : le texte
+     * d'une locale est affiché à un visiteur dont le navigateur parle cette
+     * locale alors qu'il consulte une autre version du site.
+     */
+    languageSuggestion: {
+      message: string;
+      cta: string;
+    };
+    notFound: {
+      title: string;
+      body: string;
+      cta: string;
+    };
   };
   landing: {
     /** Title (≤ 60 caractères) et meta description (140-160 caractères) de la home. */
@@ -169,6 +191,8 @@ export interface Dictionary {
   };
   privacy: {
     title: string;
+    /** Meta description de la page (balise `<meta>` et Open Graph). */
+    metaDescription: string;
     lastUpdated: string;
     /** Date ISO (AAAA-MM-JJ) de dernière mise à jour, utilisée par le sitemap et le JSON-LD. */
     updatedAt: string;
@@ -176,6 +200,8 @@ export interface Dictionary {
   };
   terms: {
     title: string;
+    /** Meta description de la page (balise `<meta>` et Open Graph). */
+    metaDescription: string;
     lastUpdated: string;
     /** Date ISO (AAAA-MM-JJ) de dernière mise à jour, utilisée par le sitemap et le JSON-LD. */
     updatedAt: string;
@@ -183,6 +209,8 @@ export interface Dictionary {
   };
   legal: {
     title: string;
+    /** Meta description de la page (balise `<meta>` et Open Graph). */
+    metaDescription: string;
     lastUpdated: string;
     /** Date ISO (AAAA-MM-JJ) de dernière mise à jour, utilisée par le sitemap et le JSON-LD. */
     updatedAt: string;

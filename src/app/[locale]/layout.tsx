@@ -87,7 +87,7 @@ export default async function LocaleLayout({
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg"
         >
-          {locale === "fr" ? "Aller au contenu" : "Skip to content"}
+          {dict.common.a11y.skipToContent}
         </a>
         {/* Non modal, position fixed (l'emplacement dans le DOM n'affecte pas son rendu) :
             monté tôt, juste après le lien d'évitement, pour qu'un utilisateur clavier

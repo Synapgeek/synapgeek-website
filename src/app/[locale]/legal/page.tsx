@@ -17,10 +17,7 @@ export async function generateMetadata({
   const locale = getLocale(raw);
   const dict = getDictionary(locale);
 
-  const description =
-    locale === "fr"
-      ? "Mentions légales de Synapgeek — éditeur, hébergeur, immatriculation RCS et informations sur la société."
-      : "Synapgeek legal notice — publisher, hosting provider, company registration details and corporate information.";
+  const description = dict.legal.metaDescription;
 
   return {
     title: dict.legal.title,
