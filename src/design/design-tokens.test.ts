@@ -1,7 +1,6 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { cerebrumGames } from "@/content/apps/cerebrum/games";
+import { contrast, token } from "./contrast";
 import { THEME_COLOR } from "./theme-color";
 
 /**
@@ -9,48 +8,6 @@ import { THEME_COLOR } from "./theme-color";
  * for text. The hex values are read from globals.css, the single source of
  * colour: nothing is duplicated here.
  */
-
-const CSS = readFileSync(
-  path.resolve(import.meta.dirname, "../app/globals.css"),
-  "utf8",
-);
-
-const HEX = /^#[0-9a-f]{6}$/i;
-
-/** Value of `--name`, following `var(--other)` aliases. */
-function token(name: string): string {
-  const match = new RegExp(`${name}\\s*:\\s*([^;]+);`).exec(CSS);
-  if (!match) throw new Error(`Token ${name} is not defined in globals.css`);
-  const value = match[1].trim();
-  const alias = /^var\((--[\w-]+)\)$/.exec(value);
-  if (alias) return token(alias[1]);
-  if (!HEX.test(value)) {
-    throw new Error(`Token ${name} is not a #rrggbb colour: ${value}`);
-  }
-  return value.toLowerCase();
-}
-
-function channel(value: number): number {
-  const c = value / 255;
-  return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-}
-
-function luminance(hex: string): number {
-  const n = parseInt(hex.slice(1), 16);
-  return (
-    0.2126 * channel((n >> 16) & 255) +
-    0.7152 * channel((n >> 8) & 255) +
-    0.0722 * channel(n & 255)
-  );
-}
-
-/** WCAG 2.1 contrast ratio between two #rrggbb colours. */
-export function contrast(foreground: string, background: string): number {
-  const [hi, lo] = [luminance(foreground), luminance(background)].sort(
-    (a, b) => b - a,
-  );
-  return (hi + 0.05) / (lo + 0.05);
-}
 
 const BODY_TEXT_MIN = 4.5;
 
