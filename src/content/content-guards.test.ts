@@ -58,6 +58,25 @@ const FORBIDDEN: ReadonlyArray<{
     misses: ["trois grilles", "levels of difficulty", "Niveaux de difficulté"],
   },
   {
+    pattern: word(
+      "(un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|douze|vingt|cent|mille|one|two|three|four|five|seven|eight|nine|ten|twelve|twenty|hundred|thousand)\\s+(?:\\p{L}+\\s+)?(niveaux|levels)",
+    ),
+    reason: "no number of levels, even spelled out",
+    hits: [
+      "deux niveaux Moyen",
+      "quatre niveaux Difficile terminés",
+      "two Medium levels",
+      "four Hard levels",
+      "Three levels",
+    ],
+    misses: [
+      "levels of difficulty",
+      "Niveaux de difficulté",
+      "one level at a time",
+      "progress through Medium",
+    ],
+  },
+  {
     pattern: /—/u,
     reason: "no em dash in visible copy",
     hits: ["Cerebrum — puzzles", "a—b"],

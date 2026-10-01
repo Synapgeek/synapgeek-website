@@ -48,12 +48,11 @@ export const sudokuEn: GameCopy = {
         {
           difficulty: "hard",
           detail:
-            "28 to 33 digits given. Opens after you finish two Medium levels.",
+            "28 to 33 digits given. Opens as you progress through Medium.",
         },
         {
           difficulty: "elite",
-          detail:
-            "24 to 28 digits given. Opens after you finish four Hard levels.",
+          detail: "24 to 28 digits given. Opens as you progress through Hard.",
         },
       ],
     },

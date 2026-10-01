@@ -50,12 +50,12 @@ export const sudokuFr: GameCopy = {
         {
           difficulty: "hard",
           detail:
-            "De 28 à 33 chiffres déjà placés. S'ouvre après deux niveaux Moyen terminés.",
+            "De 28 à 33 chiffres déjà placés. S'ouvre au fil de votre progression en Moyen.",
         },
         {
           difficulty: "elite",
           detail:
-            "De 24 à 28 chiffres déjà placés. S'ouvre après quatre niveaux Difficile terminés.",
+            "De 24 à 28 chiffres déjà placés. S'ouvre au fil de votre progression en Difficile.",
         },
       ],
     },
