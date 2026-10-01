@@ -42,13 +42,13 @@ const fr: Dictionary = {
     meta: {
       title: "Cerebrum : jeux de puzzle hors ligne, sans wifi | Synapgeek",
       description:
-        "Cerebrum est une app de jeux de réflexion hors ligne pour iPhone, iPad et Android, éditée par Synapgeek : Sudoku, Pandoku, Démineur, Pixel Art, Mots Croisés et plus.",
+        "Cerebrum, app de jeux de réflexion hors ligne par Synapgeek (iPhone, iPad, Android) : Sudoku, Pandoku (Star Battle), Pixel Art (nonogrammes) et plus.",
     },
     hero: {
       badge: "Disponible sur iOS et Android",
       title: "Entraînez votre cerveau, un puzzle à la fois",
       subtitle:
-        "Cerebrum est une application de jeux de réflexion hors ligne pour iPhone, iPad et Android, éditée par Synapgeek. Sudoku, Pandoku, Démineur, Pixel Art, Cross Math, Mots Croisés, Mots Mêlés, Trace, Labyrinthe et Arrow Maze : jouez à tous sans wifi, chaque jour.",
+        "Cerebrum est une application de jeux de réflexion hors ligne pour iPhone, iPad et Android, éditée par Synapgeek. Sudoku, Pandoku (Star Battle), Démineur, Pixel Art (nonogrammes), Cross Math (mots croisés de calcul), Mots Croisés, Mots Mêlés, Trace (tracé d'un seul trait), Labyrinthe et Arrow Maze (casse-tête de flèches) : jouez-y sans wifi, chaque jour.",
       cta: "Télécharger Cerebrum",
       ctaSecondary: "Découvrir",
       store: {
@@ -76,8 +76,8 @@ const fr: Dictionary = {
     },
     stats: {
       items: [
-        { value: "iOS et Android", label: "Plateformes" },
-        { value: "Hors ligne", label: "Sans wifi" },
+        { value: "2", label: "Plateformes" },
+        { value: "0", label: "Wifi pour jouer" },
         { value: "16", label: "Langues" },
         { value: "Gratuit", label: "Téléchargement" },
       ],
@@ -121,13 +121,13 @@ const fr: Dictionary = {
           id: "crossword",
           title: "Mots Croisés",
           description:
-            "Des grilles à définitions pour enrichir votre vocabulaire et votre culture générale. Disponibles en français et en anglais uniquement.",
+            "Des grilles à définitions pour enrichir votre vocabulaire et votre culture générale. Ce jeu est proposé en français et en anglais uniquement.",
         },
         {
           id: "wordsearch",
           title: "Mots Mêlés",
           description:
-            "Retrouvez les mots cachés en glissant le doigt sur la grille. Disponibles en français et en anglais uniquement.",
+            "Retrouvez les mots cachés en glissant le doigt sur la grille. Ce jeu est proposé en français et en anglais uniquement.",
         },
         {
           id: "trace",
@@ -372,7 +372,7 @@ const fr: Dictionary = {
       {
         title: "Description du service",
         content:
-          "Synapgeek développe et distribue des applications mobiles de jeux de réflexion. Cerebrum est une application mobile de jeux de puzzle et de réflexion pour iOS et Android.\n\nL'Application propose notamment :\n- Des puzzles avec plusieurs niveaux de difficulté\n- Un système de progression avec étoiles, XP et ligues\n- Un défi quotidien et des séries de jeu (streaks)\n- Un système de monnaie virtuelle (gemmes) et d'avatars\n- Des achats in-app et des abonnements optionnels\n- Une version gratuite financée par la publicité, et un abonnement Premium qui retire les publicités imposées",
+          "Synapgeek développe et distribue des applications mobiles de jeux de réflexion. Cerebrum est une application mobile de jeux de puzzle et de réflexion pour iOS et Android.\n\nL'Application propose des puzzles avec plusieurs niveaux de difficulté, un système de progression fondé sur les étoiles, l'XP et les ligues, un défi quotidien et des séries de jeu (streaks), ainsi qu'une monnaie virtuelle (gemmes) et des avatars.\n\nL'Application se télécharge gratuitement et est financée par la publicité. Elle propose aussi des achats in-app optionnels et un abonnement Premium, qui retire les publicités imposées (bannières et interstitiels) ; les publicités récompensées restent facultatives et disponibles si vous choisissez de les regarder.",
       },
       {
         title: "Licence d'utilisation",

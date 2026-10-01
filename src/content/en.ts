@@ -42,13 +42,13 @@ const en: Dictionary = {
     meta: {
       title: "Cerebrum: Offline Puzzle Games, No Wi-Fi Needed | Synapgeek",
       description:
-        "Cerebrum is an offline puzzle games app for iPhone, iPad and Android by Synapgeek: Sudoku, Pandoku, Minesweeper, Pixel Art, Cross Math, Crossword and more.",
+        "Cerebrum is an offline puzzle games app for iPhone, iPad and Android by Synapgeek: Sudoku, Pandoku (Star Battle), Pixel Art (nonograms) and more.",
     },
     hero: {
       badge: "Now on iOS and Android",
       title: "Train your brain, one puzzle at a time",
       subtitle:
-        "Cerebrum is an offline puzzle games app for iPhone, iPad and Android, made by Synapgeek. Sudoku, Pandoku, Minesweeper, Pixel Art, Cross Math, Crossword, Word Search, Trace, Maze and Arrow Maze: play them all without Wi-Fi, every day.",
+        "Cerebrum is an offline puzzle games app for iPhone, iPad and Android, made by Synapgeek. Sudoku, Pandoku (Star Battle), Minesweeper, Pixel Art (nonograms), Cross Math (a math crossword), Crossword, Word Search, Trace (a one-line path puzzle), Maze and Arrow Maze (an arrow puzzle): play them all without Wi-Fi, every day.",
       cta: "Download Cerebrum",
       ctaSecondary: "Learn more",
       store: {
@@ -76,8 +76,8 @@ const en: Dictionary = {
     },
     stats: {
       items: [
-        { value: "iOS & Android", label: "Platforms" },
-        { value: "Offline", label: "No Wi-Fi needed" },
+        { value: "2", label: "Platforms" },
+        { value: "0", label: "Wi-Fi needed to play" },
         { value: "16", label: "Languages" },
         { value: "Free", label: "Download" },
       ],
@@ -368,7 +368,7 @@ const en: Dictionary = {
       {
         title: "Service description",
         content:
-          "Synapgeek develops and distributes mobile puzzle game applications. Cerebrum is a mobile puzzle and brain game application for iOS and Android.\n\nThe App includes:\n- Puzzles across multiple difficulty levels\n- A progression system with stars, XP and leagues\n- A daily challenge and play streaks\n- A virtual currency system (gems) and avatars\n- Optional in-app purchases and subscriptions\n- A free version supported by advertising, and a Premium subscription that removes forced advertisements",
+          "Synapgeek develops and distributes mobile puzzle game applications. Cerebrum is a mobile puzzle and brain game application for iOS and Android.\n\nThe App offers puzzles across multiple difficulty levels, a progression system based on stars, XP and leagues, a daily challenge and play streaks, as well as a virtual currency (gems) and avatars.\n\nThe App is free to download and supported by advertising. It also offers optional in-app purchases and a Premium subscription, which removes forced advertisements (banners and interstitials); rewarded ads remain optional and available if you choose to watch them.",
       },
       {
         title: "License to use",
