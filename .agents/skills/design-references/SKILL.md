@@ -23,8 +23,9 @@ références ne viennent donc jamais de Word Search Trove ni de Maze Foundry.
 
 ## Cadre fixe (ce que les références ne changent pas)
 
-- Direction validée = la spec de refonte et ses maquettes (voir l'agent
-  `designer`) : ce skill nourrit l'exécution, il ne rouvre pas la direction.
+- Direction validée = la spec de refonte
+  (`docs/superpowers/specs/2026-10-01-studio-hub-rework-design.md`) et ses maquettes (voir
+  l'agent `designer`) : ce skill nourrit l'exécution, il ne rouvre pas la direction.
 - Couleurs et typo = tokens de `src/app/globals.css` (`--color-*`, 3 variables de
   police). Jamais de hex en dur, jamais un sixième bouton (variantes de
   `src/components/ui/Button.tsx` seulement).
@@ -78,7 +79,6 @@ Un parti pris rédigé après le code pour le justifier ne compte pas.
 ```bash
 npx shadcn search @magicui --query "marquee"        # explorer
 npx shadcn view @magicui/marquee                    # lire le code SANS installer
-npx shadcn add https://originui.com/r/comp-01.json  # hors index : URL directe
 ```
 
 (Le serveur MCP shadcn de `.mcp.json` fait la même chose en langage naturel.)

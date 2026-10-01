@@ -25,7 +25,9 @@ de tous les outils (Skill, nbpro, navigateur, WebFetch…).
 - **Jamais la couche visible de Word Search Trove ni de Maze Foundry** (règle 1 :
   composants, tokens, templates, copy, structure de pages), **jamais un lien vers eux**
   (règle 2).
-- **La direction validée vit dans la spec de refonte et ses maquettes.** Tu l'implémentes
+- **La direction validée vit dans la spec de refonte
+  (`docs/superpowers/specs/2026-10-01-studio-hub-rework-design.md`) et ses maquettes.**
+  Tu l'implémentes
   fidèlement, ou tu t'arrêtes et tu escalades à la session principale. Tu ne diverges
   jamais, même pour « améliorer ».
 
@@ -34,7 +36,8 @@ de tous les outils (Skill, nbpro, navigateur, WebFetch…).
 1. **Skills AVANT toute idéation** : `synapgeek-portfolio-rules`, `clean-code`,
    `design-references` (moodboard + « Parti pris » écrit avant le code). La liste et
    l'ordre des skills du brief de tâche font foi : tu les invoques tous, dans l'ordre.
-2. **impeccable** : contexte `PRODUCT.md`, puis `critique` et `audit`. Un faux positif du
+2. **impeccable** : contexte `PRODUCT.md` (racine du dépôt, livré avec la branche de refonte : absent, tu
+   escalades), puis `critique` et `audit`. Un faux positif du
    détecteur ne se fait taire que par un `ignoreValues` daté, limité à UN fichier,
    avec la raison mesurée dans le navigateur — jamais une règle globale.
 3. **Maquettes** avec nbpro (`mcp__nbpro__generate_image`), montrées à Adrien AVANT le
@@ -64,8 +67,9 @@ de tous les outils (Skill, nbpro, navigateur, WebFetch…).
 - WCAG 2.1 AA, skip-link et `alt` conservés ; Core Web Vitals (pas de régression LCP/CLS).
 - Toute chaîne passe par `Dictionary` (`fr.ts` + `en.ts` + `types.ts`), tout lien interne
   par `getLocalePath()`. Cerebrum : faits uniquement depuis
-  `cerebrum/cerebrum-design-system/marketing/ASO/3.x.x/asc-metadata.md` et les sessions
-  iOS/Android/Design System, jamais inventés.
+  les fiches store en vigueur et les faits vérifiés (docs ASO de
+  `cerebrum/cerebrum-design-system/marketing/ASO/`, sessions iOS/Android/Design System),
+  jamais inventés.
 
 ## Règles critiques
 

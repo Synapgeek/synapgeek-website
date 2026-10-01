@@ -1,6 +1,8 @@
 # Synapgeek Website
 
-> Vérifié contre le code le 2026-09-12. Quand ce fichier et le code divergent,
+> Dernière vérification complète contre le code : 2026-09-12. Révisé le 2026-10-01
+> (sections Commandes, Sous-agents, Skills auto-chargés, Variables d'environnement)
+> sans re-vérification complète des autres. Quand ce fichier et le code divergent,
 > **le code fait foi** — et cette ligne devient une tâche, pas une excuse.
 > Les fichiers qui font contrat : `src/proxy.ts`, `src/lib/i18n.ts`, `src/lib/seo.ts`,
 > `src/lib/app.ts`, `src/content/index.ts`, `src/content/types.ts`, `src/app/sitemap.ts`,
@@ -404,8 +406,9 @@ Règles de process (leçons de Word Search Trove) :
 - Modèle passé EXPLICITEMENT à chaque sous-agent : Haiku mécanique et docs ; Sonnet
   CSS/layout/composant simple et vérifications factuelles ; Opus état, frontière client,
   a11y fine, architecture et revues. Un correctif après revue ne part jamais sur Haiku.
-- Faits Cerebrum : `cerebrum-design-system/marketing/ASO/3.x.x/asc-metadata.md` et les sessions
-  iOS/Android/Design System ; copy selon `geo-assistants-ia.md` du même dossier.
+- Faits Cerebrum : les fiches store en vigueur et les faits vérifiés (docs ASO de
+  `cerebrum-design-system/marketing/ASO/`, sessions iOS/Android/Design System) ; copy selon
+  `geo-assistants-ia.md` du même dossier.
 
 ## Skills auto-chargés
 
@@ -477,8 +480,8 @@ chaud. Ne PAS configurer `NEXT_PUBLIC_GA_MEASUREMENT_ID` en preview avec l'ID de
 preview (GA4 ne charge alors pas, cf. `ConsentBootstrap`), soit y mettre une propriété GA4
 distincte.
 
-`REPLICATE_API_TOKEN` existe aussi mais sert uniquement au sous-agent `designer` pour la
-génération d'assets : local seulement, **rien à provisionner dans Vercel**.
+`REPLICATE_API_TOKEN` n'est plus utilisé par aucun sous-agent (le `designer` passe par
+nbpro) : **rien à provisionner dans Vercel**, et il peut être retiré de `.env.local`.
 
 ⚠ `WAITLIST_WEBHOOK_URL` est orpheline : plus aucune référence dans le code (route waitlist
 supprimée), mais elle peut subsister dans les variables d'environnement Vercel — à

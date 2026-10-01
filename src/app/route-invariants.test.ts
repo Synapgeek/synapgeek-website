@@ -60,10 +60,25 @@ describe("rendu — SSG pur (CLAUDE.md, « Structure des routes »)", () => {
   // « Trois fichiers seulement exportent `dynamic` — /play en force-dynamic et
   // les deux route handlers .well-known en force-static. Aucun fichier n'exporte
   // revalidate, dynamicParams, "use cache" ni cacheComponents. »
-  const SEGMENT_CONFIG_EXPORT =
-    /export\s+(?:const|let|var)\s+(dynamic|revalidate|dynamicParams|runtime)\b\s*=\s*([^;\n]+)/g;
-  const SEGMENT_CONFIG_REEXPORT =
-    /export\s*\{[^}]*\b(dynamic|revalidate|dynamicParams|runtime)\b[^}]*\}/;
+  const SEGMENT_NAMES = "dynamic|revalidate|dynamicParams|runtime";
+  // Déclaration simple, avec ou sans annotation de type
+  // (`export const revalidate: number = 3600`).
+  const SEGMENT_CONFIG_EXPORT = new RegExp(
+    String.raw`export\s+(?:const|let|var)\s+(${SEGMENT_NAMES})\b(?:\s*:[^=;]+)?\s*=\s*([^;\n]+)`,
+    "g",
+  );
+  // Formes que la déclaration simple ne voit pas : réexport
+  // (`export { x as revalidate }`, `export { revalidate } from …`),
+  // déstructuration (`export const { dynamic } = cfg`), déclarateur non initial
+  // (`export const a = 1, revalidate = 60`), objet de config à l'ancienne
+  // (`export const config = { runtime: "edge" }`).
+  const SEGMENT_CONFIG_OTHER_FORMS = new RegExp(
+    String.raw`export\s*\{[^}]*\b(?:${SEGMENT_NAMES})\b[^}]*\}|export\s+(?:const|let|var)\b[^;]*?[,{]\s*(?:${SEGMENT_NAMES})\b`,
+  );
+  // `revalidate` et `dynamicParams` n'ont aucun usage légitime dans ce site (ni
+  // export, ni option de fetch) : leur simple présence, sous quelque forme que
+  // ce soit, est une dérive vers l'ISR ou le rendu à la demande.
+  const FORBIDDEN_IDENTIFIERS = /\b(?:revalidate|dynamicParams)\b/;
 
   it("exactement trois fichiers exportent `dynamic`, avec les valeurs documentées ; aucun revalidate/dynamicParams/runtime", () => {
     const found = sources.flatMap((file) =>
@@ -77,7 +92,8 @@ describe("rendu — SSG pur (CLAUDE.md, « Structure des routes »)", () => {
       'src/app/play/page.tsx dynamic="force-dynamic"',
     ]);
     for (const file of sources) {
-      expect(read(file), file).not.toMatch(SEGMENT_CONFIG_REEXPORT);
+      expect(read(file), file).not.toMatch(SEGMENT_CONFIG_OTHER_FORMS);
+      expect(read(file), file).not.toMatch(FORBIDDEN_IDENTIFIERS);
     }
   });
 

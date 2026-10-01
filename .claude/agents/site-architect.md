@@ -29,9 +29,9 @@ Avant tout avis, dans cet ordre :
    `npm run check:contract` (contrôle des URLs référencées par les stores)
    se lance contre la preview ou la production. Exige que le plan dise
    comment il sera vérifié et quel invariant de test il ajoute ou touche.
-5. Contenu Cerebrum : tout fait vient de
-   `cerebrum/cerebrum-design-system/marketing/ASO/3.x.x/asc-metadata.md` et des
-   sessions dédiées iOS/Android/Design System, jamais inventé ; la copy suit
+5. Contenu Cerebrum : tout fait vient des fiches store en vigueur et des faits
+   vérifiés (docs ASO de `cerebrum/cerebrum-design-system/marketing/ASO/`,
+   sessions dédiées iOS/Android/Design System), jamais inventé ; la copy suit
    `geo-assistants-ia.md` du même dossier (aucun nombre de jeux ni de niveaux,
    nom maison accolé à son genre générique, modèle publicité/Premium dit
    honnêtement, jamais « sans pub », les cristaux ne sont pas des gemmes). Tout

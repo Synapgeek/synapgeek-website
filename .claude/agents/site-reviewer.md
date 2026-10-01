@@ -28,8 +28,10 @@ Avant la revue, dans cet ordre :
    redirects, proxy ou `.well-known` ; puis chaque chemin d'asset du diff
    existe sous `public/` (`grep -rhoE '/images/[^"]+' src/` — le build ne les
    valide pas), et le diff complet.
-   Faits Cerebrum : chaque affirmation du diff se recoupe avec
-   `cerebrum/cerebrum-design-system/marketing/ASO/3.x.x/asc-metadata.md` ; la
+   Faits Cerebrum : chaque affirmation du diff se recoupe avec les fiches
+   store en vigueur et les faits vérifiés (docs ASO de
+   `cerebrum/cerebrum-design-system/marketing/ASO/`, sessions iOS/Android/Design
+   System) ; la
    copy suit `geo-assistants-ia.md` du même dossier (aucun nombre de jeux ou
    de niveaux, nom maison + genre générique, modèle publicité/Premium honnête,
    jamais « sans pub », cristaux ≠ gemmes). Un fait non sourcé est bloquant.
@@ -76,9 +78,10 @@ Checklist non-négociable (chaque point vérifié explicitement) :
    `routes` de `src/app/sitemap.ts` ; toute clé touchée existe dans `fr.ts` ET
    `en.ts`, valeur EN vraiment traduite (aucun français ni placeholder dans
    tout `en.ts`) ; parité des documents légaux (sections, `id`, `lastUpdated`) ;
-   aucun texte en dur, `locale === "fr" ?` pas au-dessus de 1 (le seul restant
-   est dans `[locale]/layout.tsx`, lien « aller au contenu » — `Footer.tsx` a
-   été assaini), `getLocalePath()` partout ; `/cerebrum/play` porte volontairement
+   aucun texte en dur, `locale === "fr" ?` pas au-dessus de 4 (plafond de CLAUDE.md et du
+   cliquet de `src/app/route-invariants.test.ts` : `[locale]/layout.tsx`,
+   lien « aller au contenu », et `generateMetadata` des pages legal/privacy/terms
+   — `Footer.tsx` a été assaini), `getLocalePath()` partout ; `/cerebrum/play` porte volontairement
    `robots: { index: false, follow: false }` (page de service sans contenu
    propre, hors sitemap) — vérifier qu'aucun autre `robots: { index: false }`
    n'apparaît sans la même justification, et qu'aucune page noindex n'a de
