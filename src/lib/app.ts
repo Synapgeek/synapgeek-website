@@ -18,7 +18,8 @@ export const GOOGLE_PLAY_URL =
  * Cible App Store du QR imprimé (chevalet de comptoir, Lille).
  * `pt` (provider token) et `ct` (campaign token) sont les paramètres de campagne
  * Apple, lus dans App Analytics — ils n'identifient aucun visiteur.
- * Le QR encode https://synapgeek.com/play, jamais cette URL-ci : le carton vit
- * des mois, la cible doit rester modifiable sans réimpression.
+ * Le QR encode https://synapgeek.com/cerebrum/play (`/play` et `/jouer` y
+ * redirigent), jamais cette URL-ci : le carton vit des mois, la cible doit rester
+ * modifiable sans réimpression.
  */
 export const APP_STORE_QR_URL = `https://apps.apple.com/app/apple-store/id${APP_STORE_ID}?pt=128805365&ct=plv-comptoir&mt=8`;

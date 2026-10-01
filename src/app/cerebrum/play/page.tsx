@@ -7,10 +7,11 @@ import { APP_STORE_QR_URL, GOOGLE_PLAY_URL } from "@/lib/app";
 import { getDictionary } from "@/content";
 
 /**
- * /play — cible des QR codes imprimés (chevalets de comptoir).
+ * /cerebrum/play — cible des QR codes imprimés (chevalets de comptoir).
  *
  * Cette URL est encodée dans du carton qui vivra des mois : elle ne doit JAMAIS
- * changer ni disparaître. Elle ne figure volontairement PAS dans les fichiers
+ * changer ni disparaître. Les anciennes URLs `/play` et `/jouer` y redirigent en
+ * 307 (voir `next.config.ts`), query string conservée. Elle ne figure volontairement PAS dans les fichiers
  * d'association (.well-known) : un téléphone qui a déjà l'app doit passer par le
  * store, pas ouvrir l'app — c'est le seul comportement prévisible pour un scan.
  *
@@ -53,8 +54,8 @@ function formatGamesList(titles: readonly string[]): string {
  * et sans jamais écraser un paramètre déjà présent sur la cible.
  *
  * `url.searchParams.set` écraserait un paramètre existant : un simple
- * `/play?id=com.autre.app` enverrait alors un Android vers la fiche Play d'une
- * AUTRE app depuis synapgeek.com, et `/play?ct=x&pt=y` fausserait le jeton de
+ * `/cerebrum/play?id=com.autre.app` enverrait alors un Android vers la fiche Play d'une
+ * AUTRE app depuis synapgeek.com, et `/cerebrum/play?ct=x&pt=y` fausserait le jeton de
  * campagne Apple. On ignore donc toute clé entrante déjà présente sur la
  * cible ; seuls les paramètres de campagne réellement absents (ex. `?src=…`)
  * sont ajoutés.

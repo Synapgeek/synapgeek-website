@@ -450,7 +450,7 @@ const en: Dictionary = {
       },
     ],
   },
-  // /play reste en français quelle que soit la locale (voir src/app/play/page.tsx) ;
+  // /cerebrum/play reste en français quelle que soit la locale (voir src/app/cerebrum/play/page.tsx) ;
   // ces clés existent ici pour la complétude du type Dictionary.
   play: {
     title: "Télécharger Cerebrum",

@@ -3,12 +3,14 @@ import { DEFAULT_LOCALE, LOCALES } from "@/lib/i18n";
 
 /**
  * Routes servies hors du segment `[locale]`, que le proxy ne doit donc jamais
- * préfixer : réécrire `/play` en `/fr/play` chercherait un segment
- * `[locale]/play` inexistant et rendrait 404. Le fichier de route l'emporte sur
- * le segment dynamique côté App Router, mais seulement si la requête lui parvient
- * telle quelle.
+ * préfixer : réécrire `/cerebrum/play` en `/fr/cerebrum/play` chercherait un
+ * segment `[locale]/cerebrum/play` inexistant et rendrait 404. Le dossier statique
+ * l'emporte sur le segment dynamique côté App Router, mais seulement si la requête
+ * lui parvient telle quelle. Route exacte et sous-chemins uniquement : `/cerebrum`
+ * seul n'est PAS exempté et reste réécrit comme toute page localisée. Ne jamais
+ * créer `[locale]/cerebrum/play`.
  */
-const LOCALE_FREE_ROUTES = ["/play"];
+const LOCALE_FREE_ROUTES = ["/cerebrum/play"];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

@@ -66,7 +66,7 @@ Checklist non-négociable (chaque point vérifié explicitement) :
    tout `en.ts`) ; parité des documents légaux (sections, `id`, `lastUpdated`) ;
    aucun texte en dur, `locale === "fr" ?` pas au-dessus de 1 (le seul restant
    est dans `[locale]/layout.tsx`, lien « aller au contenu » — `Footer.tsx` a
-   été assaini), `getLocalePath()` partout ; `/play` porte volontairement
+   été assaini), `getLocalePath()` partout ; `/cerebrum/play` porte volontairement
    `robots: { index: false, follow: false }` (page de service sans contenu
    propre, hors sitemap) — vérifier qu'aucun autre `robots: { index: false }`
    n'apparaît sans la même justification, et qu'aucune page noindex n'a de

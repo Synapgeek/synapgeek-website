@@ -38,6 +38,26 @@ const nextConfig: NextConfig = {
         destination: "/privacy#account-deletion",
         permanent: false,
       },
+      {
+        // Le QR imprimé sur les chevalets de comptoir encode désormais
+        // https://synapgeek.com/cerebrum/play (route canonique, portée par l'app). `/play` est
+        // l'URL des premiers QR : elle doit continuer de répondre, vers la même destination.
+        // Les redirections de config passent AVANT le proxy : `/play` n'est jamais réécrit en
+        // `/fr/play`. Aucune query dans `destination` : Next y fusionne la query entrante, et
+        // la query de la destination l'emporterait en cas de conflit.
+        // Volontairement temporaire (307) : si ces alias sont un jour retirés ou déplacés, aucun
+        // 301 mis en cache ne continuera de pointer ici.
+        source: "/play",
+        destination: "/cerebrum/play",
+        permanent: false,
+      },
+      {
+        // `/jouer` : URL encodée par les maquettes provisoires des QR, jamais servie en
+        // production (404). Alias de précaution si l'une d'elles a été imprimée.
+        source: "/jouer",
+        destination: "/cerebrum/play",
+        permanent: false,
+      },
     ];
   },
 };

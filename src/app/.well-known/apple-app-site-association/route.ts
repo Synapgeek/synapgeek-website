@@ -13,7 +13,7 @@
  * `appID` = TeamID.bundleID. Le bundle iOS (`com.synapgeek.cerebrumgame`) diffère
  * du package Android (`com.synapgeek.cerebrum`) : ce n'est pas une coquille.
  *
- * `/play` est volontairement absent des `components` : un téléphone équipé de
+ * `/cerebrum/play` est volontairement absent des `components` : un téléphone équipé de
  * l'app doit passer par le store au scan du QR, pas ouvrir l'app.
  */
 const ASSOCIATION = {

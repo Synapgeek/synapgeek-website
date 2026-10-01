@@ -182,7 +182,7 @@ export interface Dictionary {
     updatedAt: string;
     sections: readonly LegalSection[];
   };
-  /** Repli de /play (desktop, iPad en mode bureau, robot) — reste en français quelle que soit la locale. */
+  /** Repli de /cerebrum/play (desktop, iPad en mode bureau, robot) — reste en français quelle que soit la locale. */
   play: {
     title: string;
     chooseStore: string;

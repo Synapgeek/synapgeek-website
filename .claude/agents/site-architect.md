@@ -46,7 +46,7 @@ Le plan doit trancher ; vérifie SYSTÉMATIQUEMENT qu'il le fait :
 - **Mode de rendu** : rien de NOUVEAU ne sort du SSG — ni `revalidate`,
   ni `dynamicParams`, ni `"use cache"`/`cacheComponents` (`next-cache-components`
   est ici un invariant NÉGATIF, pas une invocation). Trois `export const dynamic`
-  existent et sont légitimes : `/play` (`force-dynamic`, User-Agent) et les deux
+  existent et sont légitimes : `/cerebrum/play` (`force-dynamic`, User-Agent) et les deux
   route handlers `.well-known` (`force-static`) ; un plan qui en propose un
   quatrième doit justifier pourquoi le statique ne suffit pas ; corollaire, rien ne se
   rafraîchit hors déploiement (`new Date()` de `sitemap.ts`, `getFullYear()`

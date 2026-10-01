@@ -94,11 +94,13 @@ Routes actives :
 /privacy               → Privacy Policy (FR)          /en/privacy
 /terms                 → CGU / EULA (FR)              /en/terms
 /legal                 → Mentions légales (FR)        /en/legal
-/play                  → Redirection QR → App Store / Play Store selon le User-Agent.
+/cerebrum/play         → Redirection QR → App Store / Play Store selon le User-Agent.
                          Les paramètres entrants (`?src=…`) sont transmis à la cible mais
                          ne peuvent jamais écraser un paramètre déjà présent dessus
                          (`withIncomingParams` ignore toute clé déjà sur l'URL cible) —
                          `?id=` ou `?ct=&pt=` ne peuvent donc plus détourner la destination
+/play, /jouer          → 307 vers /cerebrum/play, query conservée (`next.config.ts`) —
+                         QR historiques, JAMAIS casser
 /api/contact           → Formulaire de contact (POST) — reCAPTCHA v2
 /robots.txt            → src/app/robots.ts
 /sitemap.xml           → src/app/sitemap.ts (8 URLs, alternates hreflang)
@@ -117,15 +119,15 @@ Routes actives :
 /fr/account-deletion   → redirect 307 vers /privacy#account-deletion
 ```
 
-Toutes les pages sont prérendues au build (**SSG pur**) sauf `/play` et `/api/contact`.
-Trois fichiers seulement exportent `dynamic` — `/play` en `force-dynamic`
+Toutes les pages sont prérendues au build (**SSG pur**) sauf `/cerebrum/play` et `/api/contact`.
+Trois fichiers seulement exportent `dynamic` — `/cerebrum/play` en `force-dynamic`
 (il doit lire le User-Agent) et les deux route handlers `.well-known` en `force-static`
 (prérendu exigé par Apple et Google). Aucun fichier n'exporte `revalidate`,
 `dynamicParams`, `"use cache"` ni `cacheComponents`.
 
 La 404 est `src/app/not-found.tsx`. Comme `src/app/layout.tsx` retourne `children` nu,
 toute route hors de `src/app/[locale]/` rend son propre `<html lang>`/`<body>` — c'est le
-cas de `not-found.tsx` et de `/play`.
+cas de `not-found.tsx` et de `/cerebrum/play`.
 
 Routes prévues (pas encore implémentées) : `/blog`, `/apps/[slug]`.
 
@@ -136,7 +138,8 @@ Routes prévues (pas encore implémentées) : `/blog`, `/apps/[slug]`.
 - **Proxy** (`src/proxy.ts`) : rewrite (jamais redirect) des URLs sans préfixe vers
   `/fr/...`. Matcher : `["/((?!_next|api|favicon\\.ico|.*\\..*).*)"]` — tout chemin
   contenant un point y échappe (d'où le passage direct de `/.well-known/*`).
-  `LOCALE_FREE_ROUTES` exclut en plus les routes servies hors du segment `[locale]`.
+  `LOCALE_FREE_ROUTES` exclut en plus les routes servies hors du segment `[locale]` : il
+  vaut `["/cerebrum/play"]` et ne couvre PAS `/cerebrum`.
 - **Contenu** : `src/content/fr.ts` et `src/content/en.ts`
 - **Types** : `src/content/types.ts` (`Dictionary`)
 - **Helpers** : `src/lib/i18n.ts` (`LOCALES`, `DEFAULT_LOCALE`, `getLocalePath`,
@@ -164,7 +167,7 @@ Routes prévues (pas encore implémentées) : `/blog`, `/apps/[slug]`.
 - Open Graph complet (`og:image` comprise) via `buildOpenGraph()` de `src/lib/seo.ts`,
   appelé par chaque page du segment `[locale]`. La fusion des métadonnées de Next est
   superficielle : un `openGraph` partiel dans une page **écrase** celui du layout et fait
-  disparaître l'image. Toujours passer par le helper. `/play` et la 404 n'en ont pas.
+  disparaître l'image. Toujours passer par le helper. `/cerebrum/play` et la 404 n'en ont pas.
 - OG image custom (`public/images/brand/og-image.jpeg`)
 - Hreflang `<link rel="alternate">` et canonical sur toutes les pages. **x-default pointe
   vers l'anglais** (`X_DEFAULT_LOCALE` dans `src/lib/seo.ts`, distinct de `DEFAULT_LOCALE`
@@ -173,7 +176,7 @@ Routes prévues (pas encore implémentées) : `/blog`, `/apps/[slug]`.
 - `sitemap.xml` : `/`, `/privacy`, `/terms`, `/legal` × 2 locales, avec alternates et des
   `lastModified` réels (`lastModifiedFor()` dans `src/app/sitemap.ts` — plus une date figée)
 - `robots.txt` : `Allow: /` intégral, aucun `Disallow`, aucun `noindex` dans `src/`
-  (sauf `/play`, marquée `robots: { index: false }`)
+  (sauf `/cerebrum/play`, marquée `robots: { index: false }`)
 - **`src/lib/structured-data.ts` est la source unique de tout le JSON-LD du site** — aucun
   objet `@type` schema.org ne doit être construit ailleurs. Builders exposés :
   `organizationSchema` (Organization, sur toutes les pages du segment `[locale]`),
@@ -252,8 +255,9 @@ stores ont des dimensions codées en dur **différentes par locale** (`StoreButt
 - **JAMAIS de lien vers un autre site du portefeuille Synapgeek** (Word Search Trove,
   Maze Foundry). Règle du skill `synapgeek-portfolio-rules` ; `site-architect` rend NO-GO
   d'emblée et `site-reviewer` classe bloquant.
-- **`/play` ne doit jamais changer ni disparaître** : l'URL est encodée dans des QR codes
-  imprimés (chevalets de comptoir) qui vivront des mois.
+- **`/cerebrum/play` (cible des QR), `/play` et `/jouer` (redirections) ne doivent jamais
+  changer ni disparaître** : l'URL est encodée dans des QR codes imprimés (chevalets de
+  comptoir) qui vivront des mois. Ne jamais créer `[locale]/cerebrum/play`.
 - **JAMAIS de vente de contenu digital sur le site** — tout achat passe par StoreKit 2
   (iOS) ou Google Play Billing (Android) dans l'app (guideline Apple 3.1.1).
 - **JAMAIS de lien de paiement externe** pour du contenu consommable dans l'app.
