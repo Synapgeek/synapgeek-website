@@ -52,7 +52,9 @@ export interface GameEntry {
   availability: PlatformAvailability;
   /** Langues du contenu de jeu : Mots croisés et Mots mêlés n'existent qu'en FR et EN. */
   contentLocales: "all" | readonly Locale[];
-  /** Couple de couleurs de la palette Cerebrum, exposé en variables CSS (jamais en dur dans un composant). */
+  /** `false` : le jeu n'a ni page ni entrée de sitemap. */
+  published: boolean;
+  /** Noms des propriétés CSS (`--game-<id>-wash` / `-deep`, définies dans globals.css), jamais une valeur hexadécimale. */
   color: { wash: string; deep: string };
   icon: string;
   screenshot: Record<Locale, string>;

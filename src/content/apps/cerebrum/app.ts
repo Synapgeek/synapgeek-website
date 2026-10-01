@@ -1,20 +1,19 @@
+import { APP_STORE_ID, APP_STORE_URL, GOOGLE_PLAY_URL } from "@/lib/app";
 import type { AppEntry } from "../types";
-
-const APP_STORE_ID = "6763915130";
 
 /**
  * Faits non localisés de Cerebrum. Le bundle iOS (com.synapgeek.cerebrumgame) et
  * le package Android (com.synapgeek.cerebrum) diffèrent : ce n'est pas une coquille.
- * `appStoreUrl` est neutre côté pays : Apple redirige vers la boutique locale.
+ * Identifiants et URLs de boutique : src/lib/app.ts (source unique, importable côté client
+ * sans tirer ce registre).
  */
 export const cerebrum: AppEntry = {
   slug: "cerebrum",
   name: "Cerebrum",
   publisher: "Synapgeek",
   appStoreId: APP_STORE_ID,
-  appStoreUrl: `https://apps.apple.com/app/id${APP_STORE_ID}`,
-  googlePlayUrl:
-    "https://play.google.com/store/apps/details?id=com.synapgeek.cerebrum",
+  appStoreUrl: APP_STORE_URL,
+  googlePlayUrl: GOOGLE_PLAY_URL,
   platforms: {
     ios: { minOs: "17.0" },
     android: { minOs: null },

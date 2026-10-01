@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { LOCALES, type Locale } from "@/lib/i18n";
+import { GAME_SLUGS } from "@/lib/page-slugs";
 import {
   findGameBySlug,
   gameSlug,
@@ -206,10 +207,24 @@ describe("registre des jeux", () => {
     expect(missing).toEqual([]);
   });
 
-  it("n'écrit les couleurs que sous forme wash/deep hexadécimales", () => {
+  it("publie les dix jeux", () => {
+    expect(games.every((game) => game.published)).toBe(true);
+  });
+
+  it("lit ses slugs dans le module partagé page-slugs", () => {
     for (const game of games) {
-      expect(game.color.wash).toMatch(/^#[0-9A-F]{6}$/);
-      expect(game.color.deep).toMatch(/^#[0-9A-F]{6}$/);
+      expect(game.slug).toBe(GAME_SLUGS[game.id]);
+    }
+  });
+
+  it("nomme les couleurs par propriété CSS, définie dans globals.css, jamais en hexadécimal", () => {
+    const globals = readFileSync("src/app/globals.css", "utf8");
+    for (const game of games) {
+      expect(game.color.wash).toBe(`--game-${game.id}-wash`);
+      expect(game.color.deep).toBe(`--game-${game.id}-deep`);
+      for (const token of [game.color.wash, game.color.deep]) {
+        expect(globals).toMatch(new RegExp(`${token}:\\s*#[0-9a-f]{6};`));
+      }
     }
   });
 });

@@ -5,17 +5,14 @@
  * (com.synapgeek.cerebrum) diffèrent : ce n'est pas une coquille.
  */
 
-import { getApp } from "@/content/apps";
-
-const cerebrum = getApp("cerebrum");
-
-export const APP_STORE_ID = cerebrum.appStoreId;
+export const APP_STORE_ID = "6763915130";
 
 // URL App Store neutre côté pays : Apple redirige vers la boutique locale.
-export const APP_STORE_URL = cerebrum.appStoreUrl;
+export const APP_STORE_URL = `https://apps.apple.com/app/id${APP_STORE_ID}`;
 
 // Fiche Google Play, en ligne.
-export const GOOGLE_PLAY_URL = cerebrum.googlePlayUrl;
+export const GOOGLE_PLAY_URL =
+  "https://play.google.com/store/apps/details?id=com.synapgeek.cerebrum";
 
 /**
  * Cible App Store du QR imprimé (chevalet de comptoir, Lille).

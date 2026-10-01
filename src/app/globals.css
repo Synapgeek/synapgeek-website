@@ -1004,3 +1004,27 @@ h6 {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ===== COULEURS DES JEUX CEREBRUM — paires wash/deep (src/content/apps/cerebrum/games.ts) ===== */
+:root {
+  --game-sudoku-wash: #bfd9f7;
+  --game-sudoku-deep: #2f6fb5;
+  --game-pandoku-wash: #bfede4;
+  --game-pandoku-deep: #2a8f80;
+  --game-minesweeper-wash: #c9cdf2;
+  --game-minesweeper-deep: #4f55c8;
+  --game-pixel-art-wash: #f2c6ee;
+  --game-pixel-art-deep: #a23a9a;
+  --game-cross-math-wash: #dcc8f5;
+  --game-cross-math-deep: #7c4db8;
+  --game-crossword-wash: #c6ebd3;
+  --game-crossword-deep: #2f8a5b;
+  --game-word-search-wash: #fad9c0;
+  --game-word-search-deep: #c7692f;
+  --game-trace-wash: #f7c4da;
+  --game-trace-deep: #c2185b;
+  --game-maze-wash: #f6dfb5;
+  --game-maze-deep: #b8792a;
+  --game-arrow-maze-wash: #ddefc0;
+  --game-arrow-maze-deep: #5c8a1e;
+}
