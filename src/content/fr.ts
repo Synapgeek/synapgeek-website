@@ -41,6 +41,7 @@ const fr: Dictionary = {
       label: "Fil d'Ariane",
       home: "Accueil",
     },
+    updatedOn: "Mis à jour le",
 
     languageSuggestion: {
       message: "Ce site est aussi disponible en français.",

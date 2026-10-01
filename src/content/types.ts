@@ -73,6 +73,8 @@ export interface Dictionary {
       /** Premier maillon du fil d'Ariane (Accueil / Home). */
       home: string;
     };
+    /** Libellé devant la date de mise à jour d'une page app ou jeu (« Mis à jour le »). */
+    updatedOn: string;
     /**
      * Suggestion de langue, rédigée dans la langue qu'elle propose : le texte
      * d'une locale est affiché à un visiteur dont le navigateur parle cette

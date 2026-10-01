@@ -26,6 +26,8 @@ Synapgeek est un studio indépendant français de jeux mobiles (Synapgeek SAS, b
 
 - [Home (English, default)](https://synapgeek.com): Landing page for Synapgeek and Cerebrum, in English.
 - [Accueil (français)](https://synapgeek.com/fr): Page d'accueil de Synapgeek et de Cerebrum, en français.
+- [Cerebrum (English)](https://synapgeek.com/cerebrum): Cerebrum is an offline puzzle games app by Synapgeek for iPhone, iPad and Android: Sudoku, crosswords, word search and more classic and newer brain games, all in one app.
+- [Cerebrum (français)](https://synapgeek.com/fr/cerebrum): Cerebrum est une application de jeux de réflexion hors ligne, éditée par Synapgeek pour iPhone, iPad et Android : Sudoku, Mots Croisés, Mots Mêlés et d'autres jeux, classiques ou plus récents, réunis dans une seule app.
 - [Politique de confidentialité (français)](https://synapgeek.com/privacy): Données collectées et pratiques de confidentialité de Cerebrum et des services Synapgeek.
 - [Privacy Policy (English)](https://synapgeek.com/en/privacy): Data collection and privacy practices for Cerebrum and Synapgeek services.
 - [Conditions d'utilisation / CLUF (français)](https://synapgeek.com/terms): Conditions d'utilisation et contrat de licence utilisateur final de Cerebrum.

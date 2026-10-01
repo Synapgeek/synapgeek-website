@@ -41,6 +41,7 @@ const en: Dictionary = {
       label: "Breadcrumb",
       home: "Home",
     },
+    updatedOn: "Updated on",
 
     languageSuggestion: {
       message: "This site is also available in English.",

@@ -1,5 +1,6 @@
 import type { AppSlug, Difficulty, GameCategory, GameId } from "@/content/apps";
 import type { Locale } from "@/lib/i18n";
+import type { PageId } from "@/lib/routes";
 
 /**
  * Le H1 et la phrase de définition qui le suit. Les assistants citent cette
@@ -13,7 +14,10 @@ export interface DefinitionBlock {
 
 export interface FaqEntry {
   question: string;
+  /** Texte complet : c'est lui que reprend le JSON-LD `FAQPage`, mot pour mot. */
   answer: string;
+  /** Lien d'approfondissement sous la réponse (chemin par `pagePath`, jamais écrit à la main). */
+  link?: { label: string; page: PageId; hash?: string };
 }
 
 interface PageMeta {
@@ -53,13 +57,16 @@ export interface GameCopy extends Dated {
 
 export interface AppCopy extends Dated {
   meta: PageMeta;
-  hero: DefinitionBlock;
+  /** `phoneAlt` décrit la capture de l'accueil de l'app dans le téléphone du héros. */
+  hero: DefinitionBlock & { phoneAlt: string };
   sections: {
-    games: string;
-    daily: { title: string; body: string };
+    games: { title: string; categories: Record<GameCategory, string> };
+    daily: { title: string; body: string; items: readonly string[] };
     progress: { title: string; items: readonly string[] };
     goodToKnow: { title: string; items: readonly string[] };
     model: { title: string; items: readonly string[] };
+    /** Résumé de confidentialité : la politique reste la référence, `cta` y mène. */
+    privacy: { title: string; body: string; cta: string };
   };
   faq: { title: string; items: readonly FaqEntry[] };
   /** Un jeu n'a de copie qu'au moment où sa page est publiée (`GameEntry.published`). */

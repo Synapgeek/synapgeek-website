@@ -7,7 +7,7 @@ import {
   type PageId,
 } from "@/lib/routes";
 import { getDictionary } from "@/content";
-import { getHubCopy } from "@/content/copy";
+import { getAppCopy, getHubCopy } from "@/content/copy";
 
 function lastModifiedFor(locale: Locale, pageId: PageId): string {
   const dict = getDictionary(locale);
@@ -20,6 +20,8 @@ function lastModifiedFor(locale: Locale, pageId: PageId): string {
       return dict.legal.updatedAt;
     case "home":
       return getHubCopy(locale).updatedAt;
+    case "cerebrum":
+      return getAppCopy("cerebrum", locale).updatedAt;
     default:
       // Une page rendue sans date connue ne doit pas recevoir une date inventée :
       // l'ajouter à RENDERED_PAGE_IDS impose d'abord de lui donner la sienne.

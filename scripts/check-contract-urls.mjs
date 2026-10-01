@@ -40,9 +40,9 @@
  *
  * Redirections historiques (tâche 5, next.config.ts) : `/en` redirige en 308 vers
  * `/`, query conservée, et chaque ancienne page anglaise non légale (`/en/cerebrum`…)
- * vers son pendant sans préfixe. Pour `/en/cerebrum`, seuls le statut et le Location
- * sont contrôlés : cible `/cerebrum` pas encore servie tant que la page app n'existe pas
- * (tâche ultérieure). Seul `/fr/privacy`, `/fr/terms`, `/fr/legal` reste TRANSITOIRE :
+ * vers son pendant sans préfixe. La cible `/cerebrum` répond 200 depuis la tâche 13 ;
+ * les pages de jeux (`/en/cerebrum/<jeu>`) ne sont pas contrôlées avant leur livraison.
+ * Seul `/fr/privacy`, `/fr/terms`, `/fr/legal` reste TRANSITOIRE :
  * ils répondent encore en 200 (canonical) et passeront en 307 dans un PR ultérieur,
  * après preuve en production.
  *
@@ -75,7 +75,7 @@ const GOOGLE_PLAY_URL =
 // l'URL du store, sans jamais en écraser un paramètre déjà présent.
 const CAMPAIGN_PARAM = "src=contract-check";
 
-const SITEMAP_URL_COUNT = 8;
+const SITEMAP_URL_COUNT = 10;
 
 const LEGAL_PAGES = ["/privacy", "/terms", "/legal"];
 // Les trois variantes de chaque page légale ; sur l'hôte www, chacune redirige en 308
@@ -136,9 +136,28 @@ function contractChecks(base) {
     redirect("/en", 308, "/"),
     redirect("/en/", 308, "/en"),
     redirect(`/en?${CAMPAIGN_PARAM}`, 308, `/?${CAMPAIGN_PARAM}`),
-    // La cible /cerebrum peut répondre 404 tant que la page app n'existe pas : on ne contrôle
-    // ici que la redirection.
     redirect("/en/cerebrum", 308, "/cerebrum"),
+    // Page de l'app (tâche 13) : anglais sans préfixe, français sous /fr.
+    ok("/cerebrum", [
+      contentType("text/html"),
+      htmlLang("en"),
+      canonical(`${APEX}/cerebrum`),
+      hreflangs({
+        en: `${APEX}/cerebrum`,
+        fr: `${APEX}/fr/cerebrum`,
+        "x-default": `${APEX}/cerebrum`,
+      }),
+    ]),
+    ok("/fr/cerebrum", [
+      contentType("text/html"),
+      htmlLang("fr"),
+      canonical(`${APEX}/fr/cerebrum`),
+      hreflangs({
+        en: `${APEX}/cerebrum`,
+        fr: `${APEX}/fr/cerebrum`,
+        "x-default": `${APEX}/cerebrum`,
+      }),
+    ]),
     ok("/fr", [
       contentType("text/html"),
       htmlLang("fr"),

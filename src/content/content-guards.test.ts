@@ -358,11 +358,48 @@ function entryViolations(
 // Étage 1 : les modules enregistrés
 // ---------------------------------------------------------------------------
 
+/**
+ * Jeux marqués `published` dans le registre dont la copie n'est pas encore
+ * livrée : leur page arrive avec sa tâche (Sudoku, puis un jeu par tâche). Le
+ * garde de couverture ne les exige pas encore. Cliquet : chaque livraison de
+ * copie retire son identifiant d'ici, et le test juste dessous échoue si un
+ * jeu a sa copie tout en restant sur cette liste (garde alors aveugle).
+ */
+const COPY_PENDING: ReadonlySet<GameId> = new Set<GameId>([
+  "sudoku",
+  "pandoku",
+  "minesweeper",
+  "pixel-art",
+  "cross-math",
+  "crossword",
+  "word-search",
+  "trace",
+  "maze",
+  "arrow-maze",
+]);
+
+/** Les jeux d'une app dont la copie est attendue dès maintenant. */
+const gamesDueFor = (entry: CopyEntry) =>
+  entry.kind === "app"
+    ? getGames(entry.app).filter((game) => !COPY_PENDING.has(game.id))
+    : [];
+
 describe("copie enregistrée (spec §9)", () => {
   it("chaque module respecte les règles de texte, de longueur, de genre et de plateforme", () => {
-    expect(REGISTERED_COPY.flatMap((entry) => entryViolations(entry))).toEqual(
-      [],
+    expect(
+      REGISTERED_COPY.flatMap((entry) =>
+        entryViolations(entry, gamesDueFor(entry)),
+      ),
+    ).toEqual([]);
+  });
+
+  it("aucun jeu qui a sa copie ne reste sur la liste des copies attendues", () => {
+    const stale = REGISTERED_COPY.flatMap((entry) =>
+      gamesOf(entry)
+        .filter(([id]) => COPY_PENDING.has(id))
+        .map(([id]) => `${labelOf(entry)}:${id}`),
     );
+    expect(stale).toEqual([]);
   });
 
   it("chaque module existe dans toutes les langues avec la même structure", () => {
@@ -432,13 +469,21 @@ function fixtureApp(
     copy: {
       updatedAt: "2026-10-01",
       meta: { title: "Cerebrum", description: "An app." },
-      hero: { h1: "Cerebrum", definition: DEFINITION_OK },
+      hero: {
+        h1: "Cerebrum",
+        definition: DEFINITION_OK,
+        phoneAlt: "A screen.",
+      },
       sections: {
-        games: "Games",
-        daily: { title: "Daily", body: "One a day." },
+        games: {
+          title: "Games",
+          categories: { "logic-numbers": "A", words: "B", paths: "C" },
+        },
+        daily: { title: "Daily", body: "One a day.", items: ["A streak"] },
         progress: { title: "Progress", items: ["Stars"] },
         goodToKnow: { title: "Good to know", items: ["Offline"] },
         model: { title: "Model", items: ["Free"] },
+        privacy: { title: "Privacy", body: "Short.", cta: "Read" },
       },
       faq: { title: "FAQ", items: [{ question: "Q?", answer: "A." }] },
       games,

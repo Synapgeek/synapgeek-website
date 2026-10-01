@@ -80,9 +80,13 @@ export function pagePath(
   return `${path}#${hash}`;
 }
 
-export function absoluteUrl(pageId: PageId, locale: Locale): string {
-  const path = pagePath(pageId, locale);
+/** URL absolue d'un chemin relatif du site (`/` donne l'origine nue, sans slash final). */
+export function absolutePath(path: string): string {
   return path === "/" ? BASE_URL : `${BASE_URL}${path}`;
+}
+
+export function absoluteUrl(pageId: PageId, locale: Locale): string {
+  return absolutePath(pagePath(pageId, locale));
 }
 
 export function alternatesFor(pageId: PageId): {
@@ -119,6 +123,7 @@ export function publishedPageIds(): PageId[] {
  */
 const RENDERED_PAGE_IDS: ReadonlySet<PageId> = new Set<PageId>([
   "home",
+  "cerebrum",
   ...LEGAL_IDS,
 ]);
 

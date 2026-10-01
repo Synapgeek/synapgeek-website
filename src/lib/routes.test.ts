@@ -228,7 +228,13 @@ describe("renderedPageIds", () => {
     expect(rendered).toEqual(published.filter((id) => rendered.includes(id)));
   });
 
-  it("ne contient aujourd'hui que l'accueil et les trois pages légales", () => {
-    expect(renderedPageIds()).toEqual(["home", "privacy", "terms", "legal"]);
+  it("ne contient aujourd'hui que l'accueil, la page de l'app et les trois pages légales", () => {
+    expect(renderedPageIds()).toEqual([
+      "home",
+      "cerebrum",
+      "privacy",
+      "terms",
+      "legal",
+    ]);
   });
 });

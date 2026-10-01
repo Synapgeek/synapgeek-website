@@ -3,7 +3,6 @@ import Image from "next/image";
 import { generateStaticParams, type Locale } from "@/lib/i18n";
 import { getDictionary, getLocale } from "@/content";
 import { getApp, getGames, platformsFor } from "@/content/apps";
-import type { GameCategory } from "@/content/apps";
 import { getHubCopy } from "@/content/copy";
 import { getAlternates, buildOpenGraph } from "@/lib/seo";
 import { pagePath } from "@/lib/routes";
@@ -12,20 +11,13 @@ import { TrackSection } from "@/components/TrackSection";
 import { AppCard } from "@/components/ui/AppCard";
 import { Button } from "@/components/ui/Button";
 import { FactStrip } from "@/components/ui/FactStrip";
-import { GameCard } from "@/components/ui/GameCard";
+import { GameGrid } from "@/components/ui/GameGrid";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
 import { SectionBand } from "@/components/ui/SectionBand";
 import { StoreBadges } from "@/components/ui/StoreBadges";
 import { TiltOnPointer } from "@/components/ui/TiltOnPointer";
 
 export { generateStaticParams };
-
-/** Ordre d'affichage des familles de jeux sur le hub. */
-const CATEGORY_ORDER: readonly GameCategory[] = [
-  "logic-numbers",
-  "words",
-  "paths",
-];
 
 /** Inclinaison de repos du téléphone, en degrés (le suivi du pointeur s'ajoute). */
 const PHONE_REST_ROTATE = 5;
@@ -128,36 +120,11 @@ export default async function HubPage({
 
       <TrackSection name="games">
         <SectionBand id="games" tone="soft" title={copy.games.title}>
-          <div className="space-y-12">
-            {CATEGORY_ORDER.map((category) => (
-              <div key={category}>
-                <h3 className="mb-5 text-2xl sm:text-3xl">
-                  {copy.games.categories[category]}
-                </h3>
-                <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-5">
-                  {games
-                    .filter((game) => game.category === category)
-                    .map((game) => (
-                      <li key={game.id}>
-                        <GameCard
-                          as="h4"
-                          name={game.name[locale]}
-                          genre={game.genre[locale]}
-                          icon={game.icon}
-                          color={game.color}
-                          platforms={platformsFor(game)}
-                          href={
-                            game.published
-                              ? pagePath(`game:${game.id}`, locale)
-                              : null
-                          }
-                        />
-                      </li>
-                    ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          <GameGrid
+            games={games}
+            categories={copy.games.categories}
+            locale={locale}
+          />
         </SectionBand>
       </TrackSection>
 
