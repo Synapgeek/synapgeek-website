@@ -1,4 +1,47 @@
 import type { NextConfig } from "next";
+// Imports RELATIFS et sans alias : next.config.ts est chargé avant la résolution de `@/`.
+// Ces deux modules n'ont eux-mêmes aucun import (une URL = une seule source).
+import { FROZEN_LEGAL_PATHS } from "./src/lib/frozen-legal-paths";
+import { GAME_SLUGS, SECTION_SLUGS } from "./src/lib/page-slugs";
+
+type Redirect = Awaited<
+  ReturnType<NonNullable<NextConfig["redirects"]>>
+>[number];
+
+/**
+ * Spec §5.2 : l'anglais a quitté `/en` pour la racine. Une règle LITTÉRALE par ancienne page
+ * anglaise non légale (plan, amendement 5) : ni regex, ni lookahead, ni `/en/:path*`, pour
+ * que rien ne puisse capter `/en/privacy`, `/en/terms`, `/en/legal` (contrat figé, servis en
+ * anglais) ni les `…/opengraph-image*`. Une nouvelle page anglaise n'a jamais besoin de règle
+ * ici : elle naît sans préfixe.
+ */
+const LEGACY_ENGLISH_PATHS: readonly string[] = [
+  "/cerebrum",
+  ...Object.values(GAME_SLUGS).map((slug) => `/cerebrum/${slug.en}`),
+  ...Object.values(SECTION_SLUGS).map((slug) => `/${slug.en}`),
+];
+
+// Garde-fou : un slug futur qui coïnciderait avec une page légale figée casserait une URL
+// déclarée dans les stores. On échoue au chargement de la config plutôt que de rediriger.
+for (const frozen of FROZEN_LEGAL_PATHS) {
+  if (LEGACY_ENGLISH_PATHS.includes(frozen)) {
+    throw new Error(`Redirection /en${frozen} interdite : URL légale figée.`);
+  }
+}
+
+const legacyEnglishRedirects: Redirect[] = [
+  // Spec §5.2 : `/en` redirige en 308 vers `/`. Next fusionne la query entrante dans la
+  // destination, donc `/en?utm_source=x` devient `/?utm_source=x`.
+  { source: "/en", destination: "/", permanent: true },
+  // Spec §5.2 : pages anglaises non légales, 308 vers leur pendant sans préfixe.
+  ...LEGACY_ENGLISH_PATHS.map(
+    (path): Redirect => ({
+      source: `/en${path}`,
+      destination: path,
+      permanent: true,
+    }),
+  ),
+];
 
 const nextConfig: NextConfig = {
   images: {
@@ -58,6 +101,7 @@ const nextConfig: NextConfig = {
         destination: "/cerebrum/play",
         permanent: false,
       },
+      ...legacyEnglishRedirects,
     ];
   },
 };

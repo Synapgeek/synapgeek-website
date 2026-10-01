@@ -8,7 +8,7 @@
  *
  * Ces URLs sont référencées hors du dépôt : App Store Connect (privacy, support
  * `/#contact` et `/en#contact` : depuis la bascule, `/#contact` sert l'anglais et
- * `/en#contact` redirigera vers lui, tâche 5), formulaire Data Safety de la Play Console
+ * `/en#contact` redirige en 308 vers lui), formulaire Data Safety de la Play Console
  * (`/account-deletion`), config AdMob consent (UMP), QR codes imprimés
  * (`/cerebrum/play`, et `/play` ou `/jouer` pour les premiers), vérification
  * AdMob (`/app-ads.txt`). Les valeurs attendues sont écrites en clair, comme dans
@@ -32,10 +32,13 @@
  * pendants anglais vivent sous `/en/`. Chaque page légale est canonique vers
  * elle-même et déclare hreflang en/fr/x-default, x-default pointant l'anglais.
  *
- * TRANSITOIRE (flippé par la tâche 5, redirections littérales) : `/en` sert encore
- * l'accueil anglais en 200 (il redirigera en 308 vers `/`), et `/fr/privacy`,
- * `/fr/terms`, `/fr/legal` répondent encore 200 (ils redirigeront en 308 vers
- * l'URL sans préfixe). Ces attentes sont marquées « transitoire » ci-dessous.
+ * Redirections historiques (tâche 5, next.config.ts) : `/en` redirige en 308 vers
+ * `/`, query conservée, et chaque ancienne page anglaise non légale (`/en/cerebrum`…)
+ * vers son pendant sans préfixe. Pour `/en/cerebrum`, seuls le statut et le Location
+ * sont contrôlés : cible `/cerebrum` pas encore servie tant que la page app n'existe pas
+ * (tâche ultérieure). Seul `/fr/privacy`, `/fr/terms`, `/fr/legal` reste TRANSITOIRE :
+ * ils répondent encore en 200 (canonical) et passeront en 307 dans un PR ultérieur,
+ * après preuve en production.
  *
  * Toutes les requêtes partent en `redirect: "manual"` : on lit le statut et le
  * Location réels, jamais la page d'arrivée.
@@ -69,7 +72,7 @@ const CAMPAIGN_PARAM = "src=contract-check";
 const SITEMAP_URL_COUNT = 8;
 
 const LEGAL_PAGES = ["/privacy", "/terms", "/legal"];
-// Transitoire : `/fr${page}` répond 200 jusqu'à la tâche 5 (308 ensuite).
+// Transitoire : `/fr${page}` répond encore 200 (canonical), 307 dans un PR ultérieur.
 const LOCALIZED_LEGAL_PAGES = LEGAL_PAGES.flatMap((page) => [
   page,
   `/en${page}`,
@@ -123,13 +126,13 @@ function contractChecks(base) {
       canonical(ORIGIN),
       hreflangs({ en: ORIGIN, fr: `${ORIGIN}/fr`, "x-default": ORIGIN }),
     ]),
-    // Transitoire (tâche 5 : 308 vers /) : /en sert encore l'accueil anglais en 200.
-    ok("/en", [
-      contentType("text/html"),
-      htmlLang("en"),
-      bodyIncludes('id="contact"'),
-    ]),
+    // Spec §5.2 : /en n'est plus une page, 308 vers la racine, query conservée.
+    redirect("/en", 308, "/"),
     redirect("/en/", 308, "/en"),
+    redirect(`/en?${CAMPAIGN_PARAM}`, 308, `/?${CAMPAIGN_PARAM}`),
+    // La cible /cerebrum peut répondre 404 tant que la page app n'existe pas : on ne contrôle
+    // ici que la redirection.
+    redirect("/en/cerebrum", 308, "/cerebrum"),
     ok("/fr", [
       contentType("text/html"),
       htmlLang("fr"),
@@ -142,7 +145,7 @@ function contractChecks(base) {
       ok(page, legalExpectations("fr", page)),
       ok(`/en${page}`, legalExpectations("en", page)),
     ]),
-    // Transitoire (tâche 5 : 308 vers l'URL sans préfixe) : /fr/<page> répond encore 200.
+    // Transitoire (PR ultérieur : 307 vers l'URL sans préfixe) : /fr/<page> répond encore 200.
     ...LEGAL_PAGES.map((page) =>
       ok(`/fr${page}`, [contentType("text/html"), htmlLang("fr")]),
     ),
