@@ -77,7 +77,7 @@ const fr: Dictionary = {
     stats: {
       items: [
         { value: "2", label: "Plateformes" },
-        { value: "0", label: "Wifi pour jouer" },
+        { value: "100\u00a0%", label: "Jouable hors ligne" },
         { value: "16", label: "Langues" },
         { value: "Gratuit", label: "Téléchargement" },
       ],
