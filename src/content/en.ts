@@ -189,12 +189,12 @@ const en: Dictionary = {
         {
           question: "Does Cerebrum have ads, and how do I remove them?",
           answer:
-            "Yes. Cerebrum is free and supported by ads: a banner during play and ads between some games. Rewarded ads are always optional: you choose to watch one for gems, a hint or a second chance. A weekly, monthly or yearly Premium subscription removes the banner and the ads between games. It also adds infinite lives, 5 free hints a day in each game, your first mistake forgiven in every puzzle, free daily gems and double gems after every win. Gem packs and the theme packs are in-app purchases and are not included in Premium.",
+            "Yes. Cerebrum is free and supported by ads: a banner during play and ads between some games. Rewarded ads are always optional: you choose to watch one for gems, a hint or a second chance. A weekly, monthly or yearly Premium subscription means no forced ads: it removes the banner and the ads between games. It also adds infinite lives, 5 free hints a day in each game, your first mistake forgiven in every puzzle, free daily gems and double gems after every win. Gem packs and the theme packs are in-app purchases and are not included in Premium.",
         },
         {
           question: "Can I play Cerebrum offline, without Wi-Fi?",
           answer:
-            "Yes, every Cerebrum game works without an internet connection, daily challenge and streak included: all the puzzles are already in the app and your progress is saved on your device. You still need a connection to sync your progress, view leaderboards, make a purchase, sign in to an account and load ads.",
+            "Yes, every Cerebrum game works without an internet connection, daily challenge and streak included: all the puzzles are already in the app and your progress is saved on your device. You still need a connection to sync your progress, make a purchase, sign in to an account and load ads.",
         },
         {
           question: "Which devices does Cerebrum run on?",
@@ -368,7 +368,7 @@ const en: Dictionary = {
       {
         title: "Service description",
         content:
-          "Synapgeek develops and distributes mobile puzzle game applications. Cerebrum is a mobile puzzle and brain game application for iOS and Android.\n\nThe App includes:\n- Puzzles across multiple difficulty levels\n- A progression system with stars, XP, and leaderboards\n- Daily challenges and play streaks\n- A virtual currency system (gems) and avatars\n- Optional in-app purchases and subscriptions\n- An ad-supported and ad-free mode",
+          "Synapgeek develops and distributes mobile puzzle game applications. Cerebrum is a mobile puzzle and brain game application for iOS and Android.\n\nThe App includes:\n- Puzzles across multiple difficulty levels\n- A progression system with stars, XP and leagues\n- A daily challenge and play streaks\n- A virtual currency system (gems) and avatars\n- Optional in-app purchases and subscriptions\n- A free version supported by advertising, and a Premium subscription that removes forced advertisements",
       },
       {
         title: "License to use",
@@ -378,7 +378,7 @@ const en: Dictionary = {
       {
         title: "User account",
         content:
-          "You may use the App without creating an account (anonymous mode). If you choose to create an account via Apple, Google, or Facebook, you are responsible for maintaining the confidentiality of your credentials.\n\nCreating an account enables synchronization of your progress across devices and participation in leaderboards. You may only hold one active account.",
+          "You may use the App without creating an account (anonymous mode). If you choose to create an account via Apple, Google, or Facebook, you are responsible for maintaining the confidentiality of your credentials.\n\nCreating an account enables synchronization of your progress across devices. You may only hold one active account.",
       },
       {
         title: "In-app purchases and subscriptions",

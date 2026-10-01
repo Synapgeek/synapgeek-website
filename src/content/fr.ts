@@ -190,12 +190,12 @@ const fr: Dictionary = {
           question:
             "Y a-t-il des publicités dans Cerebrum, et comment les retirer ?",
           answer:
-            "Oui. Cerebrum est gratuit et financé par la publicité : une bannière pendant la partie et des pubs entre certaines parties. Les pubs récompensées sont toujours facultatives : vous choisissez d'en regarder une pour des gemmes, un indice ou une seconde chance. Un abonnement Premium à la semaine, au mois ou à l'année retire la bannière et les pubs entre les parties. Il ajoute aussi des vies infinies, 5 indices gratuits par jour et par jeu, la première erreur pardonnée à chaque partie, des gemmes offertes chaque jour et des gemmes doublées après chaque victoire. Les packs de gemmes et les packs de thèmes sont des achats intégrés, non inclus dans Premium.",
+            "Oui. Cerebrum est gratuit et financé par la publicité : une bannière pendant la partie et des pubs entre certaines parties. Les pubs récompensées sont toujours facultatives : vous choisissez d'en regarder une pour des gemmes, un indice ou une seconde chance. Un abonnement Premium à la semaine, au mois ou à l'année supprime les pubs imposées : il retire la bannière et les pubs entre les parties. Il ajoute aussi des vies infinies, 5 indices gratuits par jour et par jeu, la première erreur pardonnée à chaque partie, des gemmes offertes chaque jour et des gemmes doublées après chaque victoire. Les packs de gemmes et les packs de thèmes sont des achats intégrés, non inclus dans Premium.",
         },
         {
           question: "Peut-on jouer à Cerebrum hors ligne, sans wifi ?",
           answer:
-            "Oui, tous les jeux de Cerebrum se jouent sans connexion internet, défi quotidien et série compris : toutes les grilles sont déjà dans l'app et votre progression est enregistrée sur l'appareil. Une connexion reste nécessaire pour synchroniser votre progression, consulter les classements, effectuer un achat, vous connecter à un compte et afficher les publicités.",
+            "Oui, tous les jeux de Cerebrum se jouent sans connexion internet, défi quotidien et série compris : toutes les grilles sont déjà dans l'app et votre progression est enregistrée sur l'appareil. Une connexion reste nécessaire pour synchroniser votre progression, effectuer un achat, vous connecter à un compte et afficher les publicités.",
         },
         {
           question: "Sur quels appareils Cerebrum est-il disponible ?",
@@ -372,7 +372,7 @@ const fr: Dictionary = {
       {
         title: "Description du service",
         content:
-          "Synapgeek développe et distribue des applications mobiles de jeux de réflexion. Cerebrum est une application mobile de jeux de puzzle et de réflexion pour iOS et Android.\n\nL'Application propose notamment :\n- Des puzzles avec plusieurs niveaux de difficulté\n- Un système de progression avec étoiles, XP et classements\n- Des défis quotidiens et des séries de jeu (streaks)\n- Un système de monnaie virtuelle (gemmes) et d'avatars\n- Des achats in-app et des abonnements optionnels\n- Un mode avec ou sans publicité",
+          "Synapgeek développe et distribue des applications mobiles de jeux de réflexion. Cerebrum est une application mobile de jeux de puzzle et de réflexion pour iOS et Android.\n\nL'Application propose notamment :\n- Des puzzles avec plusieurs niveaux de difficulté\n- Un système de progression avec étoiles, XP et ligues\n- Un défi quotidien et des séries de jeu (streaks)\n- Un système de monnaie virtuelle (gemmes) et d'avatars\n- Des achats in-app et des abonnements optionnels\n- Une version gratuite financée par la publicité, et un abonnement Premium qui retire les publicités imposées",
       },
       {
         title: "Licence d'utilisation",
@@ -382,7 +382,7 @@ const fr: Dictionary = {
       {
         title: "Compte utilisateur",
         content:
-          "Vous pouvez utiliser l'Application sans créer de compte (mode anonyme). Si vous choisissez de créer un compte via Apple, Google ou Facebook, vous êtes responsable de la confidentialité de vos identifiants.\n\nLa création d'un compte permet la synchronisation de votre progression entre appareils et la participation aux classements. Vous ne pouvez détenir qu'un seul compte actif.",
+          "Vous pouvez utiliser l'Application sans créer de compte (mode anonyme). Si vous choisissez de créer un compte via Apple, Google ou Facebook, vous êtes responsable de la confidentialité de vos identifiants.\n\nLa création d'un compte permet la synchronisation de votre progression entre appareils. Vous ne pouvez détenir qu'un seul compte actif.",
       },
       {
         title: "Achats intégrés et abonnements",

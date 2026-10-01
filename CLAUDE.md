@@ -318,14 +318,34 @@ dans iOS et Android), pas un onzième jeu. Ne jamais écrire « Zip » (ni « Qu
 « Picross ») sur le site. Les « cristaux » ramassés au Labyrinthe ne sont pas les « gemmes »
 (la monnaie).
 
-- 3-4 niveaux de difficulté par jeu (Easy, Medium, Hard, Elite)
-- 100 niveaux de progression par difficulté + mode endless
-- Défis quotidiens, séries de jeu (streaks), trophées mensuels
+- Difficultés : Facile, Moyen, Difficile et Élite pour Sudoku, Cross Math, Trace, Labyrinthe,
+  Pandoku, Démineur et Pixel Art ; trois seulement (pas d'Élite) pour Mots Croisés, Mots
+  Mêlés et Arrow Maze. Ne jamais écrire « de Facile à Élite » pour tous les jeux.
+- 100 niveaux de progression par difficulté + mode Infini (chiffres internes : jamais publiés
+  sur le site)
+- **Un seul défi quotidien par jour** pour toute l'app : le joueur choisit son jeu, la grille
+  est la même pour tous (jamais « un défi quotidien dans chaque jeu »). Séries de jeu
+  (streaks), trophée mensuel.
+
+Formulations à respecter sur le site (vérifiées côté iOS 3.0.0, Android non vérifié) :
+
+- Modèle économique : gratuit **avec publicité** (bannière pendant la partie, pubs entre
+  certaines parties), pubs récompensées toujours facultatives. Premium (semaine, mois, an) =
+  « pas de pub imposée », jamais « sans pub » ni « zéro pub » (récupérer une série perdue
+  passe toujours par une pub). Les packs Cinéma, Cuisine et Voyage sont le seul achat de
+  contenu et ne sont pas inclus dans Premium. Aucun prix publié sur le site.
+- Aucune note ni aucun avis affiché (trop peu de notes ; aucune aux États-Unis).
+- Démineur : le premier tap n'est pas garanti sûr. Arrow Maze est un jeu de détente, pas un
+  « défi de logique ». Cross Math respecte la priorité des opérations. Aucun seuil d'étoiles
+  de Trace.
+- Live Activity et VoiceOver sont des fonctions iOS : ne pas les attribuer à Android.
 
 ### Fonctionnalités
 
-- Progression (étoiles, XP, ligue Bronze → Legend), monnaie virtuelle (gemmes),
-  collection d'avatars, classements par jeu
+- Progression (étoiles, XP, ligue Bronze → Legend selon le score cumulé), monnaie virtuelle
+  (gemmes), collection d'avatars. Le classement par jeu est **masqué dans l'app iOS 3.0.0**
+  (`FooterView.swift`, « Leaderboard is hidden for now ») : ne jamais l'annoncer sur le site.
+  L'écran existe encore dans le code Android (non vérifié côté stores).
 - Mode hors-ligne local-first : **SwiftData** sur iOS, **Room + DataStore** sur Android,
   cache Firestore persistant par-dessus sur les deux
 
@@ -357,7 +377,7 @@ Aucun produit « à vie » n'existe.
 - **Meta / Facebook SDK** : Sign-In + App Events (`MetaEventsService.swift`), gatés par le
   consentement publicitaire
 - **Google Mobile Ads** (AdMob) — App ID `ca-app-pub-2587609832551275~3649546176`.
-  Formats réellement servis en 2.1.5 : bannières, interstitiels, récompensées (rewarded).
+  Formats réellement servis en 3.0.0 : bannières, interstitiels, récompensées (rewarded).
   L'App Open est désactivée/commentée depuis le 20/05/2026 — à ne pas décrire comme
   active, ni comme définitivement abandonnée.
 - **Auth** : Apple, Google, Facebook, Anonymous. Aucun point d'entrée UI email/mot de passe
