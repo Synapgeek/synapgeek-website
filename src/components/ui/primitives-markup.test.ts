@@ -79,6 +79,26 @@ describe("GameCard", () => {
     expect(out).toContain("Sudoku");
   });
 
+  it("lists the platforms on one line when it is given some", () => {
+    const out = html(
+      createElement(GameCard, {
+        ...base,
+        platforms: ["iPhone", "iPad", "Android"],
+        href: "/cerebrum/sudoku",
+      }),
+    );
+    expect(out).toContain("iPhone · iPad · Android");
+  });
+
+  it("shows no platform line without platforms", () => {
+    expect(
+      html(createElement(GameCard, { ...base, href: null })),
+    ).not.toContain("iPhone");
+    expect(
+      html(createElement(GameCard, { ...base, platforms: [], href: null })),
+    ).not.toContain("<p");
+  });
+
   it("shows the genre only when there is one", () => {
     expect(
       html(createElement(GameCard, { ...base, href: null })),

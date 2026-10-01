@@ -74,14 +74,14 @@ export default async function HubPage({
     <>
       <SectionBand
         enter={false}
-        className="relative overflow-hidden pt-8 sm:pt-14 lg:pt-20"
+        className="relative overflow-hidden pt-8 pb-0 sm:pt-14 sm:pb-section lg:pt-20"
       >
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-8">
+        <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-8">
           <div className="text-center lg:text-left">
             <h1 className="text-6xl leading-none tracking-[-0.03em] sm:text-7xl lg:text-8xl">
               {copy.hero.h1}
             </h1>
-            <p className="mx-auto mt-5 max-w-[34rem] text-base leading-relaxed sm:mt-6 sm:text-xl lg:mx-0">
+            <p className="mx-auto mt-4 max-w-[34rem] text-base leading-snug sm:mt-6 sm:text-xl sm:leading-relaxed lg:mx-0">
               {copy.hero.definition}
             </p>
             <StoreBadges
@@ -91,7 +91,7 @@ export default async function HubPage({
             />
           </div>
 
-          <div className="relative isolate mx-auto w-full max-w-[15rem] sm:max-w-[17rem] lg:max-w-[19rem]">
+          <div className="relative isolate mx-auto -mb-60 w-full max-w-[15rem] sm:mb-0 sm:max-w-[17rem] lg:max-w-[19rem]">
             {/* Lavis pastel : décoratifs, derrière le téléphone */}
             <span
               aria-hidden="true"
@@ -126,19 +126,8 @@ export default async function HubPage({
         </div>
       </SectionBand>
 
-      <SectionBand tone="soft" title={copy.apps.title}>
-        <AppCard
-          name={cerebrum.name}
-          description={copy.apps.items.cerebrum.description}
-          platforms={appPlatforms(locale)}
-          icon={cerebrum.icon}
-          href={pagePath("cerebrum", locale)}
-          ctaLabel={copy.apps.items.cerebrum.cta}
-        />
-      </SectionBand>
-
       <TrackSection name="games">
-        <SectionBand id="games" title={copy.games.title}>
+        <SectionBand id="games" tone="soft" title={copy.games.title}>
           <div className="space-y-12">
             {CATEGORY_ORDER.map((category) => (
               <div key={category}>
@@ -156,6 +145,7 @@ export default async function HubPage({
                           genre={game.genre[locale]}
                           icon={game.icon}
                           color={game.color}
+                          platforms={platformsFor(game)}
                           href={
                             game.published
                               ? pagePath(`game:${game.id}`, locale)
@@ -170,6 +160,17 @@ export default async function HubPage({
           </div>
         </SectionBand>
       </TrackSection>
+
+      <SectionBand title={copy.apps.title}>
+        <AppCard
+          name={cerebrum.name}
+          description={copy.apps.items.cerebrum.description}
+          platforms={appPlatforms(locale)}
+          icon={cerebrum.icon}
+          href={pagePath("cerebrum", locale)}
+          ctaLabel={copy.apps.items.cerebrum.cta}
+        />
+      </SectionBand>
 
       <SectionBand tone="soft">
         <FactStrip facts={copy.facts} />
