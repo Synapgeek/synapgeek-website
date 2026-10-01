@@ -24,7 +24,7 @@ Avant la revue, dans cet ordre :
    `npx prettier --check $(git diff --name-only main...HEAD)` (le script
    `format` écrit, il ne vérifie pas), `npm test` (invariants vitest) ; la CI
    (`.github/workflows/ci.yml`) doit être verte, et `npm run check:contract`
-   se lance contre la preview ou la production quand le diff touche routage,
+   se lance contre `next start` en local (aucune preview Vercel) quand le diff touche routage,
    redirects, proxy ou `.well-known` ; puis chaque chemin d'asset du diff
    existe sous `public/` (`grep -rhoE '/images/[^"]+' src/` — le build ne les
    valide pas), et le diff complet.

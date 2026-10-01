@@ -64,13 +64,14 @@ npm run start     # Serveur de production (build préalable requis)
 npm run lint      # ESLint
 npm run format    # Prettier — ÉCRIT les fichiers (npx prettier --check pour vérifier)
 npm test          # vitest : invariants de routes (SSG, JSON-LD, redirects, sitemap…)
-npm run check:contract  # URLs référencées par les stores, apex et www (réseau ; preview/prod)
+npm run check:contract  # URLs référencées par les stores, apex et www (réseau ; local ou prod)
 ```
 
 Portes automatiques : `npm run lint`, `npm test`, `npm run build`, rejouées par la CI
 (`.github/workflows/ci.yml`, sans secret). `check:contract` n'est pas dans la CI : à lancer
-contre la preview ou la production avant tout merge touchant routage, redirects ou
-`.well-known`. Tout le reste est humain ou passe par un sous-agent.
+contre `next start` en local avant tout merge touchant routage, redirects ou
+`.well-known` (aucune preview Vercel : seule `main` déploie), puis contre la production
+juste après le merge. Tout le reste est humain ou passe par un sous-agent.
 
 ## Conventions de code
 

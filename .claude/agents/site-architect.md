@@ -27,7 +27,8 @@ Avant tout avis, dans cet ordre :
 4. Portes de vérification : `npm run lint`, `npm run build`, `npm test` (vitest,
    invariants de routes) et la CI de `.github/workflows/ci.yml` ;
    `npm run check:contract` (contrôle des URLs référencées par les stores)
-   se lance contre la preview ou la production. Exige que le plan dise
+   se lance contre `next start` en local (aucune preview Vercel : seule `main`
+   déploie) puis contre la production après le merge. Exige que le plan dise
    comment il sera vérifié et quel invariant de test il ajoute ou touche.
 5. Contenu Cerebrum : tout fait vient des fiches store en vigueur et des faits
    vérifiés (docs ASO de `cerebrum/cerebrum-design-system/marketing/ASO/`,
