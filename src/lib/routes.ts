@@ -21,7 +21,7 @@ export type PageId =
   | SectionId
   | LegalId;
 
-const LEGAL_IDS: readonly LegalId[] = ["privacy", "terms", "legal"];
+export const LEGAL_IDS: readonly LegalId[] = ["privacy", "terms", "legal"];
 const SECTION_IDS = Object.keys(SECTION_SLUGS) as SectionId[];
 
 // Une seule app aujourd'hui ; le segment `/cerebrum` est celui de la page app.

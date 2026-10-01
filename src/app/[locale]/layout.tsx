@@ -1,39 +1,30 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { notFound } from "next/navigation";
-import { Fredoka, Figtree } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { LOCALES, generateStaticParams as genParams } from "@/lib/i18n";
 import { getDictionary } from "@/content";
 import { getOgLocale, getOgAlternateLocales } from "@/lib/seo";
 import { organizationSchema, websiteSchema } from "@/lib/structured-data";
-import { APP_STORE_ID } from "@/lib/app";
 import { pagePath } from "@/lib/routes";
-import { buildLanguageSwitchTable } from "@/lib/language-switch-table";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import {
+  buildLanguageSwitchTable,
+  legalPagePaths,
+} from "@/lib/language-switch-table";
+import { SkipLink } from "@/components/site/SkipLink";
+import { SiteHeader } from "@/components/site/SiteHeader";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import {
+  LanguageSuggestion,
+  type LanguageSuggestionCopy,
+} from "@/components/site/LanguageSuggestion";
 import { JsonLd } from "@/components/JsonLd";
 import { ConsentBootstrap } from "@/components/consent/ConsentBootstrap";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
+import { FONT_VARIABLES } from "../fonts";
 
 export { genParams as generateStaticParams };
-
-const fredoka = Fredoka({
-  variable: "--font-fredoka",
-  subsets: ["latin", "latin-ext"],
-  weight: ["600", "700"],
-  display: "swap",
-});
-
-// Police variable : sans `weight`, next/font charge l'axe complet (400 à 800
-// compris). Une liste explicite de graisses fait échouer le build Turbopack
-// ("next/font/google queries have exactly one entry") sur Next 16.3.8.
-const figtree = Figtree({
-  variable: "--font-figtree",
-  subsets: ["latin", "latin-ext"],
-  display: "swap",
-});
 
 function isLocale(value: string): value is Locale {
   return (LOCALES as readonly string[]).includes(value);
@@ -50,8 +41,6 @@ export async function generateMetadata({
   const locale: Locale = raw;
 
   return {
-    // Safari smart App Banner — now that Cerebrum is live on the App Store.
-    itunes: { appId: APP_STORE_ID },
     openGraph: {
       siteName: "Synapgeek",
       locale: getOgLocale(locale),
@@ -79,18 +68,17 @@ export default async function LocaleLayout({
   const locale: Locale = rawLocale;
   const dict = getDictionary(locale);
   const languageTable = buildLanguageSwitchTable();
+  // Chaque texte est rédigé dans la langue qu'il propose : on passe tous ceux de LOCALES.
+  const languageSuggestionCopy = Object.fromEntries(
+    LOCALES.map((l) => [l, getDictionary(l).common.languageSuggestion]),
+  ) as Record<Locale, LanguageSuggestionCopy>;
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${fredoka.variable} ${figtree.variable} antialiased`}>
+      <body className={`${FONT_VARIABLES} antialiased`}>
         {/* Défauts Consent Mode v2 + GA4 : premier enfant de <body>, avant tout autre contenu (voir ConsentBootstrap). */}
         <ConsentBootstrap />
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg"
-        >
-          {dict.common.a11y.skipToContent}
-        </a>
+        <SkipLink label={dict.common.a11y.skipToContent} />
         {/* Non modal, position fixed (l'emplacement dans le DOM n'affecte pas son rendu) :
             monté tôt, juste après le lien d'évitement, pour qu'un utilisateur clavier
             l'atteigne sans devoir traverser toute la page. */}
@@ -101,11 +89,21 @@ export default async function LocaleLayout({
         <div className="flex min-h-screen flex-col">
           <JsonLd data={organizationSchema()} />
           <JsonLd data={websiteSchema(locale)} />
-          <Header locale={locale} languageTable={languageTable} />
+          <SiteHeader
+            locale={locale}
+            dict={dict.common}
+            languageTable={languageTable}
+          />
+          <LanguageSuggestion
+            locale={locale}
+            table={languageTable}
+            excludedPaths={legalPagePaths()}
+            copy={languageSuggestionCopy}
+          />
           <main id="main-content" className="flex-1">
             {children}
           </main>
-          <Footer
+          <SiteFooter
             locale={locale}
             dict={dict.common}
             languageTable={languageTable}

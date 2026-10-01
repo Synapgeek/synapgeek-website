@@ -3,7 +3,7 @@ import type {
   LanguageAlternates,
   LanguageSwitchTable,
 } from "./language-alternates";
-import { pagePath, publishedPageIds } from "./routes";
+import { LEGAL_IDS, pagePath, publishedPageIds } from "./routes";
 
 /**
  * Chemin servi par le segment `[locale]` pour une URL publique : celui que voit
@@ -41,4 +41,22 @@ export function buildLanguageSwitchTable(): LanguageSwitchTable {
       LOCALES.map((locale) => [locale, pagePath("home", locale)]),
     ) as Record<Locale, string>,
   };
+}
+
+/**
+ * Chemins (publics et servis) des pages légales dans chaque langue. Ces pages
+ * restent sobres : le contenu contractuel n'a pas à être surmonté d'une
+ * invitation à changer de langue. Calculé côté serveur, comme la table, pour que
+ * le composant client ne connaisse ni le registre ni les URLs figées.
+ */
+export function legalPagePaths(): readonly string[] {
+  const paths = new Set<string>();
+  for (const pageId of LEGAL_IDS) {
+    for (const locale of LOCALES) {
+      const publicPath = pagePath(pageId, locale);
+      paths.add(publicPath);
+      paths.add(servedPath(publicPath, locale));
+    }
+  }
+  return [...paths];
 }

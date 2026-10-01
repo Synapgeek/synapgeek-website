@@ -1,12 +1,15 @@
 import type { Metadata, Viewport } from "next";
+import { getDictionary } from "@/content";
 import { BASE_URL } from "@/lib/routes";
 import { THEME_COLOR } from "@/design/theme-color";
 import "./globals.css";
 
+const { siteName, tagline } = getDictionary("en").common;
+
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: "Synapgeek — Studio indie de jeux mobiles",
+    default: `${siteName}: ${tagline}`,
     template: "%s | Synapgeek",
   },
 };

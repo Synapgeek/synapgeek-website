@@ -170,6 +170,33 @@
   color: var(--color-brand-green-ink);
 }
 
+/* ===== SHELL — entrée du menu mobile et de la suggestion de langue =====
+   Une seule apparition, 200 ms ease-out, relancée à chaque ouverture (animation,
+   pas transition : un <details> fermé n'offre pas d'état de départ fiable).
+   Sous prefers-reduced-motion : fondu seul, sans mouvement. */
+@keyframes shell-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes shell-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.shell-pop {
+  animation: shell-pop 200ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-pop {
+    animation-name: shell-fade;
+  }
+}
+
 /* ===== ANIMATIONS ===== */
 @keyframes fade-in-up {
   from {
