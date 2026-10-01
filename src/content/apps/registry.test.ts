@@ -158,16 +158,25 @@ describe("registre des jeux", () => {
     }
   });
 
-  it("annonce iPhone et iPad seulement tant qu'Android n'est pas confirmé", () => {
-    const pandoku = byId("pandoku");
-    expect(pandoku.availability.android).toBeNull();
-    expect(platformsFor(pandoku)).toEqual(["iPhone", "iPad"]);
-    const withAndroid: GameEntry = {
-      ...pandoku,
-      availability: { ios: "3.0.0", android: "3.0.0" },
+  it("annonce iPhone, iPad et Android pour les dix jeux", () => {
+    for (const game of games) {
+      expect(platformsFor(game)).toEqual(["iPhone", "iPad", "Android"]);
+    }
+  });
+
+  it("n'annonce pas Android pour un jeu dont availability.android est null", () => {
+    const iosOnly: GameEntry = {
+      ...byId("pandoku"),
+      availability: { ios: "3.0.0", android: null },
     };
-    expect(platformsFor(withAndroid)).toEqual(["iPhone", "iPad", "Android"]);
-    expect(platformsFor(byId("sudoku"))).toEqual(["iPhone", "iPad", "Android"]);
+    expect(platformsFor(iosOnly)).toEqual(["iPhone", "iPad"]);
+  });
+
+  it("déclare les versions minimales iOS 17.0 et Android 8.0", () => {
+    expect(getApp("cerebrum").platforms).toEqual({
+      ios: { minOs: "17.0" },
+      android: { minOs: "8.0" },
+    });
   });
 
   it("date la sortie des dix jeux (2.0.0 ou 3.0.0)", () => {
@@ -187,7 +196,10 @@ describe("registre des jeux", () => {
       "pixel-art",
       "arrow-maze",
     ] as const) {
-      expect(byId(id).availability).toEqual({ ios: "3.0.0", android: null });
+      expect(byId(id).availability).toEqual({
+        ios: "3.0.0",
+        android: "3.0.0",
+      });
     }
   });
 

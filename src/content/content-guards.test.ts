@@ -339,8 +339,11 @@ function parityViolations(entries: readonly CopyEntry[]): string[] {
   });
 }
 
-function entryViolations(entry: CopyEntry): string[] {
-  const games = entry.kind === "app" ? getGames(entry.app) : [];
+/** `games` remplace le registre pour prouver une garde sur une donnée que le registre n'a plus. */
+function entryViolations(
+  entry: CopyEntry,
+  games: readonly GameEntry[] = entry.kind === "app" ? getGames(entry.app) : [],
+): string[] {
   return [
     ...forbiddenViolations(entry),
     ...lengthViolations(entry),
@@ -357,7 +360,9 @@ function entryViolations(entry: CopyEntry): string[] {
 
 describe("copie enregistrée (spec §9)", () => {
   it("chaque module respecte les règles de texte, de longueur, de genre et de plateforme", () => {
-    expect(REGISTERED_COPY.flatMap(entryViolations)).toEqual([]);
+    expect(REGISTERED_COPY.flatMap((entry) => entryViolations(entry))).toEqual(
+      [],
+    );
   });
 
   it("chaque module existe dans toutes les langues avec la même structure", () => {
@@ -695,7 +700,15 @@ describe("contrôles positifs des gardes structurelles", () => {
       ["shapeViolations", /cerebrum:en:pandoku: 1 steps, expected/],
       ["coverageViolations", /published game "sudoku" has no copy/],
     ];
-    const violations = entryViolations(entry);
+    // Tous les jeux réels sont sur Android : Pandoku n'y est qu'ici, en fixture.
+    const pandokuIosOnly: GameEntry = {
+      ...pandoku,
+      availability: { ios: "3.0.0", android: null },
+    };
+    const violations = entryViolations(entry, [
+      pandokuIosOnly,
+      ...getGames("cerebrum").filter((game) => game.id !== "pandoku"),
+    ]);
     for (const [rule, expected] of expectedByRule) {
       expect(
         violations.some((violation) => expected.test(violation)),

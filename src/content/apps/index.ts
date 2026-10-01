@@ -38,7 +38,7 @@ export function findGameBySlug(
   return GAMES[app].find((game) => game.slug[locale] === slug) ?? null;
 }
 
-/** Plateformes où le jeu est annoncé ; Android seulement une fois la version confirmée. */
+/** Plateformes où le jeu est annoncé ; Android seulement quand `availability.android` est renseigné. */
 export function platformsFor(
   game: GameEntry,
 ): Array<"iPhone" | "iPad" | "Android"> {

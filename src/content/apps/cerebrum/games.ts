@@ -12,11 +12,8 @@ const THREE: readonly Difficulty[] = ["easy", "medium", "hard"];
 
 /** Les six jeux de la 2.x, présents sur les deux plateformes. */
 const SINCE_2: PlatformAvailability = { ios: "2.0.0", android: "2.0.0" };
-/**
- * Arrivés en 3.0.0 sur iOS. `android: null` tant qu'Adrien n'a pas confirmé le
- * déploiement Play : passer à "3.0.0" suffit à afficher « iPhone, iPad et Android ».
- */
-const SINCE_3_IOS_ONLY: PlatformAvailability = { ios: "3.0.0", android: null };
+/** Les quatre jeux arrivés avec la 3.0.0, publiée sur l'App Store et sur Google Play. */
+const SINCE_3: PlatformAvailability = { ios: "3.0.0", android: "3.0.0" };
 
 const icon = (id: GameId) => `/images/games/${id}-v3.webp`;
 const screenshot = (id: GameId) => ({
@@ -60,7 +57,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     difficulties: FOUR,
     lives: "three-hearts",
     hasTutorial: true,
-    availability: SINCE_3_IOS_ONLY,
+    availability: SINCE_3,
     contentLocales: "all",
     color: { wash: "--game-pandoku-wash", deep: "--game-pandoku-deep" },
     published: true,
@@ -76,7 +73,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     difficulties: FOUR,
     lives: "three-hearts",
     hasTutorial: true,
-    availability: SINCE_3_IOS_ONLY,
+    availability: SINCE_3,
     contentLocales: "all",
     color: { wash: "--game-minesweeper-wash", deep: "--game-minesweeper-deep" },
     published: true,
@@ -92,7 +89,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     difficulties: FOUR,
     lives: "three-lives",
     hasTutorial: true,
-    availability: SINCE_3_IOS_ONLY,
+    availability: SINCE_3,
     contentLocales: "all",
     color: { wash: "--game-pixel-art-wash", deep: "--game-pixel-art-deep" },
     published: true,
@@ -191,7 +188,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     difficulties: THREE,
     lives: "grid-defined",
     hasTutorial: true,
-    availability: SINCE_3_IOS_ONLY,
+    availability: SINCE_3,
     contentLocales: "all",
     color: { wash: "--game-arrow-maze-wash", deep: "--game-arrow-maze-deep" },
     published: true,
