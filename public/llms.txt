@@ -28,6 +28,8 @@ Synapgeek est un studio indépendant français de jeux mobiles (Synapgeek SAS, b
 - [Accueil (français)](https://synapgeek.com/fr): Page d'accueil de Synapgeek et de Cerebrum, en français.
 - [Cerebrum (English)](https://synapgeek.com/cerebrum): Cerebrum is an offline puzzle games app by Synapgeek for iPhone, iPad and Android: Sudoku, crosswords, word search and more classic and newer brain games, all in one app.
 - [Cerebrum (français)](https://synapgeek.com/fr/cerebrum): Cerebrum est une application de jeux de réflexion hors ligne, éditée par Synapgeek pour iPhone, iPad et Android : Sudoku, Mots Croisés, Mots Mêlés et d'autres jeux, classiques ou plus récents, réunis dans une seule app.
+- [Sudoku in Cerebrum (English)](https://synapgeek.com/cerebrum/sudoku): Sudoku is the classic 9×9 number puzzle: every row, column and 3×3 box must hold the digits 1 to 9 exactly once. Play it offline in Cerebrum, the puzzle games app by Synapgeek, on iPhone, iPad and Android.
+- [Sudoku dans Cerebrum (français)](https://synapgeek.com/fr/cerebrum/sudoku): Le sudoku est le classique casse-tête de chiffres sur grille 9×9 : chaque ligne, colonne et carré de 3×3 contient les chiffres de 1 à 9, une fois chacun. Il se joue hors ligne dans Cerebrum, l'app de Synapgeek, sur iPhone, iPad et Android.
 - [Politique de confidentialité (français)](https://synapgeek.com/privacy): Données collectées et pratiques de confidentialité de Cerebrum et des services Synapgeek.
 - [Privacy Policy (English)](https://synapgeek.com/en/privacy): Data collection and privacy practices for Cerebrum and Synapgeek services.
 - [Conditions d'utilisation / CLUF (français)](https://synapgeek.com/terms): Conditions d'utilisation et contrat de licence utilisateur final de Cerebrum.

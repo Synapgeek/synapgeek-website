@@ -229,13 +229,15 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
   // Spec §5.2 : l'anglais est la langue par défaut (racine sans préfixe), le
   // français vit sous /fr, sauf les trois pages légales figées (français sans
   // préfixe, anglais sous /en). x-default pointe toujours vers l'anglais.
-  it("sitemap() renvoie exactement les 10 URLs du schéma courant, x-default anglais", () => {
+  it("sitemap() renvoie exactement les 12 URLs du schéma courant, x-default anglais", () => {
     const entries = sitemap();
     expect(entries.map((entry) => entry.url)).toEqual([
       "https://synapgeek.com",
       "https://synapgeek.com/fr",
       "https://synapgeek.com/cerebrum",
       "https://synapgeek.com/fr/cerebrum",
+      "https://synapgeek.com/cerebrum/sudoku",
+      "https://synapgeek.com/fr/cerebrum/sudoku",
       "https://synapgeek.com/en/privacy",
       "https://synapgeek.com/privacy",
       "https://synapgeek.com/en/terms",
@@ -257,6 +259,13 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
     };
     expect(entries[2].alternates?.languages).toEqual(cerebrumLanguages);
     expect(entries[3].alternates?.languages).toEqual(cerebrumLanguages);
+    const sudokuLanguages = {
+      en: "https://synapgeek.com/cerebrum/sudoku",
+      fr: "https://synapgeek.com/fr/cerebrum/sudoku",
+      "x-default": "https://synapgeek.com/cerebrum/sudoku",
+    };
+    expect(entries[4].alternates?.languages).toEqual(sudokuLanguages);
+    expect(entries[5].alternates?.languages).toEqual(sudokuLanguages);
     for (const page of ["privacy", "terms", "legal"]) {
       const languages = {
         en: `https://synapgeek.com/en/${page}`,

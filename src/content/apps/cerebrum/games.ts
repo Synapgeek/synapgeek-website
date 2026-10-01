@@ -45,7 +45,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: "all",
     color: { wash: "--game-sudoku-wash", deep: "--game-sudoku-deep" },
-    published: false,
+    published: true,
     icon: icon("sudoku"),
     screenshot: screenshot("sudoku"),
   },

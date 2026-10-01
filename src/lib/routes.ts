@@ -130,6 +130,7 @@ export function publishedPageIds(): PageId[] {
 const RENDERED_PAGE_IDS: ReadonlySet<PageId> = new Set<PageId>([
   "home",
   "cerebrum",
+  "game:sudoku",
   ...LEGAL_IDS,
 ]);
 
