@@ -94,9 +94,10 @@
     text-wrap: pretty;
   }
 
-  /* Anneau de focus visible, jamais supprimé : violet sur fond clair */
+  /* Anneau de focus visible, jamais supprimé : violet sur fond clair, blanc sur la
+     section violet profond (qui pose --focus-ring) */
   :focus-visible {
-    outline: 3px solid var(--color-brand-violet);
+    outline: 3px solid var(--focus-ring, var(--color-brand-violet));
     outline-offset: 3px;
   }
 }
@@ -194,6 +195,31 @@
 @media (prefers-reduced-motion: reduce) {
   .shell-pop {
     animation-name: shell-fade;
+  }
+}
+
+/* ===== SECTIONS — SectionBand =====
+   Un seul fondu d'entrée par section, piloté par le défilement (sans JS) là où le
+   navigateur sait le faire ; ailleurs, la section est simplement visible. Une
+   section déjà dans le premier écran est d'emblée à son état final. */
+.band-violet-deep {
+  --focus-ring: var(--color-canvas);
+}
+
+@keyframes band-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .band-enter {
+      animation: band-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
   }
 }
 

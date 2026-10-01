@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useId, useState, useSyncExternalStore } from "react";
 import { X } from "lucide-react";
@@ -10,7 +9,7 @@ import {
   type LanguageSwitchTable,
 } from "@/lib/language-alternates";
 import { trackEvent } from "@/lib/gtag";
-import { PILL_ACTION_CLASSES } from "./pill-classes";
+import { Button } from "@/components/ui/Button";
 
 /** Textes de la suggestion, rédigés dans la langue qu'ils proposent. */
 export interface LanguageSuggestionCopy {
@@ -79,16 +78,16 @@ export function LanguageSuggestion({
       <p id={messageId} className="self-center text-sm">
         {text.message}
       </p>
-      <Link
+      <Button
         href={alternatesForPathname(table, pathname)[target]}
         hrefLang={target}
         onClick={() =>
           trackEvent("language_switched", { from: locale, to: target })
         }
-        className={`${PILL_ACTION_CLASSES} col-span-2 row-start-2`}
+        className="col-span-2 row-start-2"
       >
         {text.cta}
-      </Link>
+      </Button>
       <button
         type="button"
         onClick={() => setDismissed(true)}

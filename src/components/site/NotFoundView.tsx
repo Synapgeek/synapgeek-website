@@ -1,6 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
-import { PILL_ACTION_CLASSES } from "./pill-classes";
+import { Button } from "@/components/ui/Button";
 
 /** Textes de la 404 et destination du lien de retour, déjà résolus pour une langue. */
 export interface NotFoundStrings {
@@ -29,9 +28,9 @@ export function NotFoundView({ title, body, cta, href }: NotFoundStrings) {
       </p>
       <h1 className="mt-2 text-3xl sm:text-4xl">{title}</h1>
       <p className="mt-4 text-lg text-text-secondary">{body}</p>
-      <Link href={href} className={`${PILL_ACTION_CLASSES} mt-8`}>
+      <Button href={href} className="mt-8">
         {cta}
-      </Link>
+      </Button>
     </section>
   );
 }
