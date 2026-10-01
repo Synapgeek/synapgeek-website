@@ -49,6 +49,9 @@ AdMob consent (UMP).
   (`ReopenConsentLink`, toujours affiché).
 - **Déploiement** : Vercel — un merge sur `main` publie en production. Tout passe par
   branche + PR. **Ne jamais merger ni promouvoir sans accord explicite d'Adrien.**
+  Seule `main` déploie (`vercel.json` > `git.deploymentEnabled` : `"**": false`,
+  `"main": true`, décision d'Adrien du 2026-10-01) : aucune preview de branche. Vercel lit
+  ce réglage dans le commit poussé, donc toute branche doit partir d'un `main` qui le porte.
 - **Langues** : Français (défaut) + Anglais (i18n maison via `src/content/`, pas de `next-intl`)
 
 ## Commandes
