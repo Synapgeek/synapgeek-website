@@ -53,8 +53,10 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      # next-env.d.ts et les types de routes sont générés par Next et jamais
-      # commités (.gitignore) : sur un checkout neuf, tsc échoue sans cette étape.
+      # next-env.d.ts et les types de routes (PageProps, LayoutProps) sont générés
+      # par Next et jamais commités (.gitignore). Aujourd'hui tsc passe sans eux
+      # (vérifié sur une copie neuve, 2026-10-01) ; l'étape évite qu'il casse le
+      # jour où une page s'appuie sur un type généré.
       - name: Générer les types de routes
         run: npx next typegen
 
