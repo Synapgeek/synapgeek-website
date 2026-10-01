@@ -5,28 +5,22 @@ const fr: Dictionary = {
     siteName: "Synapgeek",
     tagline: "Studio indie de jeux mobiles",
     nav: {
-      home: "Accueil",
-      privacy: "Confidentialité",
-      terms: "CGU",
-      features: "Jeux",
+      games: "Jeux",
+      cerebrum: "Cerebrum",
       about: "À propos",
-      faq: "FAQ",
-      contact: "Contact",
+      press: "Presse",
     },
     footer: {
       copyright: `© ${new Date().getFullYear()} Synapgeek. Tous droits réservés.`,
+      identity: "Synapgeek SAS, studio indépendant français.",
+      productHeading: "Cerebrum",
+      studioHeading: "Studio",
+      legalHeading: "Légal",
       privacy: "Politique de confidentialité",
       terms: "Conditions d'utilisation",
       legalNotice: "Mentions légales",
       contact: "Contact",
       manageCookies: "Gérer mes cookies",
-      productHeading: "Produit",
-      legalHeading: "Légal",
-      contactHeading: "Contact",
-      features: "Fonctionnalités",
-      writeToUs: "Nous écrire",
-      madeWith: "Fait avec",
-      inFrance: "en France",
     },
     consent: {
       title: "Votre choix sur la mesure d'audience",
@@ -37,6 +31,27 @@ const fr: Dictionary = {
     },
     languageSwitch: "English",
     languageSwitchLocale: "en",
+    a11y: {
+      skipToContent: "Aller au contenu",
+      menu: "Menu",
+      mainNavigation: "Navigation principale",
+      footerNavigation: "Pied de page",
+    },
+    breadcrumb: {
+      label: "Fil d'Ariane",
+      home: "Accueil",
+    },
+
+    languageSuggestion: {
+      message: "Ce site est aussi disponible en français.",
+      cta: "Lire en français",
+      dismiss: "Fermer",
+    },
+    notFound: {
+      title: "Page introuvable",
+      body: "La page que vous cherchez n'existe pas ou a été déplacée.",
+      cta: "Retour à l'accueil",
+    },
   },
   landing: {
     meta: {
@@ -277,6 +292,8 @@ const fr: Dictionary = {
   },
   privacy: {
     title: "Politique de confidentialité",
+    metaDescription:
+      "Politique de confidentialité des apps et services Synapgeek — données collectées, droits RGPD, publicités et cookies.",
     lastUpdated: "Dernière mise à jour : 12 septembre 2026",
     updatedAt: "2026-09-12",
     sections: [
@@ -361,6 +378,8 @@ const fr: Dictionary = {
   },
   terms: {
     title: "Conditions Générales d'Utilisation",
+    metaDescription:
+      "Conditions générales d'utilisation des apps Synapgeek — licence, achats in-app, biens virtuels, propriété intellectuelle.",
     lastUpdated: "Dernière mise à jour : 1er octobre 2026",
     updatedAt: "2026-10-01",
     sections: [
@@ -443,6 +462,8 @@ const fr: Dictionary = {
   },
   legal: {
     title: "Mentions légales",
+    metaDescription:
+      "Mentions légales de Synapgeek — éditeur, hébergeur, immatriculation RCS et informations sur la société.",
     lastUpdated: "Dernière mise à jour : 4 juin 2026",
     updatedAt: "2026-06-04",
     sections: [

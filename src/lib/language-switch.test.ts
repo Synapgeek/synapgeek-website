@@ -4,7 +4,10 @@ import { getRewrittenUrl, isRewrite } from "next/experimental/testing/server";
 import { proxy } from "@/proxy";
 import { LOCALES } from "./i18n";
 import { alternatesForPathname } from "./language-alternates";
-import { buildLanguageSwitchTable } from "./language-switch-table";
+import {
+  buildLanguageSwitchTable,
+  legalPagePaths,
+} from "./language-switch-table";
 import { pagePath, publishedPageIds } from "./routes";
 
 const table = buildLanguageSwitchTable();
@@ -63,5 +66,44 @@ describe("buildLanguageSwitchTable", () => {
       en: "/",
       fr: "/fr",
     });
+  });
+});
+
+describe("legalPagePaths", () => {
+  it("liste le chemin public ET le chemin servi des trois pages légales dans chaque langue", () => {
+    expect([...legalPagePaths()].sort()).toEqual(
+      [
+        "/privacy",
+        "/terms",
+        "/legal",
+        "/fr/privacy",
+        "/fr/terms",
+        "/fr/legal",
+        "/en/privacy",
+        "/en/terms",
+        "/en/legal",
+      ].sort(),
+    );
+  });
+
+  it("couvre le chemin servi de chaque page légale publiée (le rendu serveur voit /fr/privacy)", () => {
+    const legal = new Set(legalPagePaths());
+    for (const id of ["privacy", "terms", "legal"] as const) {
+      for (const locale of LOCALES) {
+        const publicPath = pagePath(id, locale);
+        expect(legal.has(publicPath)).toBe(true);
+        expect(legal.has(servedPath(publicPath))).toBe(true);
+      }
+    }
+  });
+
+  it("ne contient aucune page non légale", () => {
+    const legal = new Set(legalPagePaths());
+    for (const id of publishedPageIds()) {
+      if (["privacy", "terms", "legal"].includes(id)) continue;
+      for (const locale of LOCALES) {
+        expect(legal.has(pagePath(id, locale))).toBe(false);
+      }
+    }
   });
 });

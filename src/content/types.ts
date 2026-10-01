@@ -64,34 +64,28 @@ export interface Dictionary {
   common: {
     siteName: string;
     tagline: string;
+    /** Entrées de navigation du header (et libellés réutilisés par le pied de page). */
     nav: {
-      home: string;
-      privacy: string;
-      terms: string;
-      features: string;
+      /** Ancre `#games` du hub. */
+      games: string;
+      cerebrum: string;
       about: string;
-      faq: string;
-      contact: string;
+      press: string;
     };
     footer: {
       copyright: string;
+      /** Ligne d'identité de l'éditeur (raison sociale et nature du studio), sans adresse : l'adresse vit sur la page des mentions légales. */
+      identity: string;
+      /** Titres des colonnes du pied de page. */
+      productHeading: string;
+      studioHeading: string;
+      legalHeading: string;
       privacy: string;
       terms: string;
       legalNotice: string;
       contact: string;
-      /** Lien de retrait/modification du consentement Google Analytics, toujours affiché — rouvre `ConsentBanner`. */
+      /** Lien de retrait/modification du consentement Google Analytics, toujours affiché : rouvre `ConsentBanner`. */
       manageCookies: string;
-      /** Titres des colonnes du footer. */
-      productHeading: string;
-      legalHeading: string;
-      contactHeading: string;
-      /** Libellé du lien vers la section fonctionnalités de la home. */
-      features: string;
-      /** Libellé du lien vers la section contact de la home. */
-      writeToUs: string;
-      /** Mention « Fait avec ❤ en France », coupée en deux autour du cœur. */
-      madeWith: string;
-      inFrance: string;
     };
     /** Bandeau de consentement maison (`ConsentBanner`). Une seule finalité (mesure d'audience) : pas de bouton "Personnaliser". */
     consent: {
@@ -105,6 +99,37 @@ export interface Dictionary {
     };
     languageSwitch: string;
     languageSwitchLocale: Locale;
+    a11y: {
+      /** Texte du lien d'évitement, premier élément focusable de la page. */
+      skipToContent: string;
+      /** Nom du bouton qui ouvre le menu mobile (l'icône seule n'a pas de nom). */
+      menu: string;
+      /** Noms des deux repères de navigation (header, pied de page). */
+      mainNavigation: string;
+      footerNavigation: string;
+    };
+    breadcrumb: {
+      /** Nom du repère de navigation du fil d'Ariane. */
+      label: string;
+      /** Premier maillon du fil d'Ariane (Accueil / Home). */
+      home: string;
+    };
+    /**
+     * Suggestion de langue, rédigée dans la langue qu'elle propose : le texte
+     * d'une locale est affiché à un visiteur dont le navigateur parle cette
+     * locale alors qu'il consulte une autre version du site.
+     */
+    languageSuggestion: {
+      message: string;
+      cta: string;
+      /** Nom du bouton qui ferme la suggestion. */
+      dismiss: string;
+    };
+    notFound: {
+      title: string;
+      body: string;
+      cta: string;
+    };
   };
   landing: {
     /** Title (≤ 60 caractères) et meta description (140-160 caractères) de la home. */
@@ -169,6 +194,8 @@ export interface Dictionary {
   };
   privacy: {
     title: string;
+    /** Meta description de la page (balise `<meta>` et Open Graph). */
+    metaDescription: string;
     lastUpdated: string;
     /** Date ISO (AAAA-MM-JJ) de dernière mise à jour, utilisée par le sitemap et le JSON-LD. */
     updatedAt: string;
@@ -176,6 +203,8 @@ export interface Dictionary {
   };
   terms: {
     title: string;
+    /** Meta description de la page (balise `<meta>` et Open Graph). */
+    metaDescription: string;
     lastUpdated: string;
     /** Date ISO (AAAA-MM-JJ) de dernière mise à jour, utilisée par le sitemap et le JSON-LD. */
     updatedAt: string;
@@ -183,6 +212,8 @@ export interface Dictionary {
   };
   legal: {
     title: string;
+    /** Meta description de la page (balise `<meta>` et Open Graph). */
+    metaDescription: string;
     lastUpdated: string;
     /** Date ISO (AAAA-MM-JJ) de dernière mise à jour, utilisée par le sitemap et le JSON-LD. */
     updatedAt: string;

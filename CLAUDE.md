@@ -92,12 +92,10 @@ juste après le merge. Tout le reste est humain ou passe par un sous-agent.
   entre parenthèses est **tronquée** par la regex `[^\s),]+` — et rien ne le détecte :
   ni lint, ni build.
 - Aucun texte en dur dans les composants localisés : tout passe par `Dictionary`
-  (`src/content/fr.ts` + `en.ts` + `types.ts`). ⚠ Dette connue : **4 ternaires
-  `locale === "fr" ? … : …`** subsistent — dans `[locale]/layout.tsx` (lien « aller au
-  contenu ») et dans `generateMetadata` de `[locale]/legal/page.tsx`,
-  `[locale]/privacy/page.tsx` et `[locale]/terms/page.tsx` (description SEO).
-  `Footer.tsx` a été assaini (ternaires remplacés par des clés `Dictionary`).
-  `site-reviewer` refuse toute PR qui fait monter ce compte.
+  (`src/content/fr.ts` + `en.ts` + `types.ts`), ou par un module de copie typé
+  (`src/content/copy/`, `src/content/apps/<app>/copy/`). Plus aucun ternaire
+  `locale === "fr" ? … : …` dans `src/` : le cliquet `MAX_LOCALE_TERNARIES` de
+  `route-invariants.test.ts` vaut 0 et `site-reviewer` refuse toute PR qui le fait monter.
 - Tout lien interne passe par `pagePath(pageId, locale, hash?)` de `src/lib/routes.ts` (et
   `absoluteUrl()` pour une URL complète). `getLocalePath()` n'existe plus : un test de
   `route-invariants.test.ts` échoue s'il réapparaît dans `src/`

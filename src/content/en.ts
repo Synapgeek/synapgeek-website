@@ -5,28 +5,22 @@ const en: Dictionary = {
     siteName: "Synapgeek",
     tagline: "Indie mobile game studio",
     nav: {
-      home: "Home",
-      privacy: "Privacy",
-      terms: "Terms",
-      features: "Games",
+      games: "Games",
+      cerebrum: "Cerebrum",
       about: "About",
-      faq: "FAQ",
-      contact: "Contact",
+      press: "Press",
     },
     footer: {
       copyright: `© ${new Date().getFullYear()} Synapgeek. All rights reserved.`,
+      identity: "Synapgeek SAS, an independent French studio.",
+      productHeading: "Cerebrum",
+      studioHeading: "Studio",
+      legalHeading: "Legal",
       privacy: "Privacy Policy",
       terms: "Terms of Use",
       legalNotice: "Legal Notice",
       contact: "Contact",
       manageCookies: "Manage cookies",
-      productHeading: "Product",
-      legalHeading: "Legal",
-      contactHeading: "Contact",
-      features: "Features",
-      writeToUs: "Write to us",
-      madeWith: "Made with",
-      inFrance: "in France",
     },
     consent: {
       title: "Your choice on audience measurement",
@@ -37,6 +31,27 @@ const en: Dictionary = {
     },
     languageSwitch: "Français",
     languageSwitchLocale: "fr",
+    a11y: {
+      skipToContent: "Skip to content",
+      menu: "Menu",
+      mainNavigation: "Main navigation",
+      footerNavigation: "Footer",
+    },
+    breadcrumb: {
+      label: "Breadcrumb",
+      home: "Home",
+    },
+
+    languageSuggestion: {
+      message: "This site is also available in English.",
+      cta: "Read in English",
+      dismiss: "Close",
+    },
+    notFound: {
+      title: "Page not found",
+      body: "The page you are looking for does not exist or has been moved.",
+      cta: "Back to home",
+    },
   },
   landing: {
     meta: {
@@ -273,6 +288,8 @@ const en: Dictionary = {
   },
   privacy: {
     title: "Privacy Policy",
+    metaDescription:
+      "Privacy policy for Synapgeek apps and services — learn what data we collect, your GDPR and CCPA rights, advertising practices, and how to delete your account.",
     lastUpdated: "Last updated: September 12, 2026",
     updatedAt: "2026-09-12",
     sections: [
@@ -357,6 +374,8 @@ const en: Dictionary = {
   },
   terms: {
     title: "Terms of Use",
+    metaDescription:
+      "Terms of use for Synapgeek apps — license agreement, in-app purchases and subscriptions, virtual goods, intellectual property, and user conduct.",
     lastUpdated: "Last updated: October 1, 2026",
     updatedAt: "2026-10-01",
     sections: [
@@ -439,6 +458,8 @@ const en: Dictionary = {
   },
   legal: {
     title: "Legal Notice",
+    metaDescription:
+      "Synapgeek legal notice — publisher, hosting provider, company registration details and corporate information.",
     lastUpdated: "Last updated: June 4, 2026",
     updatedAt: "2026-06-04",
     sections: [
