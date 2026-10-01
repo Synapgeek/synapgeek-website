@@ -4,7 +4,7 @@ import Image from "next/image";
 import { trackEvent } from "@/lib/gtag";
 import { APP_STORE_URL, GOOGLE_PLAY_URL } from "@/lib/app";
 import type { Locale } from "@/lib/i18n";
-import type { StoreDownload } from "@/content/types";
+import type { StoreLabels } from "@/content/types";
 
 /**
  * Badges officiels des deux boutiques. Les fichiers fournis par Apple et Google
@@ -32,8 +32,8 @@ export type Store = "app-store" | "google-play";
 
 interface StoreBadgesProps {
   locale: Locale;
-  /** Libellés accessibles, déjà localisés (`StoreDownload` du dictionnaire). */
-  labels: Pick<StoreDownload, "appStoreLabel" | "googlePlayLabel">;
+  /** Libellés accessibles, déjà localisés (`common.stores` du dictionnaire). */
+  labels: StoreLabels;
   /**
    * Boutiques affichées, par défaut les deux. Une page de jeu qui n'est pas
    * encore sur Android n'affiche que l'App Store.

@@ -52,242 +52,32 @@ const fr: Dictionary = {
       body: "La page que vous cherchez n'existe pas ou a été déplacée.",
       cta: "Retour à l'accueil",
     },
-  },
-  landing: {
-    meta: {
-      title: "Cerebrum : jeux de puzzle hors ligne, sans wifi | Synapgeek",
-      description:
-        "Cerebrum, app de jeux de réflexion hors ligne par Synapgeek (iPhone, iPad, Android) : Sudoku, Pandoku (Star Battle), Pixel Art (nonogrammes) et plus.",
+    stores: {
+      appStoreLabel: "Télécharger dans l'App Store",
+      googlePlayLabel: "Disponible sur Google Play",
     },
-    hero: {
-      badge: "Disponible sur iOS et Android",
-      title: "Entraînez votre cerveau, un puzzle à la fois",
-      subtitle:
-        "Cerebrum est une application de jeux de réflexion hors ligne pour iPhone, iPad et Android, éditée par Synapgeek. Sudoku, Pandoku (Star Battle), Démineur, Pixel Art (nonogrammes), Cross Math (mots croisés de calcul), Mots Croisés, Mots Mêlés, Trace (tracé d'un seul trait), Labyrinthe et Arrow Maze (casse-tête de flèches) : jouez-y sans wifi, chaque jour.",
-      cta: "Télécharger Cerebrum",
-      ctaSecondary: "Découvrir",
-      store: {
-        availableNow: "Disponible maintenant",
-        appStoreLabel: "Télécharger dans l'App Store",
-        googlePlayLabel: "Disponible sur Google Play",
-      },
-      slider: {
-        carouselLabel: "Captures d'écran de l'application Cerebrum",
-        slideLabel: "Diapositive {index} sur {total}",
-        controlsLabel: "Contrôles du diaporama",
-        goToSlide: "Aller à la diapositive {index}",
-        alts: {
-          home: "Écran d'accueil de Cerebrum avec le défi quotidien, les thèmes et les cartes de jeux, dont Sudoku, Mots Mêlés, Pandoku et Démineur",
-          pandoku:
-            "Pandoku dans Cerebrum, un puzzle de logique de type Star Battle : une grille de régions colorées avec un panda par ligne, par colonne et par région",
-          pixelart:
-            "Pixel Art dans Cerebrum, un nonogramme (logimage) résolu qui révèle un panda en pixels",
-          daily:
-            "Calendrier du défi quotidien de Cerebrum avec les jours complétés marqués d'étoiles",
-          progression:
-            "Parcours de niveaux du Sudoku dans Cerebrum, avec le sélecteur de difficulté et des niveaux notés en étoiles",
-        },
-      },
-    },
-    stats: {
-      items: [
-        { value: "2", label: "Plateformes" },
-        { value: "100\u00a0%", label: "Jouable hors ligne" },
-        { value: "16", label: "Langues" },
-        { value: "Gratuit", label: "Téléchargement" },
+    contactForm: {
+      name: "Nom",
+      email: "Email",
+      message: "Message",
+      topicLabel: "Sujet",
+      topicPlaceholder: "Choisissez un sujet",
+      topics: [
+        { value: "support", label: "Problème technique ou bug" },
+        { value: "purchases", label: "Achats, abonnements, remboursement" },
+        { value: "account", label: "Compte et données personnelles" },
+        { value: "feedback", label: "Suggestion ou retour sur un jeu" },
+        { value: "press", label: "Presse et partenariats" },
+        { value: "other", label: "Autre" },
       ],
-    },
-    features: {
-      title: "Un cerveau, toutes les disciplines",
-      subtitle:
-        "Logique et chiffres, mots, parcours : chaque famille de jeux sollicite une compétence différente. Combinez-les pour un entraînement complet.",
-      items: [
-        {
-          id: "sudoku",
-          title: "Sudoku",
-          description:
-            "La grille 9×9 classique, résolue par pure déduction. Des niveaux de difficulté de Facile à Élite, avec notes et indices.",
-        },
-        {
-          id: "pandoku",
-          title: "Pandoku",
-          description:
-            "Un puzzle de logique de type Star Battle. Placez un panda par ligne, par colonne et par région, sans que deux pandas se touchent, même en diagonale.",
-        },
-        {
-          id: "minesweeper",
-          title: "Démineur",
-          description:
-            "Le classique. Révélez toutes les cases sûres grâce aux chiffres et posez un drapeau sur chaque mine.",
-        },
-        {
-          id: "pixelart",
-          title: "Pixel Art",
-          description:
-            "Des nonogrammes, aussi appelés logimages. Noircissez les cases d'après les indices des lignes et des colonnes pour révéler un dessin caché.",
-        },
-        {
-          id: "crossmath",
-          title: "Cross Math",
-          description:
-            "Des mots croisés de calcul. Chaque « mot » de la grille est une équation, à compléter avec les nombres de la réserve.",
-        },
-        {
-          id: "crossword",
-          title: "Mots Croisés",
-          description:
-            "Des grilles à définitions pour enrichir votre vocabulaire et votre culture générale. Ce jeu est proposé en français et en anglais uniquement.",
-        },
-        {
-          id: "wordsearch",
-          title: "Mots Mêlés",
-          description:
-            "Retrouvez les mots cachés en glissant le doigt sur la grille. Ce jeu est proposé en français et en anglais uniquement.",
-        },
-        {
-          id: "trace",
-          title: "Trace",
-          description:
-            "Un puzzle à tracer d'un seul trait. Dessinez une ligne qui passe par toutes les cases et relie les numéros dans l'ordre.",
-        },
-        {
-          id: "maze",
-          title: "Labyrinthe",
-          description:
-            "Guidez votre luciole jusqu'à la sortie et ramassez des cristaux en chemin.",
-        },
-        {
-          id: "arrowmaze",
-          title: "Arrow Maze",
-          description:
-            "Un casse-tête de flèches, tout en détente. Touchez une flèche pour la faire sortir du plateau quand sa voie est libre, jusqu'à vider le plateau.",
-        },
-      ],
-    },
-    about: {
-      title: "Construit par des passionnés",
-      description:
-        "Synapgeek est le studio indépendant français qui conçoit et édite Cerebrum, disponible sur l'App Store et Google Play. Nous croyons que les meilleurs jeux sont ceux qui allient élégance, challenge et plaisir.",
-      values: [
-        {
-          title: "Des puzzles vérifiés",
-          description:
-            "Nos puzzles sont générés par nos propres outils, puis contrôlés automatiquement par des solveurs avant d'arriver dans l'app.",
-        },
-        {
-          title: "Vos choix, vos données",
-          description:
-            "Sur iPhone et iPad, aucun suivi publicitaire sans votre autorisation ; dans l'EEE, au Royaume-Uni et en Suisse, votre consentement est demandé avant toute publicité personnalisée. Votre compte se supprime à tout moment depuis l'app.",
-        },
-        {
-          title: "Fait en France",
-          description:
-            "Conçu et développé en France par Synapgeek, studio indépendant.",
-        },
-      ],
-    },
-    faq: {
-      title: "Questions fréquentes sur Cerebrum",
-      subtitle:
-        "Gratuité, jeu hors ligne, appareils compatibles, compte : l'essentiel à savoir avant de télécharger l'app.",
-      items: [
-        {
-          question: "Quels jeux propose Cerebrum ?",
-          answer:
-            "Cerebrum est une application de jeux de réflexion hors ligne pour iPhone, iPad et Android, éditée par Synapgeek. Jeux de logique et de chiffres : Sudoku, Pandoku (un puzzle de logique de type Star Battle), Démineur, Pixel Art (des nonogrammes, ou logimages) et Cross Math (des mots croisés de calcul). Jeux de mots : Mots Croisés et Mots Mêlés, en français et en anglais uniquement. Jeux de parcours : Trace (un puzzle à tracer d'un seul trait), Labyrinthe et Arrow Maze (un casse-tête de flèches). Chaque jeu propose plusieurs niveaux de difficulté, et l'app ajoute un défi quotidien, des séries et une progression niveau après niveau.",
-        },
-        {
-          question: "Cerebrum est-il gratuit ?",
-          answer:
-            "Oui, Cerebrum se télécharge et se joue gratuitement sur l'App Store et Google Play, et aucun jeu ni aucune difficulté n'est réservé à un achat. L'app est gratuite avec publicité, et propose des achats intégrés facultatifs (des packs de gemmes, et les packs de thèmes Cinéma, Cuisine et Voyage pour des mots croisés et mots mêlés thématiques) ainsi qu'un abonnement Premium.",
-        },
-        {
-          question:
-            "Y a-t-il des publicités dans Cerebrum, et comment les retirer ?",
-          answer:
-            "Oui. Cerebrum est gratuit et financé par la publicité : une bannière pendant la partie et des pubs entre certaines parties. Les pubs récompensées sont toujours facultatives : vous choisissez d'en regarder une pour des gemmes, un indice ou une seconde chance. Un abonnement Premium à la semaine, au mois ou à l'année supprime les pubs imposées : il retire la bannière et les pubs entre les parties. Il ajoute aussi des vies infinies, 5 indices gratuits par jour et par jeu, la première erreur pardonnée à chaque partie, des gemmes offertes chaque jour et des gemmes doublées après chaque victoire. Les packs de gemmes et les packs de thèmes sont des achats intégrés, non inclus dans Premium.",
-        },
-        {
-          question: "Peut-on jouer à Cerebrum hors ligne, sans wifi ?",
-          answer:
-            "Oui, tous les jeux de Cerebrum se jouent sans connexion internet, défi quotidien et série compris : toutes les grilles sont déjà dans l'app et votre progression est enregistrée sur l'appareil. Une connexion reste nécessaire pour synchroniser votre progression, effectuer un achat, vous connecter à un compte et afficher les publicités.",
-        },
-        {
-          question: "Sur quels appareils Cerebrum est-il disponible ?",
-          answer:
-            "Cerebrum est disponible sur iPhone et iPad (iOS 17 ou version ultérieure) via l'App Store, et sur les appareils Android (Android 8.0 ou version ultérieure) via Google Play. L'app se joue en mode portrait.",
-        },
-        {
-          question: "Faut-il créer un compte pour jouer à Cerebrum ?",
-          answer:
-            "Non, Cerebrum se joue sans créer de compte : une session anonyme est ouverte automatiquement au premier lancement. Vous pouvez ensuite vous connecter avec Apple, Google ou Facebook si vous le souhaitez.",
-        },
-        {
-          question:
-            "Ma progression dans Cerebrum est-elle synchronisée entre mes appareils ?",
-          answer:
-            "Oui, dès que vous vous connectez à Cerebrum avec un compte Apple, Google ou Facebook : votre progression est sauvegardée en ligne et vous la retrouvez sur vos autres appareils connectés au même compte. Sans compte connecté, la progression reste liée à l'appareil et ne peut pas être récupérée si vous en changez.",
-        },
-        {
-          question: "En quelles langues Cerebrum est-il disponible ?",
-          answer:
-            "Cerebrum est disponible en 16 langues, sur iOS comme sur Android. Les Mots Croisés et les Mots Mêlés n'existent qu'en français et en anglais : ils sont proposés lorsque l'app est réglée sur l'une de ces deux langues.",
-        },
-        {
-          question: "Comment supprimer mon compte Cerebrum ?",
-          answer:
-            "Dans Cerebrum, ouvrez Profil puis « Supprimer le compte » : après confirmation, votre compte et les données associées (progression, succès, historique de série, données synchronisées) sont supprimés. Si vous n'avez plus accès à l'app, la marche à suivre est décrite dans notre politique de confidentialité.",
-          link: {
-            text: "notre politique de confidentialité",
-            path: { page: "privacy", hash: "account-deletion" },
-          },
-        },
-        {
-          question: "Qui édite Cerebrum ?",
-          answer:
-            "Cerebrum est édité par Synapgeek SAS, un studio indépendant français de jeux mobiles basé à Frontenas, dans le Rhône. Pour toute question sur l'app, le formulaire de contact de synapgeek.com sert aussi de support.",
-        },
-      ],
-    },
-    cta: {
-      title: "Prêt à entraîner votre cerveau ?",
-      subtitle:
-        "Cerebrum est disponible sur iOS et Android. Des jeux de puzzle dans une seule app.",
-      cta: "Télécharger gratuitement",
-      note: "Gratuit avec publicité. Premium et achats intégrés facultatifs.",
-      store: {
-        availableNow: "Disponible maintenant",
-        appStoreLabel: "Télécharger dans l'App Store",
-        googlePlayLabel: "Disponible sur Google Play",
-      },
-    },
-    contact: {
-      title: "Une question ?",
-      subtitle:
-        "N'hésitez pas à nous écrire, nous vous répondrons dans les plus brefs délais.",
-      form: {
-        name: "Nom",
-        email: "Email",
-        message: "Message",
-        topicLabel: "Sujet",
-        topicPlaceholder: "Choisissez un sujet",
-        topics: [
-          { value: "support", label: "Problème technique ou bug" },
-          { value: "purchases", label: "Achats, abonnements, remboursement" },
-          { value: "account", label: "Compte et données personnelles" },
-          { value: "feedback", label: "Suggestion ou retour sur un jeu" },
-          { value: "press", label: "Presse et partenariats" },
-          { value: "other", label: "Autre" },
-        ],
-        submit: "Envoyer le message",
-        sending: "Envoi en cours...",
-        successTitle: "Message envoyé !",
-        successBody: "Nous vous répondrons dans les plus brefs délais.",
-        error:
-          "Une erreur est survenue. Réessayez ou contactez-nous directement.",
-        unavailable:
-          "Le formulaire est momentanément indisponible. Écrivez-nous directement à contact@synapgeek.com.",
-      },
+      submit: "Envoyer le message",
+      sending: "Envoi en cours...",
+      successTitle: "Message envoyé !",
+      successBody: "Nous vous répondrons dans les plus brefs délais.",
+      error:
+        "Une erreur est survenue. Réessayez ou contactez-nous directement.",
+      unavailable:
+        "Le formulaire est momentanément indisponible. Écrivez-nous directement à contact@synapgeek.com.",
     },
   },
   privacy: {

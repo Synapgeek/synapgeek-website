@@ -1,32 +1,9 @@
 import type { Locale } from "@/lib/i18n";
-import type { PageId } from "@/lib/routes";
 
-/** Download block: les deux plateformes sont en ligne depuis le lancement Android. */
-export interface StoreDownload {
-  availableNow: string;
+/** Libellés accessibles des deux badges de boutique (le badge lui-même est une image officielle). */
+export interface StoreLabels {
   appStoreLabel: string;
   googlePlayLabel: string;
-}
-
-/** Identifiant stable de chaque capture du carrousel du hero (indépendant de la locale). */
-export type HeroSlideId =
-  | "home"
-  | "pandoku"
-  | "pixelart"
-  | "daily"
-  | "progression";
-
-/**
- * Textes localisés du carrousel de captures d'écran (`IPhoneSlider`).
- * `slideLabel` et `goToSlide` sont des gabarits où le composant remplace
- * `{index}` (et `{total}` pour `slideLabel`) par les valeurs réelles.
- */
-export interface HeroSlider {
-  carouselLabel: string;
-  slideLabel: string;
-  controlsLabel: string;
-  goToSlide: string;
-  alts: Record<HeroSlideId, string>;
 }
 
 /**
@@ -37,24 +14,6 @@ export interface HeroSlider {
 export interface ContactTopic {
   value: string;
   label: string;
-}
-
-/**
- * Lien optionnel posé sur un extrait d'une réponse de FAQ. `text` doit figurer
- * mot pour mot dans `answer` : le composant l'y retrouve pour l'envelopper, ce
- * qui garde la réponse visible identique au texte brut du JSON-LD FAQPage.
- */
-export interface FaqLink {
-  text: string;
-  /** Page cible et ancre éventuelle, résolues par `pagePath` dans la locale du lecteur. */
-  path: { page: PageId; hash?: string };
-}
-
-/** Une question/réponse de la FAQ de la home. Réponse autonome, en texte brut. */
-export interface FaqItem {
-  question: string;
-  answer: string;
-  link?: FaqLink;
 }
 
 /** Une section d'un document légal. `id` n'est posé que sur les sections ciblées par une ancre. */
@@ -130,66 +89,21 @@ export interface Dictionary {
       body: string;
       cta: string;
     };
-  };
-  landing: {
-    /** Title (≤ 60 caractères) et meta description (140-160 caractères) de la home. */
-    meta: {
-      title: string;
-      description: string;
-    };
-    hero: {
-      badge: string;
-      title: string;
-      subtitle: string;
-      cta: string;
-      ctaSecondary: string;
-      store: StoreDownload;
-      slider: HeroSlider;
-    };
-    stats: {
-      items: readonly { value: string; label: string }[];
-    };
-    features: {
-      title: string;
-      subtitle: string;
-      /** `id` mappe vers le visuel du jeu — l'ordre du tableau n'a donc plus d'effet. */
-      items: readonly { id: string; title: string; description: string }[];
-    };
-    about: {
-      title: string;
-      description: string;
-      values: readonly { title: string; description: string }[];
-    };
-    faq: {
-      title: string;
-      subtitle: string;
-      items: readonly FaqItem[];
-    };
-    cta: {
-      title: string;
-      subtitle: string;
-      cta: string;
-      note: string;
-      store: StoreDownload;
-    };
-    contact: {
-      title: string;
-      subtitle: string;
-      form: {
-        name: string;
-        email: string;
-        message: string;
-        topicLabel: string;
-        topicPlaceholder: string;
-        topics: readonly ContactTopic[];
-        submit: string;
-        sending: string;
-        successTitle: string;
-        successBody: string;
-        error: string;
-        /** Repli affiché à la place du bouton d'envoi quand reCAPTCHA n'a pas de clé au build. */
-        unavailable: string;
-      };
+    stores: StoreLabels;
+    contactForm: {
+      name: string;
+      email: string;
+      message: string;
+      topicLabel: string;
+      topicPlaceholder: string;
+      topics: readonly ContactTopic[];
+      submit: string;
+      sending: string;
+      successTitle: string;
+      successBody: string;
+      error: string;
+      /** Repli affiché à la place du bouton d'envoi quand reCAPTCHA n'a pas de clé au build. */
+      unavailable: string;
     };
   };
   privacy: {

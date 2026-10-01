@@ -447,6 +447,12 @@ function fixtureApp(
   };
 }
 
+const HUB_HERO: HubCopy["hero"] = {
+  h1: "Synapgeek",
+  definition: DEFINITION_OK,
+  phoneAlt: "A screen.",
+};
+
 function fixtureHub(overrides: Partial<HubCopy> = {}): CopyEntry {
   return {
     kind: "hub",
@@ -454,8 +460,11 @@ function fixtureHub(overrides: Partial<HubCopy> = {}): CopyEntry {
     copy: {
       updatedAt: "2026-10-01",
       meta: { title: "Synapgeek", description: "A studio." },
-      hero: { h1: "Synapgeek", definition: DEFINITION_OK },
-      apps: { title: "Apps" },
+      hero: HUB_HERO,
+      apps: {
+        title: "Apps",
+        items: { cerebrum: { description: "An app.", cta: "Open" } },
+      },
       games: {
         title: "Games",
         categories: { "logic-numbers": "A", words: "B", paths: "C" },
@@ -503,7 +512,7 @@ describe("contrôles positifs des gardes structurelles", () => {
     ["trop longue", "x".repeat(251)],
   ])("la définition %s est refusée", (_name, definition) => {
     const entry = fixtureHub({
-      hero: { h1: "Synapgeek", definition },
+      hero: { ...HUB_HERO, definition },
     });
     expect(lengthViolations(entry)).toHaveLength(1);
   });
@@ -511,7 +520,7 @@ describe("contrôles positifs des gardes structurelles", () => {
   it("les bornes 150 et 250 sont incluses", () => {
     for (const length of [150, 250]) {
       const entry = fixtureHub({
-        hero: { h1: "Synapgeek", definition: "x".repeat(length) },
+        hero: { ...HUB_HERO, definition: "x".repeat(length) },
       });
       expect(lengthViolations(entry), String(length)).toEqual([]);
     }
@@ -720,7 +729,7 @@ describe("contrôles positifs des gardes structurelles", () => {
   it("entryViolations s'applique aussi à un module sans jeux (hub)", () => {
     const entry = fixtureHub({
       hero: {
-        h1: "Synapgeek",
+        ...HUB_HERO,
         definition: `${DEFINITION_OK} Cerebrum \u2014 puzzles.`,
       },
     });
@@ -800,7 +809,7 @@ describe("sujets du formulaire de contact (amendement 18)", () => {
   it.each(LOCALES)(
     "les valeurs du Dictionary (%s) sont exactement celles de CONTACT_TOPICS, dans le même ordre",
     (locale) => {
-      const values = getDictionary(locale).landing.contact.form.topics.map(
+      const values = getDictionary(locale).common.contactForm.topics.map(
         (topic) => topic.value,
       );
       expect(values).toEqual(serverTopics);

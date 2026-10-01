@@ -68,8 +68,13 @@ export interface AppCopy extends Dated {
 
 export interface HubCopy extends Dated {
   meta: PageMeta;
-  hero: DefinitionBlock;
-  apps: { title: string };
+  /** `phoneAlt` décrit la capture de l'accueil de l'app dans le téléphone du héros. */
+  hero: DefinitionBlock & { phoneAlt: string };
+  apps: {
+    title: string;
+    /** Une entrée par app : la phrase de la carte et le libellé de son lien. */
+    items: Record<AppSlug, { description: string; cta: string }>;
+  };
   games: { title: string; categories: Record<GameCategory, string> };
   facts: ReadonlyArray<{ value: string; label: string }>;
   studio: { title: string; body: string; cta: string };

@@ -7,11 +7,7 @@ import {
   type PageId,
 } from "@/lib/routes";
 import { getDictionary } from "@/content";
-
-// Une date par type de page tant que les pages hors légal n'ont pas de champ
-// `updatedAt` dans leur copy (les pages légales gardent celle de leur dictionnaire).
-// À mettre à jour quand le contenu de la page concernée change.
-const HOME_UPDATED_AT = "2026-10-01";
+import { getHubCopy } from "@/content/copy";
 
 function lastModifiedFor(locale: Locale, pageId: PageId): string {
   const dict = getDictionary(locale);
@@ -23,7 +19,7 @@ function lastModifiedFor(locale: Locale, pageId: PageId): string {
     case "legal":
       return dict.legal.updatedAt;
     case "home":
-      return HOME_UPDATED_AT;
+      return getHubCopy(locale).updatedAt;
     default:
       // Une page rendue sans date connue ne doit pas recevoir une date inventée :
       // l'ajouter à RENDERED_PAGE_IDS impose d'abord de lui donner la sienne.
