@@ -1,10 +1,19 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { getGames } from "@/content/apps";
 import { CardList } from "./CardList";
 import { CheckList } from "./CheckList";
 import { GameGrid } from "./GameGrid";
+
+// Les pages jeux n'existent que pour les jeux publiés : tout le registre est
+// publié ici pour vérifier le schéma d'URL de chaque jeu, quel que soit
+// l'avancement des livraisons de copie.
+vi.mock("@/content/apps", async (importOriginal) =>
+  (await import("@/content/apps/publish-all.test-support")).publishAllGames(
+    await importOriginal<typeof import("@/content/apps")>(),
+  ),
+);
 
 const html = (element: Parameters<typeof renderToStaticMarkup>[0]) =>
   renderToStaticMarkup(element);
@@ -53,6 +62,20 @@ describe("GameGrid", () => {
     );
     expect(out.match(/<h3/g)).toHaveLength(3);
     expect(out.match(/<h4/g)).toHaveLength(games.length);
+  });
+
+  it("titles only the families that have games", () => {
+    const out = html(
+      createElement(GameGrid, {
+        games: games.filter((game) => game.category === "logic-numbers"),
+        categories,
+        locale: "en",
+      }),
+    );
+    expect(out.match(/<h3/g)).toHaveLength(1);
+    expect(out).toContain(`>${categories["logic-numbers"]}</h3>`);
+    expect(out).not.toContain(`>${categories.words}</h3>`);
+    expect(out).not.toContain(`>${categories.paths}</h3>`);
   });
 
   it("links a published game and leaves an unpublished one as plain text", () => {

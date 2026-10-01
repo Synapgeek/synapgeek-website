@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { LOCALES, type Locale } from "@/lib/i18n";
+import { getAppCopy } from "@/content/copy";
 import { GAME_SLUGS } from "@/lib/page-slugs";
 import {
   findGameBySlug,
@@ -219,8 +220,17 @@ describe("registre des jeux", () => {
     expect(missing).toEqual([]);
   });
 
-  it("publie les dix jeux", () => {
-    expect(games.every((game) => game.published)).toBe(true);
+  it("ne publie un jeu que s'il a sa copie dans chaque langue, et inversement", () => {
+    // Chaque tâche de copie livre le texte ET passe `published` à true : un
+    // seul des deux serait soit une page vide, soit un texte sans route.
+    const mismatched = games.filter(
+      (game) =>
+        game.published !==
+        LOCALES.every(
+          (locale) => game.id in getAppCopy("cerebrum", locale).games,
+        ),
+    );
+    expect(mismatched.map((game) => game.id)).toEqual([]);
   });
 
   it("garde exactement les mêmes clés dans page-slugs et dans le registre, dans les deux sens", () => {

@@ -358,48 +358,11 @@ function entryViolations(
 // Étage 1 : les modules enregistrés
 // ---------------------------------------------------------------------------
 
-/**
- * Jeux marqués `published` dans le registre dont la copie n'est pas encore
- * livrée : leur page arrive avec sa tâche (Sudoku, puis un jeu par tâche). Le
- * garde de couverture ne les exige pas encore. Cliquet : chaque livraison de
- * copie retire son identifiant d'ici, et le test juste dessous échoue si un
- * jeu a sa copie tout en restant sur cette liste (garde alors aveugle).
- */
-const COPY_PENDING: ReadonlySet<GameId> = new Set<GameId>([
-  "sudoku",
-  "pandoku",
-  "minesweeper",
-  "pixel-art",
-  "cross-math",
-  "crossword",
-  "word-search",
-  "trace",
-  "maze",
-  "arrow-maze",
-]);
-
-/** Les jeux d'une app dont la copie est attendue dès maintenant. */
-const gamesDueFor = (entry: CopyEntry) =>
-  entry.kind === "app"
-    ? getGames(entry.app).filter((game) => !COPY_PENDING.has(game.id))
-    : [];
-
 describe("copie enregistrée (spec §9)", () => {
   it("chaque module respecte les règles de texte, de longueur, de genre et de plateforme", () => {
-    expect(
-      REGISTERED_COPY.flatMap((entry) =>
-        entryViolations(entry, gamesDueFor(entry)),
-      ),
-    ).toEqual([]);
-  });
-
-  it("aucun jeu qui a sa copie ne reste sur la liste des copies attendues", () => {
-    const stale = REGISTERED_COPY.flatMap((entry) =>
-      gamesOf(entry)
-        .filter(([id]) => COPY_PENDING.has(id))
-        .map(([id]) => `${labelOf(entry)}:${id}`),
+    expect(REGISTERED_COPY.flatMap((entry) => entryViolations(entry))).toEqual(
+      [],
     );
-    expect(stale).toEqual([]);
   });
 
   it("chaque module existe dans toutes les langues avec la même structure", () => {
@@ -429,7 +392,11 @@ function fixtureGame(overrides: Partial<GameCopy> = {}): GameCopy {
   return {
     updatedAt: "2026-10-01",
     meta: { title: "Pandoku | Cerebrum", description: "Learn Pandoku." },
-    hero: { h1: "Pandoku", definition: DEFINITION_OK },
+    hero: {
+      h1: "Pandoku",
+      definition: DEFINITION_OK,
+      phoneAlt: "A screen.",
+    },
     howToPlay: {
       title: "How to play",
       steps: THREE_ITEMS.map((n) => `Step ${n}`),
@@ -453,6 +420,7 @@ function fixtureGame(overrides: Partial<GameCopy> = {}): GameCopy {
         answer: `Answer ${n}.`,
       })),
     },
+    whereToPlay: { title: "Where to play", body: "In Cerebrum." },
     ...overrides,
   };
 }
@@ -486,6 +454,16 @@ function fixtureApp(
         privacy: { title: "Privacy", body: "Short.", cta: "Read" },
       },
       faq: { title: "FAQ", items: [{ question: "Q?", answer: "A." }] },
+      gamePage: {
+        relatedTitle: "More",
+        difficultyColumns: { difficulty: "Level", detail: "Detail" },
+        difficulties: {
+          easy: "Easy",
+          medium: "Medium",
+          hard: "Hard",
+          elite: "Elite",
+        },
+      },
       games,
       ...overrides,
     },
@@ -598,6 +576,7 @@ describe("contrôles positifs des gardes structurelles", () => {
       pandoku: fixtureGame({
         hero: {
           h1: "Pandoku",
+          phoneAlt: "A screen.",
           definition: DEFINITION_OK.replace(
             "Star Battle logic puzzle",
             "puzzle",
@@ -613,6 +592,7 @@ describe("contrôles positifs des gardes structurelles", () => {
       pandoku: fixtureGame({
         hero: {
           h1: "Pandoku",
+          phoneAlt: "A screen.",
           definition: `Pandoku est un ${pandoku.genre.fr!.replace(/ /g, "\u00a0")}.`,
         },
       }),
@@ -704,9 +684,11 @@ describe("contrôles positifs des gardes structurelles", () => {
     ]);
   });
 
-  it("un jeu publié sans copie est refusé", () => {
+  it("un jeu publié sans copie est refusé, un jeu non publié n'en a pas besoin", () => {
     const entry = fixtureApp("en", {});
-    expect(coverageViolations(entry, [pandoku])).toHaveLength(1);
+    expect(
+      coverageViolations(entry, [{ ...pandoku, published: true }]),
+    ).toHaveLength(1);
     expect(
       coverageViolations(entry, [{ ...pandoku, published: false }]),
     ).toEqual([]);
@@ -720,6 +702,7 @@ describe("contrôles positifs des gardes structurelles", () => {
         meta: { title: "Pandoku | Cerebrum", description: "x".repeat(156) },
         hero: {
           h1: "Pandoku",
+          phoneAlt: "A screen.",
           definition: DEFINITION_OK.replace(
             "Star Battle logic puzzle",
             "puzzle",
@@ -759,10 +742,15 @@ describe("contrôles positifs des gardes structurelles", () => {
       ...pandoku,
       availability: { ios: "3.0.0", android: null },
     };
-    const violations = entryViolations(entry, [
-      pandokuIosOnly,
-      ...getGames("cerebrum").filter((game) => game.id !== "pandoku"),
-    ]);
+    // Tous les jeux publiés, quel que soit l'avancement des livraisons : seul
+    // Pandoku a une copie, Sudoku publié sans copie déclenche la couverture.
+    const violations = entryViolations(
+      entry,
+      [
+        pandokuIosOnly,
+        ...getGames("cerebrum").filter((game) => game.id !== "pandoku"),
+      ].map((game) => ({ ...game, published: true })),
+    );
     for (const [rule, expected] of expectedByRule) {
       expect(
         violations.some((violation) => expected.test(violation)),

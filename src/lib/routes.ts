@@ -2,6 +2,7 @@ import {
   findGameBySlug,
   gameSlug,
   getGames,
+  type GameEntry,
   type GameId,
 } from "@/content/apps";
 import { FROZEN_LEGAL_LOCALE } from "./frozen-legal-paths";
@@ -108,6 +109,11 @@ export function pageIdForGame(gameId: GameId): PageId {
   return `game:${gameId}`;
 }
 
+/** Le jeu d'un identifiant de page jeu, `null` pour toute autre page. */
+export function gameIdOfPage(pageId: PageId): GameId | null {
+  return isGame(pageId) ? gameIdOf(pageId) : null;
+}
+
 /** Toutes les pages indexables, dans l'ordre du sitemap. */
 export function publishedPageIds(): PageId[] {
   const games = getGames(APP_SEGMENT)
@@ -132,13 +138,34 @@ export function renderedPageIds(): PageId[] {
   return publishedPageIds().filter((pageId) => RENDERED_PAGE_IDS.has(pageId));
 }
 
+/**
+ * Paramètres statiques des pages jeux : une entrée par jeu publié et par
+ * langue, avec le slug de CETTE langue (`demineur`, pas `minesweeper`, en
+ * français). Partagés par la page et par son `opengraph-image`.
+ */
+export function publishedGameParams(): Array<{ locale: Locale; game: string }> {
+  return getGames(APP_SEGMENT)
+    .filter((game) => game.published)
+    .flatMap((game) =>
+      LOCALES.map((locale) => ({ locale, game: game.slug[locale] })),
+    );
+}
+
 /** `null` : slug inconnu dans cette locale (le caller décide, en général `notFound()`). */
 export function resolveSection(locale: Locale, slug: string): SectionId | null {
   return SECTION_IDS.find((id) => SECTION_SLUGS[id][locale] === slug) ?? null;
 }
 
 /** `null` : slug inconnu, non publié, ou slug de l'autre locale. */
-export function resolveGameSlug(locale: Locale, slug: string): GameId | null {
+export function findPublishedGame(
+  locale: Locale,
+  slug: string,
+): GameEntry | null {
   const game = findGameBySlug(APP_SEGMENT, locale, slug);
-  return game?.published ? game.id : null;
+  return game?.published ? game : null;
+}
+
+/** Même contrat que `findPublishedGame`, pour l'appelant qui n'a besoin que de l'identifiant. */
+export function resolveGameSlug(locale: Locale, slug: string): GameId | null {
+  return findPublishedGame(locale, slug)?.id ?? null;
 }

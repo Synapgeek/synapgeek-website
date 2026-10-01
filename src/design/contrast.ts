@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import { parseToken } from "./css-token";
 
 /**
  * Helpers de contraste partagés par les tests. Les couleurs sont lues dans
@@ -11,19 +12,9 @@ const CSS = readFileSync(
   "utf8",
 );
 
-const HEX = /^#[0-9a-f]{6}$/i;
-
 /** Value of `--name`, following `var(--other)` aliases. */
 export function token(name: string): string {
-  const match = new RegExp(`${name}\\s*:\\s*([^;]+);`).exec(CSS);
-  if (!match) throw new Error(`Token ${name} is not defined in globals.css`);
-  const value = match[1].trim();
-  const alias = /^var\((--[\w-]+)\)$/.exec(value);
-  if (alias) return token(alias[1]);
-  if (!HEX.test(value)) {
-    throw new Error(`Token ${name} is not a #rrggbb colour: ${value}`);
-  }
-  return value.toLowerCase();
+  return parseToken(CSS, name);
 }
 
 function channel(value: number): number {

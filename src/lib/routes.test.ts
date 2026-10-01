@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { LOCALES, type Locale } from "./i18n";
@@ -15,6 +15,15 @@ import {
   resolveSection,
   type PageId,
 } from "./routes";
+
+// Les pages jeux n'existent que pour les jeux publiés : tout le registre est
+// publié ici pour vérifier le schéma d'URL de chaque jeu, quel que soit
+// l'avancement des livraisons de copie.
+vi.mock("@/content/apps", async (importOriginal) =>
+  (await import("@/content/apps/publish-all.test-support")).publishAllGames(
+    await importOriginal<typeof import("@/content/apps")>(),
+  ),
+);
 
 /** Chemin attendu pour chaque page publiée : toute nouvelle page doit s'ajouter ici. */
 const EXPECTED: Readonly<Record<PageId, Record<Locale, string>>> = {

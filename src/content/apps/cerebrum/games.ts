@@ -27,6 +27,10 @@ const screenshot = (id: GameId) => ({
  * Couleurs : noms de propriétés CSS (--game-<id>-wash/-deep), valeurs dans
  * src/app/globals.css, données par la session Design System d'après
  * cerebrum-ios/docs/port/game-palette.json.
+ *
+ * `published` : un jeu n'est publié qu'avec sa copie (`copy/games/<id>.<locale>.ts`) ;
+ * la tâche qui livre son texte passe son drapeau à `true`. Tant qu'il est à
+ * `false`, le jeu n'a ni route, ni entrée de sitemap, ni lien (sa carte reste affichée).
  */
 export const cerebrumGames: readonly GameEntry[] = [
   {
@@ -41,7 +45,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: "all",
     color: { wash: "--game-sudoku-wash", deep: "--game-sudoku-deep" },
-    published: true,
+    published: false,
     icon: icon("sudoku"),
     screenshot: screenshot("sudoku"),
   },
@@ -60,7 +64,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_3,
     contentLocales: "all",
     color: { wash: "--game-pandoku-wash", deep: "--game-pandoku-deep" },
-    published: true,
+    published: false,
     icon: icon("pandoku"),
     screenshot: screenshot("pandoku"),
   },
@@ -76,7 +80,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_3,
     contentLocales: "all",
     color: { wash: "--game-minesweeper-wash", deep: "--game-minesweeper-deep" },
-    published: true,
+    published: false,
     icon: icon("minesweeper"),
     screenshot: screenshot("minesweeper"),
   },
@@ -92,7 +96,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_3,
     contentLocales: "all",
     color: { wash: "--game-pixel-art-wash", deep: "--game-pixel-art-deep" },
-    published: true,
+    published: false,
     icon: icon("pixel-art"),
     screenshot: screenshot("pixel-art"),
   },
@@ -108,7 +112,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: "all",
     color: { wash: "--game-cross-math-wash", deep: "--game-cross-math-deep" },
-    published: true,
+    published: false,
     icon: icon("cross-math"),
     screenshot: screenshot("cross-math"),
   },
@@ -124,7 +128,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: ["fr", "en"],
     color: { wash: "--game-crossword-wash", deep: "--game-crossword-deep" },
-    published: true,
+    published: false,
     icon: icon("crossword"),
     screenshot: screenshot("crossword"),
   },
@@ -140,7 +144,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: ["fr", "en"],
     color: { wash: "--game-word-search-wash", deep: "--game-word-search-deep" },
-    published: true,
+    published: false,
     icon: icon("word-search"),
     screenshot: screenshot("word-search"),
   },
@@ -159,7 +163,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: "all",
     color: { wash: "--game-trace-wash", deep: "--game-trace-deep" },
-    published: true,
+    published: false,
     icon: icon("trace"),
     screenshot: screenshot("trace"),
   },
@@ -175,7 +179,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: "all",
     color: { wash: "--game-maze-wash", deep: "--game-maze-deep" },
-    published: true,
+    published: false,
     icon: icon("maze"),
     screenshot: screenshot("maze"),
   },
@@ -191,7 +195,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_3,
     contentLocales: "all",
     color: { wash: "--game-arrow-maze-wash", deep: "--game-arrow-maze-deep" },
-    published: true,
+    published: false,
     icon: icon("arrow-maze"),
     screenshot: screenshot("arrow-maze"),
   },

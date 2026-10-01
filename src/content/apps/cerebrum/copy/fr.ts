@@ -109,5 +109,15 @@ export const cerebrumFr: AppCopy = {
       },
     ],
   },
+  gamePage: {
+    relatedTitle: "Autres jeux de Cerebrum",
+    difficultyColumns: { difficulty: "Difficulté", detail: "Ce que ça change" },
+    difficulties: {
+      easy: "Facile",
+      medium: "Moyen",
+      hard: "Difficile",
+      elite: "Élite",
+    },
+  },
   games: gamesFr,
 };

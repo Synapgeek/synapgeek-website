@@ -58,4 +58,16 @@ describe("buildOpenGraph", () => {
       { url: "/images/brand/og-image.jpeg", width: 1200, height: 630 },
     ]);
   });
+
+  it("n'ajoute pas l'image du site quand la page porte la sienne (une seule og:image)", () => {
+    const og = buildOpenGraph("en", "cerebrum", "t", "d", {
+      ownImage: true,
+    });
+    expect(og).not.toHaveProperty("images");
+    expect(og).toMatchObject({
+      url: "https://synapgeek.com/cerebrum",
+      siteName: "Synapgeek",
+      locale: "en_US",
+    });
+  });
 });

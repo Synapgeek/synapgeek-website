@@ -38,7 +38,8 @@ interface Dated {
 
 export interface GameCopy extends Dated {
   meta: PageMeta;
-  hero: DefinitionBlock;
+  /** `phoneAlt` décrit la capture du jeu dans le téléphone du héros. */
+  hero: DefinitionBlock & { phoneAlt: string };
   /** 3 à 6 étapes. */
   howToPlay: { title: string; steps: readonly string[] };
   whatCerebrumAdds: {
@@ -53,6 +54,8 @@ export interface GameCopy extends Dated {
   tips: { title: string; items: readonly string[] };
   /** 3 à 6 questions. */
   faq: { title: string; items: readonly FaqEntry[] };
+  /** Où jouer : une phrase en texte brut, au-dessus des badges des boutiques. */
+  whereToPlay: { title: string; body: string };
 }
 
 export interface AppCopy extends Dated {
@@ -69,6 +72,15 @@ export interface AppCopy extends Dated {
     privacy: { title: string; body: string; cta: string };
   };
   faq: { title: string; items: readonly FaqEntry[] };
+  /** Les mots communs aux pages jeux de l'app : ce qui ne change pas d'un jeu à l'autre. */
+  gamePage: {
+    /** Titre de la rangée des autres jeux de la même catégorie. */
+    relatedTitle: string;
+    /** En-têtes du tableau des difficultés. */
+    difficultyColumns: { difficulty: string; detail: string };
+    /** Nom de chaque difficulté, tel que l'app l'affiche. */
+    difficulties: Record<Difficulty, string>;
+  };
   /** Un jeu n'a de copie qu'au moment où sa page est publiée (`GameEntry.published`). */
   games: Partial<Record<GameId, GameCopy>>;
 }

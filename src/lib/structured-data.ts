@@ -8,9 +8,15 @@
  */
 
 import type { Locale } from "./i18n";
-import type { AppEntry } from "@/content/apps";
-import type { AppCopy } from "@/content/copy";
-import { BASE_URL, absolutePath, absoluteUrl, type PageId } from "./routes";
+import { platformsFor, type AppEntry, type GameEntry } from "@/content/apps";
+import type { AppCopy, GameCopy } from "@/content/copy";
+import {
+  BASE_URL,
+  absolutePath,
+  absoluteUrl,
+  pageIdForGame,
+  type PageId,
+} from "./routes";
 
 // Pages développeur des stores — utilisées comme `sameAs` de l'organisation.
 // Faits stores fournis par la tâche ; on omet une URL introuvable plutôt que
@@ -36,6 +42,8 @@ const SITE_ROOT_URL = `${BASE_URL}/`;
 const ORGANIZATION_ID = `${BASE_URL}/#organization`;
 const WEBSITE_ID = `${BASE_URL}/#website`;
 const CEREBRUM_APP_ID = `${BASE_URL}/cerebrum#app`;
+/** Genre schema.org commun à tous les jeux ; le genre maison, quand il existe, s'y ajoute. */
+const VIDEO_GAME_GENRE = "Puzzle";
 
 interface PostalAddressSchema {
   readonly "@type": "PostalAddress";
@@ -191,6 +199,58 @@ export function mobileApplicationSchema(
     publisher: { "@id": ORGANIZATION_ID },
     inLanguage: app.languages,
     datePublished: CEREBRUM_DATE_PUBLISHED,
+    dateModified: copy.updatedAt,
+  };
+}
+
+interface VideoGameSchema {
+  readonly "@context": "https://schema.org";
+  readonly "@type": "VideoGame";
+  readonly "@id": string;
+  readonly name: string;
+  readonly description: string;
+  readonly url: string;
+  readonly image: string;
+  readonly genre: readonly string[];
+  readonly gamePlatform: readonly string[];
+  readonly isPartOf: { readonly "@id": string };
+  readonly publisher: { readonly "@id": string };
+  readonly inLanguage: readonly string[];
+  readonly dateModified: string;
+}
+
+/**
+ * Un jeu de Cerebrum. L'@id suit le slug anglais (une seule entité pour les
+ * deux pages de langue, comme l'app), l'url suit la page de la langue. Les
+ * plateformes viennent du registre (`platformsFor`) : Android n'est annoncé
+ * que s'il est vérifié. Pas d'`aggregateRating`, pas d'offre : le prix est
+ * celui de l'app.
+ */
+export function videoGameSchema(
+  app: AppEntry,
+  game: GameEntry,
+  locale: Locale,
+  copy: Pick<GameCopy, "updatedAt"> & {
+    hero: Pick<GameCopy["hero"], "definition">;
+  },
+): VideoGameSchema {
+  const pageId = pageIdForGame(game.id);
+  const houseGenre = game.genre[locale];
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "@id": `${absoluteUrl(pageId, "en")}#game`,
+    name: game.name[locale],
+    description: copy.hero.definition,
+    url: absoluteUrl(pageId, locale),
+    image: absolutePath(game.icon),
+    genre: houseGenre ? [VIDEO_GAME_GENRE, houseGenre] : [VIDEO_GAME_GENRE],
+    gamePlatform: platformsFor(game),
+    isPartOf: { "@id": CEREBRUM_APP_ID },
+    publisher: { "@id": ORGANIZATION_ID },
+    inLanguage:
+      game.contentLocales === "all" ? app.languages : game.contentLocales,
     dateModified: copy.updatedAt,
   };
 }
