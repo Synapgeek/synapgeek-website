@@ -485,13 +485,15 @@ describe("sitemap — dérivé du registre de pages (spec §5, SEO)", () => {
     }
   });
 
-  it("changeFrequency : hebdomadaire pour l'accueil, mensuelle pour le reste", () => {
+  it("changeFrequency : hebdomadaire pour le hub et l'app, mensuelle pour le reste", () => {
+    const weekly = new Set(
+      (["home", "cerebrum"] as const).flatMap((page) =>
+        LOCALES.map((locale) => absoluteUrl(page, locale)),
+      ),
+    );
     for (const entry of entries) {
-      const isHome =
-        entry.url === absoluteUrl("home", "en") ||
-        entry.url === absoluteUrl("home", "fr");
       expect(entry.changeFrequency, entry.url).toBe(
-        isHome ? "weekly" : "monthly",
+        weekly.has(entry.url) ? "weekly" : "monthly",
       );
     }
   });

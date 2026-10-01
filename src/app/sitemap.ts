@@ -31,8 +31,9 @@ function lastModifiedFor(locale: Locale, pageId: PageId): string {
   }
 }
 
+// Hebdomadaire : le hub et la page de l'app ; mensuel pour tout le reste.
 const isFrequentlyUpdated = (pageId: PageId) =>
-  pageId === "home" || pageId === "cerebrum" || pageId.startsWith("game:");
+  pageId === "home" || pageId === "cerebrum";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return renderedPageIds().flatMap((pageId) =>
