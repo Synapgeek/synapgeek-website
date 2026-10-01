@@ -53,3 +53,10 @@ next-env.d.ts
 
 # claude code worktrees
 .claude/worktrees/
+
+# impeccable (local working files; config.json is committed)
+/.impeccable/mocks/
+/.impeccable/decision/
+/.impeccable/live/
+/.impeccable/review/
+/.impeccable/build/
