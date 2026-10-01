@@ -10,6 +10,7 @@ import {
   pageIdForGame,
   pagePath,
   publishedPageIds,
+  renderedPageIds,
   resolveGameSlug,
   resolveSection,
   type PageId,
@@ -209,4 +210,17 @@ describe("modules sans dépendance", () => {
       expect(read(file)).not.toMatch(/^\s*(import|export\s.*\sfrom)\s/m);
     },
   );
+});
+
+describe("renderedPageIds", () => {
+  it("ne liste que des pages publiées, dans l'ordre du registre", () => {
+    const published = publishedPageIds();
+    const rendered = renderedPageIds();
+    for (const pageId of rendered) expect(published).toContain(pageId);
+    expect(rendered).toEqual(published.filter((id) => rendered.includes(id)));
+  });
+
+  it("ne contient aujourd'hui que l'accueil et les trois pages légales", () => {
+    expect(renderedPageIds()).toEqual(["home", "privacy", "terms", "legal"]);
+  });
 });

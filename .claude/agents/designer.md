@@ -66,13 +66,18 @@ de tous les outils (Skill, nbpro, navigateur, WebFetch…).
   de `globals.css` reste intact).
 - WCAG 2.1 AA, skip-link et `alt` conservés ; Core Web Vitals (pas de régression LCP/CLS).
 - Toute chaîne passe par `Dictionary` (`fr.ts` + `en.ts` + `types.ts`), tout lien interne
-  par `getLocalePath()`. Cerebrum : faits uniquement depuis
+  par `pagePath(pageId, locale, hash?)` de `src/lib/routes.ts` (`absoluteUrl()` pour une URL
+  complète ; `getLocalePath()` n'existe plus). Cerebrum : faits uniquement depuis
   les fiches store en vigueur et les faits vérifiés (docs ASO de
   `cerebrum/cerebrum-design-system/marketing/ASO/`, sessions iOS/Android/Design System),
   jamais inventés.
 
 ## Règles critiques
 
+- Langues : anglais par défaut SANS préfixe, français sous `/fr`, `/en` redirige en 308 vers
+  `/`. Schéma légal FIGÉ (`FROZEN_LEGAL_PATHS`) : `/privacy`, `/terms`, `/legal` servent le
+  FRANÇAIS, `/en/<page>` l'anglais. Ancres à préserver : `account-deletion`, `website`
+  (privacy), `contact` (landing).
 - JAMAIS casser `/privacy`, `/terms`, `/legal`, `/account-deletion` (+ pendants `/en/`,
   `/fr/`), ni `/cerebrum/play` (QR codes imprimés) ni ses alias `/play` et `/jouer`. `/account-deletion` reste une redirection 307
   vers `/privacy#account-deletion`.

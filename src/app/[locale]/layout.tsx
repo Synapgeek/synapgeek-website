@@ -97,7 +97,7 @@ export default async function LocaleLayout({
           dict={dict.common.consent}
         />
         <div className="flex min-h-screen flex-col">
-          <JsonLd data={organizationSchema(locale)} />
+          <JsonLd data={organizationSchema()} />
           <JsonLd data={websiteSchema(locale)} />
           <Header locale={locale} languageTable={languageTable} />
           <main id="main-content" className="flex-1">

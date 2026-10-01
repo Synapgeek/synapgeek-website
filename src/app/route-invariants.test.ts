@@ -5,9 +5,16 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { posix as posixPath } from "node:path";
 import nextConfig from "../../next.config";
 import sitemap from "@/app/sitemap";
+import robots from "@/app/robots";
 import { metadata as playMetadata } from "@/app/cerebrum/play/page";
 import { getDictionary } from "@/content";
 import { DEFAULT_LOCALE, LOCALES } from "@/lib/i18n";
+import {
+  absoluteUrl,
+  alternatesFor,
+  publishedPageIds,
+  renderedPageIds,
+} from "@/lib/routes";
 import { proxy } from "@/proxy";
 
 /**
@@ -128,6 +135,14 @@ describe("JSON-LD — source unique (CLAUDE.md, « SEO »)", () => {
       read(file).includes("application/ld+json"),
     );
     expect(emitters).toEqual([JSON_LD_RENDERER]);
+  });
+
+  it("un seul noeud Organization : seul le layout de langue l'émet", () => {
+    const callers = sources.filter(
+      (file) =>
+        file !== STRUCTURED_DATA && /\borganizationSchema\(/.test(read(file)),
+    );
+    expect(callers).toEqual(["src/app/[locale]/layout.tsx"]);
   });
 
   it("tout fichier qui rend <JsonLd> importe ses données de @/lib/structured-data", () => {
@@ -412,5 +427,137 @@ describe("secrets (CLAUDE.md, « Sécurité »)", () => {
         read(file).match(/process\.env(?!\.NEXT_PUBLIC_)\S*/g) ?? [];
       expect(offenders, file).toEqual([]);
     }
+  });
+});
+
+describe("sitemap — dérivé du registre de pages (spec §5, SEO)", () => {
+  const entries = sitemap();
+  const urls = entries.map((entry) => entry.url);
+  const expectedUrls = renderedPageIds().flatMap((pageId) =>
+    LOCALES.map((locale) => absoluteUrl(pageId, locale)),
+  );
+
+  it("liste exactement les pages rendues × les langues, sans doublon", () => {
+    expect([...urls].sort()).toEqual([...expectedUrls].sort());
+    expect(new Set(urls).size).toBe(urls.length);
+  });
+
+  it("ne liste que des pages publiées (jamais une page rendue mais non indexable)", () => {
+    expect(publishedPageIds()).toEqual(
+      expect.arrayContaining(renderedPageIds()),
+    );
+  });
+
+  it("n'expose jamais /cerebrum/play, ni /en/<page>, ni /fr/<page légale>", () => {
+    expect(urls.some((url) => url.includes("/play"))).toBe(false);
+    expect(urls).not.toContain("https://synapgeek.com/en");
+    for (const page of ["privacy", "terms", "legal"]) {
+      expect(urls).not.toContain(`https://synapgeek.com/fr/${page}`);
+    }
+  });
+
+  it("chaque entrée porte les alternates hreflang de sa page", () => {
+    const pageIdOf = new Map(
+      renderedPageIds().flatMap((pageId) =>
+        LOCALES.map((locale) => [absoluteUrl(pageId, locale), pageId] as const),
+      ),
+    );
+    for (const entry of entries) {
+      const pageId = pageIdOf.get(entry.url);
+      expect(pageId, entry.url).toBeDefined();
+      expect(entry.alternates?.languages, entry.url).toEqual(
+        alternatesFor(pageId!).languages,
+      );
+    }
+  });
+
+  it("les pages légales gardent la date de leur dictionnaire", () => {
+    for (const locale of LOCALES) {
+      const dict = getDictionary(locale);
+      for (const page of ["privacy", "terms", "legal"] as const) {
+        const entry = entries.find(
+          (candidate) => candidate.url === absoluteUrl(page, locale),
+        );
+        expect(entry?.lastModified, `${locale} ${page}`).toBe(
+          dict[page].updatedAt,
+        );
+      }
+    }
+  });
+
+  it("changeFrequency : hebdomadaire pour l'accueil, mensuelle pour le reste", () => {
+    for (const entry of entries) {
+      const isHome =
+        entry.url === absoluteUrl("home", "en") ||
+        entry.url === absoluteUrl("home", "fr");
+      expect(entry.changeFrequency, entry.url).toBe(
+        isHome ? "weekly" : "monthly",
+      );
+    }
+  });
+});
+
+describe("robots — crawlers IA nommés (spec §5, GEO)", () => {
+  const AI_CRAWLERS = [
+    "OAI-SearchBot",
+    "ChatGPT-User",
+    "GPTBot",
+    "PerplexityBot",
+    "Perplexity-User",
+    "ClaudeBot",
+    "Claude-SearchBot",
+    "Claude-User",
+    "Google-Extended",
+    "Applebot-Extended",
+    "Bingbot",
+  ];
+  const result = robots();
+  const rules = Array.isArray(result.rules) ? result.rules : [result.rules];
+
+  it('autorise "/" pour * et pour chaque crawler IA, nommé explicitement', () => {
+    for (const userAgent of ["*", ...AI_CRAWLERS]) {
+      const matching = rules.filter((rule) =>
+        Array.isArray(rule.userAgent)
+          ? rule.userAgent.includes(userAgent)
+          : rule.userAgent === userAgent,
+      );
+      expect(matching.length, userAgent).toBe(1);
+      expect(matching[0].allow, userAgent).toBe("/");
+    }
+  });
+
+  it("ne contient aucun disallow", () => {
+    for (const rule of rules) expect(rule.disallow).toBeUndefined();
+  });
+
+  it("garde la ligne sitemap", () => {
+    expect(result.sitemap).toBe("https://synapgeek.com/sitemap.xml");
+  });
+});
+
+describe("llms.txt — cohérent avec le sitemap (spec §5, GEO)", () => {
+  const llms = read("public/llms.txt");
+  const sitemapUrls = new Set(sitemap().map((entry) => entry.url));
+  const siteUrls = [
+    ...llms.matchAll(/https:\/\/synapgeek\.com(?:\/[^\s)\]]*)?/g),
+  ].map((match) => match[0]);
+
+  it("liste des URLs du site", () => {
+    expect(siteUrls.length).toBeGreaterThan(0);
+  });
+
+  it("chaque URL synapgeek.com citée est dans le sitemap", () => {
+    for (const url of siteUrls) {
+      expect(sitemapUrls, url).toContain(url);
+    }
+  });
+
+  it("couvre chaque URL du sitemap", () => {
+    for (const url of sitemapUrls) expect(siteUrls, url).toContain(url);
+  });
+
+  it("ne cite jamais la route des QR", () => {
+    // Ancré sur le domaine : play.google.com/… est une fiche store légitime.
+    expect(llms).not.toMatch(/synapgeek\.com\/(?:cerebrum\/play|play|jouer)\b/);
   });
 });

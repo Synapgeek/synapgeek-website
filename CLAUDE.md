@@ -1,12 +1,15 @@
 # Synapgeek Website
 
 > Dernière vérification complète contre le code : 2026-09-12. Révisé le 2026-10-01
-> (sections Commandes, Sous-agents, Skills auto-chargés, Variables d'environnement)
+> (sections Commandes, Sous-agents, Skills auto-chargés, Variables d'environnement,
+> Langues, Structure des routes, Architecture i18n, SEO : bascule sur l'anglais par défaut)
 > sans re-vérification complète des autres. Quand ce fichier et le code divergent,
 > **le code fait foi** — et cette ligne devient une tâche, pas une excuse.
 > Les fichiers qui font contrat : `src/proxy.ts`, `src/lib/i18n.ts`, `src/lib/seo.ts`,
 > `src/lib/app.ts`, `src/content/index.ts`, `src/content/types.ts`, `src/app/sitemap.ts`,
-> `next.config.ts`, `vercel.json`.
+> `src/lib/routes.ts`, `src/lib/frozen-legal-paths.ts`, `src/lib/page-slugs.ts`,
+> `next.config.ts`, `vercel.json`, et `docs/contrat/` (faits Cerebrum vérifiés, hors
+> formatage Prettier).
 
 ## Contexte
 
@@ -53,7 +56,10 @@ AdMob consent (UMP).
   Seule `main` déploie (`vercel.json` > `git.deploymentEnabled` : `"**": false`,
   `"main": true`, décision d'Adrien du 2026-10-01) : aucune preview de branche. Vercel lit
   ce réglage dans le commit poussé, donc toute branche doit partir d'un `main` qui le porte.
-- **Langues** : Français (défaut) + Anglais (i18n maison via `src/content/`, pas de `next-intl`)
+- **Langues** : **Anglais (défaut, sans préfixe)** + Français sous `/fr` (i18n maison via
+  `src/content/`, pas de `next-intl`). Exception figée : les trois pages légales gardent
+  leur schéma historique, français sans préfixe et anglais sous `/en/` (voir « Structure
+  des routes »)
 
 ## Commandes
 
@@ -91,23 +97,33 @@ juste après le merge. Tout le reste est humain ou passe par un sous-agent.
   `[locale]/privacy/page.tsx` et `[locale]/terms/page.tsx` (description SEO).
   `Footer.tsx` a été assaini (ternaires remplacés par des clés `Dictionary`).
   `site-reviewer` refuse toute PR qui fait monter ce compte.
-- Tout lien interne passe par `getLocalePath()`
+- Tout lien interne passe par `pagePath(pageId, locale, hash?)` de `src/lib/routes.ts` (et
+  `absoluteUrl()` pour une URL complète). `getLocalePath()` n'existe plus : un test de
+  `route-invariants.test.ts` échoue s'il réapparaît dans `src/`
 
 ## Structure des routes
 
 Routes actives :
 
 ```
-/                      → Landing page (FR, locale par défaut, sans préfixe), section FAQ
+/                      → Landing page (EN, locale par défaut, sans préfixe), section FAQ
                          ancrée en `#faq`
-/en                    → Landing page (EN), `#faq`
-/#contact, /en#contact → URLs de support déclarées dans App Store Connect (FR : `/#contact`,
-                         les 19 autres locales : `/en#contact`). L'ancre `id="contact"` de la
-                         landing (`Contact.tsx`) est donc une URL CONTRAT : ne jamais la
-                         renommer ni la retirer
-/privacy               → Privacy Policy (FR)          /en/privacy
-/terms                 → CGU / EULA (FR)              /en/terms
-/legal                 → Mentions légales (FR)        /en/legal
+/fr                    → Landing page (FR), `#faq`
+/en                    → 308 vers `/` (query conservée) — `next.config.ts`
+/en/<page>             → 308 vers `/<page>` pour chaque ancienne page anglaise NON légale
+                         (`/en/cerebrum`…) : une règle LITTÉRALE par page, jamais de regex ni
+                         de `/en/:path*` (elle capterait `/en/privacy`)
+/#contact, /fr#contact → URLs de support déclarées dans App Store Connect (`/#contact` et
+                         `/en#contact` : ce dernier redirige en 308 vers `/#contact`). L'ancre
+                         `id="contact"` de la landing (`Contact.tsx`) est donc une URL
+                         CONTRAT : ne jamais la renommer ni la retirer, dans les deux langues
+/privacy               → Privacy Policy en FRANÇAIS   /en/privacy (anglais)
+/terms                 → CGU / EULA en FRANÇAIS       /en/terms (anglais)
+/legal                 → Mentions légales en FRANÇAIS /en/legal (anglais)
+                         Schéma légal FIGÉ (`FROZEN_LEGAL_PATHS`, `src/lib/frozen-legal-paths.ts`) :
+                         l'app installée et les stores ouvrent `/privacy` en attendant du
+                         français. `/fr/<page légale>` est TRANSITOIRE (200 + canonical vers
+                         l'URL sans préfixe) en attendant sa redirection 308
 /cerebrum/play         → Redirection QR → App Store / Play Store selon le User-Agent.
                          Les paramètres entrants (`?src=…`) sont transmis à la cible mais
                          ne peuvent jamais écraser un paramètre déjà présent dessus
@@ -117,8 +133,10 @@ Routes actives :
                          QR historiques, JAMAIS casser
 /api/contact           → Formulaire de contact (POST) — reCAPTCHA v2
 /robots.txt            → src/app/robots.ts
-/sitemap.xml           → src/app/sitemap.ts (8 URLs, alternates hreflang)
-/llms.txt              → public/llms.txt, statique
+/sitemap.xml           → src/app/sitemap.ts : `renderedPageIds()` × langues via `absoluteUrl()`
+                         (8 URLs aujourd'hui), alternates hreflang
+/llms.txt              → public/llms.txt, statique ; chaque URL synapgeek.com citée doit être
+                         dans le sitemap (garde vitest)
 /.well-known/apple-app-site-association
                        → Universal Links iOS. appID 6ZSKBP3TL7.com.synapgeek.cerebrumgame,
                          components /app/*. Apple exige application/json, sans extension
@@ -143,30 +161,45 @@ La 404 est `src/app/not-found.tsx`. Comme `src/app/layout.tsx` retourne `childre
 toute route hors de `src/app/[locale]/` rend son propre `<html lang>`/`<body>` — c'est le
 cas de `not-found.tsx` et de `/cerebrum/play`.
 
-Routes prévues (pas encore implémentées) : `/blog`, `/apps/[slug]`.
+Routes prévues (pas encore implémentées) : `/cerebrum`, les pages jeu, les sections du
+registre (`src/lib/page-slugs.ts`), `/blog`. Elles n'entrent dans le sitemap qu'avec leur
+livraison : `RENDERED_PAGE_IDS` dans `src/lib/routes.ts` est la source unique de ce qui
+rend aujourd'hui, et `npm run check:contract` vérifie que chaque `<loc>` répond 200.
+
+Ancres à préserver (URLs contractuelles hors du chemin) : `#account-deletion` et `#website`
+dans la politique de confidentialité (formulaire Data Safety, lien du bandeau de consentement),
+`#contact` sur la landing (App Store Connect).
 
 ## Architecture i18n
 
-- **Locale par défaut** : `fr` (pas de préfixe dans l'URL)
-- **Autres locales** : préfixe `/en/`
+- **Locale par défaut** : `en` (pas de préfixe dans l'URL) — `DEFAULT_LOCALE` de
+  `src/lib/i18n.ts`
+- **Autres locales** : préfixe `/fr/`. Seules les pages légales font exception
+  (`FROZEN_LEGAL_PATHS` : français sans préfixe, anglais sous `/en/`)
 - **Proxy** (`src/proxy.ts`) : rewrite (jamais redirect) des URLs sans préfixe vers
-  `/fr/...`. Matcher : `["/((?!_next|api|favicon\\.ico|.*\\..*).*)"]` — tout chemin
+  `/en/...`, sauf les chemins exacts de `FROZEN_LEGAL_PATHS` réécrits vers `/fr/...`
+  (`/privacy-notes` n'est PAS figé : seuls les chemins exacts le sont). Matcher : `["/((?!_next|api|favicon\\.ico|.*\\..*).*)"]` — tout chemin
   contenant un point y échappe (d'où le passage direct de `/.well-known/*`).
   `LOCALE_FREE_ROUTES` exclut en plus les routes servies hors du segment `[locale]` : il
   vaut `["/cerebrum/play"]` et ne couvre PAS `/cerebrum`.
 - **Contenu** : `src/content/fr.ts` et `src/content/en.ts`
 - **Types** : `src/content/types.ts` (`Dictionary`)
-- **Helpers** : `src/lib/i18n.ts` (`LOCALES`, `DEFAULT_LOCALE`, `getLocalePath`,
-  `generateStaticParams`), `src/content/index.ts` (`getDictionary`, `getLocale`),
-  `src/lib/seo.ts` (`getAlternates`), `src/lib/app.ts` (identité store)
-- ⚠ `/fr`, `/fr/privacy`, `/fr/terms`, `/fr/legal` répondent 200 et ne sont
-  dédoublonnées que par le canonical. Ni redirigées, ni noindexées, ni sitemapées.
+- **Helpers** : `src/lib/i18n.ts` (`LOCALES`, `DEFAULT_LOCALE`, `generateStaticParams`),
+  `src/lib/routes.ts` (`PageId`, `pagePath`, `absoluteUrl`, `alternatesFor`,
+  `publishedPageIds`, `renderedPageIds`, `X_DEFAULT_LOCALE`), `src/lib/frozen-legal-paths.ts`
+  (`FROZEN_LEGAL_PATHS`), `src/lib/page-slugs.ts` (slugs par langue),
+  `src/content/index.ts` (`getDictionary`, `getLocale`), `src/lib/seo.ts`
+  (`getAlternates(pageId, locale)`, `buildOpenGraph`), `src/lib/app.ts` (identité store)
+- ⚠ `/fr/privacy`, `/fr/terms`, `/fr/legal` répondent encore 200 et ne sont dédoublonnées
+  que par le canonical (vers l'URL sans préfixe). Ni noindexées ni sitemapées ; leur 308
+  vers l'URL sans préfixe arrivera dans un PR ultérieur, après preuve en production.
 - Un segment qui n'est pas une locale connue (`/wp-login.php` : tout chemin contenant un
   point échappe au proxy et atterrit dans `[locale]`) déclenche `notFound()` dans
   `[locale]/layout.tsx` → vrai 404. **Jamais `dynamicParams = false`** pour ça. `/llms.txt`
   n'illustre PAS ce cas : servi statiquement depuis `public/`, il répond avant même
   d'atteindre le routing Next — jamais de `notFound()`.
-- `getLocalePath("en", "/")` renvoie `/en`, sans slash final : `/en/` répond 308.
+- `pagePath("home", "fr")` renvoie `/fr`, sans slash final : `/fr/` répond 308. La racine
+  anglaise est `/` (`absoluteUrl("home", "en")` = `https://synapgeek.com`, sans slash).
 - Le sélecteur de langue du header ne rend ses liens qu'une fois ouvert — invisibles pour
   un crawler. Le lien permanent du footer (`dict.common.languageSwitch`) est ce qui relie
   les deux versions du site : ne pas le retirer.
@@ -184,20 +217,32 @@ Routes prévues (pas encore implémentées) : `/blog`, `/apps/[slug]`.
   disparaître l'image. Toujours passer par le helper. `/cerebrum/play` et la 404 n'en ont pas.
 - OG image custom (`public/images/brand/og-image.jpeg`)
 - Hreflang `<link rel="alternate">` et canonical sur toutes les pages. **x-default pointe
-  vers l'anglais** (`X_DEFAULT_LOCALE` dans `src/lib/seo.ts`, distinct de `DEFAULT_LOCALE`
-  = `fr`, qui régit le routage et reste inchangé).
-- Smart App Banner Safari via `itunes: { appId }` dans le layout de locale
-- `sitemap.xml` : `/`, `/privacy`, `/terms`, `/legal` × 2 locales, avec alternates et des
-  `lastModified` réels (`lastModifiedFor()` dans `src/app/sitemap.ts` — plus une date figée)
-- `robots.txt` : `Allow: /` intégral, aucun `Disallow`, aucun `noindex` dans `src/`
-  (sauf `/cerebrum/play`, marquée `robots: { index: false }`)
+  vers l'anglais** (`X_DEFAULT_LOCALE` dans `src/lib/routes.ts`), qui coïncide désormais
+  avec `DEFAULT_LOCALE` (`en`) mais reste une constante distincte. Les alternates viennent
+  de `alternatesFor(pageId)`, le canonical de `absoluteUrl()` : jamais écrits à la main.
+- Smart App Banner Safari via `itunes: { appId }` dans le layout de locale : il s'applique
+  donc à toutes les pages du segment `[locale]`, dans les deux langues
+- `sitemap.xml` : `renderedPageIds()` × `LOCALES` (aujourd'hui `/`, `/privacy`, `/terms`,
+  `/legal` × 2 langues), alternates `alternatesFor()`, `lastModified` réels
+  (`lastModifiedFor()` : date du dictionnaire pour le légal, une constante datée par type
+  de page sinon). Jamais `/cerebrum/play`, `/en/<page>` ni `/fr/<page légale>`
+- `robots.txt` : `Allow: /` pour `*` et, nommés explicitement, OAI-SearchBot, ChatGPT-User,
+  GPTBot, PerplexityBot, Perplexity-User, ClaudeBot, Claude-SearchBot, Claude-User,
+  Google-Extended, Applebot-Extended, Bingbot ; aucun `Disallow`, aucun `noindex` dans
+  `src/` (sauf `/cerebrum/play`, marquée `robots: { index: false }`)
 - **`src/lib/structured-data.ts` est la source unique de tout le JSON-LD du site** — aucun
   objet `@type` schema.org ne doit être construit ailleurs. Builders exposés :
-  `organizationSchema` (Organization, sur toutes les pages du segment `[locale]`),
-  `websiteSchema` (WebSite, layout de locale), `softwareApplicationSchema`
+  `organizationSchema` (Organization, UN seul noeud, émis par le layout de locale sur
+  toutes les pages), `websiteSchema` (WebSite, layout de locale), `softwareApplicationSchema`
   (SoftwareApplication, landing uniquement — `operatingSystem: ["iOS", "Android"]`),
   `faqPageSchema` (FAQPage, landing) et `webPageSchema` (WebPage, pages légales).
-- `public/llms.txt` : résumé du site et des faits Cerebrum pour les agents/LLM, statique
+  Invariants testés (`structured-data.test.ts`) : `@id` identiques dans les deux langues
+  (`https://synapgeek.com/#organization`, `/#website`, `/cerebrum#app`), `url` de
+  Organization et WebSite = `https://synapgeek.com/`, `inLanguage` en BCP 47 (`en`, `fr` ;
+  les 16 langues de l'app aussi), jamais `fr_FR`.
+- `public/llms.txt` : résumé du site et des faits Cerebrum pour les agents/LLM, statique.
+  Ses URLs suivent le schéma de langue (`https://synapgeek.com` anglais,
+  `/fr` français, légal figé) ; un test vitest les compare au sitemap
 - `app-ads.txt` pour la vérification AdMob
 
 ## Sécurité (implémenté)

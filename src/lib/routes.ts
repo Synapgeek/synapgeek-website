@@ -100,6 +100,21 @@ export function publishedPageIds(): PageId[] {
   return ["home", "cerebrum", ...games, ...SECTION_IDS, ...LEGAL_IDS];
 }
 
+/**
+ * Pages dont la route existe et répond 200 aujourd'hui. Source unique du
+ * sitemap : une page n'y entre qu'avec sa livraison, jamais avant (une URL
+ * sitemapée qui répond 404 est une régression d'indexation).
+ */
+const RENDERED_PAGE_IDS: ReadonlySet<PageId> = new Set<PageId>([
+  "home",
+  ...LEGAL_IDS,
+]);
+
+/** Pages publiées ET rendues, dans l'ordre du registre : ce que le sitemap liste. */
+export function renderedPageIds(): PageId[] {
+  return publishedPageIds().filter((pageId) => RENDERED_PAGE_IDS.has(pageId));
+}
+
 /** `null` : slug inconnu dans cette locale (le caller décide, en général `notFound()`). */
 export function resolveSection(locale: Locale, slug: string): SectionId | null {
   return SECTION_IDS.find((id) => SECTION_SLUGS[id][locale] === slug) ?? null;

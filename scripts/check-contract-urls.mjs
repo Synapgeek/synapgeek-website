@@ -441,6 +441,39 @@ function printTable(rows) {
   }
 }
 
+/**
+ * Chaque <loc> du sitemap doit répondre 200 : une page sitemapée avant d'être
+ * livrée (ou une URL redirigée) est une régression d'indexation. Les <loc> sont
+ * toujours en https://synapgeek.com ; on ne garde que le chemin pour interroger
+ * la base contrôlée (local, preview ou production).
+ */
+async function sitemapChecks(base) {
+  const res = await fetchContract(base, { path: "/sitemap.xml" });
+  const locs = [...res.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
+    (match) => match[1],
+  );
+  if (!locs.length) {
+    return [
+      {
+        label: `${new URL(base).host}/sitemap.xml`,
+        expected: "au moins un <loc>",
+        observed: "aucun <loc>",
+        ok: false,
+      },
+    ];
+  }
+  return Promise.all(
+    locs.map((loc) => {
+      const { pathname, search } = new URL(loc);
+      return runCheck(base, {
+        path: `${pathname}${search}`,
+        label: `${pathname} (sitemap)`,
+        expect: [status(200), noLocation()],
+      });
+    }),
+  );
+}
+
 async function main() {
   const [baseArgument] = process.argv.slice(2);
   const targets = [];
@@ -459,6 +492,8 @@ async function main() {
   const rows = await Promise.all(
     targets.map(([base, check]) => runCheck(base, check)),
   );
+  const sitemapBase = baseArgument ? new URL(baseArgument).origin : APEX;
+  rows.push(...(await sitemapChecks(sitemapBase)));
   printTable(rows);
   for (const reason of skipped) console.log(`SKIP  ${reason}`);
 

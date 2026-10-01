@@ -50,13 +50,12 @@ const CEREBRUM_APP_LANGUAGES = [
 // quelle depuis le JSON-LD SoftwareApplication existant.
 const CEREBRUM_DATE_PUBLISHED = "2026-06-03";
 
-function ogLocale(locale: Locale): string {
-  const map: Record<Locale, string> = {
-    fr: "fr_FR",
-    en: "en_US",
-  };
-  return map[locale];
-}
+// Les noeuds Organization et WebSite décrivent le site entier : même @id et même
+// url dans toutes les langues, pour que les moteurs ne voient qu'une entité.
+const SITE_ROOT_URL = `${BASE_URL}/`;
+const ORGANIZATION_ID = `${BASE_URL}/#organization`;
+const WEBSITE_ID = `${BASE_URL}/#website`;
+const CEREBRUM_APP_ID = `${BASE_URL}/cerebrum#app`;
 
 interface PostalAddressSchema {
   readonly "@type": "PostalAddress";
@@ -88,7 +87,7 @@ interface OrganizationSchema {
  * Organisation Synapgeek — un seul noeud `@id` partagé par toutes les pages
  * (référencé en `publisher`/`author` ailleurs plutôt que redupliqué).
  */
-export function organizationSchema(locale: Locale): OrganizationSchema {
+export function organizationSchema(): OrganizationSchema {
   const sameAs = [APP_STORE_DEVELOPER_URL, GOOGLE_PLAY_DEVELOPER_URL].filter(
     (url): url is string => Boolean(url),
   );
@@ -96,10 +95,10 @@ export function organizationSchema(locale: Locale): OrganizationSchema {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "@id": `${BASE_URL}/#organization`,
+    "@id": ORGANIZATION_ID,
     name: "Synapgeek",
     legalName: "Synapgeek SAS",
-    url: absoluteUrl("home", locale),
+    url: SITE_ROOT_URL,
     logo: `${BASE_URL}/images/brand/logo-synapgeek.png`,
     address: {
       "@type": "PostalAddress",
@@ -131,11 +130,11 @@ export function websiteSchema(locale: Locale): WebSiteSchema {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": `${BASE_URL}/#website`,
-    url: absoluteUrl("home", locale),
+    "@id": WEBSITE_ID,
+    url: SITE_ROOT_URL,
     name: "Synapgeek",
-    inLanguage: ogLocale(locale),
-    publisher: { "@id": `${BASE_URL}/#organization` },
+    inLanguage: locale,
+    publisher: { "@id": ORGANIZATION_ID },
   };
 }
 
@@ -176,7 +175,7 @@ export function softwareApplicationSchema(
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "@id": `${BASE_URL}/#cerebrum`,
+    "@id": CEREBRUM_APP_ID,
     name: "Cerebrum",
     alternateName: [
       APP_STORE_TITLE_FR,
@@ -197,8 +196,8 @@ export function softwareApplicationSchema(
       availability: "https://schema.org/InStock",
     },
     downloadUrl: [APP_STORE_URL, GOOGLE_PLAY_URL],
-    author: { "@id": `${BASE_URL}/#organization` },
-    publisher: { "@id": `${BASE_URL}/#organization` },
+    author: { "@id": ORGANIZATION_ID },
+    publisher: { "@id": ORGANIZATION_ID },
     inLanguage: CEREBRUM_APP_LANGUAGES,
     datePublished: CEREBRUM_DATE_PUBLISHED,
   };
@@ -262,8 +261,8 @@ export function webPageSchema({
     "@type": "WebPage",
     url: absoluteUrl(pageId, locale),
     name,
-    inLanguage: ogLocale(locale),
+    inLanguage: locale,
     dateModified,
-    isPartOf: { "@id": `${BASE_URL}/#website` },
+    isPartOf: { "@id": WEBSITE_ID },
   };
 }
