@@ -30,7 +30,7 @@ export const mazeEn: GameCopy = {
       "A Maze level is a single maze to get through. Each difficulty has its own path of levels, and once you have finished it, Endless Mode keeps going with more mazes of the same difficulty.",
       "Most mazes have a shape: a heart, a star, a ring, an hourglass or a triangle cuts out the board, and the cells outside the shape cannot be entered. The others are plain rectangles.",
       "A small maze fits on screen in one piece. In a big one the view follows the firefly step by step, and the overview button zooms out to show the whole board at once, as often as you like whenever there is no fog.",
-      "Stars are earned one at a time: the first for reaching the exit, the second for collecting every crystal, the third for arriving within the target time, which is worked out from the length of the shortest route.",
+      "Each star rewards one thing: one for reaching the exit, one for collecting every crystal, one for arriving within the target time, which is worked out from the length of the shortest route.",
       "A five-page tutorial recaps the rules inside the app. If you pick Maze for the daily challenge, every player gets the same maze that day, and never an Elite one, so never any fog.",
     ],
     difficultyTable: {
@@ -64,7 +64,7 @@ export const mazeEn: GameCopy = {
     items: [
       "In Elite, look at the overview before you step into the fog. It lasts only a few seconds and works three times per maze, so spend one right at the start to spot the exit and the general layout, and keep the other two for when you lose your bearings. Whatever the firefly has lit up stays visible afterwards.",
       "Work backwards from the exit. Once the board is in view, follow the corridor that touches the portal with your eyes, then the next one, until you reach a passage near the firefly: a route searched from the far end keeps you from committing to branches that lead away from the portal.",
-      "Crystals always sit at the end of a dead end. Decide early which ones deserve a detour: a short dead end next to your route is a quick round trip, while a long branch mostly costs time. If one star is enough for you, skip them all; for the second star you need every one.",
+      "Crystals always sit at the end of a dead end. Decide early which ones deserve a detour: a short dead end next to your route is a quick round trip, while a long branch mostly costs time. Skipping them all still lets a fast run earn two stars; the crystal star needs every single one.",
       "Make boosters pay off. A rocket picked up at the start of a long corridor carries you to the next junction or dead end, and a tap on any direction hands control back. Bubbles stack up in reserve: each one is spent by itself in a dead end, but stays in reserve when going back would not be worth it.",
       "Save the hint for the junction where you hesitate. It lights only the next six cells of the shortest route, for a few seconds: note the direction before it fades, rather than spending it in the middle of a corridor where you have no choice anyway.",
     ],
@@ -80,12 +80,12 @@ export const mazeEn: GameCopy = {
       {
         question: "Is there a time limit?",
         answer:
-          "No. The timer only matters for the third star, the one tied to the target time: arriving later never loses you a level.",
+          "No. The timer only matters for the time star: arriving later never loses you a level.",
       },
       {
         question: "Are crystals the same as gems?",
         answer:
-          "No. Gems are the app's currency, while the crystals you pick up in the maze only earn the level's second star.",
+          "No. Gems are the app's currency, while crystals are picked up inside the maze, and collecting every one of them earns one of the level's three stars.",
       },
       {
         question: "How is Maze different from Arrow Maze?",

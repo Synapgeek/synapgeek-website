@@ -30,7 +30,7 @@ export const mazeFr: GameCopy = {
       "Un niveau de Labyrinthe, c'est un seul labyrinthe à traverser. Chaque difficulté a son parcours de niveaux ; quand vous l'avez terminé, le mode Infini prolonge la partie avec d'autres labyrinthes de la même difficulté.",
       "La plupart des labyrinthes ont une forme : un cœur, une étoile, un anneau, un sablier ou un triangle découpent le plateau, et les cases hors de la forme ne se traversent pas. Les autres sont de simples rectangles.",
       "Un petit labyrinthe tient tout entier à l'écran. Dans un grand, la vue suit la luciole pas à pas, et le bouton de vue d'ensemble dézoome pour montrer tout le plateau d'un coup, autant de fois que vous voulez tant qu'il n'y a pas de brouillard.",
-      "Les étoiles se gagnent une à une : la première en trouvant la sortie, la deuxième en ramassant tous les cristaux, la troisième en arrivant avant le temps cible, calculé d'après la longueur du plus court chemin.",
+      "Chaque étoile récompense une chose : une pour la sortie trouvée, une pour tous les cristaux ramassés, une pour l'arrivée dans le temps cible, calculé d'après la longueur du plus court chemin.",
       "Un tutoriel en cinq pages reprend les règles dans l'app. Si vous choisissez le Labyrinthe pour le défi du jour, c'est le même labyrinthe pour tous les joueurs ce jour-là, et jamais en Élite : pas de brouillard.",
     ],
     difficultyTable: {
@@ -64,7 +64,7 @@ export const mazeFr: GameCopy = {
     items: [
       "En Élite, regardez la vue d'ensemble avant d'avancer dans le brouillard. Elle ne dure que quelques secondes et ne se déclenche que trois fois par labyrinthe : employez-en une dès le départ pour repérer la sortie et le sens général du plateau, gardez les deux autres pour vous retrouver. Ce que la luciole a éclairé reste visible ensuite.",
       "Remontez le labyrinthe depuis la sortie. Dès que le plateau est en vue, suivez des yeux le couloir qui touche le portail, puis le suivant, jusqu'à rejoindre un passage proche de la luciole : un chemin cherché à l'envers évite de s'engager dans les branches qui s'éloignent du portail.",
-      "Les cristaux se trouvent toujours au fond d'une impasse. Décidez tôt lesquels méritent le détour : une impasse courte au bord de votre route se visite en aller-retour, une longue branche coûte surtout du temps. Si une seule étoile vous suffit, ignorez-les ; pour la deuxième, il les faut tous.",
+      "Les cristaux se trouvent toujours au fond d'une impasse. Décidez tôt lesquels méritent le détour : une impasse courte au bord de votre route se visite en aller-retour, une longue branche coûte surtout du temps. Les ignorer tous laisse encore deux étoiles à portée d'une course rapide ; l'étoile des cristaux, elle, les exige tous.",
       "Faites travailler vos boosters là où ils rapportent. Une fusée ramassée au début d'un long couloir vous emporte jusqu'au prochain carrefour ou à l'impasse, et il suffit de toucher une direction pour reprendre la main. Plusieurs bulles se cumulent en réserve : chacune se dépense seule dans une impasse, mais reste en réserve quand le retour ne vaut pas le détour.",
       "Gardez l'indice pour le carrefour où vous hésitez. Il n'éclaire que les six prochaines cases du plus court chemin, pendant quelques secondes : notez la direction avant qu'elle ne s'éteigne, au lieu de le dépenser au milieu d'un couloir où vous n'avez pas le choix.",
     ],
@@ -80,12 +80,12 @@ export const mazeFr: GameCopy = {
       {
         question: "Y a-t-il une limite de temps ?",
         answer:
-          "Non. Le chronomètre ne compte que pour la troisième étoile, celle du temps cible : arriver plus tard ne fait jamais perdre un niveau.",
+          "Non. Le chronomètre ne compte que pour l'étoile du temps cible : arriver plus tard ne fait jamais perdre un niveau.",
       },
       {
         question: "Les cristaux sont-ils des gemmes ?",
         answer:
-          "Non. Les gemmes sont la monnaie de l'app, alors que les cristaux ramassés dans le labyrinthe ne servent qu'à gagner la deuxième étoile du niveau.",
+          "Non. Les gemmes sont la monnaie de l'app, alors que les cristaux se ramassent dans le labyrinthe, et les ramasser tous rapporte l'une des trois étoiles du niveau.",
       },
       {
         question: "Quelle différence entre le Labyrinthe et Arrow Maze ?",
