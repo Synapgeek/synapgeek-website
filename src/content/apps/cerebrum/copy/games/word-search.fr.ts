@@ -30,8 +30,8 @@ export const wordSearchFr: GameCopy = {
       "Dans Cerebrum, un niveau de mots mêlés est une suite de trois grilles fixes, sans tirage au sort, que l'on résout l'une après l'autre. Les niveaux se débloquent un à un sur le parcours de chaque difficulté, puis le mode Infini prend le relais avec de nouvelles séries de trois grilles.",
       "La liste des mots change avec la difficulté. En Facile, tous les mots à trouver restent lisibles. En Moyen, seul le nombre de lettres de chaque mot s'affiche. En Difficile, la liste disparaît : il faut repérer les mots sans savoir lesquels chercher, et certains sont écrits à l'envers.",
       "Aucune erreur possible et aucune partie perdue : ici, seul le chronomètre compte. Les étoiles se calculent sur le temps moyen par grille. Trois étoiles demandent 45 secondes ou moins par grille en Facile, 2 minutes en Moyen et 3 minutes 30 en Difficile ; deux étoiles, jusqu'à 1 minute 30, 3 minutes 30 et 6 minutes.",
-      "Le bouton Indice change avec la difficulté. En Facile, il trouve un mot à votre place dans la grille. En Moyen et en Difficile, il offre deux aides : surligner la première lettre d'un mot encore caché, ou dévoiler le texte d'un mot de la liste.",
-      "Les packs Cinéma, Cuisine et Voyage apportent des mots mêlés à thème, de 9 à 11 cases de côté, au niveau Difficile mais sans aucun mot à l'envers. Chaque pack s'achète à part dans l'app, et le même achat débloque aussi ses mots croisés.",
+      "Le bouton Indice change avec la difficulté. En Facile, il trouve un mot à votre place dans la grille. En Moyen et en Difficile, il offre deux aides : surligner la première lettre d'un mot encore caché, ou dévoiler le texte d'un mot de la liste. Dévoiler un texte indique seulement quoi chercher  : il reste à trouver le mot sur la grille.",
+      "Les packs Cinéma, Cuisine et Voyage apportent des mots mêlés à thème, de 9 à 11 cases de côté, joués comme en Moyen  : la liste n'affiche que le nombre de lettres de chaque mot, et aucun mot de ligne ou de colonne n'est écrit à l'envers. Chaque pack ouvre aussi des mots croisés à thème.",
       "Le jour où vous choisissez les mots mêlés pour le défi du jour, vous recevez une grille Facile tirée dans la langue de l'app, la même pour tous ceux qui jouent en français. Les mots diffèrent d'une langue à l'autre, d'où ce choix.",
     ],
     difficultyTable: {
@@ -62,7 +62,7 @@ export const wordSearchFr: GameCopy = {
       "Cherchez les lettres doubles. Une paire comme SS, LL ou TT se rencontre bien moins souvent qu'une lettre isolée : dès que vous en tenez une, lisez autour d'elle dans les quatre axes avant de passer à la suivante.",
       "Pensez à la direction autant qu'à la lettre. Depuis une première lettre possible, ne vous contentez pas de lire vers la droite : essayez le bas et les quatre diagonales. En Difficile, ajoutez la lecture de droite à gauche et de bas en haut, et glissez toujours de la première lettre du mot vers sa dernière.",
       "En Moyen, servez-vous du nombre de lettres affiché pour classer les mots. Un mot de huit lettres n'a que peu d'emplacements en diagonale, alors qu'un mot de quatre lettres peut se cacher partout : attaquez les longs en premier, ils réduisent vite le champ.",
-      "Quand la liste est cachée, cherchez les assemblages courants plutôt que des mots entiers : terminaisons en -ER, -ES ou -ANT, paires comme QU ou CH. Un mot probable se dessine souvent avant d'être complet, et il ne reste qu'à confirmer d'un glissement.",
+      "Quand la liste est cachée, cherchez les assemblages courants plutôt que des mots entiers : terminaisons en -ER ou -ES, paires comme QU ou CH. Un mot probable se dessine souvent avant d'être complet, et il ne reste qu'à confirmer d'un glissement.",
     ],
   },
   faq: {
@@ -86,7 +86,7 @@ export const wordSearchFr: GameCopy = {
       {
         question: "Que font les aides des mots mêlés ?",
         answer:
-          "En Facile, l'indice trouve un mot pour vous. En Moyen et en Difficile, vous choisissez entre surligner la première lettre d'un mot encore caché et dévoiler le texte d'un mot de la liste.",
+          "En Facile, l'indice trouve un mot pour vous et le marque comme trouvé. En Moyen et en Difficile, vous choisissez entre surligner la première lettre d'un mot encore caché et dévoiler le texte d'un mot de la liste, ce qui vous met sur la piste sans placer le mot dans la grille.",
       },
       {
         question: "Pourquoi un niveau compte-t-il trois grilles ?",
