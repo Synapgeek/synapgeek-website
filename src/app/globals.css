@@ -128,16 +128,18 @@
 }
 
 /* ===== SECTIONS — SectionBand =====
-   Un seul fondu d'entrée par section, piloté par le défilement (sans JS) là où le
+   Une seule montée de 16 px par section, pilotée par le défilement (sans JS) là où le
    navigateur sait le faire ; ailleurs, la section est simplement visible. Une
-   section déjà dans le premier écran est d'emblée à son état final. */
+   section déjà dans le premier écran est d'emblée à son état final. Jamais
+   d'opacité dans cette animation : un texte à opacité 0 échoue le contraste pour
+   axe et Lighthouse (score d'accessibilité 97 au lieu de 100) et une capture pleine
+   page sans défilement montrerait des bandes vides. */
 .band-violet-deep {
   --focus-ring: var(--color-canvas);
 }
 
 @keyframes band-in {
   from {
-    opacity: 0;
     transform: translateY(16px);
   }
 }
