@@ -36,7 +36,6 @@ export const pixelArtEn: GameCopy = {
       "The hint fixes one cell. If you crossed out a cell that belongs to the picture, it fills it in; otherwise it fills a missing cell in the row or column closest to being finished. A hint never costs a life.",
       "When you win, the picture is revealed in four colors and its name appears: Panda, for instance.",
       "Stars count mistakes: none earns three stars, one earns two, two or more earn one, and hints do not count.",
-      "Pixel Art can also be your pick for the daily challenge: the app sets the day's difficulty, Easy or Medium, and every player uncovers the same hidden picture.",
     ],
     difficultyTable: {
       caption: "Pixel Art difficulties in Cerebrum",

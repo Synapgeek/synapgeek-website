@@ -33,7 +33,6 @@ export const crosswordFr: GameCopy = {
       "Vous avez trois cœurs. Un mot faux en coûte un, et une lettre qui complète deux mots faux en coûte deux. Quand le troisième cœur est perdu, vous pouvez reprendre jusqu'à deux fois, avec deux cœurs rendus à chaque reprise. Sans erreur, vous gagnez trois étoiles ; avec une erreur, deux ; avec deux erreurs ou plus, une seule. Les aides n'entrent jamais dans ce compte.",
       "Le bouton Indice propose jusqu'à trois aides. L'aide par définition donne une définition plus facile du même mot ; l'aide par lettre remplit la case que vous avez sélectionnée ; l'aide par mot révèle le mot en cours. Aucune ne coûte de cœur. En Facile, l'aide par définition n'est pas proposée.",
       "Des grilles thématiques, Cinéma, Cuisine et Voyage, s'ajoutent au parcours : elles se jouent en difficulté Difficile, avec des définitions de niveau Moyen, et chaque pack ouvre aussi les Mots Mêlés.",
-      "Les mots croisés se choisissent aussi pour le défi du jour, mais en Facile seulement. La grille est tirée dans la langue de l'app : ce jour-là, tous les joueurs en français ont la même, et ceux qui jouent en anglais en partagent une autre.",
     ],
     difficultyTable: {
       caption: "Les difficultés des mots croisés dans Cerebrum",

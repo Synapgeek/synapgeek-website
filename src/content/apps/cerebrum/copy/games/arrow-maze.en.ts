@@ -34,7 +34,6 @@ export const arrowMazeEn: GameCopy = {
       "The hint picks the free piece that unblocks the most others, and shows its way out to the edge.",
       "Tapping a blocked piece costs a heart: three on Easy and Medium, four on Hard. The blocked piece shakes and the one in its way lights up. Run out of hearts and the game is over, but you can resume the board, two times at most, with a fresh pair of hearts.",
       "Stars follow your mistakes: a clean board earns three, one mistake leaves you two, and two or more leave you one. Hints are never counted.",
-      "Arrow Maze is also among the games for the daily challenge: the app sets the day's difficulty, Easy or Medium, and every player gets the same board.",
     ],
     difficultyTable: {
       caption: "Arrow Maze difficulties in Cerebrum",

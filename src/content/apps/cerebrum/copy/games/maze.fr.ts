@@ -31,7 +31,7 @@ export const mazeFr: GameCopy = {
       "La plupart des labyrinthes ont une forme, du triangle en Facile jusqu'au cœur, à l'anneau, à l'étoile ou au sablier dans les difficultés plus élevées, et les cases hors de la forme ne se traversent pas. Les autres sont de simples rectangles.",
       "Un petit labyrinthe tient tout entier à l'écran. Dans un grand, la vue suit la luciole pas à pas, et le bouton de vue d'ensemble dézoome pour montrer tout le plateau d'un coup, autant de fois que vous voulez tant qu'il n'y a pas de brouillard.",
       "Chaque étoile récompense une chose : une pour la sortie trouvée, une pour tous les cristaux ramassés, une pour l'arrivée dans le temps cible, calculé d'après la longueur du plus court chemin.",
-      "Un tutoriel en cinq pages reprend les règles dans l'app. Si vous choisissez le Labyrinthe pour le défi du jour, c'est le même labyrinthe pour tous les joueurs ce jour-là, et jamais en Élite : pas de brouillard.",
+      "Un tutoriel en cinq pages reprend les règles dans l'app. Le défi du jour ne propose jamais de labyrinthe Élite : il n'a donc jamais de brouillard.",
     ],
     difficultyTable: {
       caption: "Les difficultés du Labyrinthe dans Cerebrum",

@@ -36,7 +36,6 @@ export const pixelArtFr: GameCopy = {
       "L'indice règle une seule case. Si vous avez barré une case qui fait partie du dessin, il la noircit ; sinon il noircit une case manquante dans la ligne ou la colonne la plus avancée. Un indice ne coûte jamais de vie.",
       "À la victoire, le dessin apparaît en quatre couleurs, avec son nom : Panda, par exemple.",
       "Les étoiles se comptent aux erreurs : aucune, trois étoiles ; une, deux ; deux ou plus, une. Les indices ne comptent pas.",
-      "Pixel Art peut aussi être votre choix pour le défi du jour : l'app fixe la difficulté du jour, Facile ou Moyen, et chaque joueur révèle le même dessin caché.",
     ],
     difficultyTable: {
       caption: "Les difficultés du Pixel Art dans Cerebrum",

@@ -139,6 +139,31 @@ describe.each(CASES)("page $name ($locale)", ({ game, locale }) => {
     expect(link).toContain(`href="${pagePath("cerebrum", locale)}"`);
   });
 
+  it("dit le défi du jour une seule fois, par le gabarit, avec les difficultés du registre", async () => {
+    const markup = decode(await render(locale, slug));
+    const { difficulties } = getAppCopy("cerebrum", locale).gamePage;
+    const names = game.dailyDifficulties.map((id) => difficulties[id]);
+    const line = dict.common.gameDaily.line
+      .replace("{game}", game.name[locale])
+      .replace(
+        "{difficulties}",
+        new Intl.ListFormat(locale, {
+          style: "long",
+          type: "disjunction",
+        }).format(names),
+      );
+    expect(markup.split(line)).toHaveLength(2);
+    expect(line).not.toMatch(/[{}]/);
+    expect(line).not.toContain("—");
+  });
+
+  it("ajoute la note de langue du défi du jour pour les jeux de mots seulement", async () => {
+    const markup = decode(await render(locale, slug));
+    const { languageNote } = dict.common.gameDaily;
+    const expected = game.contentLocales === "all" ? 1 : 2;
+    expect(markup.split(languageNote)).toHaveLength(expected);
+  });
+
   it("nomme les difficultés dans la langue de la page, jamais en identifiants", async () => {
     const markup = await render(locale, slug);
     const { difficulties } = getAppCopy("cerebrum", locale).gamePage;

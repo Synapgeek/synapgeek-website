@@ -32,7 +32,6 @@ export const crossMathFr: GameCopy = {
       "Plus la difficulté monte, plus les grilles grandissent et plus les opérations se multiplient : Facile s'en tient à l'addition et à la soustraction, Moyen y ajoute la multiplication, Difficile et Élite y ajoutent la division. Les nombres à placer vont de 1 à 30, tandis que les nombres donnés et les résultats montent jusqu'à 100.",
       "Vous disposez de trois vies, affichées en cœurs : chaque nombre faux en retire une, et la troisième perdue arrête la partie, mais une seconde chance reste possible. Une grille sans erreur rapporte trois étoiles, une seule erreur, deux ; deux erreurs ou plus, une seule. Aucun bouton Annuler : la correction se fait toute seule, quand le nombre faux retourne dans la réserve.",
       "Le bouton Indice remplit la case que vous avez sélectionnée, sinon celle qui fait le plus avancer la grille. Il vous relance quand deux équations se tiennent mutuellement en échec.",
-      "Le jour où vous retenez Cross Math pour le défi du jour, la grille est en Facile ou en Moyen, selon le choix de l'app, et tous les joueurs reçoivent les mêmes équations.",
     ],
     difficultyTable: {
       caption: "Les difficultés de Cross Math dans Cerebrum",

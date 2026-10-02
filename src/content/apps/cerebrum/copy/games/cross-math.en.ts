@@ -32,7 +32,6 @@ export const crossMathEn: GameCopy = {
       "As the difficulty rises, the grids get bigger and the operators multiply: Easy sticks to addition and subtraction, Medium adds multiplication, Hard and Elite add division. The numbers you place run from 1 to 30, while the given numbers and the results go up to 100.",
       "You get three lives, shown as hearts: each wrong number takes one, and losing the third ends the run, though a second chance is on offer. A grid with no mistakes earns three stars, one mistake earns two, and two or more earn one. There is no Undo button: the fix happens by itself when the wrong number drops back into the pool.",
       "The Hint button fills the cell you have selected, or else the one that most helps the grid. It gets you moving when two equations are holding each other up.",
-      "On the day you pick Cross Math for the daily challenge, the grid comes in Easy or Medium, as the app decides, and every player gets the very same equations.",
     ],
     difficultyTable: {
       caption: "The Cross Math difficulties in Cerebrum",

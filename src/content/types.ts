@@ -121,6 +121,16 @@ export interface Dictionary {
       /** Libellé du lien vers la page de l'app. */
       premiumLink: string;
     };
+    /**
+     * Défi du jour d'une page jeu, dit une seule fois par le gabarit (ruling R7) :
+     * la mécanique est celle de l'app, seules les difficultés viennent du registre.
+     * `{game}` et `{difficulties}` sont remplacés ; `languageNote` ne s'ajoute
+     * qu'aux jeux dont la grille suit la langue de l'app (Mots croisés, Mots mêlés).
+     */
+    gameDaily: {
+      line: string;
+      languageNote: string;
+    };
     contactForm: {
       name: string;
       email: string;

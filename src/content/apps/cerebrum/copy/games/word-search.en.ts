@@ -32,7 +32,6 @@ export const wordSearchEn: GameCopy = {
       "There are no mistakes to make and no game to lose: only the clock counts. Stars are worked out from your average time per grid. Three stars take 45 seconds or less on Easy, 2 minutes on Medium and 3 minutes 30 seconds on Hard; two stars go up to 1 minute 30 seconds, 3 minutes 30 seconds and 6 minutes.",
       "The Hint button changes with the difficulty. On Easy, it finds a word for you on the grid. On Medium and Hard, it offers two kinds of help: highlighting the first letter of a word you have not found, or revealing the text of a word on the list. Revealing a text only shows you what to look for: you still have to find the word on the grid.",
       "Movies, Cooking and Travel packs bring themed word searches, 9 to 11 cells a side, played like Medium: the list shows only the number of letters of each word, and no row or column word is written backwards. Each pack also opens themed crosswords.",
-      "On the day you choose word search for the daily challenge, you get an Easy grid drawn from your app's language, the same one every English-language player sees. Words differ from one language to the other, which is why the language matters.",
     ],
     difficultyTable: {
       caption: "Word Search difficulties in Cerebrum",

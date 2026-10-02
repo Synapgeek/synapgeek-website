@@ -47,6 +47,8 @@ export interface GameEntry {
   /** Genre générique à citer à côté d'un nom maison ; `null` pour les classiques. */
   genre: Record<Locale, string | null>;
   difficulties: readonly Difficulty[];
+  /** Difficultés que le défi du jour peut tirer pour ce jeu : l'app choisit, pas le joueur. */
+  dailyDifficulties: readonly Difficulty[];
   lives: LivesRule;
   hasTutorial: boolean;
   availability: PlatformAvailability;

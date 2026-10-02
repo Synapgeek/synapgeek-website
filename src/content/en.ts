@@ -77,6 +77,11 @@ const en: Dictionary = {
         "Free to download, with a banner during play and ads between some games. Rewarded ads are always optional. Premium, weekly, monthly or yearly and bought in each store, means no forced ads, plus extra perks.",
       premiumLink: "What Premium adds",
     },
+    gameDaily: {
+      line: "Daily challenge: pick {game} and the app sets the day's grid on {difficulties}. Everyone plays the same one.",
+      languageNote:
+        "The grid is drawn in the app's language, so players in English and players in French do not get the same one.",
+    },
     contactForm: {
       name: "Name",
       email: "Email",

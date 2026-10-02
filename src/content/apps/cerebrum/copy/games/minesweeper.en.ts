@@ -33,7 +33,7 @@ export const minesweeperEn: GameCopy = {
       "The mine counter, always visible at the top, shows the mines in the grid minus your flags. Plant one flag too many and it drops below zero, which tells you that one of your flags is wrong.",
       "A mine you touch costs a heart, yet the grid stays winnable: the cell stays flagged, so the counter stays accurate. After the third heart you can carry on with the same minefield, up to twice, with two hearts back each time.",
       "The hint opens the next safe cell for you, with the usual cascade. It leaves your flags alone, except when the cell it opens carries a wrong one: it lifts that flag first.",
-      "Stars follow your mistakes: three for a clean grid, two for one mistake, one beyond that, and hints never change that. Minesweeper is also on the daily challenge list. The day's difficulty, Easy or Medium, comes from the app, and every player faces the same minefield.",
+      "Stars follow your mistakes: three for a clean grid, two for one mistake, one beyond that, and hints never change that.",
     ],
     difficultyTable: {
       caption: "Minesweeper difficulties in Cerebrum",

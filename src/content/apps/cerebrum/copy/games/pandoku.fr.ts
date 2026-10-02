@@ -33,7 +33,7 @@ export const pandokuFr: GameCopy = {
       "Il n'y a pas de bouton Annuler : un second toucher rapide pose un panda, un toucher plus tardif sur une croix l'efface sans pénalité, et un panda juste est verrouillé pour de bon. Glissez le doigt depuis une case vide pour barrer plusieurs cases d'un coup, ou depuis une croix pour effacer une traînée de croix.",
       "Un panda mal placé est retiré et coûte un cœur ; au troisième, la partie est perdue, mais une seconde chance vous est proposée.",
       "L'indice montre le raisonnement avant de jouer le coup. Il nomme la déduction disponible (case forcée, unité enfermée ou voisinage commun), la met en évidence, puis place le panda ou barre les cases à votre place. Si votre plateau contient une marque fausse, l'indice la signale et la retire d'abord. Quand rien de simple ne se présente, il vous donne un panda pour repartir.",
-      "Sans erreur, trois étoiles ; une erreur, deux ; deux ou plus, une. Les indices ne comptent pas. Vous pouvez aussi choisir Pandoku pour le défi du jour : l'app fixe la difficulté du jour, Facile ou Moyen, chacun joue la même grille ; un jour manqué se rattrape depuis le calendrier.",
+      "Sans erreur, trois étoiles ; une erreur, deux ; deux ou plus, une. Les indices ne comptent pas.",
     ],
     difficultyTable: {
       caption: "Les difficultés de Pandoku dans Cerebrum",

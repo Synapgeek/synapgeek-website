@@ -32,7 +32,6 @@ export const sudokuFr: GameCopy = {
       "L'indice ne se contente pas de donner la réponse : il montre la prochaine étape du raisonnement et nomme la technique à l'œuvre, de quoi mieux aborder la grille suivante. Pour certaines techniques avancées, il retire à la place les candidats impossibles de vos notes. Quand un indice a besoin de vos notes, Cerebrum propose de les remplir à votre place.",
       "Trois erreurs et la partie est perdue, mais une seconde chance vous est proposée, deux fois au plus, avec deux cœurs rendus à chaque fois.",
       "Les étoiles se comptent aux erreurs : trois pour une grille sans faute, deux pour une erreur, une dès la deuxième. Les indices ne comptent pas dans les étoiles. Le score récompense une grille rapide, propre et sans trop d'indices, et la difficulté le multiplie.",
-      "Le sudoku figure aussi parmi les jeux que vous pouvez choisir pour le défi du jour. L'app fixe la difficulté du jour, Facile ou Moyen, et la grille est la même pour tout le monde.",
     ],
     difficultyTable: {
       caption: "Les difficultés du sudoku dans Cerebrum",
@@ -96,11 +95,6 @@ export const sudokuFr: GameCopy = {
         question: "Y a-t-il des variantes du sudoku dans Cerebrum ?",
         answer:
           "Non : Cerebrum propose la grille classique de 9×9, sans variante, de Facile à Élite.",
-      },
-      {
-        question: "Peut-on choisir le sudoku pour le défi du jour ?",
-        answer:
-          "Oui. La difficulté, Facile ou Moyen, est fixée par l'app pour la journée, pas par vous, et tous ceux qui jouent au sudoku ce jour-là reçoivent la même grille.",
       },
     ],
   },

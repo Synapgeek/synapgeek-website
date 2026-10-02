@@ -10,6 +10,10 @@ const FOUR: readonly Difficulty[] = ["easy", "medium", "hard", "elite"];
 // Pas d'Élite : Mots croisés, Mots mêlés et Arrow Maze.
 const THREE: readonly Difficulty[] = ["easy", "medium", "hard"];
 
+// Défi du jour (fichier de faits iOS) : Facile ou Moyen, Facile seule pour Mots croisés et Mots mêlés.
+const DAILY_EASY_OR_MEDIUM: readonly Difficulty[] = ["easy", "medium"];
+const DAILY_EASY: readonly Difficulty[] = ["easy"];
+
 /** Les six jeux de la 2.x, présents sur les deux plateformes. */
 const SINCE_2: PlatformAvailability = { ios: "2.0.0", android: "2.0.0" };
 /** Les quatre jeux arrivés avec la 3.0.0, publiée sur l'App Store et sur Google Play. */
@@ -40,6 +44,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     name: { fr: "Sudoku", en: "Sudoku" },
     genre: { fr: null, en: null },
     difficulties: FOUR,
+    dailyDifficulties: DAILY_EASY_OR_MEDIUM,
     lives: "three-mistakes",
     hasTutorial: false,
     availability: SINCE_2,
@@ -59,6 +64,7 @@ export const cerebrumGames: readonly GameEntry[] = [
       en: "Star Battle logic puzzle",
     },
     difficulties: FOUR,
+    dailyDifficulties: DAILY_EASY_OR_MEDIUM,
     lives: "three-hearts",
     hasTutorial: true,
     availability: SINCE_3,
@@ -75,6 +81,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     name: { fr: "Démineur", en: "Minesweeper" },
     genre: { fr: null, en: null },
     difficulties: FOUR,
+    dailyDifficulties: DAILY_EASY_OR_MEDIUM,
     lives: "three-hearts",
     hasTutorial: true,
     availability: SINCE_3,
@@ -91,6 +98,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     name: { fr: "Pixel Art", en: "Pixel Art" },
     genre: { fr: "nonogrammes (logimages)", en: "nonograms" },
     difficulties: FOUR,
+    dailyDifficulties: DAILY_EASY_OR_MEDIUM,
     lives: "three-lives",
     hasTutorial: true,
     availability: SINCE_3,
@@ -107,6 +115,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     name: { fr: "Cross Math", en: "Cross Math" },
     genre: { fr: "mots croisés de calcul", en: "math crossword" },
     difficulties: FOUR,
+    dailyDifficulties: DAILY_EASY_OR_MEDIUM,
     lives: "three-lives",
     hasTutorial: false,
     availability: SINCE_2,
@@ -123,6 +132,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     name: { fr: "Mots Croisés", en: "Crossword" },
     genre: { fr: null, en: null },
     difficulties: THREE,
+    dailyDifficulties: DAILY_EASY,
     lives: "three-hearts",
     hasTutorial: false,
     availability: SINCE_2,
@@ -139,6 +149,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     name: { fr: "Mots Mêlés", en: "Word Search" },
     genre: { fr: null, en: null },
     difficulties: THREE,
+    dailyDifficulties: DAILY_EASY,
     lives: "none",
     hasTutorial: false,
     availability: SINCE_2,
@@ -158,6 +169,7 @@ export const cerebrumGames: readonly GameEntry[] = [
       en: "one-line path puzzle",
     },
     difficulties: FOUR,
+    dailyDifficulties: DAILY_EASY_OR_MEDIUM,
     lives: "none",
     hasTutorial: true,
     availability: SINCE_2,
@@ -174,6 +186,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     name: { fr: "Labyrinthe", en: "Maze" },
     genre: { fr: null, en: null },
     difficulties: FOUR,
+    dailyDifficulties: DAILY_EASY_OR_MEDIUM,
     lives: "none",
     hasTutorial: true,
     availability: SINCE_2,
@@ -190,6 +203,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     name: { fr: "Arrow Maze", en: "Arrow Maze" },
     genre: { fr: "casse-tête de flèches", en: "arrow puzzle" },
     difficulties: THREE,
+    dailyDifficulties: DAILY_EASY_OR_MEDIUM,
     lives: "grid-defined",
     hasTutorial: true,
     availability: SINCE_3,

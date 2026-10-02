@@ -77,6 +77,11 @@ const fr: Dictionary = {
         "Téléchargement gratuit, avec une bannière pendant la partie et des pubs entre certaines parties. Les pubs récompensées restent toujours facultatives. Avec Premium (hebdomadaire, mensuel ou annuel, souscrit dans chaque boutique), zéro pub imposée et des avantages en plus.",
       premiumLink: "Ce que Premium apporte",
     },
+    gameDaily: {
+      line: "Défi du jour : choisissez {game} et l'app fixe la grille du jour, en {difficulties}. Tout le monde reçoit la même grille.",
+      languageNote:
+        "La grille est tirée dans la langue de l'app : les joueurs en français et ceux en anglais n'ont pas la même.",
+    },
     contactForm: {
       name: "Nom",
       email: "Email",

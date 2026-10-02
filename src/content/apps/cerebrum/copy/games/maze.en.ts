@@ -31,7 +31,7 @@ export const mazeEn: GameCopy = {
       "Most mazes have a shape, from a triangle on Easy to a heart, a ring, a star or an hourglass on the harder levels, and the cells outside the shape cannot be entered. The others are plain rectangles.",
       "A small maze fits on screen in one piece. In a big one the view follows the firefly step by step, and the overview button zooms out to show the whole board at once, as often as you like whenever there is no fog.",
       "Each star rewards one thing: one for reaching the exit, one for collecting every crystal, one for arriving within the target time, which is worked out from the length of the shortest route.",
-      "A five-page tutorial recaps the rules inside the app. If you pick Maze for the daily challenge, every player gets the same maze that day, and never an Elite one, so never any fog.",
+      "A five-page tutorial recaps the rules inside the app. The daily challenge never serves an Elite maze, so it never has fog.",
     ],
     difficultyTable: {
       caption: "Maze difficulties in Cerebrum",

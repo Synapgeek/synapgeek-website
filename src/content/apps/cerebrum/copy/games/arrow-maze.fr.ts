@@ -34,7 +34,6 @@ export const arrowMazeFr: GameCopy = {
       "L'indice choisit la pièce libre qui en débloque le plus d'autres et montre son chemin jusqu'au bord.",
       "Toucher une pièce bloquée coûte un cœur : trois en Facile et en Moyen, quatre en Difficile. La pièce bloquée tremble et celle qui la gêne s'allume. Sans cœur, la partie est perdue ; vous pouvez la reprendre deux fois au plus, avec deux cœurs rendus à chaque reprise.",
       "Zéro erreur donne trois étoiles, une erreur, deux ; deux erreurs ou plus, une seule. Les indices ne comptent pas.",
-      "Arrow Maze compte aussi parmi les jeux du défi du jour : l'app fixe la difficulté du jour, Facile ou Moyen, et chaque joueur reçoit le même plateau.",
     ],
     difficultyTable: {
       caption: "Les difficultés d'Arrow Maze dans Cerebrum",

@@ -33,7 +33,6 @@ export const crosswordEn: GameCopy = {
       "You have three hearts. A wrong word costs one, and a letter that completes two wrong words costs two. Lose the third and you can carry on, up to twice, getting two hearts back each time. A clean grid earns three stars, one mistake two, and two or more just one. Hints never enter that count.",
       "The Hint button holds up to three kinds of help. The clue hint gives an easier clue for the same word; the letter hint fills in the cell you have selected; the word hint reveals the current word. None of them costs a heart. On Easy, the clue hint is not offered.",
       "Themed grids, Movies, Cooking and Travel, sit alongside the path: they play at Hard difficulty with medium-level clues, and each pack also opens Word Search.",
-      "Crosswords can also be picked for the daily challenge, on Easy only. The grid is drawn in your app's language, so everyone playing in English that day solves the same one, and everyone in French shares another.",
     ],
     difficultyTable: {
       caption: "Crossword difficulties in Cerebrum",

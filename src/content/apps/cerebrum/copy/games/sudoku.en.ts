@@ -32,7 +32,6 @@ export const sudokuEn: GameCopy = {
       "A hint does more than hand you the answer: it shows the next step of the reasoning and names the technique behind it, so the next grid feels easier. Some advanced techniques remove the impossible candidates from your notes instead of placing a digit. When a hint needs your notes, Cerebrum offers to fill them in for you.",
       "Three mistakes end the game, though a second chance is offered, up to twice, with two hearts back each time.",
       "Finish with no mistakes for three stars, one mistake for two, two or more for one. Hints do not count against your stars. The score rewards a quick, clean grid with few hints, and the difficulty multiplies it.",
-      "Sudoku is also one of the games you can pick for the daily challenge. The app sets the day's difficulty, Easy or Medium, and the grid is the same for everyone.",
     ],
     difficultyTable: {
       caption: "Sudoku difficulties in Cerebrum",
@@ -94,11 +93,6 @@ export const sudokuEn: GameCopy = {
         question: "Are there Sudoku variants in Cerebrum?",
         answer:
           "No. Cerebrum offers the classic 9×9 grid with no variants, from Easy to Elite.",
-      },
-      {
-        question: "Can I pick Sudoku for the daily challenge?",
-        answer:
-          "Yes. The difficulty, Easy or Medium, is set by the app for the day, not by you, and everyone who plays Sudoku that day gets the same grid.",
       },
     ],
   },
