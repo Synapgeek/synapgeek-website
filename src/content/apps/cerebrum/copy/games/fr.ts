@@ -1,4 +1,5 @@
 import type { GameId } from "@/content/apps";
+import { arrowMazeFr } from "./arrow-maze.fr";
 import { minesweeperFr } from "./minesweeper.fr";
 import { pandokuFr } from "./pandoku.fr";
 import { pixelArtFr } from "./pixel-art.fr";
@@ -14,4 +15,5 @@ export const gamesFr: Partial<Record<GameId, GameCopy>> = {
   pandoku: pandokuFr,
   minesweeper: minesweeperFr,
   "pixel-art": pixelArtFr,
+  "arrow-maze": arrowMazeFr,
 };

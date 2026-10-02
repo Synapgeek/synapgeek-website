@@ -42,8 +42,8 @@
  * `/`, query conservée, et chaque ancienne page anglaise non légale (`/en/cerebrum`…)
  * vers son pendant sans préfixe. La cible `/cerebrum` répond 200 depuis la tâche 13 ;
  * les pages de jeux (`/en/cerebrum/<jeu>`) ne sont contrôlées qu'à partir de leur
- * livraison : Sudoku (tâche 14) ouvre la série, Pandoku (tâche 141) Démineur (tâche 142)
- * et Pixel Art (tâche 143) la suivent, chaque jeu suivant ajoute ses lignes.
+ * livraison : Sudoku (tâche 14) ouvre la série, Pandoku (tâche 141), Démineur (tâche 142),
+ * Pixel Art (tâche 143) et Arrow Maze (tâche 144) la suivent, chaque jeu suivant ajoute ses lignes.
  * Une page de jeu porte UNE seule `og:image`, et cette image répond 200 `image/png`
  * sans redirection (aperçu d'un lien partagé).
  * Seul `/fr/privacy`, `/fr/terms`, `/fr/legal` reste TRANSITOIRE :
@@ -79,7 +79,7 @@ const GOOGLE_PLAY_URL =
 // l'URL du store, sans jamais en écraser un paramètre déjà présent.
 const CAMPAIGN_PARAM = "src=contract-check";
 
-const SITEMAP_URL_COUNT = 18;
+const SITEMAP_URL_COUNT = 20;
 
 /** Slug de chaque page de jeu livrée, par langue (le français de Démineur diffère). */
 const SLUGS = {
@@ -87,6 +87,7 @@ const SLUGS = {
   pandoku: { en: "pandoku", fr: "pandoku" },
   minesweeper: { en: "minesweeper", fr: "demineur" },
   pixelArt: { en: "pixel-art", fr: "pixel-art" },
+  arrowMaze: { en: "arrow-maze", fr: "arrow-maze" },
 };
 
 const LEGAL_PAGES = ["/privacy", "/terms", "/legal"];
@@ -157,6 +158,7 @@ function contractChecks(base) {
     redirect("/en/cerebrum/pandoku", 308, "/cerebrum/pandoku"),
     redirect("/en/cerebrum/minesweeper", 308, "/cerebrum/minesweeper"),
     redirect("/en/cerebrum/pixel-art", 308, "/cerebrum/pixel-art"),
+    redirect("/en/cerebrum/arrow-maze", 308, "/cerebrum/arrow-maze"),
     // Page de l'app (tâche 13) : anglais sans préfixe, français sous /fr.
     ok("/cerebrum", [
       contentType("text/html"),
@@ -204,6 +206,14 @@ function contractChecks(base) {
     ok(
       "/fr/cerebrum/pixel-art",
       gamePageExpectations("fr", SLUGS.pixelArt, resolve),
+    ),
+    ok(
+      "/cerebrum/arrow-maze",
+      gamePageExpectations("en", SLUGS.arrowMaze, resolve),
+    ),
+    ok(
+      "/fr/cerebrum/arrow-maze",
+      gamePageExpectations("fr", SLUGS.arrowMaze, resolve),
     ),
     // Un slug ne se résout que dans sa langue ; un slug inconnu est un vrai 404.
     notFound("/fr/cerebrum/crossword"),

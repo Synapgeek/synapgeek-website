@@ -26,6 +26,8 @@ describe("opengraph-image d'un jeu", () => {
       { locale: "fr", game: "demineur" },
       { locale: "en", game: "pixel-art" },
       { locale: "fr", game: "pixel-art" },
+      { locale: "en", game: "arrow-maze" },
+      { locale: "fr", game: "arrow-maze" },
     ]);
   });
 
