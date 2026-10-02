@@ -100,7 +100,7 @@ export const pandokuEn: GameCopy = {
       {
         question: "Which devices can I play Pandoku on?",
         answer:
-          "On iPhone and iPad with iOS 17.0 or later, and on Android with Android 8.0 or later. Premium is bought and kept in each store: a subscription taken on the App Store does not carry over to Google Play, and the other way round.",
+          "Cerebrum runs on iPhone and iPad from iOS 17.0, and on Android from Android 8.0. Premium is bought and kept in each store: a subscription taken on the App Store does not carry over to Google Play, and the other way round.",
       },
     ],
   },

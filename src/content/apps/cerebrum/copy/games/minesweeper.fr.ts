@@ -31,8 +31,8 @@ export const minesweeperFr: GameCopy = {
       "Dans Cerebrum, vous progressez de grille en grille dans la difficulté de votre choix. Quand son parcours est terminé, le mode Infini sert d'autres champs de mines de cette même difficulté.",
       "Le démineur s'ouvre sur une courte fiche « Comment jouer » de quatre pages, sur iPhone, iPad et Android : les chiffres, le premier toucher, le drapeau, les cœurs et l'indice. Sur iPhone et iPad, le premier niveau Facile est en plus guidé, en quatre étapes.",
       "Le compteur de mines, toujours affiché en haut, donne le nombre de mines de la grille moins vos drapeaux. Posez un drapeau de trop et il passe sous zéro : il vous signale ainsi que l'un de vos drapeaux est faux.",
-      "Une mine touchée coûte un cœur, et la grille reste gagnable : la case se marque d'un drapeau, ce qui garde le compteur juste. Au troisième cœur, la partie est finie, sauf si vous la reprenez : une fois avec une pub facultative, une autre fois avec des gemmes. Premium rend les cœurs infinis et pardonne la première mine touchée de chaque partie.",
-      "L'indice ouvre pour vous la prochaine case sûre. Si l'un de vos drapeaux est mal placé, il commence par le retirer. On le règle en gemmes, ou on le gagne devant une pub facultative ; Premium en offre cinq par jour dans chaque jeu.",
+      "Une mine touchée coûte un cœur, et la grille reste gagnable : la case se marque d'un drapeau, ce qui garde le compteur juste. Au troisième cœur, la partie est finie, sauf si vous reprenez ce même champ de mines.",
+      "L'indice ouvre pour vous la prochaine case sûre. Si l'un de vos drapeaux est mal placé, il commence par le retirer, avant d'ouvrir quoi que ce soit.",
       "Zéro erreur donne trois étoiles, une erreur deux, deux erreurs ou plus une seule, et les indices n'y changent rien. Le défi du jour peut aussi se jouer au démineur, en Facile ou en Moyen : tout le monde reçoit la même grille.",
     ],
     difficultyTable: {
@@ -67,7 +67,7 @@ export const minesweeperFr: GameCopy = {
       "Pour le tout premier toucher, visez un coin : il n'a que trois voisines, donc plus de chances d'ouvrir une zone vide d'un coup. Dans Cerebrum, ce toucher n'est pas garanti sûr, il peut tomber sur une mine.",
       "Exploitez les chiffres déjà satisfaits. Un 1 collé à une mine identifiée n'a besoin d'aucune autre mine : toutes ses autres voisines sont libres. Touchez-le pour les ouvrir d'un coup, un raccourci qui fait confiance à vos drapeaux : ne marquez que les mines prouvées, car sur un faux drapeau il déterre une vraie mine.",
       "Soustrayez ce que vous savez. Un 3 qui a déjà deux drapeaux n'attend plus qu'une mine parmi ses voisines encore cachées. Ramené à ce reste, il devient souvent un 1 ou un 2 à comparer au chiffre voisin.",
-      "Repérez les suites le long d'un mur, c'est-à-dire une rangée de chiffres qui longe une rangée de cases cachées. Quand ces cases sont les seules voisines cachées des chiffres, un 1-2-1 pose une mine sous chaque 1 et laisse sûre la case sous le 2 ; un 1-2-2-1 place les mines sous les deux 2.",
+      "Repérez les suites le long d'un mur, c'est-à-dire une rangée de chiffres qui longe une rangée de cases cachées. Quand ces cases sont les seules voisines cachées des chiffres, un 1-2-1 pose une mine sous chaque 1 et laisse sûre la case sous le 2 ; un 1-2-2-1 place les mines sous les deux 2.",
       "Gardez le compteur à l'œil en fin de grille. S'il affiche zéro et que vos drapeaux sont justes, tout ce qui reste caché est sûr. S'il est égal au nombre de cases cachées et non marquées, ce sont toutes des mines.",
     ],
   },
@@ -87,17 +87,17 @@ export const minesweeperFr: GameCopy = {
       {
         question: "Que se passe-t-il quand je touche une mine ?",
         answer:
-          "Vous perdez un cœur sur trois et la case reste marquée d'un drapeau. Un seul toucher qui déterre plusieurs mines ne coûte qu'un cœur. Au troisième, la partie s'arrête : vous pouvez la reprendre avec une pub facultative ou avec des gemmes. Premium offre des cœurs infinis.",
+          "Vous perdez un cœur sur trois, et la case devient un drapeau : le compteur de mines reste juste. Le coût se compte par toucher, pas par mine : un seul toucher qui déterre plusieurs mines ne coûte qu'un cœur. Après le troisième, vous pouvez continuer sur la même grille au lieu de repartir de zéro.",
       },
       {
         question: "Que fait l'indice du démineur ?",
         answer:
-          "Il ouvre la prochaine case sûre, après avoir retiré l'un de vos drapeaux si celui-ci est mal placé. Il se paie en gemmes ou se gagne avec une pub facultative.",
+          "Il ouvre la prochaine case sûre, après avoir retiré l'un de vos drapeaux si celui-ci est mal placé. Il ne change jamais les étoiles que vous gagnez.",
       },
       {
         question: "Le démineur est-il gratuit, et se joue-t-il sans réseau ?",
         answer:
-          "Il est gratuit, comme tous les jeux de Cerebrum. Les grilles sont déjà dans l'app, donc rien ne dépend du réseau pour jouer. La version gratuite affiche une bannière pendant la partie ; les pubs récompensées restent facultatives, et Premium garantit zéro pub imposée.",
+          "Il est gratuit, comme tous les jeux de Cerebrum, et les champs de mines sont déjà dans l'app : une partie n'attend jamais le réseau. Pendant la partie, une bannière reste affichée, et des pubs s'intercalent entre certaines parties ; les pubs avec récompense restent un choix, et Premium, c'est zéro pub imposée.",
       },
       {
         question: "Le niveau guidé existe-t-il sur Android ?",
@@ -108,6 +108,6 @@ export const minesweeperFr: GameCopy = {
   },
   whereToPlay: {
     title: "Jouer au démineur sur iPhone, iPad et Android",
-    body: "Le démineur se joue dans Cerebrum, l'app de jeux de réflexion de Synapgeek : elle se télécharge gratuitement et se joue sans réseau, le temps d'une pause ou d'une file d'attente. Elle s'installe depuis l'App Store sur iPhone et iPad, ou depuis Google Play sur Android.",
+    body: "Le démineur se joue dans Cerebrum, l'app de Synapgeek, téléchargeable gratuitement. Les plus petites grilles, des 9×8 en Facile, tiennent dans une pause ou une file d'attente. Cerebrum est sur l'App Store pour iPhone et iPad, et sur Google Play pour Android.",
   },
 };

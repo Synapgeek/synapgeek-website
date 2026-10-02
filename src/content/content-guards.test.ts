@@ -369,10 +369,6 @@ const SHARED_SENTENCE_ALLOWLIST: readonly string[] = [
   // et l'app doivent y figurer, et les assistants la citent à l'identique.
   "play it offline in cerebrum, the puzzle games app by synapgeek, on iphone, ipad and android.",
   "il se joue hors ligne dans cerebrum, l'app de synapgeek, sur iphone, ipad et android.",
-  // Réponse « sur quels appareils » : une compatibilité (iOS 17.0, Android 8.0) est
-  // un fait unique, que la FAQ de Sudoku et de Pandoku énonce déjà à l'identique.
-  "on iphone and ipad with ios 17.0 or later, and on android with android 8.0 or later.",
-  "sur iphone et ipad avec ios 17.0 ou plus récent, et sur android avec android 8.0 ou plus récent.",
 ];
 
 function normalizeSentence(sentence: string): string {

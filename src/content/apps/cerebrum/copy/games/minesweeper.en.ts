@@ -31,8 +31,8 @@ export const minesweeperEn: GameCopy = {
       "In Cerebrum you work through a path of grids in the difficulty you pick. When it is finished, Endless Mode serves more minefields of that same difficulty.",
       "Minesweeper opens with a short four-page how-to-play sheet on iPhone, iPad and Android: the numbers, the first tap, flags, hearts and the hint. On iPhone and iPad the first Easy level is also guided, in four steps.",
       "The mine counter, always visible at the top, shows the mines in the grid minus your flags. Plant one flag too many and it drops below zero, which tells you that one of your flags is wrong.",
-      "A mine you touch costs a heart, yet the grid stays winnable: the cell is marked with a flag, so the counter stays accurate. When the third heart goes, the game is over unless you pick it back up: once through an optional ad, once through gems. Premium makes hearts infinite and forgives the first mine you touch in each game.",
-      "The hint opens the next safe cell for you. If one of your flags is misplaced, it takes that flag off first. You can pay for it in gems or earn it by watching an optional ad, and Premium comes with five a day in every game.",
+      "A mine you touch costs a heart, yet the grid stays winnable: the cell is marked with a flag, so the counter stays accurate. When the third heart goes, the game is over unless you pick this same minefield back up.",
+      "The hint opens the next safe cell for you. If one of your flags is misplaced, it takes that flag off first, before it opens anything.",
       "No mistakes earns three stars, one earns two, two or more earn one, and hints never change that. Minesweeper is also on the list for the daily challenge, on Easy or Medium: everyone gets the same grid.",
     ],
     difficultyTable: {
@@ -87,18 +87,18 @@ export const minesweeperEn: GameCopy = {
       {
         question: "What happens when I touch a mine?",
         answer:
-          "You lose one of three hearts and the cell stays marked with a flag. A single tap that uncovers several mines costs only one heart. The third heart ends the game, which you can resume with an optional ad or with gems. Premium gives infinite hearts.",
+          "You lose one of your three hearts and the cell turns into a flag, so the mine counter stays right. The cost is counted per tap, not per mine: a single tap that uncovers several mines costs one heart. After the third, you can carry on with the same grid instead of starting over.",
       },
       {
         question: "What does the Minesweeper hint do?",
         answer:
-          "It opens the next safe cell, after taking off one of your flags if that flag is misplaced. You can pay for it in gems or earn it by watching an optional ad.",
+          "It opens the next safe cell, after taking off one of your flags if that flag is misplaced. It never changes the stars you earn.",
       },
       {
         question:
           "Is Minesweeper free, and can I play it without a connection?",
         answer:
-          "It is free, like every game in Cerebrum. The grids are already in the app, so playing never depends on the network. The free version shows a banner during play, rewarded ads stay optional, and Premium means no forced ads.",
+          "It is free, like every game in Cerebrum, and the minefields are already in the app, so a round never waits for the network. While you play a banner stays on screen, and ads appear between some games; rewarded ads stay optional, and Premium means no forced ads.",
       },
       {
         question: "Does the guided level exist on Android?",
@@ -109,6 +109,6 @@ export const minesweeperEn: GameCopy = {
   },
   whereToPlay: {
     title: "Play Minesweeper on iPhone, iPad and Android",
-    body: "Minesweeper is played in Cerebrum, the brain games app by Synapgeek: it downloads for free and works without a network, for a short break or a queue. Get it from the App Store on iPhone and iPad, or from Google Play on Android.",
+    body: "Minesweeper is played in Cerebrum, the brain games app by Synapgeek, which is free to download. The smallest grids, 9×8 on Easy, are small enough for a short break or a queue. Cerebrum is on the App Store for iPhone and iPad, and on Google Play for Android.",
   },
 };

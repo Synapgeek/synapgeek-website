@@ -101,7 +101,7 @@ export const pandokuFr: GameCopy = {
       {
         question: "Sur quels appareils jouer à Pandoku ?",
         answer:
-          "Sur iPhone et iPad avec iOS 17.0 ou plus récent, et sur Android avec Android 8.0 ou plus récent. Premium s'achète et se garde dans chaque boutique : l'abonnement pris sur l'App Store ne passe pas sur Google Play, et inversement.",
+          "Cerebrum fonctionne sur iPhone et iPad à partir d'iOS 17.0, et sur Android à partir d'Android 8.0. Premium s'achète et se garde dans chaque boutique : l'abonnement pris sur l'App Store ne passe pas sur Google Play, et inversement.",
       },
     ],
   },
