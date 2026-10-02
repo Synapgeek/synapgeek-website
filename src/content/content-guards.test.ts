@@ -58,6 +58,25 @@ const FORBIDDEN: ReadonlyArray<{
     misses: ["trois grilles", "levels of difficulty", "Niveaux de difficulté"],
   },
   {
+    pattern: word(
+      "(un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|douze|vingt|cent|mille|one|two|three|four|five|seven|eight|nine|ten|twelve|twenty|hundred|thousand)\\s+(?:\\p{L}+\\s+)?(niveaux|levels)",
+    ),
+    reason: "no number of levels, even spelled out",
+    hits: [
+      "deux niveaux Moyen",
+      "quatre niveaux Difficile terminés",
+      "two Medium levels",
+      "four Hard levels",
+      "Three levels",
+    ],
+    misses: [
+      "levels of difficulty",
+      "Niveaux de difficulté",
+      "one level at a time",
+      "progress through Medium",
+    ],
+  },
+  {
     pattern: /—/u,
     reason: "no em dash in visible copy",
     hits: ["Cerebrum — puzzles", "a—b"],
@@ -339,8 +358,65 @@ function parityViolations(entries: readonly CopyEntry[]): string[] {
   });
 }
 
-function entryViolations(entry: CopyEntry): string[] {
-  const games = entry.kind === "app" ? getGames(entry.app) : [];
+/** Une phrase de cette longueur ou plus ne se répète pas d'une page jeu à l'autre (ruling R4). */
+const REPEATED_SENTENCE_MIN_LENGTH = 60;
+/**
+ * Formules partagées voulues, et rien d'autre. Elles sont normalisées comme les
+ * phrases mesurées (espaces simples, minuscules). Chaque entrée se justifie.
+ */
+const SHARED_SENTENCE_ALLOWLIST: readonly string[] = [
+  // Fin imposée de la phrase de définition (copy-rules 1) : l'appareil, l'éditeur
+  // et l'app doivent y figurer, et les assistants la citent à l'identique.
+  "play it offline in cerebrum, the puzzle games app by synapgeek, on iphone, ipad and android.",
+  "il se joue hors ligne dans cerebrum, l'app de synapgeek, sur iphone, ipad et android.",
+];
+
+function normalizeSentence(sentence: string): string {
+  return sentence.replace(/\s+/g, " ").trim().toLowerCase();
+}
+
+function longSentencesOf(text: string): string[] {
+  return text
+    .split(/(?<=[.!?…])\s+/u)
+    .map(normalizeSentence)
+    .filter((sentence) => sentence.length >= REPEATED_SENTENCE_MIN_LENGTH);
+}
+
+/**
+ * Ruling R4 : un fait de l'app ne se répète pas à l'identique de page en page.
+ * Signale une phrase longue présente deux fois dans une page, ou dans deux
+ * pages jeux de la même langue.
+ */
+function repeatedSentenceViolations(
+  pages: ReadonlyArray<{ label: string; copy: GameCopy }>,
+  allowlist: readonly string[] = SHARED_SENTENCE_ALLOWLIST,
+): string[] {
+  const allowed = new Set(allowlist.map(normalizeSentence));
+  const seen = new Map<string, string>();
+  const found: string[] = [];
+  for (const { label, copy } of pages) {
+    for (const { path, value } of stringsOf(copy)) {
+      for (const sentence of longSentencesOf(value)) {
+        if (allowed.has(sentence)) continue;
+        const first = seen.get(sentence);
+        if (first === undefined) {
+          seen.set(sentence, `${label} ${path}`);
+        } else {
+          found.push(
+            `${label} ${path}: sentence already used in ${first} (${JSON.stringify(sentence.slice(0, 60))})`,
+          );
+        }
+      }
+    }
+  }
+  return found;
+}
+
+/** `games` remplace le registre pour prouver une garde sur une donnée que le registre n'a plus. */
+function entryViolations(
+  entry: CopyEntry,
+  games: readonly GameEntry[] = entry.kind === "app" ? getGames(entry.app) : [],
+): string[] {
   return [
     ...forbiddenViolations(entry),
     ...lengthViolations(entry),
@@ -357,12 +433,29 @@ function entryViolations(entry: CopyEntry): string[] {
 
 describe("copie enregistrée (spec §9)", () => {
   it("chaque module respecte les règles de texte, de longueur, de genre et de plateforme", () => {
-    expect(REGISTERED_COPY.flatMap(entryViolations)).toEqual([]);
+    expect(REGISTERED_COPY.flatMap((entry) => entryViolations(entry))).toEqual(
+      [],
+    );
   });
 
   it("chaque module existe dans toutes les langues avec la même structure", () => {
     expect(parityViolations(REGISTERED_COPY)).toEqual([]);
   });
+
+  it.each(LOCALES)(
+    "aucune phrase longue ne se répète d'une page jeu à l'autre (%s, ruling R4)",
+    (locale) => {
+      const pages = REGISTERED_COPY.flatMap((entry) =>
+        entry.locale === locale
+          ? gamesOf(entry).map(([id, copy]) => ({
+              label: `${labelOf(entry)}:${id}`,
+              copy,
+            }))
+          : [],
+      );
+      expect(repeatedSentenceViolations(pages)).toEqual([]);
+    },
+  );
 });
 
 // ---------------------------------------------------------------------------
@@ -387,7 +480,11 @@ function fixtureGame(overrides: Partial<GameCopy> = {}): GameCopy {
   return {
     updatedAt: "2026-10-01",
     meta: { title: "Pandoku | Cerebrum", description: "Learn Pandoku." },
-    hero: { h1: "Pandoku", definition: DEFINITION_OK },
+    hero: {
+      h1: "Pandoku",
+      definition: DEFINITION_OK,
+      phoneAlt: "A screen.",
+    },
     howToPlay: {
       title: "How to play",
       steps: THREE_ITEMS.map((n) => `Step ${n}`),
@@ -411,6 +508,7 @@ function fixtureGame(overrides: Partial<GameCopy> = {}): GameCopy {
         answer: `Answer ${n}.`,
       })),
     },
+    whereToPlay: { title: "Where to play", body: "In Cerebrum." },
     ...overrides,
   };
 }
@@ -427,20 +525,44 @@ function fixtureApp(
     copy: {
       updatedAt: "2026-10-01",
       meta: { title: "Cerebrum", description: "An app." },
-      hero: { h1: "Cerebrum", definition: DEFINITION_OK },
+      hero: {
+        h1: "Cerebrum",
+        definition: DEFINITION_OK,
+        phoneAlt: "A screen.",
+      },
       sections: {
-        games: "Games",
-        daily: { title: "Daily", body: "One a day." },
+        games: {
+          title: "Games",
+          categories: { "logic-numbers": "A", words: "B", paths: "C" },
+        },
+        daily: { title: "Daily", body: "One a day.", items: ["A streak"] },
         progress: { title: "Progress", items: ["Stars"] },
         goodToKnow: { title: "Good to know", items: ["Offline"] },
         model: { title: "Model", items: ["Free"] },
+        privacy: { title: "Privacy", body: "Short.", cta: "Read" },
       },
       faq: { title: "FAQ", items: [{ question: "Q?", answer: "A." }] },
+      gamePage: {
+        relatedTitle: "More",
+        difficultyColumns: { difficulty: "Level", detail: "Detail" },
+        difficulties: {
+          easy: "Easy",
+          medium: "Medium",
+          hard: "Hard",
+          elite: "Elite",
+        },
+      },
       games,
       ...overrides,
     },
   };
 }
+
+const HUB_HERO: HubCopy["hero"] = {
+  h1: "Synapgeek",
+  definition: DEFINITION_OK,
+  phoneAlt: "A screen.",
+};
 
 function fixtureHub(overrides: Partial<HubCopy> = {}): CopyEntry {
   return {
@@ -449,8 +571,11 @@ function fixtureHub(overrides: Partial<HubCopy> = {}): CopyEntry {
     copy: {
       updatedAt: "2026-10-01",
       meta: { title: "Synapgeek", description: "A studio." },
-      hero: { h1: "Synapgeek", definition: DEFINITION_OK },
-      apps: { title: "Apps" },
+      hero: HUB_HERO,
+      apps: {
+        title: "Apps",
+        items: { cerebrum: { description: "An app.", cta: "Open" } },
+      },
       games: {
         title: "Games",
         categories: { "logic-numbers": "A", words: "B", paths: "C" },
@@ -498,7 +623,7 @@ describe("contrôles positifs des gardes structurelles", () => {
     ["trop longue", "x".repeat(251)],
   ])("la définition %s est refusée", (_name, definition) => {
     const entry = fixtureHub({
-      hero: { h1: "Synapgeek", definition },
+      hero: { ...HUB_HERO, definition },
     });
     expect(lengthViolations(entry)).toHaveLength(1);
   });
@@ -506,7 +631,7 @@ describe("contrôles positifs des gardes structurelles", () => {
   it("les bornes 150 et 250 sont incluses", () => {
     for (const length of [150, 250]) {
       const entry = fixtureHub({
-        hero: { h1: "Synapgeek", definition: "x".repeat(length) },
+        hero: { ...HUB_HERO, definition: "x".repeat(length) },
       });
       expect(lengthViolations(entry), String(length)).toEqual([]);
     }
@@ -539,6 +664,7 @@ describe("contrôles positifs des gardes structurelles", () => {
       pandoku: fixtureGame({
         hero: {
           h1: "Pandoku",
+          phoneAlt: "A screen.",
           definition: DEFINITION_OK.replace(
             "Star Battle logic puzzle",
             "puzzle",
@@ -554,6 +680,7 @@ describe("contrôles positifs des gardes structurelles", () => {
       pandoku: fixtureGame({
         hero: {
           h1: "Pandoku",
+          phoneAlt: "A screen.",
           definition: `Pandoku est un ${pandoku.genre.fr!.replace(/ /g, "\u00a0")}.`,
         },
       }),
@@ -645,12 +772,99 @@ describe("contrôles positifs des gardes structurelles", () => {
     ]);
   });
 
-  it("un jeu publié sans copie est refusé", () => {
+  it("un jeu publié sans copie est refusé, un jeu non publié n'en a pas besoin", () => {
     const entry = fixtureApp("en", {});
-    expect(coverageViolations(entry, [pandoku])).toHaveLength(1);
+    expect(
+      coverageViolations(entry, [{ ...pandoku, published: true }]),
+    ).toHaveLength(1);
     expect(
       coverageViolations(entry, [{ ...pandoku, published: false }]),
     ).toEqual([]);
+  });
+
+  describe("phrases répétées (ruling R4)", () => {
+    const SHARED =
+      "Une même phrase de plus de soixante caractères, recopiée mot pour mot.";
+    /** `name` rend la définition de chaque page unique : seule la phrase testée peut se répéter. */
+    const withTip = (tip: string, name = "Game") =>
+      fixtureGame({
+        hero: {
+          h1: name,
+          phoneAlt: "A screen.",
+          definition: DEFINITION_OK.replace("Pandoku", name),
+        },
+        tips: { title: "Tips", items: [tip, "Tip 2", "Tip 3"] },
+      });
+
+    it("refuse une phrase de 60 caractères ou plus partagée par deux pages", () => {
+      expect(SHARED.length).toBeGreaterThanOrEqual(60);
+      const violations = repeatedSentenceViolations([
+        { label: "en:sudoku", copy: withTip(`Intro. ${SHARED}`, "Sudoku") },
+        { label: "en:pandoku", copy: withTip(SHARED, "Pandoku") },
+      ]);
+      expect(violations).toEqual([
+        expect.stringContaining("en:pandoku tips.items.0"),
+      ]);
+    });
+
+    it("refuse une phrase longue présente deux fois dans une même page", () => {
+      const page = fixtureGame({
+        tips: { title: "Tips", items: [SHARED, SHARED, "Tip 3"] },
+      });
+      expect(
+        repeatedSentenceViolations([{ label: "en:sudoku", copy: page }]),
+      ).toHaveLength(1);
+    });
+
+    it("laisse passer une phrase courte partagée, et la même phrase à 59 caractères", () => {
+      const short = SHARED.slice(0, 58) + ".";
+      expect(short).toHaveLength(59);
+      expect(
+        repeatedSentenceViolations([
+          { label: "en:sudoku", copy: withTip(short, "Sudoku") },
+          { label: "en:pandoku", copy: withTip(short, "Pandoku") },
+        ]),
+      ).toEqual([]);
+    });
+
+    it("ignore la casse et les espaces, et lit chaque phrase d'une chaîne", () => {
+      const violations = repeatedSentenceViolations([
+        { label: "en:sudoku", copy: withTip(`First. ${SHARED}`, "Sudoku") },
+        {
+          label: "en:pandoku",
+          copy: withTip(`Other.   ${SHARED.toUpperCase()}`, "Pandoku"),
+        },
+      ]);
+      expect(violations).toHaveLength(1);
+    });
+
+    it("une entrée de la liste blanche est tolérée, tout le reste est refusé", () => {
+      const pages = [
+        { label: "en:sudoku", copy: withTip(SHARED, "Sudoku") },
+        { label: "en:pandoku", copy: withTip(SHARED, "Pandoku") },
+      ];
+      expect(repeatedSentenceViolations(pages, [SHARED])).toEqual([]);
+      expect(repeatedSentenceViolations(pages, [])).toHaveLength(1);
+    });
+
+    it("chaque entrée de la liste blanche sert encore : une formule déjà partagée par deux pages réelles", () => {
+      const uses = new Map<string, number>();
+      for (const entry of REGISTERED_COPY) {
+        for (const [, copy] of gamesOf(entry)) {
+          for (const { value } of stringsOf(copy)) {
+            for (const sentence of value
+              .split(/(?<=[.!?…])\s+/u)
+              .map(normalizeSentence)) {
+              uses.set(sentence, (uses.get(sentence) ?? 0) + 1);
+            }
+          }
+        }
+      }
+      const stale = SHARED_SENTENCE_ALLOWLIST.filter(
+        (sentence) => (uses.get(normalizeSentence(sentence)) ?? 0) < 2,
+      );
+      expect(stale).toEqual([]);
+    });
   });
 
   it("entryViolations (la composition appliquée aux modules enregistrés) lève une violation par règle", () => {
@@ -661,6 +875,7 @@ describe("contrôles positifs des gardes structurelles", () => {
         meta: { title: "Pandoku | Cerebrum", description: "x".repeat(156) },
         hero: {
           h1: "Pandoku",
+          phoneAlt: "A screen.",
           definition: DEFINITION_OK.replace(
             "Star Battle logic puzzle",
             "puzzle",
@@ -695,7 +910,20 @@ describe("contrôles positifs des gardes structurelles", () => {
       ["shapeViolations", /cerebrum:en:pandoku: 1 steps, expected/],
       ["coverageViolations", /published game "sudoku" has no copy/],
     ];
-    const violations = entryViolations(entry);
+    // Tous les jeux réels sont sur Android : Pandoku n'y est qu'ici, en fixture.
+    const pandokuIosOnly: GameEntry = {
+      ...pandoku,
+      availability: { ios: "3.0.0", android: null },
+    };
+    // Tous les jeux publiés, quel que soit l'avancement des livraisons : seul
+    // Pandoku a une copie, Sudoku publié sans copie déclenche la couverture.
+    const violations = entryViolations(
+      entry,
+      [
+        pandokuIosOnly,
+        ...getGames("cerebrum").filter((game) => game.id !== "pandoku"),
+      ].map((game) => ({ ...game, published: true })),
+    );
     for (const [rule, expected] of expectedByRule) {
       expect(
         violations.some((violation) => expected.test(violation)),
@@ -707,7 +935,7 @@ describe("contrôles positifs des gardes structurelles", () => {
   it("entryViolations s'applique aussi à un module sans jeux (hub)", () => {
     const entry = fixtureHub({
       hero: {
-        h1: "Synapgeek",
+        ...HUB_HERO,
         definition: `${DEFINITION_OK} Cerebrum \u2014 puzzles.`,
       },
     });
@@ -787,7 +1015,7 @@ describe("sujets du formulaire de contact (amendement 18)", () => {
   it.each(LOCALES)(
     "les valeurs du Dictionary (%s) sont exactement celles de CONTACT_TOPICS, dans le même ordre",
     (locale) => {
-      const values = getDictionary(locale).landing.contact.form.topics.map(
+      const values = getDictionary(locale).common.contactForm.topics.map(
         (topic) => topic.value,
       );
       expect(values).toEqual(serverTopics);

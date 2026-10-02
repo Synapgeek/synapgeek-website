@@ -33,7 +33,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  * confiance à son libellé et compose lui-même l'objet de l'email à partir de
  * cette table. Toute valeur hors liste est rejetée en 400.
  *
- * Les `value` doivent rester synchronisées avec `landing.contact.form.topics`
+ * Les `value` doivent rester synchronisées avec `common.contactForm.topics`
  * dans `src/content/fr.ts` ET `src/content/en.ts` — un sujet ajouté d'un seul
  * côté passe le build et échoue à l'envoi.
  */

@@ -41,6 +41,7 @@ const en: Dictionary = {
       label: "Breadcrumb",
       home: "Home",
     },
+    updatedOn: "Updated on",
 
     languageSuggestion: {
       message: "This site is also available in English.",
@@ -52,238 +53,31 @@ const en: Dictionary = {
       body: "The page you are looking for does not exist or has been moved.",
       cta: "Back to home",
     },
-  },
-  landing: {
-    meta: {
-      title: "Cerebrum: Offline Puzzle Games, No Wi-Fi Needed | Synapgeek",
-      description:
-        "Cerebrum is an offline puzzle games app for iPhone, iPad and Android by Synapgeek: Sudoku, Pandoku (Star Battle), Pixel Art (nonograms) and more.",
+    stores: {
+      appStoreLabel: "Download on the App Store",
+      googlePlayLabel: "Get it on Google Play",
     },
-    hero: {
-      badge: "Now on iOS and Android",
-      title: "Train your brain, one puzzle at a time",
-      subtitle:
-        "Cerebrum is an offline puzzle games app for iPhone, iPad and Android, made by Synapgeek. Sudoku, Pandoku (Star Battle), Minesweeper, Pixel Art (nonograms), Cross Math (a math crossword), Crossword, Word Search, Trace (a one-line path puzzle), Maze and Arrow Maze (an arrow puzzle): play them all without Wi-Fi, every day.",
-      cta: "Download Cerebrum",
-      ctaSecondary: "Learn more",
-      store: {
-        availableNow: "Available now",
-        appStoreLabel: "Download on the App Store",
-        googlePlayLabel: "Get it on Google Play",
-      },
-      slider: {
-        carouselLabel: "Cerebrum app screenshots",
-        slideLabel: "Slide {index} of {total}",
-        controlsLabel: "Slide controls",
-        goToSlide: "Go to slide {index}",
-        alts: {
-          home: "Cerebrum home screen with the Daily Challenge, the themes and game cards including Sudoku, Word Search, Pandoku and Minesweeper",
-          pandoku:
-            "Cerebrum Pandoku, a Star Battle logic puzzle: a colored region grid with pandas placed one per row, column and region",
-          pixelart:
-            "Cerebrum Pixel Art, a nonogram solved to reveal a pixel art panda",
-          daily:
-            "Cerebrum Daily Challenge calendar with completed days marked by stars",
-          progression:
-            "Cerebrum Sudoku level path with a difficulty selector and levels rated with stars",
-        },
-      },
-    },
-    stats: {
-      items: [
-        { value: "2", label: "Platforms" },
-        { value: "0", label: "Wi-Fi needed to play" },
-        { value: "16", label: "Languages" },
-        { value: "Free", label: "Download" },
+    contactForm: {
+      name: "Name",
+      email: "Email",
+      message: "Message",
+      topicLabel: "Topic",
+      topicPlaceholder: "Choose a topic",
+      topics: [
+        { value: "support", label: "Technical issue or bug" },
+        { value: "purchases", label: "Purchases, subscriptions, refunds" },
+        { value: "account", label: "Account and personal data" },
+        { value: "feedback", label: "Suggestion or feedback on a game" },
+        { value: "press", label: "Press and partnerships" },
+        { value: "other", label: "Other" },
       ],
-    },
-    features: {
-      title: "One brain, every kind of puzzle",
-      subtitle:
-        "Logic and numbers, words, paths: each family of games exercises a different skill. Combine them for a complete workout.",
-      items: [
-        {
-          id: "sudoku",
-          title: "Sudoku",
-          description:
-            "The classic 9×9 grid, solved by pure deduction. Difficulty levels from Easy to Elite, with notes and hints.",
-        },
-        {
-          id: "pandoku",
-          title: "Pandoku",
-          description:
-            "A Star Battle logic puzzle. Place one panda in every row, column and region, with no two pandas touching, not even diagonally.",
-        },
-        {
-          id: "minesweeper",
-          title: "Minesweeper",
-          description:
-            "The classic. Use the numbers to reveal every safe cell and flag every mine.",
-        },
-        {
-          id: "pixelart",
-          title: "Pixel Art",
-          description:
-            "Nonograms, also known as hanjie. Fill in cells from the row and column clues to reveal a hidden picture.",
-        },
-        {
-          id: "crossmath",
-          title: "Cross Math",
-          description:
-            "A math crossword. Every “word” in the grid is an equation, to complete with numbers from the pool.",
-        },
-        {
-          id: "crossword",
-          title: "Crossword",
-          description:
-            "Clue-based grids to expand your vocabulary and general knowledge. Available in English and French only.",
-        },
-        {
-          id: "wordsearch",
-          title: "Word Search",
-          description:
-            "Swipe to find the words hidden in the grid. Available in English and French only.",
-        },
-        {
-          id: "trace",
-          title: "Trace",
-          description:
-            "A one-line path puzzle. Draw a single path through every cell, hitting the numbers in order.",
-        },
-        {
-          id: "maze",
-          title: "Maze",
-          description:
-            "Guide your firefly to the exit and collect crystals along the way.",
-        },
-        {
-          id: "arrowmaze",
-          title: "Arrow Maze",
-          description:
-            "A relaxing arrow puzzle. Tap an arrow to slide it off the board when its way is clear, until the board is empty.",
-        },
-      ],
-    },
-    about: {
-      title: "Built by enthusiasts",
-      description:
-        "Synapgeek is the independent French studio that designs and publishes Cerebrum, available on the App Store and Google Play. We believe the best games combine elegance, challenge, and pure enjoyment.",
-      values: [
-        {
-          title: "Solver-checked puzzles",
-          description:
-            "Our puzzles are generated with our own tools, then automatically checked by solvers before they reach the app.",
-        },
-        {
-          title: "Your data, your choice",
-          description:
-            "On iPhone and iPad, no ad tracking without your permission; in the EEA, the UK and Switzerland, you are asked for consent before any personalized ads. You can delete your account from the app at any time.",
-        },
-        {
-          title: "Made in France",
-          description:
-            "Designed and developed in France by Synapgeek, an independent studio.",
-        },
-      ],
-    },
-    faq: {
-      title: "Cerebrum FAQ",
-      subtitle:
-        "Pricing, offline play, supported devices, accounts: what you need to know before downloading the app.",
-      items: [
-        {
-          question: "What games are in Cerebrum?",
-          answer:
-            "Cerebrum is an offline puzzle games app for iPhone, iPad and Android, made by Synapgeek. Logic and number puzzles: Sudoku, Pandoku (a Star Battle logic puzzle), Minesweeper, Pixel Art (nonograms) and Cross Math (a math crossword). Word games: Crossword and Word Search, in English and French only. Path puzzles: Trace (a one-line path puzzle), Maze and Arrow Maze (an arrow puzzle). Every game has several difficulty levels, and the app adds a daily challenge, streaks and level-by-level progression.",
-        },
-        {
-          question: "Is Cerebrum free?",
-          answer:
-            "Yes, Cerebrum is free to download and play on the App Store and Google Play, and no game or difficulty level is locked behind a purchase. It is free with ads, and offers optional in-app purchases (gem packs, and the Movies, Cooking and Travel theme packs for themed crosswords and word searches) and a Premium subscription.",
-        },
-        {
-          question: "Does Cerebrum have ads, and how do I remove them?",
-          answer:
-            "Yes. Cerebrum is free and supported by ads: a banner during play and ads between some games. Rewarded ads are always optional: you choose to watch one for gems, a hint or a second chance. A weekly, monthly or yearly Premium subscription means no forced ads: it removes the banner and the ads between games. It also adds infinite lives, 5 free hints a day in each game, your first mistake forgiven in every puzzle, free daily gems and double gems after every win. Gem packs and the theme packs are in-app purchases and are not included in Premium.",
-        },
-        {
-          question: "Can I play Cerebrum offline, without Wi-Fi?",
-          answer:
-            "Yes, every Cerebrum game works without an internet connection, daily challenge and streak included: all the puzzles are already in the app and your progress is saved on your device. You still need a connection to sync your progress, make a purchase, sign in to an account and load ads.",
-        },
-        {
-          question: "Which devices does Cerebrum run on?",
-          answer:
-            "Cerebrum is available for iPhone and iPad (iOS 17 or later) on the App Store, and for Android devices (Android 8.0 or later) on Google Play. The app is played in portrait mode.",
-        },
-        {
-          question: "Do I need an account to play Cerebrum?",
-          answer:
-            "No, you can play Cerebrum without creating an account: an anonymous session starts automatically the first time you open the app. You can sign in with Apple, Google or Facebook later if you wish.",
-        },
-        {
-          question: "Does Cerebrum sync my progress across devices?",
-          answer:
-            "Yes, once you sign in to Cerebrum with an Apple, Google or Facebook account: your progress is saved online and follows you to your other devices signed in to the same account. Without a signed-in account, progress stays tied to the device and cannot be recovered if you switch devices.",
-        },
-        {
-          question: "What languages is Cerebrum available in?",
-          answer:
-            "Cerebrum is available in 16 languages, on both iOS and Android. Crossword and Word Search exist in French and English only, so they are offered when the app is set to one of those two languages.",
-        },
-        {
-          question: "How do I delete my Cerebrum account?",
-          answer:
-            "In Cerebrum, open Profile and tap Delete Account: once you confirm, your account and its data (progress, achievements, streak history, synced data) are deleted. If you can no longer access the app, the steps to follow are described in our privacy policy.",
-          link: {
-            text: "our privacy policy",
-            path: { page: "privacy", hash: "account-deletion" },
-          },
-        },
-        {
-          question: "Who makes Cerebrum?",
-          answer:
-            "Cerebrum is published by Synapgeek SAS, an independent French mobile game studio based in Frontenas, France. For any question about the app, the contact form on synapgeek.com also serves as customer support.",
-        },
-      ],
-    },
-    cta: {
-      title: "Ready to train your brain?",
-      subtitle:
-        "Cerebrum is out now on iOS and Android. Puzzle games in one app.",
-      cta: "Download for free",
-      note: "Free with ads. Premium and in-app purchases are optional.",
-      store: {
-        availableNow: "Available now",
-        appStoreLabel: "Download on the App Store",
-        googlePlayLabel: "Get it on Google Play",
-      },
-    },
-    contact: {
-      title: "Got a question?",
-      subtitle: "Drop us a line and we'll get back to you as soon as possible.",
-      form: {
-        name: "Name",
-        email: "Email",
-        message: "Message",
-        topicLabel: "Topic",
-        topicPlaceholder: "Choose a topic",
-        topics: [
-          { value: "support", label: "Technical issue or bug" },
-          { value: "purchases", label: "Purchases, subscriptions, refunds" },
-          { value: "account", label: "Account and personal data" },
-          { value: "feedback", label: "Suggestion or feedback on a game" },
-          { value: "press", label: "Press and partnerships" },
-          { value: "other", label: "Other" },
-        ],
-        submit: "Send message",
-        sending: "Sending...",
-        successTitle: "Message sent!",
-        successBody: "We'll get back to you as soon as possible.",
-        error: "An error occurred. Please try again or contact us directly.",
-        unavailable:
-          "The form is temporarily unavailable. Please write to us directly at contact@synapgeek.com.",
-      },
+      submit: "Send message",
+      sending: "Sending...",
+      successTitle: "Message sent!",
+      successBody: "We'll get back to you as soon as possible.",
+      error: "An error occurred. Please try again or contact us directly.",
+      unavailable:
+        "The form is temporarily unavailable. Please write to us directly at contact@synapgeek.com.",
     },
   },
   privacy: {

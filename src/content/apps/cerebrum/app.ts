@@ -16,7 +16,7 @@ export const cerebrum: AppEntry = {
   googlePlayUrl: GOOGLE_PLAY_URL,
   platforms: {
     ios: { minOs: "17.0" },
-    android: { minOs: null },
+    android: { minOs: "8.0" },
   },
   languages: [
     "en",

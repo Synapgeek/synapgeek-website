@@ -9,13 +9,15 @@ type HeadingLevel = "h2" | "h3" | "h4";
  * genre. Avec `href`, toute la carte est cliquable (lien étiré posé sur le nom,
  * donc un seul arrêt de tabulation) ; elle se soulève et son lavis se renforce
  * au survol et au focus. Sans `href` (jeu non publié), c'est la même carte, sans
- * lien et sans effet : rien ne promet une page qui n'existe pas.
+ * lien et sans effet : rien ne promet une page qui n'existe pas. `platforms`
+ * (noms d'appareils, ex. `platformsFor`) s'affiche sur une ligne sous le genre.
  */
 export function GameCard({
   name,
   genre,
   icon,
   color,
+  platforms = [],
   href,
   as: Heading = "h3",
   className = "",
@@ -25,6 +27,8 @@ export function GameCard({
   genre: string | null;
   icon: string;
   color: GameColor;
+  /** Appareils où le jeu est annoncé ; vide ou absent : aucune ligne. */
+  platforms?: readonly string[];
   /** Page du jeu, ou `null` quand elle n'est pas publiée. */
   href: string | null;
   as?: HeadingLevel;
@@ -74,6 +78,11 @@ export function GameCard({
         {genre !== null && (
           <p className="mt-1 text-[0.8125rem] leading-snug font-semibold">
             {genre}
+          </p>
+        )}
+        {platforms.length > 0 && (
+          <p className="mt-1.5 text-xs leading-snug font-bold">
+            {platforms.join(" · ")}
           </p>
         )}
       </div>

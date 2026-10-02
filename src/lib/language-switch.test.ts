@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
 import { getRewrittenUrl, isRewrite } from "next/experimental/testing/server";
 import { proxy } from "@/proxy";
@@ -9,6 +9,15 @@ import {
   legalPagePaths,
 } from "./language-switch-table";
 import { pagePath, publishedPageIds } from "./routes";
+
+// Les pages jeux n'existent que pour les jeux publiés : tout le registre est
+// publié ici pour vérifier le schéma d'URL de chaque jeu, quel que soit
+// l'avancement des livraisons de copie.
+vi.mock("@/content/apps", async (importOriginal) =>
+  (await import("@/content/apps/publish-all.test-support")).publishAllGames(
+    await importOriginal<typeof import("@/content/apps")>(),
+  ),
+);
 
 const table = buildLanguageSwitchTable();
 

@@ -40,9 +40,13 @@
  *
  * Redirections historiques (tâche 5, next.config.ts) : `/en` redirige en 308 vers
  * `/`, query conservée, et chaque ancienne page anglaise non légale (`/en/cerebrum`…)
- * vers son pendant sans préfixe. Pour `/en/cerebrum`, seuls le statut et le Location
- * sont contrôlés : cible `/cerebrum` pas encore servie tant que la page app n'existe pas
- * (tâche ultérieure). Seul `/fr/privacy`, `/fr/terms`, `/fr/legal` reste TRANSITOIRE :
+ * vers son pendant sans préfixe. La cible `/cerebrum` répond 200 depuis la tâche 13 ;
+ * les pages de jeux (`/en/cerebrum/<jeu>`) ne sont contrôlées qu'à partir de leur
+ * livraison : Sudoku (tâche 14) ouvre la série, Pandoku (tâche 141), Démineur (tâche 142),
+ * Pixel Art (tâche 143) et Arrow Maze (tâche 144) la suivent, chaque jeu suivant ajoute ses lignes.
+ * Une page de jeu porte UNE seule `og:image`, et cette image répond 200 `image/png`
+ * sans redirection (aperçu d'un lien partagé).
+ * Seul `/fr/privacy`, `/fr/terms`, `/fr/legal` reste TRANSITOIRE :
  * ils répondent encore en 200 (canonical) et passeront en 307 dans un PR ultérieur,
  * après preuve en production.
  *
@@ -75,7 +79,16 @@ const GOOGLE_PLAY_URL =
 // l'URL du store, sans jamais en écraser un paramètre déjà présent.
 const CAMPAIGN_PARAM = "src=contract-check";
 
-const SITEMAP_URL_COUNT = 8;
+const SITEMAP_URL_COUNT = 20;
+
+/** Slug de chaque page de jeu livrée, par langue (le français de Démineur diffère). */
+const SLUGS = {
+  sudoku: { en: "sudoku", fr: "sudoku" },
+  pandoku: { en: "pandoku", fr: "pandoku" },
+  minesweeper: { en: "minesweeper", fr: "demineur" },
+  pixelArt: { en: "pixel-art", fr: "pixel-art" },
+  arrowMaze: { en: "arrow-maze", fr: "arrow-maze" },
+};
 
 const LEGAL_PAGES = ["/privacy", "/terms", "/legal"];
 // Les trois variantes de chaque page légale ; sur l'hôte www, chacune redirige en 308
@@ -119,6 +132,10 @@ function contractChecks(base) {
     path,
     expect: [status(200), noLocation(), ...extra],
   });
+  const notFound = (path) => ({
+    path,
+    expect: [status(404), noLocation()],
+  });
   const redirect = (path, code, target) => ({
     path,
     expect: [status(code), location(resolve(target))],
@@ -136,9 +153,73 @@ function contractChecks(base) {
     redirect("/en", 308, "/"),
     redirect("/en/", 308, "/en"),
     redirect(`/en?${CAMPAIGN_PARAM}`, 308, `/?${CAMPAIGN_PARAM}`),
-    // La cible /cerebrum peut répondre 404 tant que la page app n'existe pas : on ne contrôle
-    // ici que la redirection.
     redirect("/en/cerebrum", 308, "/cerebrum"),
+    redirect("/en/cerebrum/sudoku", 308, "/cerebrum/sudoku"),
+    redirect("/en/cerebrum/pandoku", 308, "/cerebrum/pandoku"),
+    redirect("/en/cerebrum/minesweeper", 308, "/cerebrum/minesweeper"),
+    redirect("/en/cerebrum/pixel-art", 308, "/cerebrum/pixel-art"),
+    redirect("/en/cerebrum/arrow-maze", 308, "/cerebrum/arrow-maze"),
+    // Page de l'app (tâche 13) : anglais sans préfixe, français sous /fr.
+    ok("/cerebrum", [
+      contentType("text/html"),
+      htmlLang("en"),
+      canonical(`${APEX}/cerebrum`),
+      hreflangs({
+        en: `${APEX}/cerebrum`,
+        fr: `${APEX}/fr/cerebrum`,
+        "x-default": `${APEX}/cerebrum`,
+      }),
+    ]),
+    ok("/fr/cerebrum", [
+      contentType("text/html"),
+      htmlLang("fr"),
+      canonical(`${APEX}/fr/cerebrum`),
+      hreflangs({
+        en: `${APEX}/cerebrum`,
+        fr: `${APEX}/fr/cerebrum`,
+        "x-default": `${APEX}/cerebrum`,
+      }),
+    ]),
+    // Page de jeu (tâche 14) : même schéma de langue, une seule og:image qui répond.
+    ok("/cerebrum/sudoku", gamePageExpectations("en", SLUGS.sudoku, resolve)),
+    ok(
+      "/fr/cerebrum/sudoku",
+      gamePageExpectations("fr", SLUGS.sudoku, resolve),
+    ),
+    ok("/cerebrum/pandoku", gamePageExpectations("en", SLUGS.pandoku, resolve)),
+    ok(
+      "/fr/cerebrum/pandoku",
+      gamePageExpectations("fr", SLUGS.pandoku, resolve),
+    ),
+    ok(
+      "/cerebrum/minesweeper",
+      gamePageExpectations("en", SLUGS.minesweeper, resolve),
+    ),
+    ok(
+      "/fr/cerebrum/demineur",
+      gamePageExpectations("fr", SLUGS.minesweeper, resolve),
+    ),
+    ok(
+      "/cerebrum/pixel-art",
+      gamePageExpectations("en", SLUGS.pixelArt, resolve),
+    ),
+    ok(
+      "/fr/cerebrum/pixel-art",
+      gamePageExpectations("fr", SLUGS.pixelArt, resolve),
+    ),
+    ok(
+      "/cerebrum/arrow-maze",
+      gamePageExpectations("en", SLUGS.arrowMaze, resolve),
+    ),
+    ok(
+      "/fr/cerebrum/arrow-maze",
+      gamePageExpectations("fr", SLUGS.arrowMaze, resolve),
+    ),
+    // Un slug ne se résout que dans sa langue ; un slug inconnu est un vrai 404.
+    notFound("/fr/cerebrum/crossword"),
+    notFound("/cerebrum/mots-croises"),
+    notFound("/cerebrum/inconnu"),
+    notFound("/fr/cerebrum/inconnu"),
     ok("/fr", [
       contentType("text/html"),
       htmlLang("fr"),
@@ -292,6 +373,44 @@ function legalExpectations(language, page) {
     }),
   ];
 }
+/** Page de jeu : langue, canonique, hreflang réciproques, une seule og:image qui répond en PNG. */
+function gamePageExpectations(language, slugs, resolve) {
+  const urls = {
+    en: `${APEX}/cerebrum/${slugs.en}`,
+    fr: `${APEX}/fr/cerebrum/${slugs.fr}`,
+  };
+  return [
+    contentType("text/html"),
+    htmlLang(language),
+    canonical(urls[language]),
+    hreflangs({ ...urls, "x-default": urls.en }),
+    singleOgImage(resolve),
+  ];
+}
+/**
+ * Exactement une balise `og:image` (les `og:image:width` et consorts n'en sont pas),
+ * et son URL répond 200 `image/png` sans redirection. L'URL de la balise porte
+ * l'origine publique : on n'en garde que le chemin pour interroger la base contrôlée.
+ */
+function singleOgImage(resolve) {
+  return {
+    describe: "une og:image, 200 image/png sans redirection",
+    test: async (res) => {
+      const tags = [
+        ...res.body.matchAll(/<meta property="og:image" content="([^"]+)"\/>/g),
+      ];
+      if (tags.length !== 1) return `${tags.length} balise(s) og:image`;
+      const { pathname, search } = new URL(tags[0][1], APEX);
+      const image = await fetch(resolve(`${pathname}${search}`), {
+        redirect: "manual",
+      });
+      const type = image.headers.get("content-type") ?? "";
+      if (image.status !== 200) return `og:image ${pathname} : ${image.status}`;
+      if (!type.includes("image/png")) return `og:image type ${type}`;
+      return null;
+    },
+  };
+}
 function htmlLang(language) {
   return bodyMatches(
     new RegExp(`<html[^>]*\\blang="${language}"`),
@@ -417,9 +536,9 @@ async function runCheck(base, check) {
   const expected = check.expect.map((e) => e.describe).join(", ");
   try {
     const res = await fetchContract(base, check);
-    const failures = check.expect
-      .map((e) => e.test(res))
-      .filter((f) => f !== null);
+    const failures = (
+      await Promise.all(check.expect.map((e) => e.test(res)))
+    ).filter((f) => f !== null);
     return {
       label,
       expected,

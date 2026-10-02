@@ -34,12 +34,16 @@ export function getOgAlternateLocales(locale: Locale): string[] {
  * redéfinit `openGraph`, l'objet du layout (siteName, locale, images…) est
  * entièrement remplacé plutôt que fusionné. Ce helper reconstruit donc tout,
  * y compris l'og:image, pour que chaque page reste complète isolément.
+ * `ownImage` : la page a son propre `opengraph-image` (convention de fichier de
+ * Next) ; on ne pose alors pas l'image du site, sinon la page porterait deux
+ * og:image.
  */
 export function buildOpenGraph(
   locale: Locale,
   pageId: PageId,
   title: string,
   description: string,
+  { ownImage = false }: { ownImage?: boolean } = {},
 ): NonNullable<Metadata["openGraph"]> {
   return {
     title,
@@ -49,6 +53,10 @@ export function buildOpenGraph(
     siteName: "Synapgeek",
     locale: getOgLocale(locale),
     alternateLocale: getOgAlternateLocales(locale),
-    images: [{ url: "/images/brand/og-image.jpeg", width: 1200, height: 630 }],
+    ...(!ownImage && {
+      images: [
+        { url: "/images/brand/og-image.jpeg", width: 1200, height: 630 },
+      ],
+    }),
   };
 }

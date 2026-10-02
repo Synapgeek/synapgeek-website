@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { APP_STORE_QR_URL, GOOGLE_PLAY_URL } from "@/lib/app";
 import { getDictionary } from "@/content";
+import { getGames } from "@/content/apps";
 
 /**
  * /cerebrum/play — cible des QR codes imprimés (chevalets de comptoir).
@@ -86,7 +87,9 @@ export default async function PlayPage({
   // Calculée après la redirection : un scan mobile n'a pas besoin du texte.
   const dict = getDictionary("fr");
   const gamesList = formatGamesList(
-    dict.landing.features.items.map((item) => item.title),
+    getGames("cerebrum")
+      .filter((game) => game.published)
+      .map((game) => game.name.fr),
   );
 
   // Repli : desktop, iPad en mode bureau, robot, User-Agent vide.
@@ -117,7 +120,7 @@ export default async function PlayPage({
             >
               <Image
                 src="/images/brand/badge-appstore-fr.svg"
-                alt={dict.landing.hero.store.appStoreLabel}
+                alt={dict.common.stores.appStoreLabel}
                 width={127}
                 height={40}
                 className="h-[48px] w-auto"
@@ -129,7 +132,7 @@ export default async function PlayPage({
             >
               <Image
                 src="/images/brand/badge-googleplay-fr.png"
-                alt={dict.landing.hero.store.googlePlayLabel}
+                alt={dict.common.stores.googlePlayLabel}
                 width={646}
                 height={192}
                 className="h-[48px] w-auto"

@@ -12,11 +12,8 @@ const THREE: readonly Difficulty[] = ["easy", "medium", "hard"];
 
 /** Les six jeux de la 2.x, présents sur les deux plateformes. */
 const SINCE_2: PlatformAvailability = { ios: "2.0.0", android: "2.0.0" };
-/**
- * Arrivés en 3.0.0 sur iOS. `android: null` tant qu'Adrien n'a pas confirmé le
- * déploiement Play : passer à "3.0.0" suffit à afficher « iPhone, iPad et Android ».
- */
-const SINCE_3_IOS_ONLY: PlatformAvailability = { ios: "3.0.0", android: null };
+/** Les quatre jeux arrivés avec la 3.0.0, publiée sur l'App Store et sur Google Play. */
+const SINCE_3: PlatformAvailability = { ios: "3.0.0", android: "3.0.0" };
 
 const icon = (id: GameId) => `/images/games/${id}-v3.webp`;
 const screenshot = (id: GameId) => ({
@@ -30,6 +27,10 @@ const screenshot = (id: GameId) => ({
  * Couleurs : noms de propriétés CSS (--game-<id>-wash/-deep), valeurs dans
  * src/app/globals.css, données par la session Design System d'après
  * cerebrum-ios/docs/port/game-palette.json.
+ *
+ * `published` : un jeu n'est publié qu'avec sa copie (`copy/games/<id>.<locale>.ts`) ;
+ * la tâche qui livre son texte passe son drapeau à `true`. Tant qu'il est à
+ * `false`, le jeu n'a ni route, ni entrée de sitemap, ni lien (sa carte reste affichée).
  */
 export const cerebrumGames: readonly GameEntry[] = [
   {
@@ -60,7 +61,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     difficulties: FOUR,
     lives: "three-hearts",
     hasTutorial: true,
-    availability: SINCE_3_IOS_ONLY,
+    availability: SINCE_3,
     contentLocales: "all",
     color: { wash: "--game-pandoku-wash", deep: "--game-pandoku-deep" },
     published: true,
@@ -76,7 +77,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     difficulties: FOUR,
     lives: "three-hearts",
     hasTutorial: true,
-    availability: SINCE_3_IOS_ONLY,
+    availability: SINCE_3,
     contentLocales: "all",
     color: { wash: "--game-minesweeper-wash", deep: "--game-minesweeper-deep" },
     published: true,
@@ -92,7 +93,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     difficulties: FOUR,
     lives: "three-lives",
     hasTutorial: true,
-    availability: SINCE_3_IOS_ONLY,
+    availability: SINCE_3,
     contentLocales: "all",
     color: { wash: "--game-pixel-art-wash", deep: "--game-pixel-art-deep" },
     published: true,
@@ -111,7 +112,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: "all",
     color: { wash: "--game-cross-math-wash", deep: "--game-cross-math-deep" },
-    published: true,
+    published: false,
     icon: icon("cross-math"),
     screenshot: screenshot("cross-math"),
   },
@@ -127,7 +128,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: ["fr", "en"],
     color: { wash: "--game-crossword-wash", deep: "--game-crossword-deep" },
-    published: true,
+    published: false,
     icon: icon("crossword"),
     screenshot: screenshot("crossword"),
   },
@@ -143,7 +144,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: ["fr", "en"],
     color: { wash: "--game-word-search-wash", deep: "--game-word-search-deep" },
-    published: true,
+    published: false,
     icon: icon("word-search"),
     screenshot: screenshot("word-search"),
   },
@@ -162,7 +163,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: "all",
     color: { wash: "--game-trace-wash", deep: "--game-trace-deep" },
-    published: true,
+    published: false,
     icon: icon("trace"),
     screenshot: screenshot("trace"),
   },
@@ -178,7 +179,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: "all",
     color: { wash: "--game-maze-wash", deep: "--game-maze-deep" },
-    published: true,
+    published: false,
     icon: icon("maze"),
     screenshot: screenshot("maze"),
   },
@@ -191,7 +192,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     difficulties: THREE,
     lives: "grid-defined",
     hasTutorial: true,
-    availability: SINCE_3_IOS_ONLY,
+    availability: SINCE_3,
     contentLocales: "all",
     color: { wash: "--game-arrow-maze-wash", deep: "--game-arrow-maze-deep" },
     published: true,

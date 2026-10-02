@@ -24,7 +24,7 @@ declare global {
 
 type FormStatus = "idle" | "sending" | "success" | "error";
 
-type ContactFormDict = Dictionary["landing"]["contact"]["form"];
+type ContactFormDict = Dictionary["common"]["contactForm"];
 
 export function ContactForm({ dict }: { dict: ContactFormDict }) {
   const [status, setStatus] = useState<FormStatus>("idle");

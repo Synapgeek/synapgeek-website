@@ -78,8 +78,9 @@ Succès, par ordre d'importance :
 - Aucune vente sur le site ni lien de paiement (Apple 3.1.1) ; aucun prix publié sans
   vérification dans App Store Connect et la Play Console.
 - Les faits sur une app viennent uniquement de ses sources vérifiées (fiche store, faits relevés
-  dans le code publié, sessions iOS, Android et Design System). Au 2026-10-01 : iOS en 3.0.0
-  (10 jeux en français et en anglais, 8 dans les autres langues), Google Play encore en 2.1.5.
+  dans le code publié, sessions iOS, Android et Design System). Au 2026-10-02 : iOS et Google Play
+  en 3.0.0 (Google Play depuis le 2026-10-01 ; 10 jeux en français et en anglais, 8 dans les
+  autres langues).
 - Décisions ouvertes : nom et date de la future app non-jeu (son nom de code ne doit jamais
   apparaître) ; ajout d'autres langues au site.
 

@@ -8,8 +8,15 @@
  */
 
 import type { Locale } from "./i18n";
-import { APP_STORE_URL, GOOGLE_PLAY_URL } from "./app";
-import { BASE_URL, absoluteUrl, type PageId } from "./routes";
+import { platformsFor, type AppEntry, type GameEntry } from "@/content/apps";
+import type { AppCopy, GameCopy } from "@/content/copy";
+import {
+  BASE_URL,
+  absolutePath,
+  absoluteUrl,
+  pageIdForGame,
+  type PageId,
+} from "./routes";
 
 // Pages développeur des stores — utilisées comme `sameAs` de l'organisation.
 // Faits stores fournis par la tâche ; on omet une URL introuvable plutôt que
@@ -25,27 +32,6 @@ const APP_STORE_TITLE_EN = "Cerebrum: Offline Puzzle Games";
 const GOOGLE_PLAY_TITLE_FR = "Cerebrum : Jeux zen sans wifi";
 const GOOGLE_PLAY_TITLE_EN = "Cerebrum: Offline Puzzle Games";
 
-// Langues de l'interface de l'app (16, iOS et Android), en BCP 47. Distinctes
-// de `LOCALES`, qui ne liste que les langues du site web.
-const CEREBRUM_APP_LANGUAGES = [
-  "en",
-  "fr",
-  "de",
-  "es",
-  "it",
-  "pt-BR",
-  "nl",
-  "tr",
-  "hi",
-  "id",
-  "ja",
-  "ko",
-  "th",
-  "vi",
-  "zh-Hans",
-  "zh-Hant",
-] as const;
-
 // Date de première publication de la fiche Cerebrum (iOS), conservée telle
 // quelle depuis le JSON-LD SoftwareApplication existant.
 const CEREBRUM_DATE_PUBLISHED = "2026-06-03";
@@ -56,6 +42,8 @@ const SITE_ROOT_URL = `${BASE_URL}/`;
 const ORGANIZATION_ID = `${BASE_URL}/#organization`;
 const WEBSITE_ID = `${BASE_URL}/#website`;
 const CEREBRUM_APP_ID = `${BASE_URL}/cerebrum#app`;
+/** Genre schema.org commun à tous les jeux ; le genre maison, quand il existe, s'y ajoute. */
+const VIDEO_GAME_GENRE = "Puzzle";
 
 interface PostalAddressSchema {
   readonly "@type": "PostalAddress";
@@ -138,9 +126,9 @@ export function websiteSchema(locale: Locale): WebSiteSchema {
   };
 }
 
-interface SoftwareApplicationSchema {
+interface MobileApplicationSchema {
   readonly "@context": "https://schema.org";
-  readonly "@type": "SoftwareApplication";
+  readonly "@type": readonly ["MobileApplication", "VideoGame"];
   readonly "@id": string;
   readonly name: string;
   readonly alternateName: readonly string[];
@@ -161,45 +149,109 @@ interface SoftwareApplicationSchema {
   readonly publisher: { readonly "@id": string };
   readonly inLanguage: readonly string[];
   readonly datePublished: string;
+  readonly dateModified: string;
 }
 
 /**
- * Application Cerebrum. Décisions volontaires : pas d'`aggregateRating` (pas
- * de source unifiée iOS/Android fiable), pas de `softwareVersion` (diverge
- * entre stores et se périme vite), pas de `contentRating`.
+ * Application Cerebrum, co-typée MobileApplication et VideoGame. Décisions
+ * volontaires : pas d'`aggregateRating` (pas de source unifiée iOS/Android
+ * fiable), pas de `softwareVersion` (diverge entre stores et se périme vite),
+ * pas de `contentRating`. Android n'est annoncé que si le registre en vérifie
+ * la version minimale.
  */
-export function softwareApplicationSchema(
+export function mobileApplicationSchema(
+  app: AppEntry,
   locale: Locale,
-  { description }: { description: string },
-): SoftwareApplicationSchema {
+  copy: Pick<AppCopy, "updatedAt"> & {
+    hero: Pick<AppCopy["hero"], "definition">;
+  },
+): MobileApplicationSchema {
+  const operatingSystem = [
+    "iOS",
+    ...(app.platforms.android.minOs ? ["Android"] : []),
+  ];
+
   return {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": ["MobileApplication", "VideoGame"],
     "@id": CEREBRUM_APP_ID,
-    name: "Cerebrum",
+    name: app.name,
     alternateName: [
       APP_STORE_TITLE_FR,
       APP_STORE_TITLE_EN,
       GOOGLE_PLAY_TITLE_FR,
       GOOGLE_PLAY_TITLE_EN,
     ].filter((value, index, all) => all.indexOf(value) === index),
-    description,
-    url: absoluteUrl("home", locale),
-    sameAs: [APP_STORE_URL, GOOGLE_PLAY_URL],
-    operatingSystem: ["iOS", "Android"],
+    description: copy.hero.definition,
+    url: absoluteUrl(app.slug, locale),
+    sameAs: [app.appStoreUrl, app.googlePlayUrl],
+    operatingSystem,
     applicationCategory: "GameApplication",
-    image: `${BASE_URL}/images/brand/og-image.jpeg`,
+    image: absolutePath(app.icon),
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
     },
-    downloadUrl: [APP_STORE_URL, GOOGLE_PLAY_URL],
+    downloadUrl: [app.appStoreUrl, app.googlePlayUrl],
     author: { "@id": ORGANIZATION_ID },
     publisher: { "@id": ORGANIZATION_ID },
-    inLanguage: CEREBRUM_APP_LANGUAGES,
+    inLanguage: app.languages,
     datePublished: CEREBRUM_DATE_PUBLISHED,
+    dateModified: copy.updatedAt,
+  };
+}
+
+interface VideoGameSchema {
+  readonly "@context": "https://schema.org";
+  readonly "@type": "VideoGame";
+  readonly "@id": string;
+  readonly name: string;
+  readonly description: string;
+  readonly url: string;
+  readonly image: string;
+  readonly genre: readonly string[];
+  readonly gamePlatform: readonly string[];
+  readonly isPartOf: { readonly "@id": string };
+  readonly publisher: { readonly "@id": string };
+  readonly inLanguage: readonly string[];
+  readonly dateModified: string;
+}
+
+/**
+ * Un jeu de Cerebrum. L'@id suit le slug anglais (une seule entité pour les
+ * deux pages de langue, comme l'app), l'url suit la page de la langue. Les
+ * plateformes viennent du registre (`platformsFor`) : Android n'est annoncé
+ * que s'il est vérifié. Pas d'`aggregateRating`, pas d'offre : le prix est
+ * celui de l'app.
+ */
+export function videoGameSchema(
+  app: AppEntry,
+  game: GameEntry,
+  locale: Locale,
+  copy: Pick<GameCopy, "updatedAt"> & {
+    hero: Pick<GameCopy["hero"], "definition">;
+  },
+): VideoGameSchema {
+  const pageId = pageIdForGame(game.id);
+  const houseGenre = game.genre[locale];
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "@id": `${absoluteUrl(pageId, "en")}#game`,
+    name: game.name[locale],
+    description: copy.hero.definition,
+    url: absoluteUrl(pageId, locale),
+    image: absolutePath(game.icon),
+    genre: houseGenre ? [VIDEO_GAME_GENRE, houseGenre] : [VIDEO_GAME_GENRE],
+    gamePlatform: platformsFor(game),
+    isPartOf: { "@id": CEREBRUM_APP_ID },
+    publisher: { "@id": ORGANIZATION_ID },
+    inLanguage:
+      game.contentLocales === "all" ? app.languages : game.contentLocales,
+    dateModified: copy.updatedAt,
   };
 }
 
@@ -264,5 +316,39 @@ export function webPageSchema({
     inLanguage: locale,
     dateModified,
     isPartOf: { "@id": WEBSITE_ID },
+  };
+}
+
+interface BreadcrumbListItemSchema {
+  readonly "@type": "ListItem";
+  readonly position: number;
+  readonly name: string;
+  /** Absent sur le dernier maillon (la page courante). */
+  readonly item?: string;
+}
+
+interface BreadcrumbListSchema {
+  readonly "@context": "https://schema.org";
+  readonly "@type": "BreadcrumbList";
+  readonly itemListElement: readonly BreadcrumbListItemSchema[];
+}
+
+/**
+ * Fil d'Ariane. Reçoit le tableau même que le composant visible (`href`
+ * relatif, absent sur la page courante) : le visible et le structuré ne
+ * peuvent pas diverger.
+ */
+export function breadcrumbSchema(
+  items: readonly { readonly name: string; readonly href?: string }[],
+): BreadcrumbListSchema {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((entry, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: entry.name,
+      ...(entry.href !== undefined && { item: absolutePath(entry.href) }),
+    })),
   };
 }
