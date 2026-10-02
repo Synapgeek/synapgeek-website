@@ -237,7 +237,7 @@ describe("renderedPageIds", () => {
     expect(rendered).toEqual(published.filter((id) => rendered.includes(id)));
   });
 
-  it("ne contient aujourd'hui que l'accueil, la page de l'app, Sudoku, Pandoku, Démineur, Pixel Art, Cross Math, Mots croisés, Mots mêlés, Trace, Arrow Maze et les trois pages légales", () => {
+  it("ne contient aujourd'hui que l'accueil, la page de l'app, Sudoku, Pandoku, Démineur, Pixel Art, Cross Math, Mots croisés, Mots mêlés, Trace, Labyrinthe, Arrow Maze et les trois pages légales", () => {
     expect(renderedPageIds()).toEqual([
       "home",
       "cerebrum",
@@ -249,6 +249,7 @@ describe("renderedPageIds", () => {
       "game:crossword",
       "game:word-search",
       "game:trace",
+      "game:maze",
       "game:arrow-maze",
       "privacy",
       "terms",

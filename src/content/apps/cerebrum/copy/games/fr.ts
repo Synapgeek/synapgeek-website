@@ -2,6 +2,7 @@ import type { GameId } from "@/content/apps";
 import { arrowMazeFr } from "./arrow-maze.fr";
 import { crossMathFr } from "./cross-math.fr";
 import { crosswordFr } from "./crossword.fr";
+import { mazeFr } from "./maze.fr";
 import { minesweeperFr } from "./minesweeper.fr";
 import { pandokuFr } from "./pandoku.fr";
 import { pixelArtFr } from "./pixel-art.fr";
@@ -24,4 +25,5 @@ export const gamesFr: Partial<Record<GameId, GameCopy>> = {
   crossword: crosswordFr,
   "word-search": wordSearchFr,
   trace: traceFr,
+  maze: mazeFr,
 };

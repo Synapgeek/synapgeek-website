@@ -179,7 +179,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: "all",
     color: { wash: "--game-maze-wash", deep: "--game-maze-deep" },
-    published: false,
+    published: true,
     icon: icon("maze"),
     screenshot: screenshot("maze"),
   },
