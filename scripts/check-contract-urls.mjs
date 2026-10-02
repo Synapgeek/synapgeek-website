@@ -305,7 +305,21 @@ function contractChecks(base) {
     notFound("/fr/cerebrum/maze"),
     notFound("/cerebrum/labyrinthe"),
     notFound("/cerebrum/inconnu"),
-    notFound("/fr/cerebrum/inconnu"),
+    // Titres des 404 : la 404 racine (langue inconnue) porte exactement le sien, via
+    // `metadata` ; la 404 localisée n'en rend aucun dans le HTML serveur (le sien est posé
+    // côté client). Jamais deux.
+    {
+      path: "/de/inconnu",
+      expect: [
+        status(404),
+        noLocation(),
+        singleTitle("Page not found | Synapgeek"),
+      ],
+    },
+    {
+      path: "/fr/cerebrum/inconnu",
+      expect: [status(404), noLocation(), singleTitle()],
+    },
     // Pages de section (tâche 15) : anglais sans préfixe, français sous /fr avec son slug ;
     // /en/<slug> redirige, le slug de l'autre langue est un vrai 404.
     redirect("/en/about", 308, "/about"),
@@ -608,6 +622,24 @@ function bodyIncludes(fragment) {
   return {
     describe: `contient ${fragment}`,
     test: (res) => (res.body.includes(fragment) ? null : `${fragment} absent`),
+  };
+}
+/** Au plus un `<title>` dans le HTML servi : un second est ignoré par les navigateurs et invalide le document. */
+function singleTitle(text) {
+  return {
+    describe: text
+      ? `un seul <title> : ${text}`
+      : "au plus un <title> dans le HTML servi",
+    test: (res) => {
+      const titles = [...res.body.matchAll(/<title>([^<]*)<\/title>/g)].map(
+        (match) => match[1],
+      );
+      if (titles.length > 1)
+        return `${titles.length} <title> : ${titles.join(" / ")}`;
+      if (text && titles[0] !== text)
+        return `<title> observé : ${titles[0] ?? "aucun"}`;
+      return null;
+    },
   };
 }
 function bodyMatches(pattern, description = `${pattern}`) {

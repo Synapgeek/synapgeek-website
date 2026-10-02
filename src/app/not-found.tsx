@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import { getDictionary } from "@/content";
 import { pagePath } from "@/lib/routes";
 import { NotFoundView } from "@/components/site/NotFoundView";
 import { FONT_VARIABLES } from "./fonts";
+
+// Le gabarit « %s | Synapgeek » du layout racine s'applique : un seul <title> dans le document.
+export const metadata: Metadata = {
+  title: getDictionary("en").common.notFound.title,
+};
 
 /**
  * 404 racine, en anglais : le layout racine rend `children` nu, cette page pose
