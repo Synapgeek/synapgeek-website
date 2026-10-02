@@ -229,7 +229,7 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
   // Spec §5.2 : l'anglais est la langue par défaut (racine sans préfixe), le
   // français vit sous /fr, sauf les trois pages légales figées (français sans
   // préfixe, anglais sous /en). x-default pointe toujours vers l'anglais.
-  it("sitemap() renvoie exactement les 24 URLs du schéma courant, x-default anglais", () => {
+  it("sitemap() renvoie exactement les 26 URLs du schéma courant, x-default anglais", () => {
     const entries = sitemap();
     expect(entries.map((entry) => entry.url)).toEqual([
       "https://synapgeek.com",
@@ -244,6 +244,8 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
       "https://synapgeek.com/fr/cerebrum/demineur",
       "https://synapgeek.com/cerebrum/pixel-art",
       "https://synapgeek.com/fr/cerebrum/pixel-art",
+      "https://synapgeek.com/cerebrum/cross-math",
+      "https://synapgeek.com/fr/cerebrum/cross-math",
       "https://synapgeek.com/cerebrum/crossword",
       "https://synapgeek.com/fr/cerebrum/mots-croises",
       "https://synapgeek.com/cerebrum/word-search",
@@ -299,27 +301,34 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
     };
     expect(entries[10].alternates?.languages).toEqual(pixelArtLanguages);
     expect(entries[11].alternates?.languages).toEqual(pixelArtLanguages);
+    const crossMathLanguages = {
+      en: "https://synapgeek.com/cerebrum/cross-math",
+      fr: "https://synapgeek.com/fr/cerebrum/cross-math",
+      "x-default": "https://synapgeek.com/cerebrum/cross-math",
+    };
+    expect(entries[12].alternates?.languages).toEqual(crossMathLanguages);
+    expect(entries[13].alternates?.languages).toEqual(crossMathLanguages);
     const crosswordLanguages = {
       en: "https://synapgeek.com/cerebrum/crossword",
       fr: "https://synapgeek.com/fr/cerebrum/mots-croises",
       "x-default": "https://synapgeek.com/cerebrum/crossword",
     };
-    expect(entries[12].alternates?.languages).toEqual(crosswordLanguages);
-    expect(entries[13].alternates?.languages).toEqual(crosswordLanguages);
+    expect(entries[14].alternates?.languages).toEqual(crosswordLanguages);
+    expect(entries[15].alternates?.languages).toEqual(crosswordLanguages);
     const wordSearchLanguages = {
       en: "https://synapgeek.com/cerebrum/word-search",
       fr: "https://synapgeek.com/fr/cerebrum/mots-meles",
       "x-default": "https://synapgeek.com/cerebrum/word-search",
     };
-    expect(entries[14].alternates?.languages).toEqual(wordSearchLanguages);
-    expect(entries[15].alternates?.languages).toEqual(wordSearchLanguages);
+    expect(entries[16].alternates?.languages).toEqual(wordSearchLanguages);
+    expect(entries[17].alternates?.languages).toEqual(wordSearchLanguages);
     const arrowMazeLanguages = {
       en: "https://synapgeek.com/cerebrum/arrow-maze",
       fr: "https://synapgeek.com/fr/cerebrum/arrow-maze",
       "x-default": "https://synapgeek.com/cerebrum/arrow-maze",
     };
-    expect(entries[16].alternates?.languages).toEqual(arrowMazeLanguages);
-    expect(entries[17].alternates?.languages).toEqual(arrowMazeLanguages);
+    expect(entries[18].alternates?.languages).toEqual(arrowMazeLanguages);
+    expect(entries[19].alternates?.languages).toEqual(arrowMazeLanguages);
     for (const page of ["privacy", "terms", "legal"]) {
       const languages = {
         en: `https://synapgeek.com/en/${page}`,

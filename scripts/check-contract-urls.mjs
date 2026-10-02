@@ -43,7 +43,7 @@
  * vers son pendant sans préfixe. La cible `/cerebrum` répond 200 depuis la tâche 13 ;
  * les pages de jeux (`/en/cerebrum/<jeu>`) ne sont contrôlées qu'à partir de leur
  * livraison : Sudoku (tâche 14) ouvre la série, Pandoku (tâche 141), Démineur (tâche 142),
- * Pixel Art (tâche 143), Arrow Maze (tâche 144), Mots croisés (tâche 171) et Mots mêlés (tâche 172) la suivent, chaque jeu suivant ajoute ses lignes.
+ * Pixel Art (tâche 143), Arrow Maze (tâche 144), Mots croisés (tâche 171), Mots mêlés (tâche 172) et Cross Math (tâche 173) la suivent, chaque jeu suivant ajoute ses lignes.
  * Une page de jeu porte UNE seule `og:image`, et cette image répond 200 `image/png`
  * sans redirection (aperçu d'un lien partagé).
  * Seul `/fr/privacy`, `/fr/terms`, `/fr/legal` reste TRANSITOIRE :
@@ -79,7 +79,7 @@ const GOOGLE_PLAY_URL =
 // l'URL du store, sans jamais en écraser un paramètre déjà présent.
 const CAMPAIGN_PARAM = "src=contract-check";
 
-const SITEMAP_URL_COUNT = 24;
+const SITEMAP_URL_COUNT = 26;
 
 /** Slug de chaque page de jeu livrée, par langue (le français de Démineur diffère). */
 const SLUGS = {
@@ -87,6 +87,7 @@ const SLUGS = {
   pandoku: { en: "pandoku", fr: "pandoku" },
   minesweeper: { en: "minesweeper", fr: "demineur" },
   pixelArt: { en: "pixel-art", fr: "pixel-art" },
+  crossMath: { en: "cross-math", fr: "cross-math" },
   crossword: { en: "crossword", fr: "mots-croises" },
   wordSearch: { en: "word-search", fr: "mots-meles" },
   arrowMaze: { en: "arrow-maze", fr: "arrow-maze" },
@@ -160,6 +161,7 @@ function contractChecks(base) {
     redirect("/en/cerebrum/pandoku", 308, "/cerebrum/pandoku"),
     redirect("/en/cerebrum/minesweeper", 308, "/cerebrum/minesweeper"),
     redirect("/en/cerebrum/pixel-art", 308, "/cerebrum/pixel-art"),
+    redirect("/en/cerebrum/cross-math", 308, "/cerebrum/cross-math"),
     redirect("/en/cerebrum/crossword", 308, "/cerebrum/crossword"),
     redirect("/en/cerebrum/word-search", 308, "/cerebrum/word-search"),
     redirect("/en/cerebrum/arrow-maze", 308, "/cerebrum/arrow-maze"),
@@ -210,6 +212,14 @@ function contractChecks(base) {
     ok(
       "/fr/cerebrum/pixel-art",
       gamePageExpectations("fr", SLUGS.pixelArt, resolve),
+    ),
+    ok(
+      "/cerebrum/cross-math",
+      gamePageExpectations("en", SLUGS.crossMath, resolve),
+    ),
+    ok(
+      "/fr/cerebrum/cross-math",
+      gamePageExpectations("fr", SLUGS.crossMath, resolve),
     ),
     ok(
       "/cerebrum/crossword",

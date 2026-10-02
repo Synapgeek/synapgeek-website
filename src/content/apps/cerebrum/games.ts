@@ -112,7 +112,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: "all",
     color: { wash: "--game-cross-math-wash", deep: "--game-cross-math-deep" },
-    published: false,
+    published: true,
     icon: icon("cross-math"),
     screenshot: screenshot("cross-math"),
   },
