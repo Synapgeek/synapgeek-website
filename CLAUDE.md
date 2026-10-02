@@ -1,661 +1,242 @@
 # Synapgeek Website
 
-> Dernière vérification complète contre le code : 2026-09-12. Révisé le 2026-10-01
-> (sections Commandes, Sous-agents, Skills auto-chargés, Variables d'environnement,
-> Langues, Structure des routes, Architecture i18n, SEO : bascule sur l'anglais par défaut)
-> sans re-vérification complète des autres. Quand ce fichier et le code divergent,
-> **le code fait foi** — et cette ligne devient une tâche, pas une excuse.
-> Les fichiers qui font contrat : `src/proxy.ts`, `src/lib/i18n.ts`, `src/lib/seo.ts`,
-> `src/lib/app.ts`, `src/content/index.ts`, `src/content/types.ts`, `src/app/sitemap.ts`,
-> `src/lib/routes.ts`, `src/lib/frozen-legal-paths.ts`, `src/lib/page-slugs.ts`,
-> `next.config.ts`, `vercel.json`, et `docs/contrat/` (faits Cerebrum vérifiés, hors
-> formatage Prettier).
+> Vérifié contre le code à la fin de la refonte « hub studio » (2026-10-02). Quand ce fichier et
+> le code divergent, **le code fait foi**, et cette ligne devient une tâche, pas une excuse.
+> Fichiers qui font contrat : `src/proxy.ts`, `next.config.ts`, `vercel.json`,
+> `src/lib/{routes,frozen-legal-paths,page-slugs,i18n,seo,app,structured-data}.ts`,
+> `src/app/{sitemap,robots}.ts`, `src/content/{index,types}.ts`, `src/content/apps/`, `public/llms.txt`.
+> Le détail vit dans `docs/contrat/` (voir « Documentation »).
 
 ## Contexte
 
-Site web de Synapgeek, studio indie français développant **Cerebrum** (app de puzzles,
-iOS **et** Android). Le site sert de landing page, héberge les trois pages légales
-(Privacy Policy, CGU/EULA, mentions légales françaises), et fournit les URLs référencées
-dans App Store Connect, dans la Play Console (formulaire Data Safety) et dans la config
-AdMob consent (UMP).
+Site de **Synapgeek**, studio indépendant français d'apps mobiles : hub studio, une page par app
+(Cerebrum d'abord) et par jeu, À propos, Presse, trois pages légales, formulaire de contact.
+**Cerebrum** (puzzles, iOS et Android, 3.0.0 sur les deux stores) est la première app ; une future
+app non-jeu existe, **son nom de code n'apparaît jamais**. But premier : SEO et GEO. Le site
+fournit aussi les URLs déclarées dans App Store Connect, la Play Console (Data Safety) et l'UMP
+d'AdMob. Brief produit : `PRODUCT.md`.
 
-## Stack technique
+## Stack
 
-- **Framework** : Next.js `16.3.8` (App Router, `src/`) — version épinglée exactement,
-  comme `eslint-config-next`. React épinglé à `19.2.8`.
-- **Style** : Tailwind CSS 4.x (CSS-first, `@import "tailwindcss"` + `@theme inline {}`
-  dans `src/app/globals.css`, pas de `tailwind.config.js`). Ce fichier (environ 270 lignes)
-  EST le design system : jetons `--color-brand-*`, `--color-ink`, `--color-canvas*`, lavis,
-  accents, ombres, rayons, rythme (`py-section`, `px-gutter`), les 2 variables de police,
-  les paires `--game-*` des jeux, et quelques classes maison (`band-enter`,
-  `band-violet-deep`, `shell-pop`, `animate-fade-in-up`, `input-*`). Primitives dans
-  `src/components/ui/`. **Jamais de
-  hex en dur, jamais un sixième bouton.**
-- **Langage** : TypeScript strict mode
-- **Linter** : ESLint 9 + eslint-config-next + Prettier
-- **Email** : Nodemailer via SMTP Google Workspace
-- **Captcha** : Google reCAPTCHA v2 (sur `/api/contact` uniquement)
-- **Analytics** : Vercel Analytics + Vercel Speed Insights (sans cookie) + **Google
-  Analytics 4** derrière **Consent Mode v2 régionalisé** (`src/lib/consent/`,
-  `src/components/consent/`, montés dans `src/app/[locale]/layout.tsx`). Seul
-  `analytics_storage` varie : `granted` par défaut hors UE/EEE/Royaume-Uni/Suisse, `denied`
-  dedans tant qu'aucun choix explicite n'existe. Les trois signaux publicitaires
-  (`ad_storage`, `ad_user_data`, `ad_personalization`) restent **`denied` partout,
-  toujours** — ce site n'affiche aucune publicité, `ConsentBanner` ne les accorde jamais.
-  GA4 (`gtag/js`, `strategy="lazyOnload"`) charge dès que `NEXT_PUBLIC_GA_MEASUREMENT_ID`
-  existe (`ConsentBootstrap`), avec `cookie_expires: 34128000` (13 mois) et
-  `cookie_update: false` (pas de prolongation glissante à chaque visite) posés dans le
-  script inline de défauts pour garantir que la commande `config` précède tout
-  `trackEvent`. Bandeau de consentement **maison** (`ConsentBanner`, pas de CMP tierce —
-  Google Funding Choices abandonné, il exige un compte AdSense/Ad Manager que ce site n'a
-  pas) : Accepter/Refuser au même niveau, choix stocké 6 mois dans `localStorage` (clé
-  `sg-consent`, jamais un cookie), rouvrable via « Gérer mes cookies » dans le pied de page
-  (`ReopenConsentLink`, toujours affiché).
-- **Déploiement** : Vercel — un merge sur `main` publie en production. Tout passe par
-  branche + PR. **Ne jamais merger ni promouvoir sans accord explicite d'Adrien.**
-  Seule `main` déploie (`vercel.json` > `git.deploymentEnabled` : `"**": false`,
-  `"main": true`, décision d'Adrien du 2026-10-01) : aucune preview de branche. Vercel lit
-  ce réglage dans le commit poussé, donc toute branche doit partir d'un `main` qui le porte.
-- **Langues** : **Anglais (défaut, sans préfixe)** + Français sous `/fr` (i18n maison via
-  `src/content/`, pas de `next-intl`). Exception figée : les trois pages légales gardent
-  leur schéma historique, français sans préfixe et anglais sous `/en/` (voir « Structure
-  des routes »)
+- **Next.js 16.3.8** (App Router, `src/`) et **React 19.2.8**, versions épinglées exactement
+  (comme `eslint-config-next`). TypeScript strict, ESLint 9 + Prettier, **vitest 4**. Contact :
+  Nodemailer (SMTP Google Workspace) et reCAPTCHA v2, sur `/api/contact` seulement.
+- **Tailwind 4**, CSS-first : `src/app/globals.css` (environ 310 lignes) EST le design system
+  (jetons `--color-*`, paires `--game-*`, rythme, ombres, classes `band-*`, `shell-pop`,
+  `input-*`), pas de `tailwind.config.js`. Polices Fredoka (titres) et Figtree (texte) par
+  `next/font/google` (`src/app/fonts.ts`) ; jamais Nunito ni Baloo 2 (celles de Maze Foundry).
+  Primitives dans `src/components/ui/`. **Jamais de hex en dur, jamais un cinquième bouton**
+  (`Button` : primary, secondary, outline, inverse). Direction visuelle : `DESIGN.md`.
+- **i18n maison** (pas de `next-intl`) : **anglais par défaut sans préfixe, français sous `/fr`**,
+  sauf les pages légales (voir « Contrat d'URLs »).
+- **Mesure** : Vercel Analytics et Speed Insights (sans cookie) et **GA4** derrière **Consent Mode
+  v2 régionalisé** (`src/lib/consent/`, `src/components/consent/`). Seul `analytics_storage`
+  varie : `granted` par défaut hors UE/EEE/Royaume-Uni/Suisse (`GDPR_REGIONS`, 43 juridictions),
+  `denied` dedans sans choix explicite ; `ad_storage`, `ad_user_data` et `ad_personalization`
+  restent **`denied` partout, toujours** (aucune pub sur le site). Bandeau **maison** : Accepter et
+  Refuser au même niveau, choix stocké 6 mois dans `localStorage` (`sg-consent`, jamais un
+  cookie), rouvrable par « Gérer mes cookies » dans le pied de page. GA4 charge dès que
+  `NEXT_PUBLIC_GA_MEASUREMENT_ID` existe ; aucun tag ni cookie Google hors de ce mécanisme.
+  Événements : `section_viewed`, `app_store_click`, `contact_form_submit`, `language_switched`.
+- **Déploiement** : Vercel. **Seule `main` déploie** (`vercel.json` > `git.deploymentEnabled`) :
+  aucune preview de branche, et Vercel lit ce réglage dans le commit poussé. Un merge sur `main`
+  publie en production : tout passe par branche et PR, **jamais de merge ni de promotion sans
+  accord explicite d'Adrien**. `release/next` est la branche d'intégration pour la recette
+  (décision d'Adrien, 2026-10-01). CI (`.github/workflows/ci.yml`, sans secret) : `lint`,
+  `next typegen`, `tsc`, `npm test`, `build`, sur chaque push et PR vers `main`.
 
 ## Commandes
 
 ```bash
-npm run dev       # Serveur de développement
-npm run build     # Build de production
-npm run start     # Serveur de production (build préalable requis)
-npm run lint      # ESLint
-npm run format    # Prettier — ÉCRIT les fichiers (npx prettier --check pour vérifier)
-npm test          # vitest : invariants de routes (SSG, JSON-LD, redirects, sitemap…)
-npm run check:contract  # URLs référencées par les stores, apex et www (réseau ; local ou prod)
-npm run indexnow  # prévient IndexNow (Bing, Yandex…) : À LA MAIN, après un déploiement en production
+npm run dev             # développement
+npm run build           # build de production
+npm run lint            # ESLint
+npm test                # vitest : routes, redirections, JSON-LD, sitemap, gardes de copie, design
+npm run format          # Prettier : ÉCRIT les fichiers (npx prettier --check pour vérifier)
+npm run check:contract  # URLs référencées par les stores (réseau : local ou production)
+npm run indexnow        # prévient IndexNow, À LA MAIN, après un déploiement en production
 ```
 
-`npm run indexnow` lit le sitemap en production et envoie ses URLs à
-`https://api.indexnow.org/indexnow` (`-- --dry-run` affiche la charge utile sans rien
-envoyer ; `-- --sitemap <url>` lit un autre sitemap). Ni route, ni variable d'environnement,
-ni étape de build, et jamais avant que le déploiement soit en ligne : le moteur relit les
-pages. La clé est le nom du fichier `public/<32 hex>.txt` (son contenu est la clé, publique
-par conception) : ne pas le renommer ni le supprimer, `npm test` et `check:contract` le
-vérifient.
+- Portes avant un commit : `lint`, `npx next typegen && npx tsc --noEmit`, `test`, `build`.
+- `check:contract` sans argument contrôle `https://synapgeek.com` ET `https://www.synapgeek.com` ;
+  avec une base (`http://localhost:3130`) une seule. À lancer contre `npm run start` (après
+  `build`) avant tout merge touchant routage, redirects, proxy ou `.well-known`, puis contre la
+  production juste après le merge. Contre un déploiement Vercel protégé, définir `VERCEL_OIDC_TOKEN` : le script l'envoie en
+  en-tête `x-vercel-trusted-oidc-idp-token` sur chaque requête, sans jamais l'afficher.
+- `npm run indexnow` envoie les URLs du sitemap de production à IndexNow (`-- --dry-run` n'envoie
+  rien), jamais avant que le déploiement soit en ligne. Clé : le fichier `public/<32 hex>.txt`,
+  à ne pas renommer ni supprimer.
 
-`check:contract` contre un déploiement Vercel protégé : définir `VERCEL_OIDC_TOKEN`, le script l'envoie en en-tête `x-vercel-trusted-oidc-idp-token` sur chaque requête (jamais affiché).
+## Contrat d'URLs
 
-Portes automatiques : `npm run lint`, `npm test`, `npm run build`, rejouées par la CI
-(`.github/workflows/ci.yml`, sans secret). `check:contract` n'est pas dans la CI : à lancer
-contre `next start` en local avant tout merge touchant routage, redirects ou
-`.well-known` (aucune preview Vercel : seule `main` déploie), puis contre la production
-juste après le merge. Tout le reste est humain ou passe par un sous-agent.
+Ne rien casser, ne rien déplacer. Détail, codes et gardes : `docs/contrat/architecture.md`.
 
-## Conventions de code
+| URL                                                                      | Comportement                                                                                    |
+| ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| `/`, `/fr`                                                               | hub en anglais, hub en français ; tous deux portent `id="contact"` (URL de support des stores)  |
+| `/en`, `/en/<page non légale>`                                           | 308 vers `/` et `/<page>` (règles littérales, jamais `/en/:path*`)                              |
+| `/privacy`, `/terms`, `/legal`                                           | 200, **français** (`FROZEN_LEGAL_PATHS`) : l'app installée et les stores les ouvrent ainsi      |
+| `/en/privacy`, `/en/terms`, `/en/legal`                                  | 200, anglais                                                                                    |
+| `/fr/privacy`, `/fr/terms`, `/fr/legal`                                  | 200 aujourd'hui (canonical vers l'URL sans préfixe) ; 307 dans un PR ultérieur, jamais 308      |
+| `/account-deletion`, `/en/…`, `/fr/…`                                    | 307 vers `#account-deletion` de la politique (URL du formulaire Data Safety de la Play Console) |
+| `/cerebrum/play`                                                         | redirection QR vers l'App Store ou Google Play selon le User-Agent, repli localisé, noindex     |
+| `/play`, `/jouer`                                                        | 307 vers `/cerebrum/play` (QR historiques)                                                      |
+| `/cerebrum`, `/cerebrum/<jeu>`, `/about`, `/press`                       | pages publiées ; slugs traduits en français (`/fr/cerebrum/demineur`, `/fr/a-propos`)           |
+| `/.well-known/apple-app-site-association`, `…/assetlinks.json`           | 200 en `application/json`, sans redirection, route handlers `force-static`                      |
+| `/robots.txt`, `/sitemap.xml`, `/llms.txt`, `/app-ads.txt`, clé IndexNow | 200                                                                                             |
 
-- Pas de `any` TypeScript implicite
-- Composants React : functional components uniquement
-- Images : `next/image` obligatoire
-- Fonts : `next/font/google` — DM Sans (titres), Inter (corps). JetBrains Mono a été retirée.
-- Pages légales : générées en SSG, lisibles sans JavaScript, y compris tout ce que
-  `LegalPage` importe, transitivement (garde dans `route-invariants.test.ts`). Le format est
-  défini par `src/lib/legal-format.ts` (testé) : `**gras**`, paragraphes séparés par `\n\n`,
-  lignes consécutives `- ` d'un paragraphe rendues en vraie liste `<ul>`, auto-lien des URLs
-  et emails. Pas de titres `###`, pas de listes numérotées ni imbriquées. Une URL suivie
-  d'une virgule ou entre parenthèses est **tronquée** par la regex `[^\s),]+` — et rien ne
-  le détecte : ni lint, ni build (le test documente la règle, il ne contrôle pas le texte légal).
-- Aucun texte en dur dans les composants localisés : tout passe par `Dictionary`
-  (`src/content/fr.ts` + `en.ts` + `types.ts`), ou par un module de copie typé
-  (`src/content/copy/`, `src/content/apps/<app>/copy/`). Plus aucun ternaire
-  `locale === "fr" ? … : …` dans `src/` : le cliquet `MAX_LOCALE_TERNARIES` de
-  `route-invariants.test.ts` vaut 0 et `site-reviewer` refuse toute PR qui le fait monter.
-- Tout lien interne passe par `pagePath(pageId, locale, hash?)` de `src/lib/routes.ts` (et
-  `absoluteUrl()` pour une URL complète). `getLocalePath()` n'existe plus : un test de
-  `route-invariants.test.ts` échoue s'il réapparaît dans `src/`
-
-## Structure des routes
-
-Routes actives :
-
-```
-/                      → Landing page (EN, locale par défaut, sans préfixe), section FAQ
-                         ancrée en `#faq`
-/fr                    → Landing page (FR), `#faq`
-/en                    → 308 vers `/` (query conservée) — `next.config.ts`
-/en/<page>             → 308 vers `/<page>` pour chaque ancienne page anglaise NON légale
-                         (`/en/cerebrum`…) : une règle LITTÉRALE par page, jamais de regex ni
-                         de `/en/:path*` (elle capterait `/en/privacy`)
-/#contact, /fr#contact → URLs de support. App Store Connect déclare `/#contact` (fr-FR) et
-                         `/en#contact` (autres langues) ; `/en#contact` redirige désormais en
-                         308 vers `/#contact`. L'URL de support française `/#contact` atterrit
-                         donc sur l'accueil ANGLAIS tant que App Store Connect fr-FR n'est pas
-                         basculé sur `/fr#contact` (suite côté session iOS). L'ancre
-                         `id="contact"` de la landing (`Contact.tsx`) est une URL CONTRAT :
-                         ne jamais la renommer ni la retirer, dans les deux langues
-/privacy               → Privacy Policy en FRANÇAIS   /en/privacy (anglais)
-/terms                 → CGU / EULA en FRANÇAIS       /en/terms (anglais)
-/legal                 → Mentions légales en FRANÇAIS /en/legal (anglais)
-                         Schéma légal FIGÉ (`FROZEN_LEGAL_PATHS`, `src/lib/frozen-legal-paths.ts`) :
-                         l'app installée et les stores ouvrent `/privacy` en attendant du
-                         français. `/fr/<page légale>` est TRANSITOIRE (200 + canonical vers
-                         l'URL sans préfixe) en attendant une redirection 307
-                         (`permanent: false`) posée dans un PR ultérieur, après preuve en
-                         production (jamais 308 : un permanent se met en cache chez les clients)
-/cerebrum/play         → Redirection QR → App Store / Play Store selon le User-Agent. Le repli
-                         (desktop, iPad en mode bureau, robot) se localise par Accept-Language
-                         (fr* → français, sinon anglais), `<html lang>` suit, noindex.
-                         Les paramètres entrants (`?src=…`) sont transmis à la cible mais
-                         ne peuvent jamais écraser un paramètre déjà présent dessus
-                         (`withIncomingParams` ignore toute clé déjà sur l'URL cible) —
-                         `?id=` ou `?ct=&pt=` ne peuvent donc plus détourner la destination
-/play, /jouer          → 307 vers /cerebrum/play, query conservée (`next.config.ts`) —
-                         QR historiques, JAMAIS casser
-/api/contact           → Formulaire de contact (POST) — reCAPTCHA v2
-/robots.txt            → src/app/robots.ts
-/sitemap.xml           → src/app/sitemap.ts : `renderedPageIds()` × langues via `absoluteUrl()`
-                         (8 URLs aujourd'hui), alternates hreflang
-/llms.txt              → public/llms.txt, statique ; chaque URL synapgeek.com citée doit être
-                         dans le sitemap (garde vitest)
-/.well-known/apple-app-site-association
-                       → Universal Links iOS. appID 6ZSKBP3TL7.com.synapgeek.cerebrumgame,
-                         components /app/*. Apple exige application/json, sans extension
-                         ni redirection — JAMAIS casser
-/.well-known/assetlinks.json
-                       → App Links Android. package com.synapgeek.cerebrum, empreinte de
-                         DÉPLOIEMENT Play App Signing (pas celle d'upload). Google refuse
-                         toute redirection sur /.well-known/ — JAMAIS casser
-/account-deletion      → redirect 307 vers /privacy#account-deletion — URL déclarée dans
-                         le formulaire Data Safety de la Play Console — JAMAIS casser
-/en/account-deletion   → redirect 307 vers /en/privacy#account-deletion
-/fr/account-deletion   → redirect 307 vers /privacy#account-deletion
-```
-
-Toutes les pages sont prérendues au build (**SSG pur**) sauf `/cerebrum/play` et `/api/contact`.
-Trois fichiers seulement exportent `dynamic` — `/cerebrum/play` en `force-dynamic`
-(il doit lire le User-Agent) et les deux route handlers `.well-known` en `force-static`
-(prérendu exigé par Apple et Google). Aucun fichier n'exporte `revalidate`,
-`dynamicParams`, `"use cache"` ni `cacheComponents`.
-
-La 404 est `src/app/not-found.tsx`. Comme `src/app/layout.tsx` retourne `children` nu,
-toute route hors de `src/app/[locale]/` rend son propre `<html lang>`/`<body>` — c'est le
-cas de `not-found.tsx` et de `/cerebrum/play`.
-
-Routes prévues (pas encore implémentées) : `/cerebrum`, les pages jeu, les sections du
-registre (`src/lib/page-slugs.ts`), `/blog`. Elles n'entrent dans le sitemap qu'avec leur
-livraison : `RENDERED_PAGE_IDS` dans `src/lib/routes.ts` est la source unique de ce qui
-rend aujourd'hui, et `npm run check:contract` vérifie que chaque `<loc>` répond 200.
-
-Ancres à préserver (URLs contractuelles hors du chemin) : `#account-deletion` et `#website`
-dans la politique de confidentialité (formulaire Data Safety, lien du bandeau de consentement),
-`#contact` sur la landing (App Store Connect).
-
-## Architecture i18n
-
-- **Locale par défaut** : `en` (pas de préfixe dans l'URL) — `DEFAULT_LOCALE` de
-  `src/lib/i18n.ts`
-- **Autres locales** : préfixe `/fr/`. Seules les pages légales font exception
-  (`FROZEN_LEGAL_PATHS` : français sans préfixe, anglais sous `/en/`)
-- **Proxy** (`src/proxy.ts`) : rewrite (jamais redirect) des URLs sans préfixe vers
-  `/en/...`, sauf les chemins exacts de `FROZEN_LEGAL_PATHS` réécrits vers `/fr/...`
-  (`/privacy-notes` n'est PAS figé : seuls les chemins exacts le sont). Matcher : `["/((?!_next|api|favicon\\.ico|.*\\..*).*)"]` — tout chemin
-  contenant un point y échappe (d'où le passage direct de `/.well-known/*`).
-  `LOCALE_FREE_ROUTES` exclut en plus les routes servies hors du segment `[locale]` : il
-  vaut `["/cerebrum/play"]` et ne couvre PAS `/cerebrum`.
-- **Contenu** : `src/content/fr.ts` et `src/content/en.ts`
-- **Types** : `src/content/types.ts` (`Dictionary`)
-- **Helpers** : `src/lib/i18n.ts` (`LOCALES`, `DEFAULT_LOCALE`, `generateStaticParams`),
-  `src/lib/routes.ts` (`PageId`, `pagePath`, `absoluteUrl`, `alternatesFor`,
-  `publishedPageIds`, `renderedPageIds`, `X_DEFAULT_LOCALE`), `src/lib/frozen-legal-paths.ts`
-  (`FROZEN_LEGAL_PATHS`), `src/lib/page-slugs.ts` (slugs par langue),
-  `src/content/index.ts` (`getDictionary`, `getLocale`), `src/lib/seo.ts`
-  (`getAlternates(pageId, locale)`, `buildOpenGraph`), `src/lib/app.ts` (identité store)
-- ⚠ `/fr/privacy`, `/fr/terms`, `/fr/legal` répondent encore 200 et ne sont dédoublonnées
-  que par le canonical (vers l'URL sans préfixe). Ni noindexées ni sitemapées ; leur
-  redirection 307 (`permanent: false`) vers l'URL sans préfixe arrivera dans un PR
-  ultérieur, après preuve en production.
-- Un segment qui n'est pas une locale connue (`/wp-login.php` : tout chemin contenant un
-  point échappe au proxy et atterrit dans `[locale]`) déclenche `notFound()` dans
-  `[locale]/layout.tsx` → vrai 404. **Jamais `dynamicParams = false`** pour ça. `/llms.txt`
-  n'illustre PAS ce cas : servi statiquement depuis `public/`, il répond avant même
-  d'atteindre le routing Next — jamais de `notFound()`.
-- `pagePath("home", "fr")` renvoie `/fr`, sans slash final : `/fr/` répond 308. La racine
-  anglaise est `/` (`absoluteUrl("home", "en")` = `https://synapgeek.com`, sans slash).
-- Le sélecteur de langue du header ne rend ses liens qu'une fois ouvert — invisibles pour
-  un crawler. Le lien permanent du footer (`dict.common.languageSwitch`) est ce qui relie
-  les deux versions du site : ne pas le retirer.
-
-## SEO (implémenté)
-
-- `<title>` et `<meta description>` dynamiques par page et par locale. Le `<title>` et
-  l'unique `<h1>` de la landing portent tous deux « Cerebrum » (`Hero.tsx`).
-- La landing porte une section **FAQ** (`src/components/landing/FAQ.tsx`, ancre `#faq`) :
-  le JSON-LD `FAQPage` reprend **exactement** le texte visible (`dict.landing.faq.items`,
-  même tableau des deux côtés — aucune duplication de contenu).
-- Open Graph complet (`og:image` comprise) via `buildOpenGraph()` de `src/lib/seo.ts`,
-  appelé par chaque page du segment `[locale]`. La fusion des métadonnées de Next est
-  superficielle : un `openGraph` partiel dans une page **écrase** celui du layout et fait
-  disparaître l'image. Toujours passer par le helper. `/cerebrum/play` et la 404 n'en ont pas.
-- OG image custom (`public/images/brand/og-image.jpeg`)
-- Hreflang `<link rel="alternate">` et canonical sur toutes les pages. **x-default pointe
-  vers l'anglais** (`X_DEFAULT_LOCALE` dans `src/lib/routes.ts`), qui coïncide désormais
-  avec `DEFAULT_LOCALE` (`en`) mais reste une constante distincte. Les alternates viennent
-  de `alternatesFor(pageId)`, le canonical de `absoluteUrl()` : jamais écrits à la main.
-- Smart App Banner Safari via `itunes: { appId }` dans le layout de locale : il s'applique
-  donc à toutes les pages du segment `[locale]`, dans les deux langues
-- `sitemap.xml` : `renderedPageIds()` × `LOCALES` (aujourd'hui `/`, `/privacy`, `/terms`,
-  `/legal` × 2 langues), alternates `alternatesFor()`, `lastModified` réels
-  (`lastModifiedFor()` : date du dictionnaire pour le légal, une constante datée par type
-  de page sinon). Jamais `/cerebrum/play`, `/en/<page>` ni `/fr/<page légale>`
-- `robots.txt` : `Allow: /` pour `*` et, nommés explicitement, OAI-SearchBot, ChatGPT-User,
-  GPTBot, PerplexityBot, Perplexity-User, ClaudeBot, Claude-SearchBot, Claude-User,
-  Google-Extended, Applebot-Extended, Bingbot ; aucun `Disallow`, aucun `noindex` dans
-  `src/` (sauf `/cerebrum/play`, marquée `robots: { index: false }`)
-- **`src/lib/structured-data.ts` est la source unique de tout le JSON-LD du site** — aucun
-  objet `@type` schema.org ne doit être construit ailleurs. Builders exposés :
-  `organizationSchema` (Organization, UN seul noeud, émis par le layout de locale sur
-  toutes les pages), `websiteSchema` (WebSite, layout de locale), `softwareApplicationSchema`
-  (SoftwareApplication, landing uniquement — `operatingSystem: ["iOS", "Android"]`),
-  `faqPageSchema` (FAQPage, landing) et `webPageSchema` (WebPage, pages légales).
-  Invariants testés (`structured-data.test.ts`) : `@id` identiques dans les deux langues
-  (`https://synapgeek.com/#organization`, `/#website`, `/cerebrum#app`), `url` de
-  Organization et WebSite = `https://synapgeek.com/`, `inLanguage` en BCP 47 (`en`, `fr` ;
-  les 16 langues de l'app aussi), jamais `fr_FR`.
-- `public/llms.txt` : résumé du site et des faits Cerebrum pour les agents/LLM, statique.
-  Ses URLs suivent le schéma de langue (`https://synapgeek.com` anglais,
-  `/fr` français, légal figé) ; un test vitest les compare au sitemap
-- `app-ads.txt` pour la vérification AdMob
-
-## Sécurité (implémenté)
-
-- 7 headers via `vercel.json` : HSTS, X-Content-Type-Options, X-Frame-Options,
-  X-XSS-Protection, Referrer-Policy, Permissions-Policy, X-DNS-Prefetch-Control
-- DDoS protection automatique Vercel
-- `/api/contact` : reCAPTCHA v2, `EMAIL_REGEX`, `MAX_*_LENGTH`, `escapeHtml`,
-  `stripNewlines`, messages d'erreur constants
-- Aucune `process.env` sans `NEXT_PUBLIC_` lue hors de `src/app/api/`
-- Footer sans mailto ; ⚠ mais `LegalPage.tsx` transforme toute adresse du contenu légal
-  en `mailto:` — `contact@` et `privacy@` sont donc en clair sur `/privacy`, `/terms`, `/legal`
-- `vercel.json` pose `Cache-Control: public, max-age=604800, stale-while-revalidate=86400`
-  sur `/images/*`. Conséquence : remplacer une image sous ce même nom de fichier ne suffit
-  pas, l'ancienne version reste servie aux clients (CDN et navigateurs) jusqu'à 7 jours.
-  Pour changer une image, **renommer le fichier** (et mettre à jour ses références) ou
-  invalider le cache Vercel — jamais compter sur un simple écrasement.
-
-## Assets (structure public/)
-
-```
-public/
-├── app-ads.txt
-├── llms.txt
-├── <32 hex>.txt                     (clé IndexNow, voir « Commandes »)
-└── images/
-    ├── brand/
-    │   ├── logo-synapgeek.png       (logo cerveau coloré, fond transparent)
-    │   ├── logo-original.png        (logo haute résolution)
-    │   ├── og-image.jpeg            (Open Graph)
-    │   ├── cerebrum-icon.png        (icône de l'app)
-    │   ├── badge-appstore-fr.svg    badge-appstore-en.svg
-    │   └── badge-googleplay-fr.png  badge-googleplay-en.png
-    ├── games/                        (icônes de jeu, reprises du design-system)
-    │   ├── feature-sudoku.webp      feature-pandoku.webp
-    │   ├── feature-minesweeper.webp feature-pixelart.webp
-    │   ├── feature-crossmath.webp   feature-crosswords.webp
-    │   ├── feature-wordsearch.webp  feature-trace.webp
-    │   └── feature-maze.webp        feature-arrowmaze.webp
-    └── hero/
-        ├── hero-bg-desktop.webp     hero-bg-mobile.webp
-        └── v3/
-            ├── screen-home-{fr,en}.webp      screen-pandoku-{fr,en}.webp
-            ├── screen-pixelart-{fr,en}.webp  screen-daily-{fr,en}.webp
-            └── screen-progression-{fr,en}.webp
-```
-
-Les icônes de jeu (240×240) viennent des icônes LIVRÉES dans l'app iOS
-(`cerebrum-ios/Cerebrum/Assets.xcassets/Icons/Games/<jeu>-icon.imageset`, le @3x).
-
-Les captures du slider sont **localisées** : `IPhoneSlider` compose le chemin en
-`<SCREENSHOT_DIR>/screen-<écran>-<locale>.webp` (`SCREENSHOT_DIR` = `/images/hero/v3`).
-Elles viennent de
-`cerebrum-design-system/marketing/ASC-images/release-3.x.x/raw-screenshot/iphone`
-(1320×2868, iPhone 16 Pro Max), converties en webp 800 px de large. Le dossier est versionné
-(`v3`) à cause du cache 7 jours de `/images/*` : un nouveau lot de captures = un nouveau
-dossier (`v4`…), jamais un écrasement. Écrans retenus : `homepage` (→ `home`), `pandoku`,
-`pixelart-b` (→ `pixelart`), `daily`, `progression`.
-
-`cerebrum-icon.png` a été réduite de 1024 px à 512 px (poids ≈ 459 Ko).
-
-Tout est en `.webp` sauf les logos (`.png`), l'OG image (`.jpeg`), l'icône Cerebrum
-(`.png`), les badges Google Play (`.png`) et les badges App Store (`.svg` — asset fourni
-par Apple, à ne pas rasteriser). Les badges
-stores ont des dimensions codées en dur **différentes par locale** (`StoreButtons.tsx`).
+Ancres contractuelles : `#account-deletion` et `#website` dans la politique (FR et EN), `#contact`
+sur `/` et `/fr` (jamais renommée ni retirée). Liens internes : `pagePath()` de `src/lib/routes.ts`.
 
 ## Règles critiques
 
-- **JAMAIS casser les URLs `/privacy`, `/terms`, `/legal` et `/account-deletion`**
-  (+ pendants `/en/`, `/fr/`) — référencées dans App Store Connect, dans la config AdMob
-  consent (UMP) et dans le formulaire Data Safety de la Play Console. Un 404 = rejet
-  potentiel de Cerebrum sur l'App Store ou Google Play. **L'app Android pointe le host
-  `www.synapgeek.com`** : `www` est aussi critique que l'apex.
-- **Liens web qui ouvrent l'app (Universal Links / App Links) : sujet ABANDONNÉ** par Adrien
-  le 2026-09-12. L'app se télécharge et s'ouvre normalement ; aucune session ne doit relancer
-  ce chantier (entitlement iOS, manifeste Android, page de repli `/app/*`). Les deux fichiers
-  `/.well-known/*` restent servis car ils sont inoffensifs ; s'ils sont un jour modifiés, garder
-  des route handlers (un fichier sans extension dans `public/` sort en
-  `application/octet-stream`).
-- **JAMAIS de lien vers un autre site du portefeuille Synapgeek** (Word Search Trove,
-  Maze Foundry). Règle du skill `synapgeek-portfolio-rules` ; `site-architect` rend NO-GO
-  d'emblée et `site-reviewer` classe bloquant.
-- **`/cerebrum/play` (cible des QR), `/play` et `/jouer` (redirections) ne doivent jamais
-  changer ni disparaître** : l'URL est encodée dans des QR codes imprimés (chevalets de
-  comptoir) qui vivront des mois. Ne jamais créer `[locale]/cerebrum/play`.
-- **JAMAIS de vente de contenu digital sur le site** — tout achat passe par StoreKit 2
-  (iOS) ou Google Play Billing (Android) dans l'app (guideline Apple 3.1.1).
-- **JAMAIS de lien de paiement externe** pour du contenu consommable dans l'app.
-- Les pages légales doivent rester accessibles sans JavaScript (SSG).
-- HTTPS obligatoire (géré par Vercel).
-- La privacy policy doit refléter **exactement** les données collectées par l'app
-  (correspondance avec App Store nutrition labels et `PrivacyInfo.xcprivacy`).
+- **JAMAIS casser** `/privacy`, `/terms`, `/legal`, `/account-deletion` (+ pendants `/en/`, `/fr/`),
+  `/cerebrum/play`, `/play`, `/jouer`, les deux `/.well-known/*` ni `#contact`. Un 404 sur une URL
+  légale peut faire rejeter Cerebrum par Apple ou Google. `www.synapgeek.com` est aussi critique
+  que l'apex : host des App Links Android, site de contact de la fiche Play, anciennes
+  installations (Android 3.0.0 construit ses liens sur l'apex, comme iOS).
+- **Aucun lien vers un autre site du portefeuille Synapgeek** (Word Search Trove, Maze Foundry),
+  ni ressemblance de design ou de ton (skill `synapgeek-portfolio-rules`) : NO-GO pour
+  `site-architect`, bloquant pour `site-reviewer`.
+- **Jamais le nom de code de la future app non-jeu**, ni dans le code, les commentaires, la
+  documentation ou un message de commit.
+- **Aucune vente de contenu digital, aucun lien de paiement externe** (Apple 3.1.1) : tout achat
+  passe par StoreKit 2 ou Google Play Billing. **Aucun prix publié sans vérification** dans App
+  Store Connect et la Play Console ; aucune note, aucun avis, aucun nombre de téléchargements.
+- **Pages légales lisibles sans JavaScript** (SSG, aucun `"use client"` dans leur chaîne) ; leur
+  texte ne change pas sur le fond sans décision d'Adrien, et la politique reflète exactement les
+  données collectées par l'app.
+- **Universal Links et App Links : sujet ABANDONNÉ** par Adrien (2026-09-12) : aucune session ne
+  le relance. Les deux `/.well-known/*` restent servis ; modifiés, ils restent des route handlers.
+- **SSG pur** : trois fichiers seulement exportent `dynamic` (`/cerebrum/play`, les deux
+  `.well-known`), ni `revalidate`, `dynamicParams`, `"use cache"` ni `cacheComponents` ; jamais
+  `src/app/[locale]/cerebrum/play`. **Images** en cache 7 jours : renommer un fichier remplacé.
 
-## Cerebrum — Infos app
+## Conventions de code
 
-Repos (tous sous `/Users/adrienmonte/Documents/projects/synapgeek/cerebrum/`) :
-`cerebrum-ios`, `cerebrum-android`, `cerebrum-design-system`, `cerebrum-generator`.
+- Pas de `any` ; composants fonctionnels ; `next/image` et `next/font` obligatoires ; `"use client"`
+  le plus bas possible.
+- Aucun texte en dur dans un composant localisé : `Dictionary` (`src/content/{fr,en,types}.ts`) ou
+  un module de copie typé (`src/content/copy/`, `src/content/apps/<app>/copy/`). Aucun ternaire
+  `locale === "fr" ? … : …` : le cliquet de `route-invariants.test.ts` vaut 0.
+- Tout lien interne par `pagePath()` ; `InternalLink` est l'unique importeur de `next/link`.
+- Tout JSON-LD sort de `src/lib/structured-data.ts` ; jamais d'`aggregateRating`. Tout `openGraph`
+  passe par `buildOpenGraph()`, canonical et hreflang par `getAlternates()`, jamais à la main.
+- Pages légales : format de `src/lib/legal-format.ts` (`**gras**`, paragraphes séparés par une
+  ligne vide, listes `- `, auto-lien des URLs et e-mails). Une URL suivie d'une virgule ou d'une
+  parenthèse est **tronquée** par la regex `[^\s),]+` et rien ne le détecte.
+- Copie : règles 1 à 14 de `docs/contrat/contenu.md`, appliquées par `content-guards.test.ts`.
+  Jamais de tiret cadratin dans un texte visible. Un fait sur Cerebrum vient des sources vérifiées
+  de `docs/contrat/`, jamais d'une supposition.
 
-**Versions** : l'App Store sert la **3.0.0** depuis le 2026-09-28 (bundle
-`com.synapgeek.cerebrumgame`, gratuit, classée 4+). Android **3.0.0** est publié sur Google
-Play depuis le 2026-10-01 (package `com.synapgeek.cerebrum` — noter que le bundle iOS et le
-package Android **diffèrent**, ce n'est pas une coquille). Source de ces deux dates : Adrien.
+## Processus
 
-### Jeux
+- Ordre sur tout chantier non trivial : `site-architect` (GO / GO-avec-réserves / NO-GO), puis
+  implémentation (`designer` pour l'UI), puis `site-reviewer` (mergeable oui/non, une fois `lint`,
+  `test` et `build` verts). Architecte et reviewer ne modifient jamais le code ; un NO-GO ou un
+  « non » se corrige dans la session principale. Définitions : `.claude/agents/`. Depuis un
+  worktree, un type d'agent se résout dans le checkout principal : lancer un agent général qui
+  lit la définition du worktree.
+- **Modèle passé EXPLICITEMENT à chaque sous-agent** : Haiku pour le mécanique et les docs, Sonnet
+  pour le CSS, un composant simple, les vérifications factuelles et l'implémentation cadrée, Opus
+  pour l'état, la frontière client, l'a11y fine, l'architecture et les revues. Jamais un fan-out
+  qui hérite d'Opus ; un correctif après revue ne part jamais sur Haiku.
+- Chaque brief de tâche recopie la liste ET l'ordre des skills à invoquer ; devant une maquette
+  validée, l'agent l'implémente ou escalade. Écrivains en parallèle : un worktree chacun, rien de
+  commité dans l'arbre partagé ; un serveur sur son port dédié, son PID noté, seul ce PID est
+  tué ; preuve de mutation dans une copie isolée (`git archive | tar -x`, jamais `cp` ni `rsync`,
+  qui copieraient les `.env`).
+- **Les autres dépôts ne se modifient jamais depuis ici** (lecture seule), tous sous
+  `/Users/adrienmonte/Documents/projects/synapgeek/cerebrum/` : `cerebrum-ios`, `cerebrum-android`,
+  `cerebrum-design-system`, `cerebrum-generator`. Un fait ou une action qui les concerne passe par
+  leur session dédiée (App iOS, Android, Design System) : `ListAgents` puis `SendMessage`.
+- Skills : le contenu vit dans `.agents/skills/` (`.claude/skills/<nom>` : symlinks), inventaire
+  dans `skills-lock.json`. **Ne pas attendre qu'on demande un skill** : si la tâche correspond,
+  le lire et l'appliquer. Quatre skills obligatoires vivent HORS du dépôt et manquent à un clone
+  frais : `clean-code` (format de verdict de `site-reviewer`), `synapgeek-portfolio-rules`,
+  `vercel:nextjs`, `vercel:react-best-practices`. Les skills Cache Components et Partial
+  Prefetching supposent un rendu que ce site n'a pas (SSG pur) : sur demande de migration seulement.
+  Le MCP `shadcn` (`.mcp.json`) sert à explorer avec `view`, jamais à ajouter tel quel.
 
-**Les versions 3.0.0 publiées annoncent 10 jeux en français et en anglais, 8 ailleurs.**
-Logique et chiffres : Sudoku, Pandoku (Star Battle), Démineur/Minesweeper, Pixel Art
-(nonogrammes, « logimages » en français), Cross Math (mots croisés de calcul). Mots :
-Mots Croisés/Crossword, Mots Mêlés/Word Search. Parcours : Trace (un seul trait),
-Labyrinthe/Maze, Arrow Maze (casse-tête de flèches). Mots Croisés et Mots Mêlés n'existent
-qu'en français et en anglais : dans les 14 autres langues de l'app (16 au total), le joueur
-n'en voit que 8. Le site présente les 10 jeux, **sans jamais écrire de nombre de jeux ni de
-niveaux** (ni « six », ni « 10 jeux », ni « 1000+ ») : la liste nommée reste vraie quelle que
-soit la langue. Chaque jeu maison est accolé à son genre générique. Textes de référence :
-`cerebrum-design-system/marketing/ASO/3.x.x/` (`asc-metadata.md`, `geo-assistants-ia.md`).
+## Documentation
 
-Nom « Zip » : c'est le **nom de code interne** de Trace (`GameType.zip`, `rawValue "zip"`
-dans iOS et Android), pas un onzième jeu. Ne jamais écrire « Zip » (ni « Queens », ni
-« Picross ») sur le site. Les « cristaux » ramassés au Labyrinthe ne sont pas les « gemmes »
-(la monnaie).
-
-- Difficultés : Facile, Moyen, Difficile et Élite pour Sudoku, Cross Math, Trace, Labyrinthe,
-  Pandoku, Démineur et Pixel Art ; trois seulement (pas d'Élite) pour Mots Croisés, Mots
-  Mêlés et Arrow Maze. Ne jamais écrire « de Facile à Élite » pour tous les jeux.
-- 100 niveaux de progression par difficulté + mode Infini (chiffres internes : jamais publiés
-  sur le site)
-- **Un seul défi quotidien par jour** pour toute l'app : le joueur choisit son jeu, la grille
-  est la même pour tous (jamais « un défi quotidien dans chaque jeu »). Séries de jeu
-  (streaks), trophée mensuel.
-
-Formulations à respecter sur le site (vérifiées côté iOS 3.0.0, Android non vérifié) :
-
-- Modèle économique : gratuit **avec publicité** (bannière pendant la partie, pubs entre
-  certaines parties), pubs récompensées toujours facultatives. Premium (semaine, mois, an) =
-  « pas de pub imposée », jamais « sans pub » ni « zéro pub » (récupérer une série perdue
-  passe toujours par une pub). Les packs Cinéma, Cuisine et Voyage sont le seul achat de
-  contenu et ne sont pas inclus dans Premium. Aucun prix publié sur le site.
-- Aucune note ni aucun avis affiché (trop peu de notes ; aucune aux États-Unis).
-- Démineur : le premier tap n'est pas garanti sûr. Arrow Maze est un jeu de détente, pas un
-  « défi de logique ». Cross Math respecte la priorité des opérations. Aucun seuil d'étoiles
-  de Trace.
-- Live Activity et VoiceOver sont des fonctions iOS : ne pas les attribuer à Android.
-
-### Fonctionnalités
-
-- Progression (étoiles, XP, ligue Bronze → Legend selon le score cumulé), monnaie virtuelle
-  (gemmes), collection d'avatars. Le classement par jeu est **masqué dans l'app iOS 3.0.0**
-  (`FooterView.swift`, « Leaderboard is hidden for now ») : ne jamais l'annoncer sur le site.
-  L'écran existe encore dans le code Android (non vérifié côté stores).
-- Mode hors-ligne local-first : **SwiftData** sur iOS, **Room + DataStore** sur Android,
-  cache Firestore persistant par-dessus sur les deux
-
-### Achats in-app
-
-Montants relevés dans `Configuration.storekit` — un fichier de **test** StoreKit configuré
-`_storefront: "USA"` / `_locale: "en_US"`, donc affiché en **dollars** dans Xcode ; seul un
-commentaire de `StoreProductIDs.swift` parle d'euros. **App Store Connect et la Play Console
-font foi** : ne jamais citer ces prix dans du contenu publié sans les revérifier. La fiche
-Play affiche d'ailleurs « $0.99 - $22.99 per item », plafond sans équivalent ci-dessous.
-
-**Consommables** : 500 gemmes 1,99 € · 1 500 gemmes 4,99 € · 5 000 gemmes 9,99 €
-**Non-consommables** : Starter Pack 300 gemmes 0,99 € (un par utilisateur) ·
-3 packs de thèmes Crossword/Word Search (cinema, food, travel) 2,99 € chacun
-**Abonnements Premium** : hebdomadaire 2,99 € · mensuel 4,99 € · annuel 19,99 €
-**Abonnements Sans publicité** (mensuel 2,99 €, annuel 14,99 €) : **legacy**,
-grandfathered, exclus de `availableForPurchase` — plus vendables à de nouveaux utilisateurs.
-
-Aucun produit « à vie » n'existe.
-
-### Stack technique iOS
-
-- **Swift** + **SwiftUI**
-- **Firebase** : Analytics, Crashlytics, Performance, Firestore, Auth, Functions,
-  **Messaging** (push + tokens FCM), **App Check activé** (App Attest sur appareil,
-  debug provider sur simulateur). ⚠ `FirebaseStorage` et `FirebaseDatabase` sont liés au
-  target mais n'ont **aucun site d'appel** — ne pas les déclarer comme collectant quoi que
-  ce soit.
-- **Meta / Facebook SDK** : Sign-In + App Events (`MetaEventsService.swift`), gatés par le
-  consentement publicitaire
-- **Google Mobile Ads** (AdMob) — App ID `ca-app-pub-2587609832551275~3649546176`.
-  Formats réellement servis en 3.0.0 : bannières, interstitiels, récompensées (rewarded).
-  L'App Open est désactivée/commentée depuis le 20/05/2026 — à ne pas décrire comme
-  active, ni comme définitivement abandonnée.
-- **Auth** : Apple, Google, Facebook, Anonymous. Aucun point d'entrée UI email/mot de passe
-  (zéro `SecureField`), mais le chemin reste appelable en API
-  (`AuthenticationViewModel.signIn(email:password:)`) — ne pas conclure qu'il est supprimé.
-- **Consent** : UMP (GDPR/EEE) + ATT (IDFA). iOS pointe l'apex
-  (`https://synapgeek.com/privacy`) ; **Android pointe `https://www.synapgeek.com/privacy`
-  et `/terms`** (`strings.xml`) et déclare ses App Links sur le host `www`. Le sous-domaine
-  `www` est donc une dépendance dure au même titre que l'apex.
-- **SKAdNetwork** : 58 réseaux déclarés dans `Info.plist`
-- **Stockage local** : SwiftData (cache 100 MB Firestore)
-- iPhone + iPad, portrait uniquement
-
-### Données collectées
-
-| Catégorie     | Données                                                                                                                                                       |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Compte        | Firebase UID, email, nom, photo (selon provider)                                                                                                              |
-| Gameplay      | Scores, temps, indices, erreurs, étoiles, niveaux, difficulté                                                                                                 |
-| Progression   | Streaks, gemmes, avatars, trophées, XP, ligue                                                                                                                 |
-| Appareil      | Type, OS, langue, fuseau horaire, version de l'app, diagnostics                                                                                               |
-| Notifications | Token FCM, tokens ActivityKit (push-to-start, update), état d'activation — document Firestore `users/{uid}/devices/{deviceId}`, purgé par `deleteUserAccount` |
-| Publicité     | IDFA (ATT) / AAID (UMP en EEE/UK/Suisse), interactions pubs ; events de conversion Meta si consentement                                                       |
-| Transactions  | Historique minimal en Firestore `users/{uid}` : productId, type, date, plateforme (pas de données de paiement)                                                |
-
-**Non collecté** : santé, contacts, photos, caméra, calendrier, microphone. L'app ne
-demande jamais explicitement la position (aucun CoreLocation, aucune clé `NSLocation*`) ;
-Google AdMob déduit néanmoins une localisation approximative à partir de l'IP à des fins
-publicitaires, et le SDK UMP l'utilise pour détecter l'EEE — la privacy policy le
-documente explicitement (section « Publicités et technologies de suivi »).
-
-### Suppression de compte
-
-Implémentée dans l'app (Profil > Supprimer le compte). Cloud Function `deleteUserAccount()`
-supprime : Firestore subcollections, document utilisateur, leaderboards, Firebase Auth.
-
-### Public cible
-
-13 ans et plus dans les CGU, pas de mécanisme COPPA. ⚠ La fiche App Store est classée
-**4+** — voir « Points à trancher ».
-
-## Sous-agents
-
-Trois sous-agents dans `.claude/agents/`. Deux jugent, un seul écrit.
-
-| Agent            | Quand                                                                                      | Écrit ? | Rend                              |
-| ---------------- | ------------------------------------------------------------------------------------------ | ------- | --------------------------------- |
-| `site-architect` | AVANT d'implémenter — routing, URL légale, mode de rendu, i18n, indexation, variable d'env | Non     | **GO / GO-avec-réserves / NO-GO** |
-| `designer`       | Conception et implémentation UI/UX (Tailwind 4, composants, assets)                        | **Oui** | du code                           |
-| `site-reviewer`  | APRÈS implémentation, `lint` et `build` verts, avant merge                                 | Non     | **mergeable oui / non**           |
-
-Ordre attendu sur tout chantier non trivial, plan formel ou pas :
-`site-architect` → implémentation (`designer` si c'est de l'UI) → `site-reviewer`.
-Un NO-GO ou un « mergeable non » se corrige dans la session principale, jamais par
-l'agent qui l'a rendu.
-
-Règles de process (leçons de Word Search Trove) :
-
-- Architecte et reviewer ne modifient jamais le code.
-- Chaque brief de tâche recopie la liste ET l'ordre des skills à invoquer : une règle portée
-  seulement par les contraintes globales d'un plan a été violée 3 tâches sur 5.
-- Devant une maquette validée, l'agent l'implémente ou s'arrête et escalade, jamais il ne diverge.
-- Agents écrivains en parallèle : un worktree chacun ; rien n'est commité dans l'arbre
-  partagé pendant un workflow. Un process ne se tue que par son PID noté, port dédié par
-  serveur. Preuve de mutation : copie isolée (`git archive | tar -x`, jamais `cp`/`rsync`).
-- Génération d'images nbpro : plafond quotidien partagé par toute la machine (~0,13 USD
-  l'image en pro). Plafond atteint : stop et rapport, jamais un mode CLI, jamais lire la
-  variable ni `~/.claude.json`. Sortie d'abord au scratchpad, puis import avec conversion
-  et budget de poids.
-- Modèle passé EXPLICITEMENT à chaque sous-agent : Haiku mécanique et docs ; Sonnet
-  CSS/layout/composant simple et vérifications factuelles ; Opus état, frontière client,
-  a11y fine, architecture et revues. Un correctif après revue ne part jamais sur Haiku.
-- Faits Cerebrum : les fiches store en vigueur et les faits vérifiés (docs ASO de
-  `cerebrum-design-system/marketing/ASO/`, sessions iOS/Android/Design System) ; copy selon
-  `geo-assistants-ia.md` du même dossier.
-
-## Skills auto-chargés
-
-Le contenu réel vit dans `.agents/skills/` (versionné par git) ; `.claude/skills/<nom>`
-n'est qu'un symlink vers `../../.agents/skills/<nom>`. L'inventaire et la provenance
-(source GitHub + hash) sont dans `skills-lock.json`. **23 skills installés**, plus `design-references` (local, absent de `skills-lock.json`).
-
-| Skill                               | Quand l'utiliser                                                               |
-| ----------------------------------- | ------------------------------------------------------------------------------ |
-| `next-best-practices`               | Toute création/modification de composant, route, ou page Next.js               |
-| `next-cache-components`             | Caching, PPR, `use cache`, `cacheLife`, `cacheTag`                             |
-| `next-dev-loop`                     | Vérifier le comportement runtime après édition — nécessite un `next dev` lancé |
-| `next-cache-components-adoption`    | Activer `cacheComponents` et traiter les routes bloquantes                     |
-| `next-cache-components-optimizer`   | Navigation instantanée sous PPR (exige Next 16.3+)                             |
-| `next-partial-prefetching-adoption` | Activer `partialPrefetching`, arbitrer les `<Link prefetch>`                   |
-| `vercel-react-best-practices`       | Écriture ou refactoring de composants React, optimisation perf                 |
-| `vercel-composition-patterns`       | Architecture de composants, patterns de composition React                      |
-| `tailwind-design-system`            | Création de composants UI, design tokens, design system                        |
-| `typescript-advanced-types`         | Types complexes, generics, utility types                                       |
-| `web-accessibility`                 | Tout travail sur l'UI — toujours vérifier l'accessibilité (WCAG 2.1)           |
-| `performance-optimization`          | Bundle size, lazy loading, code splitting                                      |
-| `webapp-testing`                    | Tests d'interface, vérification du rendu, screenshots Playwright               |
-| `shadcn`                            | Ajout ou modification de composants shadcn/ui                                  |
-| `seo-audit`                         | Audit SEO, meta tags, indexation, Core Web Vitals                              |
-| `page-cro`                          | Optimisation de conversion sur les pages marketing/landing                     |
-| `schema-markup`                     | Données structurées JSON-LD, rich snippets Google                              |
-| `analytics-tracking`                | Tracking analytics, events, conversions, GA4/Vercel Analytics                  |
-| `find-skills`                       | Quand une fonctionnalité manque — chercher si un skill existe                  |
-| `legal`                             | Rédaction/audit des pages légales conformes App Store, GDPR, CCPA              |
-| `app-store-review`                  | Conformité App Store Review Guidelines, privacy manifests                      |
-| `privacy-policy`                    | Scaffold structuré de privacy policy                                           |
-| `localization-strategy`             | SEO multilingue (hreflang, structure URLs i18n, keywords)                      |
-| `design-references`                 | AVANT toute idéation visuelle : moodboard, « Parti pris » écrit (skill local)  |
-
-**Quatre skills obligatoires vivent HORS du repo** (niveau utilisateur ou plugin) et ne
-sont donc pas dans ce tableau : `clean-code` (standards de code maison — c'est lui qui
-définit le format de verdict de `site-reviewer`), `synapgeek-portfolio-rules` (règles
-inter-sites), `vercel:nextjs`, `vercel:react-best-practices`. Un clone frais ne les a pas.
-
-Le serveur MCP `shadcn` est déclaré dans `.mcp.json` (Adrien l'approuve au démarrage de
-session) : explorer avec `view`, réécrire en style maison, jamais ajouter tel quel.
-
-**Règle** : Ne pas attendre qu'on demande explicitement un skill. Si la tâche en cours
-correspond à un skill, le lire et appliquer ses recommandations automatiquement.
-
-⚠ Les 3 skills Cache Components / Partial Prefetching supposent un modèle de rendu que ce
-site n'a pas (SSG pur) ; l'optimizer exige Next 16.3+, version désormais installée (16.3.8),
-mais le modèle de rendu reste le blocage. Ils ne se déclenchent que si on demande
-explicitement une migration.
+- `docs/contrat/architecture.md` : routage (proxy, schéma légal figé, redirections et codes,
+  helper d'URLs, SSG, Open Graph) et SEO (JSON-LD, sitemap, robots, hreflang, `llms.txt`, IndexNow).
+- `docs/contrat/contenu.md` : règles de copie 1 à 14, arbitrages R3 à R7, registre, gardes,
+  sources de faits, vérification par la session iOS, suite 3.1.0, données de l'app, éditeur.
+- `docs/contrat/lancement.md` : liste de contrôle après le merge, un responsable par ligne.
+- `docs/contrat/faits-cerebrum-3.0.0.md` (iOS), `faits-cerebrum-3.0.0-android.md`,
+  `provenance-visuels-r8.md` ; `PRODUCT.md`, `DESIGN.md` (direction visuelle), `docs/superpowers/`
+  (spec et plan de la refonte). Des `CLAUDE.md` de proximité complètent celui-ci dans `src/app`,
+  `src/content` et `src/components`. Les trois agents de `.claude/agents/` pointent vers ces
+  documents : quand le contrat change, relire leurs listes de vérifications.
 
 ## Variables d'environnement
 
 ```
-SMTP_USER=adrien.monte@synapgeek.com    # Login SMTP Google Workspace
-SMTP_PASS=****                           # App password Google
-CONTACT_EMAIL=contact@synapgeek.com      # Destinataire du formulaire de contact
-NEXT_PUBLIC_RECAPTCHA_SITE_KEY=****      # reCAPTCHA v2 site key
-RECAPTCHA_SECRET_KEY=****                # reCAPTCHA v2 secret key
-NEXT_PUBLIC_GA_MEASUREMENT_ID=****       # GA4 — chargé via ConsentBootstrap, derrière Consent Mode v2
-                                          # et le bandeau maison ConsentBanner. Voir
-                                          # src/lib/consent/ et src/components/consent/.
+SMTP_USER=adrien.monte@synapgeek.com    # login SMTP Google Workspace
+SMTP_PASS=****                           # mot de passe d'application Google
+CONTACT_EMAIL=contact@synapgeek.com      # destinataire du formulaire de contact
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=****      # reCAPTCHA v2, clé de site
+RECAPTCHA_SECRET_KEY=****                # reCAPTCHA v2, clé secrète
+NEXT_PUBLIC_GA_MEASUREMENT_ID=****       # GA4, via ConsentBootstrap (absente : GA4 ne charge pas)
 ```
 
-En local dans `.env.local` (couvert par le `.env*` du `.gitignore`) ; il n'y a pas de
-`.env.example`. Toute variable ajoutée doit être configurée dans Vercel en **production ET
-preview**, et ajoutée ici. Toute variable `NEXT_PUBLIC_*` est figée au **build** (inlinée
-dans le bundle) : la changer dans Vercel n'a d'effet qu'au prochain déploiement, jamais à
-chaud. Ne PAS configurer `NEXT_PUBLIC_GA_MEASUREMENT_ID` en preview avec l'ID de production
-— cela ferait remonter le trafic de preview dans les données GA4 de prod ; soit l'omettre en
-preview (GA4 ne charge alors pas, cf. `ConsentBootstrap`), soit y mettre une propriété GA4
-distincte.
+En local dans `.env.local` (ignoré par git) ; pas de `.env.example`. Toute variable ajoutée se
+configure dans Vercel en production (aucune preview) et s'ajoute ici. Toute `NEXT_PUBLIC_*` est
+figée au build. Aucune `process.env` sans `NEXT_PUBLIC_` hors de `src/app/api/`.
+`WAITLIST_WEBHOOK_URL` est orpheline (aucune référence) : à supprimer de Vercel si elle y subsiste.
 
-`REPLICATE_API_TOKEN` n'est plus utilisé par aucun sous-agent (le `designer` passe par
-nbpro) : **rien à provisionner dans Vercel**, et il peut être retiré de `.env.local`.
+## Sécurité
 
-⚠ `WAITLIST_WEBHOOK_URL` est orpheline : plus aucune référence dans le code (route waitlist
-supprimée), mais elle peut subsister dans les variables d'environnement Vercel — à
-supprimer là-bas si elle y est encore.
+7 en-têtes via `vercel.json`. `/api/contact` : reCAPTCHA v2 vérifié, `EMAIL_REGEX`, `MAX_*_LENGTH`,
+`escapeHtml`, `stripNewlines`, messages d'erreur constants. `contact@` et `privacy@` sont en clair
+(`mailto:`) sur les pages légales, À propos, Presse et `ContactBand`, pas dans le pied de page.
 
-## Événements GA4
+## Cerebrum en bref
 
-`section_viewed` (IntersectionObserver, seuil 0.3) · `app_store_click` ·
-`contact_form_submit` · `language_switched`
-— émis via `src/lib/gtag.ts`, `src/hooks/useTrackView.ts`, `src/components/TrackSection.tsx`.
+Faits, données collectées, éditeur : `docs/contrat/`. App Store **3.0.0** depuis le 2026-09-28
+(bundle `com.synapgeek.cerebrumgame`, App ID `6763915130`), Google Play **3.0.0** à 100 % depuis
+le 2026-10-01 (package `com.synapgeek.cerebrum`, **différent** : pas une coquille). Dates : Adrien.
 
-## Identité de l'éditeur (publiée sur /legal)
-
-Synapgeek SAS, capital 1 000 € · 185 chemin des Brosses, 69620 Frontenas ·
-RCS Villefranche-Tarare 102 429 826 · SIRET 102 429 826 00013 · APE 62.01Z ·
-TVA FR86 102 429 826 · Directeur de la publication : Adrien Monte · Hébergeur : Vercel Inc.
-
-Ces données doivent rester cohérentes avec App Store Connect et la Play Console.
-
-## Emails
-
-- **contact@synapgeek.com** — Contact général, destinataire du formulaire, CGU
-- **privacy@synapgeek.com** — Questions données personnelles, RGPD, privacy policy
-- **adrien.monte@synapgeek.com** — Dev, compte SMTP
+- **Dix jeux en français et en anglais, huit dans les 14 autres langues** de l'app (16 au total ;
+  Mots Croisés et Mots Mêlés seulement en FR et EN). Le site **n'écrit jamais un nombre de jeux
+  ni de niveaux**. « Zip » est le nom de code interne de Trace : jamais écrit. Les cristaux du
+  Labyrinthe ne sont pas les gemmes.
+- Gratuit avec publicité (bannière, pubs entre certaines parties, pubs récompensées facultatives) ;
+  Premium (semaine, mois, an) = « zéro pub imposée », jamais « sans pub ». Les packs Cinéma,
+  Cuisine et Voyage sont le seul achat de contenu, hors Premium. Un seul défi du jour pour toute
+  l'app. Le classement par jeu est masqué en 3.0.0 : ne jamais l'annoncer.
+- Hors ligne local-first. Connexion : invité, Apple, Google, Facebook. Public : 13 ans et plus.
 
 ## Points à trancher
 
-Contradictions constatées, non arbitrées — à lever, pas à recopier.
+Contradictions constatées, non arbitrées : à lever, pas à recopier.
 
-1. **Questionnaire App Privacy d'App Store Connect** : la privacy policy documente
-   désormais explicitement une localisation approximative déduite de l'IP par AdMob/UMP
-   (`fr.ts`/`en.ts`, section publicité). À recouper avec les réponses déclarées dans le
-   questionnaire App Privacy (nutrition label) d'App Store Connect et le formulaire Data
-   Safety de la Play Console, que je n'ai pas pu lire d'ici — s'assurer qu'ils déclarent
-   bien une collecte de localisation approximative à finalité publicitaire.
-2. **Classification d'âge** : CGU à 13+, fiche App Store à **4+**, fiche Play à
-   **« Everyone »** avec le badge **« Contains ads »** (vérifié en ligne). Une app classée
-   tout public qui sert de la pub personnalisée (IDFA/AAID, SDK Meta, 58 réseaux
-   SKAdNetwork) sans age gate relève de la Families policy de Google — c'est le risque de
-   suspension le plus concret des trois, et il ne se règle pas dans App Store Connect.
-3. **Clause de juridiction des CGU** : `fr.ts` et `en.ts` (section droit applicable)
-   soumettent les litiges à « la compétence exclusive des tribunaux de Paris », alors que
-   le siège social de Synapgeek SAS (mentions légales du même site, `/legal`) est à
-   Frontenas (69620), pas à Paris. À faire trancher par un juriste avant de corriger.
-4. **Consent Mode avancé hors zone RGPD** : `ConsentBootstrap` pousse `analytics_storage:
-"granted"` par défaut à tout visiteur hors des 43 juridictions de `GDPR_REGIONS`, donc
-   des signaux sans cookie partent vers Google avant tout choix explicite. Ce point n'a
-   jamais été soumis à un avis juridique dédié pour synapgeek.com (réutilisation de
-   mécanisme depuis Word Search Trove) — l'arbitrage doit être validé explicitement, pas
-   seulement hérité.
-5. **Mesures améliorées GA4** : le défilement et les clics sortants (« enhanced
-   measurement ») sont activés par défaut côté admin GA4, indépendamment de ce dépôt — à
-   vérifier dans l'admin GA4 que leur périmètre reste cohérent avec ce que la privacy
-   policy documente comme collecté.
-6. **`GDPR_REGIONS` de Word Search Trove** : la liste de `src/lib/consent/regions.ts` vient
-   d'être corrigée ici pour couvrir les territoires ultrapériphériques français à code ISO
-   propre (GF, GP, MQ, RE, YT, MF) et Åland (AX) — jusque-là absents malgré une liste UE
-   nominalement complète. La liste source dans Word Search Trove porte le même défaut et
-   n'a pas encore été corrigée.
-
----
-
-Les trois sous-agents de `.claude/agents/` contiennent des copies partielles de ce
-fichier. Quand celui-ci change, les relire — sinon ils jugent contre une version périmée.
+1. **App Privacy (App Store Connect) et Data Safety (Play Console)** : la politique documente une
+   localisation approximative déduite de l'IP par AdMob et UMP ; à recouper avec les deux consoles
+   (non lisibles depuis ce dépôt).
+2. **Classification d'âge** : CGU à 13+, App Store à 4+, Play à « Everyone » avec « Contains ads ».
+   Une app tout public qui sert de la pub personnalisée sans age gate relève de la Families policy
+   de Google : le risque de suspension le plus concret.
+3. **Juridiction des CGU** : « tribunaux de Paris » (`fr.ts`, `en.ts`), siège à Frontenas. À faire
+   trancher par un juriste avant de corriger.
+4. **Consent Mode hors zone RGPD** : `analytics_storage: "granted"` par défaut hors des 43
+   juridictions de `GDPR_REGIONS` envoie des signaux sans cookie avant tout choix. Jamais soumis à
+   un avis juridique pour synapgeek.com (mécanisme repris de Word Search Trove) : à valider.
+5. **Mesures améliorées GA4** (défilement, clics sortants) : actives par défaut côté admin GA4 ;
+   vérifier leur cohérence avec la politique.
+6. **`GDPR_REGIONS`** couvre ici GF, GP, MQ, RE, YT, MF et AX ; la liste source de Word Search
+   Trove ne les a pas encore.
+7. **Android, stockage Firebase Analytics accordé quel que soit le choix de consentement** (docs du
+   dépôt Android, relevé dans `faits-cerebrum-3.0.0-android.md`) : à confronter à la politique et
+   au RGPD.
+8. **Politique de confidentialité** : la finalité « gérer les classements » alors que les
+   classements sont masqués en 3.0.0, et un consentement affiché « au premier lancement ».
+9. **Data Safety (Play Console)** : deux lignes (historique d'achats, interactions avec l'app)
+   restent à passer en « partagé » (docs du dépôt Android).
+10. **Suite de la refonte** : support fr-FR d'App Store Connect à basculer sur `/fr#contact`, et
+    redirection 307 de `/fr/<page légale>` à poser (`docs/contrat/lancement.md`).
 
 <!-- BEGIN:nextjs-agent-rules -->
 
