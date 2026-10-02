@@ -392,3 +392,28 @@
   --game-arrow-maze-wash: #ddefc0;
   --game-arrow-maze-deep: #4b7119;
 }
+
+/* ===== CIEL DU SLIDER — première slide de l'accueil =====
+   Le fond Breeze de l'app (le même fichier de 240 px que le héros de la page app, jamais un
+   fichier plus grand : voir CONTRAINTE LCP plus haut), fondu en ellipse derrière le téléphone.
+   Le masque est dans la boîte de l'élément qui le porte (Safari) ; la slide coupe ce qui déborde. */
+.slide-sky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/images/backgrounds/breeze-day-v1.webp") center / cover;
+  mask-image: radial-gradient(closest-side, black 60%, transparent);
+}
+
+/* ===== SLIDER D'ACCUEIL — visuels des slides cachées =====
+   Les slides sont toutes dans le HTML, mais le visuel d'une slide cachée n'est pas rendu
+   (`content-visibility: hidden`, donc ses images paresseuses ne se chargent pas) tant que la
+   page n'a pas fini de charger : sinon les captures et icônes des quatre autres slides se
+   disputent la bande passante de l'image LCP (Lighthouse mobile : 90 au lieu de 92). La boîte du
+   visuel a une hauteur explicite : l'isolation de taille ne change aucune mise en page. Le
+   slider pose `data-warm` après le chargement ; une slide visible n'est jamais concernée. */
+[aria-roledescription="carousel"]:not([data-warm])
+  [aria-hidden="true"]
+  .slide-visual {
+  content-visibility: hidden;
+}

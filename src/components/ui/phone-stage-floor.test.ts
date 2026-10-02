@@ -90,17 +90,14 @@ describe("PhoneStage sky clip", () => {
     }
   });
 
-  it("keeps the 6rem floor equal to the negative margin both hero pages give the stage", () => {
-    for (const page of [
-      "src/app/[locale]/page.tsx",
-      "src/app/[locale]/cerebrum/page.tsx",
-    ]) {
-      const source = read(page);
-      expect(source, page).toMatch(
-        /<PhoneStage[\s\S]*?className="-mb-24 sm:mb-0"/,
-      );
-      expect(source, page).toMatch(/\bpb-0\b[^"]*\bsm:pb-section\b/);
-    }
+  it("keeps the 6rem floor equal to the negative margin the app page gives the stage", () => {
+    // La page d'accueil n'utilise plus PhoneStage (son héros est le slider) : seule la page app le pose.
+    const page = "src/app/[locale]/cerebrum/page.tsx";
+    const source = read(page);
+    expect(source, page).toMatch(
+      /<PhoneStage[\s\S]*?className="-mb-24 sm:mb-0"/,
+    );
+    expect(source, page).toMatch(/\bpb-0\b[^"]*\bsm:pb-section\b/);
   });
 });
 

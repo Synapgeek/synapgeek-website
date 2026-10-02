@@ -12,30 +12,74 @@ export const hubEn: HubCopy = {
     definition:
       "Synapgeek is an independent French studio that makes mobile apps. Its first app, Cerebrum, brings classic and newer puzzle games together in one offline app for iPhone, iPad and Android.",
     phoneAlt:
-      "Cerebrum home screen with the Daily Challenge, the themes and game cards including Sudoku, Word Search, Pandoku and Minesweeper",
+      "Cerebrum home screen with the Daily Challenge, the themes and game cards including Sudoku, Word Search and Minesweeper",
   },
-  apps: {
-    title: "Our app",
-    items: {
-      cerebrum: {
-        description:
-          "Sudoku, Crossword and Word Search next to Pandoku, Pixel Art, Trace and more. The grids, the daily challenge and your streak work offline, and your progress syncs once you are back online.",
-        note: "Free to download, supported by ads. Premium means no forced ads. Interface in 16 languages.",
-        cta: "Discover Cerebrum",
+  slider: {
+    label: "The studio in a few messages",
+    slideLabel: "{current} of {total}",
+    goTo: "Go to message {current}",
+    previous: "Previous message",
+    next: "Next message",
+    pause: "Pause automatic rotation",
+    play: "Start automatic rotation",
+    cta: "Discover Cerebrum",
+    slides: {
+      relax: {
+        headline: "Games that relax you and get your mind working.",
+        body: "A break, a commute, a queue: Cerebrum plays at your pace, one grid at a time.",
+        phoneAlt:
+          "A Sudoku grid in Cerebrum, with the three hearts, the timer and the number pad",
+      },
+      classics: {
+        headline: "The classics and newer puzzles, together in one app.",
+        body: "Sudoku, Crossword and Word Search on one side. Pandoku, a Star Battle logic puzzle, Minesweeper, Pixel Art nonograms and more on the other. They all live in Cerebrum.",
+      },
+      offline: {
+        headline: "Offline, on iPhone, iPad and Android.",
+        body: "The grids are inside the app, so it plays without a network, daily challenge included. The interface comes in 16 languages.",
+        phoneAlt:
+          "A panda drawing revealed at the end of a Pixel Art grid, one of the nonograms in Cerebrum",
+      },
+      france: {
+        headline: "Designed and developed in France by an independent studio.",
+        body: "Synapgeek SAS is based in Frontenas, in the Rhône. We publish our apps ourselves.",
       },
     },
   },
   games: {
-    title: "The games",
-    categories: {
-      "logic-numbers": "Logic and numbers",
-      words: "Words",
-      paths: "Paths and mazes",
+    title: "Our games",
+    items: {
+      cerebrum: {
+        pitch:
+          "Sudoku, Crossword and Word Search sit next to Pandoku (a Star Battle logic puzzle), Pixel Art (nonograms), Trace (a one-line path puzzle) and more, in one app that plays offline.",
+        iconsLabel: "Cerebrum's games",
+        cta: "Discover Cerebrum",
+        phoneAlt:
+          "A Pandoku grid, a Star Battle logic puzzle, with its pandas and coloured regions",
+      },
     },
   },
-  studio: {
-    title: "An independent French studio",
-    body: "Synapgeek SAS is an independent studio based in Frontenas, France, and the publisher of Cerebrum. Find out who is behind the apps and how the studio works.",
+  about: {
+    title: "Built by enthusiasts",
+    description:
+      "Synapgeek is the independent French studio that designs and publishes Cerebrum, available on the App Store and Google Play. We love games that combine elegance, challenge and pure enjoyment.",
+    values: [
+      {
+        title: "Verified puzzles",
+        description:
+          "Our puzzles are built by our own tools, then checked automatically before they reach the app.",
+      },
+      {
+        title: "Your data, your choice",
+        description:
+          "On iPhone and iPad, the app asks for Apple's tracking permission before any ad tracking. Where the law requires it, Google's consent form appears before any personalized ads. A signed-in account can be deleted from the app's Profile, with a network connection.",
+      },
+      {
+        title: "Made in France",
+        description:
+          "Designed and developed in France by Synapgeek, an independent studio.",
+      },
+    ],
     cta: "About the studio",
   },
   contact: { title: "Got a question?" },

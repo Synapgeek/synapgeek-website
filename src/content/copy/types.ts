@@ -95,20 +95,62 @@ export interface AppCopy extends Dated {
   games: Partial<Record<GameId, GameCopy>>;
 }
 
+/** Les slides du slider d'accueil autres que la première (celle du H1, qui vient de `hero`). */
+export type SliderSlideId = "relax" | "classics" | "offline" | "france";
+
+/** Le texte d'une slide : un titre en paragraphe stylé (jamais un `<h2>`) et une phrase. */
+interface SlideText {
+  headline: string;
+  body: string;
+}
+
+/** Slide dont le visuel est une capture de l'app : `phoneAlt` la décrit. */
+type PhoneSlideText = SlideText & { phoneAlt: string };
+
+/** Une valeur du studio : un titre court et une phrase. */
+export interface StudioValue {
+  title: string;
+  description: string;
+}
+
 export interface HubCopy extends Dated {
   meta: PageMeta;
-  /** `phoneAlt` décrit la capture de l'accueil de l'app dans le téléphone du héros. */
+  /** `h1` et `definition` ouvrent la première slide ; `phoneAlt` décrit la capture de l'accueil de l'app. */
   hero: DefinitionBlock & { phoneAlt: string };
-  apps: {
-    title: string;
-    /**
-     * Une entrée par app : la phrase de la carte, la phrase du modèle
-     * (gratuité, publicité, langues) et le libellé de son lien.
-     */
-    items: Record<AppSlug, { description: string; note: string; cta: string }>;
+  slider: {
+    /** Nom de la région carrousel. */
+    label: string;
+    /** Gabarit du nom d'une slide, avec `{current}` et `{total}`. */
+    slideLabel: string;
+    /** Gabarit du nom d'un point, avec `{current}`. */
+    goTo: string;
+    previous: string;
+    next: string;
+    pause: string;
+    play: string;
+    /** Libellé du bouton de la première slide, vers la page de l'app. */
+    cta: string;
+    slides: {
+      relax: PhoneSlideText;
+      classics: SlideText;
+      offline: PhoneSlideText;
+      france: SlideText;
+    };
   };
-  games: { title: string; categories: Record<GameCategory, string> };
-  studio: { title: string; body: string; cta: string };
+  games: {
+    title: string;
+    /** Une entrée par app : la phrase de la carte, le nom de la rangée d'icônes, le libellé du bouton et la légende de la capture. */
+    items: Record<
+      AppSlug,
+      { pitch: string; iconsLabel: string; cta: string; phoneAlt: string }
+    >;
+  };
+  about: {
+    title: string;
+    description: string;
+    values: readonly StudioValue[];
+    cta: string;
+  };
   contact: { title: string };
 }
 

@@ -366,6 +366,37 @@ function genreViolations(
   });
 }
 
+/**
+ * Règle 2 sur la page d'accueil : toute chaîne du hub qui nomme un jeu maison
+ * (`genre` non nul) cite aussi son genre. Le hub n'a pas de `definition` par
+ * jeu : `genreViolations` ne le voit pas.
+ */
+function hubMentionGenreViolations(
+  entry: CopyEntry,
+  games: readonly GameEntry[],
+): string[] {
+  if (entry.kind !== "hub") return [];
+  const normalize = (text: string) => text.replace(/\s+/g, " ").toLowerCase();
+  return stringsOf(entry.copy).flatMap(({ path, value }) =>
+    games.flatMap((game) => {
+      const genre = game.genre[entry.locale];
+      if (!genre) return [];
+      const name = game.name[entry.locale].replace(
+        /[.*+?^${}()|[\]\\]/g,
+        "\\$&",
+      );
+      const mentioned = new RegExp(`(?<!\\p{L})${name}(?!\\p{L})`, "u");
+      const core = genre.replace(/\s*\(.*?\)/g, "");
+      return mentioned.test(value) &&
+        !normalize(value).includes(normalize(core))
+        ? [
+            `${labelOf(entry)} ${path}: names "${game.name[entry.locale]}" without its genre "${core}"`,
+          ]
+        : [];
+    }),
+  );
+}
+
 /** Un jeu absent d'Android (`availability.android` nul) ne mentionne jamais Android. */
 function androidViolations(
   entry: CopyEntry,
@@ -792,6 +823,7 @@ function entryViolations(
     ...frenchTypographyViolations(entry),
     ...lengthViolations(entry),
     ...genreViolations(entry, games),
+    ...hubMentionGenreViolations(entry, getGames("cerebrum")),
     ...androidViolations(entry, games),
     ...shapeViolations(entry, games),
     ...coverageViolations(entry, games),
@@ -988,17 +1020,39 @@ function fixtureHub(overrides: Partial<HubCopy> = {}): CopyEntry {
       updatedAt: "2026-10-01",
       meta: { title: "Synapgeek", description: "A studio." },
       hero: HUB_HERO,
-      apps: {
-        title: "Apps",
-        items: {
-          cerebrum: { description: "An app.", note: "A note.", cta: "Open" },
+      slider: {
+        label: "Highlights",
+        slideLabel: "{current} of {total}",
+        goTo: "Go to {current}",
+        previous: "Previous",
+        next: "Next",
+        pause: "Pause",
+        play: "Play",
+        cta: "Open",
+        slides: {
+          relax: { headline: "A.", body: "B.", phoneAlt: "A screen." },
+          classics: { headline: "C.", body: "D." },
+          offline: { headline: "E.", body: "F.", phoneAlt: "A screen." },
+          france: { headline: "G.", body: "H." },
         },
       },
       games: {
         title: "Games",
-        categories: { "logic-numbers": "A", words: "B", paths: "C" },
+        items: {
+          cerebrum: {
+            pitch: "An app.",
+            iconsLabel: "Games",
+            cta: "Open",
+            phoneAlt: "A screen.",
+          },
+        },
       },
-      studio: { title: "Studio", body: "Body.", cta: "Write" },
+      about: {
+        title: "About",
+        description: "Body.",
+        values: [{ title: "Value", description: "Text." }],
+        cta: "Read",
+      },
       contact: { title: "Contact" },
       ...overrides,
     },
@@ -1108,6 +1162,56 @@ describe("contrôles positifs des gardes structurelles", () => {
   it("un classique (genre nul) n'a pas à citer de genre", () => {
     const entry = fixtureApp("en", { sudoku: fixtureGame() });
     expect(genreViolations(entry, GAMES)).toEqual([]);
+  });
+
+  it("la page d'accueil ne nomme un jeu maison qu'avec son genre", () => {
+    const bare = fixtureHub({
+      games: {
+        title: "Games",
+        items: {
+          cerebrum: {
+            pitch: "Pandoku, Pixel Art and Trace sit in one app.",
+            iconsLabel: "Games",
+            cta: "Open",
+            phoneAlt: "A screen.",
+          },
+        },
+      },
+    });
+    expect(hubMentionGenreViolations(bare, GAMES)).toEqual([
+      expect.stringContaining('games.items.cerebrum.pitch: names "Pandoku"'),
+      expect.stringContaining('names "Pixel Art"'),
+      expect.stringContaining('names "Trace"'),
+    ]);
+    const named = fixtureHub({
+      games: {
+        title: "Games",
+        items: {
+          cerebrum: {
+            pitch:
+              "Pandoku (a Star Battle logic puzzle), Pixel Art (nonograms) and Trace (a one-line path puzzle) sit in one app.",
+            iconsLabel: "Games",
+            cta: "Open",
+            phoneAlt: "A screen.",
+          },
+        },
+      },
+    });
+    expect(hubMentionGenreViolations(named, GAMES)).toEqual([]);
+    // Un mot courant n'est pas un nom de jeu, un classique n'a pas de genre.
+    const common = fixtureHub({
+      hero: { ...HUB_HERO, phoneAlt: "A trace of Sudoku and Crossword." },
+    });
+    expect(hubMentionGenreViolations(common, GAMES)).toEqual([]);
+  });
+
+  it("le garde du genre à l'accueil fait partie de entryViolations", () => {
+    const entry = fixtureHub({
+      hero: { ...HUB_HERO, phoneAlt: "A screen with Pandoku." },
+    });
+    expect(entryViolations(entry)).toEqual([
+      expect.stringContaining('names "Pandoku" without its genre'),
+    ]);
   });
 
   it("un jeu absent d'Android ne mentionne jamais Android, même dans une FAQ", () => {
