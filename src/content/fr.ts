@@ -109,7 +109,7 @@ const fr: Dictionary = {
   privacy: {
     title: "Politique de confidentialité",
     metaDescription:
-      "Politique de confidentialité des apps et services Synapgeek — données collectées, droits RGPD, publicités et cookies.",
+      "Politique de confidentialité des apps et services Synapgeek : données collectées, droits RGPD, publicités et cookies.",
     lastUpdated: "Dernière mise à jour : 12 septembre 2026",
     updatedAt: "2026-09-12",
     sections: [
@@ -195,7 +195,7 @@ const fr: Dictionary = {
   terms: {
     title: "Conditions Générales d'Utilisation",
     metaDescription:
-      "Conditions générales d'utilisation des apps Synapgeek — licence, achats in-app, biens virtuels, propriété intellectuelle.",
+      "Conditions générales d'utilisation des apps Synapgeek : licence, achats in-app, biens virtuels, propriété intellectuelle.",
     lastUpdated: "Dernière mise à jour : 1er octobre 2026",
     updatedAt: "2026-10-01",
     sections: [
@@ -279,7 +279,7 @@ const fr: Dictionary = {
   legal: {
     title: "Mentions légales",
     metaDescription:
-      "Mentions légales de Synapgeek — éditeur, hébergeur, immatriculation RCS et informations sur la société.",
+      "Mentions légales de Synapgeek : éditeur, hébergeur, immatriculation RCS et informations sur la société.",
     lastUpdated: "Dernière mise à jour : 4 juin 2026",
     updatedAt: "2026-06-04",
     sections: [

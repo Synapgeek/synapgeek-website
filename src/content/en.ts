@@ -108,7 +108,7 @@ const en: Dictionary = {
   privacy: {
     title: "Privacy Policy",
     metaDescription:
-      "Privacy policy for Synapgeek apps and services — learn what data we collect, your GDPR and CCPA rights, advertising practices, and how to delete your account.",
+      "Privacy policy for Synapgeek apps and services: learn what data we collect, your GDPR and CCPA rights, advertising practices, and how to delete your account.",
     lastUpdated: "Last updated: September 12, 2026",
     updatedAt: "2026-09-12",
     sections: [
@@ -194,7 +194,7 @@ const en: Dictionary = {
   terms: {
     title: "Terms of Use",
     metaDescription:
-      "Terms of use for Synapgeek apps — license agreement, in-app purchases and subscriptions, virtual goods, intellectual property, and user conduct.",
+      "Terms of use for Synapgeek apps: license agreement, in-app purchases and subscriptions, virtual goods, intellectual property, and user conduct.",
     lastUpdated: "Last updated: October 1, 2026",
     updatedAt: "2026-10-01",
     sections: [
@@ -278,7 +278,7 @@ const en: Dictionary = {
   legal: {
     title: "Legal Notice",
     metaDescription:
-      "Synapgeek legal notice — publisher, hosting provider, company registration details and corporate information.",
+      "Synapgeek legal notice: publisher, hosting provider, company registration details and corporate information.",
     lastUpdated: "Last updated: June 4, 2026",
     updatedAt: "2026-06-04",
     sections: [
