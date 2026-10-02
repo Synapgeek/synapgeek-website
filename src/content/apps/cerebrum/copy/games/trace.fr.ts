@@ -21,7 +21,6 @@ export const traceFr: GameCopy = {
       "Les points numérotés sont des étapes à franchir dans l'ordre exact : le 1, puis le 2, puis le 3, et ainsi de suite. Entre deux numéros, le tracé peut faire tous les détours qu'il veut, à condition de ne jamais repasser sur une case.",
       "Les murs, des barres sombres posées entre deux cases, bloquent le passage : le tracé ne peut pas les traverser. Il doit pourtant couvrir toutes les cases, sans en laisser une seule de côté.",
       "Une erreur de parcours se rattrape à tout moment. Repassez sur vos pas pour reculer, touchez une case du tracé pour le couper à cet endroit, ou servez-vous des flèches de direction à l'écran. Un mouvement interdit est simplement refusé.",
-      "En Élite, certains points jumeaux partagent un badge fusionné, comme 3•4. Vous les franchissez dans l'ordre de votre choix, mais un seul des deux ordres mène au bout : dans une impasse, reculez et tentez l'autre.",
     ],
   },
   whatCerebrumAdds: {
@@ -29,10 +28,10 @@ export const traceFr: GameCopy = {
     paragraphs: [
       "Dans Cerebrum, un niveau de Trace enchaîne trois grilles, jouées à la suite sous un seul chronomètre qui ne s'arrête pas entre elles. Chaque difficulté a son parcours de niveaux ; quand vous l'avez terminé, le mode Infini prolonge la partie avec d'autres grilles.",
       "Il n'y a ni cœur ni défaite à Trace. Un mouvement interdit, comme traverser un mur, est refusé sans pénalité : le tracé reste où il était et vous cherchez un autre passage.",
-      "Seul le temps compte pour les étoiles : plus vite vous finissez, plus vous en gagnez. Le bouton de pause fige la partie le temps qu'il vous faut.",
+      "Seul le temps compte pour les étoiles : plus vite vous finissez, plus vous en gagnez.",
       "L'indice lit l'état de votre tracé. Si vous vous êtes engagé sur une mauvaise voie, il vous ramène au dernier bon point ; si vous êtes sur la bonne, il dessine à votre place les trois cases suivantes.",
       "Le tout premier niveau Facile commence avec un tracé fantôme déjà posé sur la grille, et un tutoriel en cinq pages reprend les règles dans l'app.",
-      "Trace figure parmi les jeux que vous pouvez choisir pour le défi du jour, en Facile ou en Moyen : le même défi pour tout le monde, et un jour manqué se rattrape dans le calendrier.",
+      "Choisissez Trace pour le défi du jour et vous tracez la même grille que tous les autres joueurs ce jour-là, en Facile ou en Moyen.",
     ],
     difficultyTable: {
       caption: "Les difficultés de Trace dans Cerebrum",
@@ -55,7 +54,7 @@ export const traceFr: GameCopy = {
         {
           difficulty: "elite",
           detail:
-            "Les points jumeaux entrent en jeu : deux numéros sur une même pastille, à prendre dans le bon ordre. S'ouvre au fil de votre progression en Difficile.",
+            "Les grilles les plus exigeantes du jeu. S'ouvre au fil de votre progression en Difficile.",
         },
       ],
     },
@@ -63,7 +62,7 @@ export const traceFr: GameCopy = {
   tips: {
     title: "Astuces pour réussir vos tracés",
     items: [
-      "Commencez par les coins et les culs-de-sac. Une case qui n'a que deux sorties, comme un coin de la grille ou une case flanquée de murs, impose son passage : le tracé y entre par l'une et ressort par l'autre. Une case qui n'en a qu'une est forcément un bout du tracé. Posez ces segments obligatoires avant de chercher les autres.",
+      "Commencez par les coins et les culs-de-sac. Une case qui n'a que deux sorties, comme un coin de la grille ou une case flanquée de murs, impose son passage : sauf si le tracé y commence ou s'y termine, il y entre par l'une et ressort par l'autre. Une case qui n'en a qu'une est forcément un bout du tracé. Posez ces segments obligatoires avant de chercher les autres.",
       "Ne coupez jamais une poche de cases. Avant chaque mouvement, vérifiez que les cases restantes forment toujours un seul bloc joignable depuis votre position : si votre tracé referme un coin derrière lui, ce coin ne sera jamais couvert et il faudra reculer.",
       "Raisonnez par tronçons, d'un numéro au suivant. Repérez le 3 et le 4, imaginez le chemin le plus court qui les relie, puis cherchez quelles cases voisines vous pouvez ramasser en route. Un tronçon se prépare avant de s'y engager.",
       "Comptez avant de vous engager. Entre deux numéros, le nombre de pas a toujours la parité du chemin le plus court : si le 3 et le 4 sont à cinq pas l'un de l'autre, le tronçon fera cinq, sept ou neuf pas, jamais six. Confrontez ce compte aux cases encore vides autour.",
@@ -98,11 +97,6 @@ export const traceFr: GameCopy = {
         question: "Pourquoi un niveau compte-t-il trois grilles ?",
         answer:
           "Chaque niveau est une série de trois grilles à finir à la suite, avec un chronomètre qui court sans interruption. Les étoiles se jugent sur le temps, pas sur le nombre d'essais.",
-      },
-      {
-        question: "Que sont les points jumeaux d'Élite ?",
-        answer:
-          "Deux numéros peuvent partager une même pastille, comme 3•4 : vous choisissez lequel prendre en premier. Un seul ordre aboutit, donc une impasse veut dire qu'il faut essayer l'autre.",
       },
     ],
   },

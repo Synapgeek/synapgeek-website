@@ -21,7 +21,6 @@ export const traceEn: GameCopy = {
       "Numbered checkpoints must be crossed in that exact order: 1, then 2, then 3, and so on. Between two numbers the line can wind around as much as it likes, as long as it never goes back over a cell.",
       "Walls, the dark bars between two cells, block the way: the line cannot cross them. It still has to reach all the cells, with none left out.",
       "A wrong turn can be fixed at any time. Backtrack over your own steps, tap a cell on your line to cut it there, or use the on-screen direction arrows. A forbidden move is simply refused.",
-      "In Elite, some checkpoints share a fused badge such as 3•4. Cross them in whichever order you like, but only one of the two orders leads to the end: stuck in a dead end, backtrack and try the other.",
     ],
   },
   whatCerebrumAdds: {
@@ -29,10 +28,10 @@ export const traceEn: GameCopy = {
     paragraphs: [
       "In Cerebrum, a Trace level strings together three grids, played back to back under a single timer that never stops between them. Each difficulty has its own path of levels, and once you have finished it, Endless Mode keeps the game going with more grids.",
       "Trace has no hearts and no way to lose. A forbidden move, such as crossing a wall, is turned down at no cost: the line stays where it was and you look for another way through.",
-      "Only time counts towards your stars: the faster you finish, the more you earn. The pause button freezes the game for as long as you need.",
+      "Only time counts towards your stars: the faster you finish, the more you earn.",
       "The hint reads the state of your line. If you have gone down a wrong path, it takes you back to the last good point; if you are on the right one, it draws the next three cells for you.",
       "The very first Easy level begins with a ghost trace already laid on the grid, and a five-page tutorial recaps the rules inside the app.",
-      "Trace is one of the games you can pick for the daily challenge, on Easy or Medium: everyone gets the same challenge, and a missed day can be caught up in the calendar.",
+      "Pick Trace for the daily challenge and you draw the same grid as every other player that day, on Easy or Medium.",
     ],
     difficultyTable: {
       caption: "Trace difficulties in Cerebrum",
@@ -55,7 +54,7 @@ export const traceEn: GameCopy = {
         {
           difficulty: "elite",
           detail:
-            "Twin checkpoints come into play: two numbers on a single badge, to be crossed in the right order. Opens as you progress through Hard.",
+            "The most demanding grids of the game. Opens as you progress through Hard.",
         },
       ],
     },
@@ -63,7 +62,7 @@ export const traceEn: GameCopy = {
   tips: {
     title: "Tips for cleaner paths in Trace",
     items: [
-      "Start from the corners and dead ends. A cell with only two exits, such as a corner of the grid or a cell hemmed in by walls, dictates its own route: the line enters by one and leaves by the other. A cell with a single exit has to be an end of the line. Lay down these forced stretches before looking at anything else.",
+      "Start from the corners and dead ends. A cell with only two exits, such as a corner of the grid or a cell hemmed in by walls, dictates its own route: unless the line starts or ends there, it enters by one exit and leaves by the other. A cell with a single exit has to be an end of the line. Lay down these forced stretches before looking at anything else.",
       "Never cut off a pocket of cells. Before each move, check that the cells still empty form one block you can reach from where you stand: if your line closes a corner behind it, that corner will never be covered and you will have to back up.",
       "Think in stretches, from one number to the next. Spot the 3 and the 4, picture the shortest route joining them, then look at which neighboring cells you could pick up on the way. A stretch is something to plan before you commit to it.",
       "Count before you commit. Between two numbers, the number of steps always has the same parity as the shortest route: if the 3 and the 4 sit five steps apart, the stretch will take five, seven or nine steps, never six. Weigh that count against the empty cells around it.",
@@ -97,11 +96,6 @@ export const traceEn: GameCopy = {
         question: "Why does a level have three grids?",
         answer:
           "Each level is a series of three grids to finish back to back, with a timer that runs without a break. Stars are judged on time, not on how many attempts you needed.",
-      },
-      {
-        question: "What are Elite's twin checkpoints?",
-        answer:
-          "Two numbers can share one badge, like 3•4: you choose which to take first. Only one order works out, so a dead end means it is time to try the other.",
       },
     ],
   },
