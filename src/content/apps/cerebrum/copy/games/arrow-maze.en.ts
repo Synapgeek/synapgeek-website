@@ -32,7 +32,7 @@ export const arrowMazeEn: GameCopy = {
       "The game opens with a five-page how-to-play sheet: emptying the board, tapping anywhere on a piece, the path to the edge, panning and zooming, and why no move is ever wrong.",
       "On a big board you drag to move and pinch to zoom, and the overview button brings the whole grid back on screen. A long press on a piece shows its path: you see what blocks it before you tap it.",
       "The hint picks the free piece that unblocks the most others, and shows its way out to the edge.",
-      "Tapping a blocked piece costs a heart: three on Easy and Medium, four on Hard. The blocked piece shakes and the one in its way lights up. Lose every heart and the game is over, though a second chance is offered, up to twice, with two hearts back each time.",
+      "Tapping a blocked piece costs a heart: three on Easy and Medium, four on Hard. The blocked piece shakes and the one in its way lights up. Run out of hearts and the game is over, but you can resume the board, two times at most, with a fresh pair of hearts.",
       "Stars follow your mistakes: a clean board earns three, one mistake leaves you two, and two or more leave you one. Hints are never counted.",
       "Arrow Maze is also among the games for the daily challenge: the app sets the day's difficulty, Easy or Medium, and every player gets the same board.",
     ],

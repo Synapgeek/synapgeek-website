@@ -32,9 +32,9 @@ export const pixelArtFr: GameCopy = {
       "Pixel Art s'ouvre sur une courte fiche « Comment jouer » de quatre pages : lire les indices, glisser pour peindre, croiser ce qui est vide, finir pour révéler.",
       "Pendant la partie, la grille reste en noir et blanc.",
       "Dès qu'une ligne ou une colonne est complète, ses cases vides se barrent toutes seules, et les croix déjà posées s'y verrouillent. Annuler ne reprend que les croix, jamais une case noircie.",
-      "Sans vie, la partie est perdue, mais une seconde chance vous est proposée, deux fois au plus, avec deux vies rendues à chaque fois. Un glissé qui balaie plusieurs cases fausses s'arrête à la première et ne coûte qu'une vie.",
+      "Sans vie, la partie s'arrête, mais le dessin n'est pas perdu : deux reprises au plus, chacune avec deux vies. Un glissé qui balaie plusieurs cases fausses s'arrête à la première et ne coûte qu'une vie.",
       "L'indice règle une seule case. Si vous avez barré une case qui fait partie du dessin, il la noircit ; sinon il noircit une case manquante dans la ligne ou la colonne la plus avancée. Un indice ne coûte jamais de vie.",
-      "À la victoire, le dessin se colore, avec quatre couleurs, et son nom apparaît : Panda, par exemple. Les grilles sont les mêmes quelle que soit la langue de l'app, mais le nom se lit dans la langue que vous avez choisie.",
+      "À la victoire, le dessin apparaît en quatre couleurs, avec son nom : Panda, par exemple.",
       "Les étoiles se comptent aux erreurs : aucune, trois étoiles ; une, deux ; deux ou plus, une. Les indices ne comptent pas.",
       "Pixel Art peut aussi être votre choix pour le défi du jour : l'app fixe la difficulté du jour, Facile ou Moyen, et chaque joueur révèle le même dessin caché.",
     ],
@@ -99,7 +99,7 @@ export const pixelArtFr: GameCopy = {
       {
         question: "Que fait l'indice du Pixel Art ?",
         answer:
-          "Il règle une seule case : d'abord une case barrée à tort, sinon une case manquante dans la ligne ou la colonne la plus avancée.",
+          "Il règle une seule case, en commençant par une case barrée à tort, et ne coûte jamais de vie.",
       },
       {
         question: "Le nom du dessin change-t-il avec la langue ?",

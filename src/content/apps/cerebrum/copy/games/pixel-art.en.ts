@@ -32,9 +32,9 @@ export const pixelArtEn: GameCopy = {
       "Pixel Art opens with a short four-page how-to-play sheet: read the clues, drag to paint, cross what is empty, finish to reveal.",
       "While you play, the grid stays black and white.",
       "As soon as a row or column is complete, its empty cells are crossed out for you, and any cross already there locks. Undo only takes back crosses, never a filled cell.",
-      "Lose all three lives and the game is over, though a second chance is offered, up to twice, with two lives back each time. A stroke that sweeps several wrong cells stops at the first one and costs a single life.",
+      "Run out of lives and the picture is not lost: you can take it up again, at most twice, with two lives restored each time. A stroke that sweeps several wrong cells stops at the first one and costs a single life.",
       "The hint fixes one cell. If you crossed out a cell that belongs to the picture, it fills it in; otherwise it fills a missing cell in the row or column closest to being finished. A hint never costs a life.",
-      "When you win, the picture turns to color, with four colors, and its name appears: Panda, for instance. The grids are the same whatever language the app is set to, but the name is shown in the language you picked.",
+      "When you win, the picture is revealed in four colors and its name appears: Panda, for instance.",
       "Stars count mistakes: none earns three stars, one earns two, two or more earn one, and hints do not count.",
       "Pixel Art can also be your pick for the daily challenge: the app sets the day's difficulty, Easy or Medium, and every player uncovers the same hidden picture.",
     ],
@@ -98,7 +98,7 @@ export const pixelArtEn: GameCopy = {
       {
         question: "What does the Pixel Art hint do?",
         answer:
-          "It fixes a single cell: a cell you crossed out by mistake first, otherwise a missing cell in the row or column closest to being finished.",
+          "It fixes one cell, starting with a cell you crossed out by mistake, and never costs a life.",
       },
       {
         question: "Does the picture's name change with the language?",
