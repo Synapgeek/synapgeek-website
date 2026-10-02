@@ -36,11 +36,9 @@ const appId = (app: AppEntry): string => `${absoluteUrl(app.slug, "en")}#app`;
 /** Genre schema.org commun à tous les jeux ; le genre maison, quand il existe, s'y ajoute. */
 const VIDEO_GAME_GENRE = "Puzzle";
 
+/** Le pays seulement : l'adresse du siège ne figure que dans les mentions légales. */
 interface PostalAddressSchema {
   readonly "@type": "PostalAddress";
-  readonly streetAddress: string;
-  readonly postalCode: string;
-  readonly addressLocality: string;
   readonly addressCountry: string;
 }
 
@@ -88,9 +86,6 @@ export function organizationSchema(): OrganizationSchema {
     logo: `${BASE_URL}/images/brand/logo-synapgeek.png`,
     address: {
       "@type": "PostalAddress",
-      streetAddress: PUBLISHER.address.street,
-      postalCode: PUBLISHER.address.postalCode,
-      addressLocality: PUBLISHER.address.locality,
       addressCountry: PUBLISHER.address.countryCode,
     },
     vatID: PUBLISHER.vat,

@@ -84,8 +84,7 @@ export interface Dictionary {
       legalForm: string;
       legalFormValue: string;
       capital: string;
-      address: string;
-      rcs: string;
+      country: string;
       siret: string;
       ape: string;
       vat: string;

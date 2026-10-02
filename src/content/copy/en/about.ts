@@ -5,16 +5,16 @@ export const aboutEn: AboutCopy = {
   meta: {
     title: "About Synapgeek: independent French studio, publisher of Cerebrum",
     description:
-      "Synapgeek SAS is an independent French studio in Frontenas, in the Rhône. It makes mobile apps and publishes Cerebrum for iPhone, iPad and Android.",
+      "Synapgeek SAS is an independent French studio. It makes mobile apps and publishes Cerebrum for iPhone, iPad and Android.",
   },
   hero: {
     h1: "About Synapgeek",
     definition:
-      "Synapgeek is an independent French studio based in Frontenas, in the Rhône, that makes mobile apps. It is the publisher of Cerebrum, an offline puzzle games app for iPhone, iPad and Android.",
+      "Synapgeek is an independent French studio that makes mobile apps. It is the publisher of Cerebrum, an offline puzzle games app for iPhone, iPad and Android.",
   },
   who: {
     title: "Who is behind Synapgeek",
-    body: "Synapgeek SAS is a French company headquartered in Frontenas, in the Rhône. It is an independent studio: it designs and publishes its own apps. Synapgeek is the publisher name on its App Store and Google Play listings, and on the legal pages of this site. Looking for another product called Cerebrum? This one is the puzzle games app published by Synapgeek SAS.",
+    body: "Synapgeek SAS is a French company and an independent studio: it designs and publishes its own apps. Synapgeek is the publisher name on its App Store and Google Play listings, and on the legal pages of this site. Looking for another product called Cerebrum? This one is the puzzle games app published by Synapgeek SAS.",
   },
   what: {
     title: "What the studio makes",

@@ -176,6 +176,7 @@ fichier vert pour rien.
 | `llms-content.test.ts`                                         | `public/llms.txt` reprend, mot pour mot, la définition de chaque page dans chaque langue et le modèle de la page app ; ni cadratin, « sans pub », prix, note ni téléchargements |
 | `legal-meta.test.ts`                                           | meta descriptions légales renseignées et sans cadratin                                                                                   |
 | `publisher.test.ts`                                            | l'adresse et le capital de la source unique de l'éditeur sont ceux de `/legal`                                                           |
+| `location-privacy.test.ts`                                     | la rue, le code postal, la ville, la région et le greffe ne sont que dans les mentions légales : ni copie de page, ni dictionnaire hors `/legal`, ni `llms.txt`, ni JSON-LD |
 | `registry.test.ts`                                             | dix jeux dans l'ordre, slugs uniques et non réservés, difficultés, vies et tutoriels du fichier de faits, disponibilités, assets qui existent sous `public/`, couleurs nommées par propriété CSS |
 | `src/design/*.test.ts`                                         | aucun hex en dur dans les composants, contraste WCAG AA des jetons et des dix couples de jeu, couleur de thème = vert de marque         |
 
@@ -257,6 +258,9 @@ App Store, `PrivacyInfo.xcprivacy`, Data Safety de la Play Console).
 - **Suppression de compte** : dans l'app (Profil > Supprimer le compte), Cloud Function
   `deleteUserAccount` (sous-collections Firestore, document utilisateur, classements, Firebase Auth).
   Public : 13 ans et plus dans les CGU, pas de mécanisme COPPA.
+- **Lieu** (décision d'Adrien du 2026-10-02) : partout ailleurs que sur `/legal`, que la loi impose à
+  une SAS, le site dit « France » et rien de plus précis (ni ville, ni région, ni adresse, ni greffe) ;
+  les fiches À propos et Presse montrent le pays, jamais l'adresse.
 - **Éditeur**, source unique `src/content/publisher.ts`, publié sur `/legal` et à garder cohérent
   avec App Store Connect et la Play Console : Synapgeek SAS, capital 1 000 €, 185 chemin des
   Brosses, 69620 Frontenas, RCS Villefranche-Tarare 102 429 826, SIRET 102 429 826 00013, APE

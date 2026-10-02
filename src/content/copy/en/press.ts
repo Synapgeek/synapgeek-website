@@ -19,7 +19,7 @@ export const pressEn: PressCopy = {
       {
         label: "Publisher",
         value:
-          "Synapgeek SAS, an independent French studio based in Frontenas, in the Rhône",
+          "Synapgeek SAS, an independent French studio",
       },
       { label: "Type", value: "Puzzle games app that plays offline" },
       {

@@ -280,11 +280,9 @@ describe("JSON-LD — organisation et page À propos", () => {
   it("l'organisation lit son identité dans PUBLISHER", () => {
     const org = organizationSchema();
     expect(org.legalName).toBe(PUBLISHER.legalName);
+    // Le pays seulement : la rue, le code postal et la ville ne sont que dans les mentions légales.
     expect(org.address).toEqual({
       "@type": "PostalAddress",
-      streetAddress: PUBLISHER.address.street,
-      postalCode: PUBLISHER.address.postalCode,
-      addressLocality: PUBLISHER.address.locality,
       addressCountry: PUBLISHER.address.countryCode,
     });
     expect(org.vatID).toBe(PUBLISHER.vat);

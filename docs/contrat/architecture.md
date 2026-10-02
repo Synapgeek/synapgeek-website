@@ -247,7 +247,9 @@ src/app/[locale]/not-found.tsx          404 localisée
   `https://synapgeek.com/`. `inLanguage` en BCP 47 (`en`, `fr`, et les 16 langues de l'app pour
   l'app), jamais `fr_FR`.
 - L'identité vient de l'`AppEntry` et du `PUBLISHER` (`src/content/publisher.ts`, testé contre
-  l'adresse et le capital de `/legal`). Android n'est annoncé (système, boutiques, `sameAs`) que
+  l'adresse et le capital de `/legal`). Le nœud Organization ne porte que le pays dans
+  `address` : la rue, le code postal et la ville ne sont que dans les mentions légales
+  (`location-privacy.test.ts`). Android n'est annoncé (système, boutiques, `sameAs`) que
   si le registre porte sa version minimale.
 - **Aucun `aggregateRating`**, pas de `softwareVersion`, pas de `contentRating`.
 - Le `FAQPage` reprend mot pour mot le tableau affiché (`copy.faq.items`, même source des deux

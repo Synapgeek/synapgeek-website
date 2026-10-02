@@ -6,16 +6,16 @@ export const aboutFr: AboutCopy = {
     title:
       "À propos de Synapgeek : studio français indépendant, éditeur de Cerebrum",
     description:
-      "Synapgeek SAS est un studio français indépendant, à Frontenas dans le Rhône. Il crée des apps mobiles et édite Cerebrum pour iPhone, iPad et Android.",
+      "Synapgeek SAS est un studio français indépendant. Il crée des apps mobiles et édite Cerebrum pour iPhone, iPad et Android.",
   },
   hero: {
     h1: "À propos de Synapgeek",
     definition:
-      "Synapgeek est un studio français indépendant, installé à Frontenas, dans le Rhône, qui crée des applications mobiles. Il est l'éditeur de Cerebrum, une app de jeux de réflexion hors ligne pour iPhone, iPad et Android.",
+      "Synapgeek est un studio français indépendant qui crée des applications mobiles. Il est l'éditeur de Cerebrum, une app de jeux de réflexion hors ligne pour iPhone, iPad et Android.",
   },
   who: {
     title: "Qui est derrière Synapgeek",
-    body: "Synapgeek SAS est une société française dont le siège est à Frontenas, dans le Rhône. C'est un studio indépendant : il conçoit et édite lui-même ses applications. Synapgeek est le nom d'éditeur affiché sur ses fiches de l'App Store et de Google Play, et sur les pages légales de ce site. Vous cherchiez un autre produit nommé Cerebrum ? Celui-ci est l'app de jeux de réflexion éditée par Synapgeek SAS.",
+    body: "Synapgeek SAS est une société française, un studio indépendant : il conçoit et édite lui-même ses applications. Synapgeek est le nom d'éditeur affiché sur ses fiches de l'App Store et de Google Play, et sur les pages légales de ce site. Vous cherchiez un autre produit nommé Cerebrum ? Celui-ci est l'app de jeux de réflexion éditée par Synapgeek SAS.",
   },
   what: {
     title: "Ce que fait le studio",

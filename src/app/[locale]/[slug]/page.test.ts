@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
 import { getDictionary } from "@/content";
 import { getApp, getGames } from "@/content/apps";
 import { getAboutCopy, getAppCopy, getPressCopy } from "@/content/copy";
-import { PUBLISHER, formatAddress } from "@/content/publisher";
+import { PUBLISHER } from "@/content/publisher";
 import { formatUpdatedAt } from "@/lib/format-date";
 import { LOCALES } from "@/lib/i18n";
 import { SECTION_SLUGS } from "@/lib/page-slugs";
@@ -161,12 +161,19 @@ describe.each(LOCALES)("pages de section (%s)", (locale) => {
       });
     });
 
-    it("affiche l'identité de l'éditeur issue de PUBLISHER", async () => {
+    it("affiche l'identité de l'éditeur issue de PUBLISHER, avec le pays et jamais l'adresse", async () => {
       const text = visibleText(await render(locale, slug));
+      for (const place of [
+        PUBLISHER.address.street,
+        PUBLISHER.address.postalCode,
+        PUBLISHER.address.locality,
+        PUBLISHER.rcs.registry,
+      ]) {
+        expect(text, place).not.toContain(place);
+      }
       for (const value of [
         PUBLISHER.legalName,
-        formatAddress(),
-        PUBLISHER.rcs.number,
+        PUBLISHER.address.country,
         PUBLISHER.siret,
         PUBLISHER.ape,
         PUBLISHER.vat,
@@ -240,11 +247,19 @@ describe.each(LOCALES)("pages de section (%s)", (locale) => {
       expect(visibleText(markup)).toContain(PUBLISHER.contactEmail);
     });
 
-    it("affiche l'identité de l'éditeur issue de PUBLISHER", async () => {
+    it("affiche l'identité de l'éditeur issue de PUBLISHER, avec le pays et jamais l'adresse", async () => {
       const text = visibleText(await render(locale, slug));
+      for (const place of [
+        PUBLISHER.address.street,
+        PUBLISHER.address.postalCode,
+        PUBLISHER.address.locality,
+        PUBLISHER.rcs.registry,
+      ]) {
+        expect(text, place).not.toContain(place);
+      }
       for (const value of [
         PUBLISHER.legalName,
-        formatAddress(),
+        PUBLISHER.address.country,
         PUBLISHER.siret,
       ]) {
         expect(text, value).toContain(value);
