@@ -16,7 +16,6 @@ import {
   pagePath,
   sectionParams,
 } from "@/lib/routes";
-import { CEREBRUM_DATE_PUBLISHED } from "@/lib/structured-data";
 import SectionPage, { generateMetadata, generateStaticParams } from "./page";
 
 const NOT_FOUND = /NEXT_HTTP_ERROR_FALLBACK;404|NEXT_NOT_FOUND/;
@@ -133,7 +132,9 @@ describe.each(LOCALES)("pages de section (%s)", (locale) => {
     });
 
     it("cite la date de sortie sur l'App Store, en toutes lettres et celle du JSON-LD", () => {
-      const date = flat(formatUpdatedAt(CEREBRUM_DATE_PUBLISHED, locale));
+      const date = flat(
+        formatUpdatedAt(getApp("cerebrum").datePublished, locale),
+      );
       const text = JSON.stringify(
         section === "about"
           ? (copy as ReturnType<typeof getAboutCopy>).what

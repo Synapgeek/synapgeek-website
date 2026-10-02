@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { LOCALES } from "./i18n";
 import { getApp, getGames } from "@/content/apps";
 import { PUBLISHER } from "@/content/publisher";
+import { absoluteUrl } from "./routes";
 import {
   aboutPageSchema,
   breadcrumbSchema,
@@ -127,6 +128,52 @@ describe("JSON-LD — application Cerebrum", () => {
     expect(
       mobileApplicationSchema(iosOnly, "en", appCopy).operatingSystem,
     ).toEqual(["iOS"]);
+  });
+});
+
+describe("JSON-LD — identité tirée de l'AppEntry, rien de codé pour Cerebrum", () => {
+  const other = {
+    ...cerebrum,
+    name: "Other",
+    storeTitles: ["Other: Store Title"],
+    datePublished: "2027-01-02",
+  };
+
+  it("le nom, les titres de fiche et la date de première publication viennent de l'app", () => {
+    const node = mobileApplicationSchema(other, "en", appCopy);
+    expect(node.name).toBe("Other");
+    expect(node.alternateName).toEqual(["Other: Store Title"]);
+    expect(node.datePublished).toBe("2027-01-02");
+    expect(JSON.stringify(node)).not.toContain("Jeux zen sans wifi");
+  });
+
+  it("l'@id est celui de la page de l'app, en anglais, dans les deux langues", () => {
+    for (const locale of LOCALES) {
+      expect(app(locale)["@id"]).toBe(
+        `${absoluteUrl(cerebrum.slug, "en")}#app`,
+      );
+    }
+  });
+
+  it("Android sans version vérifiée : ni operatingSystem, ni downloadUrl, ni sameAs Play", () => {
+    const iosOnly = {
+      ...cerebrum,
+      platforms: { ...cerebrum.platforms, android: { minOs: null } },
+    };
+    const node = mobileApplicationSchema(iosOnly, "en", appCopy);
+    expect(node.operatingSystem).toEqual(["iOS"]);
+    expect(node.downloadUrl).toEqual([cerebrum.appStoreUrl]);
+    expect(node.sameAs).toEqual([cerebrum.appStoreUrl]);
+  });
+
+  it("avec Android vérifié, les deux boutiques sont annoncées partout", () => {
+    const node = app("en");
+    expect(node.operatingSystem).toEqual(["iOS", "Android"]);
+    expect(node.downloadUrl).toEqual([
+      cerebrum.appStoreUrl,
+      cerebrum.googlePlayUrl,
+    ]);
+    expect(node.sameAs).toEqual(node.downloadUrl);
   });
 });
 

@@ -109,6 +109,19 @@ describe("registre des jeux", () => {
     }
   });
 
+  it("déclare les difficultés du défi du jour : Facile ou Moyen, Facile seule pour mots croisés et mots mêlés", () => {
+    // Fichier de faits iOS : l'app tire la difficulté du jour parmi ces valeurs.
+    const easyOnly: readonly GameId[] = ["crossword", "word-search"];
+    for (const game of games) {
+      expect(game.dailyDifficulties, game.id).toEqual(
+        easyOnly.includes(game.id) ? ["easy"] : ["easy", "medium"],
+      );
+      for (const difficulty of game.dailyDifficulties) {
+        expect(game.difficulties).toContain(difficulty);
+      }
+    }
+  });
+
   it("limite mots croisés et mots mêlés au français et à l'anglais", () => {
     expect(byId("crossword").contentLocales).toEqual(["fr", "en"]);
     expect(byId("word-search").contentLocales).toEqual(["fr", "en"]);

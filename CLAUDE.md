@@ -24,12 +24,12 @@ AdMob consent (UMP).
 - **Framework** : Next.js `16.3.8` (App Router, `src/`) — version épinglée exactement,
   comme `eslint-config-next` (`16.3.8`). React et React DOM épinglés à `19.2.8`.
 - **Style** : Tailwind CSS 4.x (CSS-first, `@import "tailwindcss"` + `@theme inline {}`
-  dans `src/app/globals.css`, pas de `tailwind.config.js`). Ce fichier de 1006 lignes EST
-  le design system : tokens `--color-primary` (#58CC02), `--color-secondary` (#8549BA),
-  `accent-blue/yellow/orange/coral/teal`, `text-primary/secondary/tertiary`, les 3
-  variables de police, et des classes maison (`gradient-hero`, `gradient-cta`,
-  `text-gradient`, `coming-soon-card`, `store-pill`). Primitives dans
-  `src/components/ui/` : Badge, Button, Card, SectionHeading, StoreButtons. **Jamais de
+  dans `src/app/globals.css`, pas de `tailwind.config.js`). Ce fichier (environ 270 lignes)
+  EST le design system : jetons `--color-brand-*`, `--color-ink`, `--color-canvas*`, lavis,
+  accents, ombres, rayons, rythme (`py-section`, `px-gutter`), les 2 variables de police,
+  les paires `--game-*` des jeux, et quelques classes maison (`band-enter`,
+  `band-violet-deep`, `shell-pop`, `animate-fade-in-up`, `input-*`). Primitives dans
+  `src/components/ui/`. **Jamais de
   hex en dur, jamais un sixième bouton.**
 - **Langage** : TypeScript strict mode
 - **Linter** : ESLint 9 + eslint-config-next + Prettier
@@ -82,6 +82,8 @@ ni étape de build, et jamais avant que le déploiement soit en ligne : le moteu
 pages. La clé est le nom du fichier `public/<32 hex>.txt` (son contenu est la clé, publique
 par conception) : ne pas le renommer ni le supprimer, `npm test` et `check:contract` le
 vérifient.
+
+`check:contract` contre un déploiement Vercel protégé : définir `VERCEL_OIDC_TOKEN`, le script l'envoie en en-tête `x-vercel-trusted-oidc-idp-token` sur chaque requête (jamais affiché).
 
 Portes automatiques : `npm run lint`, `npm test`, `npm run build`, rejouées par la CI
 (`.github/workflows/ci.yml`, sans secret). `check:contract` n'est pas dans la CI : à lancer

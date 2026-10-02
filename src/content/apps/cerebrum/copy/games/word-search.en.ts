@@ -30,9 +30,8 @@ export const wordSearchEn: GameCopy = {
       "In Cerebrum, a word search level is a run of three fixed grids, with no random draw, solved one after the other. Levels open one by one along each difficulty's path, and after the last one Endless Mode keeps handing out fresh sets of three grids.",
       "The word list changes with the difficulty. On Easy, every word to find stays readable. On Medium, only the number of letters of each word shows. On Hard, the list is gone: you have to spot words without knowing which ones to look for, and some of them are written backwards.",
       "There are no mistakes to make and no game to lose: only the clock counts. Stars are worked out from your average time per grid. Three stars take 45 seconds or less on Easy, 2 minutes on Medium and 3 minutes 30 seconds on Hard; two stars go up to 1 minute 30 seconds, 3 minutes 30 seconds and 6 minutes.",
-      "The Hint button changes with the difficulty. On Easy, it finds a word for you on the grid. On Medium and Hard, it offers two kinds of help: highlighting the first letter of a word you have not found, or revealing the text of a word on the list.",
-      "Movies, Cooking and Travel packs bring themed word searches, 9 to 11 cells a side, at Hard level but with every word read forwards. Each pack is bought on its own in the app, and the same purchase unlocks its crosswords too.",
-      "On the day you choose word search for the daily challenge, you get an Easy grid drawn from your app's language, the same one every English-language player sees. Words differ from one language to the other, which is why the language matters.",
+      "The Hint button changes with the difficulty. On Easy, it finds a word for you on the grid. On Medium and Hard, it offers two kinds of help: highlighting the first letter of a word you have not found, or revealing the text of a word on the list. Revealing a text only shows you what to look for: you still have to find the word on the grid.",
+      "Movies, Cooking and Travel packs bring themed word searches, 9 to 11 cells a side, played like Medium: the list shows only the number of letters of each word, and no row or column word is written backwards. Each pack also opens themed crosswords.",
     ],
     difficultyTable: {
       caption: "Word Search difficulties in Cerebrum",
@@ -62,7 +61,7 @@ export const wordSearchEn: GameCopy = {
       "Look for double letters. A pair such as SS, LL or TT turns up far less often than a lone letter, so once you spot one, read outward from it along all four axes before moving on.",
       "Think about direction as much as letters. From a likely first letter, do not just read to the right: try downward and all four diagonals. On Hard, add right-to-left and bottom-to-top, and always drag from the first letter of the word towards its last.",
       "On Medium, use the letter count that shows to rank the words. An eight-letter word has few places to sit on a diagonal, while a four-letter word can hide anywhere: take the long ones first, because they narrow the field fast.",
-      "When the list is hidden, hunt for common building blocks instead of whole words: endings like -ING, -ED or -ER, pairs like TH or SH. A probable word often takes shape before it is complete, and one drag is enough to confirm it.",
+      "When the list is hidden, hunt for the building blocks that turn up often instead of whole words: endings like -ING, -ED or -ER, pairs like TH or SH. A probable word often takes shape before it is complete, and one drag is enough to confirm it.",
     ],
   },
   faq: {
@@ -86,7 +85,7 @@ export const wordSearchEn: GameCopy = {
       {
         question: "What do the word search hints do?",
         answer:
-          "On Easy, the hint finds a word for you. On Medium and Hard you choose between highlighting the first letter of a word you have not found and revealing the text of a word on the list.",
+          "On Easy, the hint finds a word for you and marks it as found. On Medium and Hard you choose between highlighting the first letter of a word you have not found and revealing the text of a word on the list, which points you to what to look for without placing it on the grid.",
       },
       {
         question: "Why does a level hold three grids?",

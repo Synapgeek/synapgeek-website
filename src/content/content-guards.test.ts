@@ -226,13 +226,6 @@ const APP_WIDE_ALLOWLIST: ReadonlyArray<{
   why: string;
 }> = [
   {
-    game: "pixel-art",
-    topics: ["iPhone", "iPad", "Android"],
-    // copy-rules 13 : les vies, les étoiles, le départ de la difficulté Facile et
-    // Annuler diffèrent entre iPhone/iPad et Android. Les nommer est le contenu.
-    why: "Pixel Art plays differently on iPhone and iPad than on Android",
-  },
-  {
     game: "arrow-maze",
     topics: ["free"],
     // « Free piece » est le terme du jeu pour une flèche que rien ne bloque.
@@ -500,6 +493,8 @@ const SHARED_SENTENCE_ALLOWLIST: readonly string[] = [
   // et l'app doivent y figurer, et les assistants la citent à l'identique.
   "play it offline in cerebrum, the puzzle games app by synapgeek, on iphone, ipad and android.",
   "il se joue hors ligne dans cerebrum, l'app de synapgeek, sur iphone, ipad et android.",
+  // Même formule au pluriel (Mots croisés, Mots mêlés).
+  "ils se jouent hors ligne dans cerebrum, l'app de synapgeek, sur iphone, ipad et android.",
 ];
 
 function normalizeSentence(sentence: string): string {
@@ -552,6 +547,193 @@ function repeatedSentenceViolations(
   return found;
 }
 
+// ---------------------------------------------------------------------------
+// Typographie française
+// ---------------------------------------------------------------------------
+
+/** Espace insécable ou fine insécable : les deux ferment une espace avant `: ; ? !` et à l'intérieur des guillemets. */
+const NON_BREAKING_SPACE = /[\u00a0\u202f]/u;
+/** Ponctuation haute : elle exige une espace insécable devant elle. */
+const HIGH_PUNCTUATION = /[:;?!]/gu;
+/** Adresses web et courriel : leurs `:`, `?` et `@` ne sont pas de la typographie. */
+const LINK = /https?:\/\/\S+|\S+@\S+/gu;
+
+/**
+ * Règles de typographie française d'une chaîne : `: ; ? !` précédés d'une
+ * espace insécable (jamais d'une espace simple ni collés au mot), `«` suivi et
+ * `»` précédé d'une espace insécable. Exceptions : les adresses, les heures et
+ * rapports du type 20:30 (deux-points entre deux chiffres), et les signes qui
+ * suivent un autre signe haut (`?!`).
+ */
+function frenchTypographyProblems(text: string): string[] {
+  const clean = text.replace(LINK, (link) => " ".repeat(link.length));
+  const around = (index: number) =>
+    JSON.stringify(clean.slice(Math.max(0, index - 20), index + 12).trim());
+  const found: string[] = [];
+  for (const { 0: sign, index } of clean.matchAll(HIGH_PUNCTUATION)) {
+    const previous = clean[index - 1];
+    if (previous === undefined || /[:;?!]/u.test(previous)) continue;
+    if (
+      sign === ":" &&
+      /\d/u.test(previous) &&
+      /\d/u.test(clean[index + 1] ?? "")
+    ) {
+      continue;
+    }
+    if (NON_BREAKING_SPACE.test(previous)) continue;
+    found.push(
+      `${previous === " " ? "plain space" : "no space"} before "${sign}" (${around(index)})`,
+    );
+  }
+  for (const { 0: quote, index } of clean.matchAll(/[«»]/gu)) {
+    const neighbour = quote === "«" ? clean[index + 1] : clean[index - 1];
+    if (neighbour === undefined || NON_BREAKING_SPACE.test(neighbour)) continue;
+    found.push(
+      `${neighbour === " " ? "plain space" : "no space"} inside "${quote}" (${around(index)})`,
+    );
+  }
+  return found;
+}
+
+function frenchTypographyViolations(entry: CopyEntry): string[] {
+  if (entry.locale !== "fr") return [];
+  return stringsOf(entry.copy).flatMap(({ path, value }) =>
+    frenchTypographyProblems(value).map(
+      (problem) => `${labelOf(entry)} ${path}: ${problem}`,
+    ),
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Quasi-doublons entre pages jeux
+// ---------------------------------------------------------------------------
+
+/** Une phrase de cette longueur ou plus est comparée aux phrases des autres pages jeux. */
+const NEAR_DUPLICATE_MIN_LENGTH = 60;
+/** Similarité de Jaccard sur les trigrammes de mots à partir de laquelle deux phrases sont des quasi-doublons. */
+const NEAR_DUPLICATE_THRESHOLD = 0.6;
+const GAME_NAME_PLACEHOLDER = "gamename";
+/**
+ * Formules partagées voulues, lues telles que la garde les compare (sans accent
+ * ni ponctuation, nom du jeu remplacé par `gamename`). Elles reprennent les
+ * formules exactes de la garde R4, plus la formule du titre : une seule entrée
+ * de plus, parce que le nom du jeu est la seule chose qui varie dans le titre.
+ */
+const NEAR_DUPLICATE_ALLOWLIST: readonly string[] = [
+  ...SHARED_SENTENCE_ALLOWLIST,
+  // Formule du `<title>` anglais (copy-rules 12) : « <jeu> : how to play, tips and the Cerebrum app | Synapgeek ».
+  "gamename: how to play, tips and the Cerebrum app | Synapgeek",
+];
+
+interface NearDuplicatePage {
+  label: string;
+  /** Tous les noms du jeu : nom dans l'app et slug, dans chaque langue. */
+  names: readonly string[];
+  copy: GameCopy;
+}
+
+/** Minuscules, sans accent, sans ponctuation : « Mots-Croisés ! » et « mots croises » se comparent égaux. */
+function foldForComparison(text: string): string {
+  return text
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
+}
+
+function replaceGameNames(text: string, names: readonly string[]): string {
+  const folded = ` ${foldForComparison(text)} `;
+  const longestFirst = names
+    .map(foldForComparison)
+    .filter(Boolean)
+    .sort((a, b) => b.length - a.length);
+  return longestFirst
+    .reduce(
+      (acc, name) => acc.replaceAll(` ${name} `, ` ${GAME_NAME_PLACEHOLDER} `),
+      folded,
+    )
+    .trim();
+}
+
+function wordTrigrams(text: string): Set<string> {
+  const words = text.split(" ").filter(Boolean);
+  if (words.length < 3) return new Set([words.join(" ")]);
+  return new Set(
+    words.slice(0, -2).map((_, i) => words.slice(i, i + 3).join(" ")),
+  );
+}
+
+function trigramSimilarity(a: string, b: string): number {
+  const left = wordTrigrams(a);
+  const right = wordTrigrams(b);
+  const shared = [...left].filter((gram) => right.has(gram)).length;
+  return shared / (left.size + right.size - shared);
+}
+
+/** Les phrases de 60+ caractères d'une page, avec le nom du jeu remplacé par un marqueur. */
+function comparableSentencesOf(
+  page: NearDuplicatePage,
+): Array<{ path: string; folded: string }> {
+  return stringsOf(page.copy).flatMap(({ path, value }) =>
+    value
+      .split(/(?<=[.!?…])\s+/u)
+      .map((sentence) => sentence.trim())
+      .filter((sentence) => sentence.length >= NEAR_DUPLICATE_MIN_LENGTH)
+      .map((sentence) => ({
+        path,
+        folded: replaceGameNames(sentence, page.names),
+      })),
+  );
+}
+
+/**
+ * La garde R4 ne voit que les phrases identiques : recopier le passage d'un jeu
+ * dans un autre en changeant son nom lui échappe. Ici chaque phrase de 60+
+ * caractères est comparée à celles des autres pages jeux (jamais de la même),
+ * après remplacement du nom propre à chaque jeu, et refusée à 0,6 de similarité.
+ */
+function nearDuplicateViolations(
+  pages: readonly NearDuplicatePage[],
+  allowlist: readonly string[] = NEAR_DUPLICATE_ALLOWLIST,
+): string[] {
+  const allowed = new Set(allowlist.map(foldForComparison));
+  const sentences = pages.map((page) =>
+    comparableSentencesOf(page).filter(({ folded }) => !allowed.has(folded)),
+  );
+  return pages.flatMap((page, i) =>
+    pages.slice(0, i).flatMap((earlier, j) =>
+      sentences[i].flatMap((mine) =>
+        sentences[j].flatMap((theirs) => {
+          const similarity = trigramSimilarity(mine.folded, theirs.folded);
+          return similarity >= NEAR_DUPLICATE_THRESHOLD
+            ? [
+                `${page.label} ${mine.path}: ${similarity.toFixed(2)} similar to ${earlier.label} ${theirs.path} (${JSON.stringify(mine.folded.slice(0, 70))})`,
+              ]
+            : [];
+        }),
+      ),
+    ),
+  );
+}
+
+/** Les pages jeux d'une langue, chacune avec les noms que le jeu porte dans les deux langues et ses slugs. */
+function nearDuplicatePagesOf(locale: string): NearDuplicatePage[] {
+  const games = getGames("cerebrum");
+  return REGISTERED_COPY.flatMap((entry) =>
+    entry.locale === locale
+      ? gamesOf(entry).map(([id, copy]) => {
+          const game = games.find((candidate) => candidate.id === id)!;
+          return {
+            label: `${labelOf(entry)}:${id}`,
+            names: [...Object.values(game.name), ...Object.values(game.slug)],
+            copy,
+          };
+        })
+      : [],
+  );
+}
+
 /**
  * Ruling R5 : une page jeu ne parle que du jeu. Chaque chaîne de la copie d'un
  * jeu, hors définition et `meta`, est lue contre les sujets de l'app entière.
@@ -587,6 +769,7 @@ function entryViolations(
 ): string[] {
   return [
     ...forbiddenViolations(entry),
+    ...frenchTypographyViolations(entry),
     ...lengthViolations(entry),
     ...genreViolations(entry, games),
     ...androidViolations(entry, games),
@@ -631,6 +814,19 @@ describe("copie enregistrée (spec §9)", () => {
       expect(repeatedSentenceViolations(pages)).toEqual([]);
     },
   );
+
+  it.each(LOCALES)(
+    "aucune phrase d'une page jeu n'est le quasi-doublon d'une autre, au nom du jeu près (%s)",
+    (locale) => {
+      expect(nearDuplicateViolations(nearDuplicatePagesOf(locale))).toEqual([]);
+    },
+  );
+
+  it("la typographie française est respectée dans tous les modules enregistrés", () => {
+    expect(
+      REGISTERED_COPY.flatMap((entry) => frenchTypographyViolations(entry)),
+    ).toEqual([]);
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -1086,6 +1282,219 @@ describe("contrôles positifs des gardes structurelles", () => {
         (sentence) => (uses.get(normalizeSentence(sentence)) ?? 0) < 2,
       );
       expect(stale).toEqual([]);
+    });
+  });
+
+  describe("quasi-doublons entre pages jeux", () => {
+    /** Deux phrases de 60+ caractères qui ne diffèrent que par le nom du jeu. */
+    const base = (name: string) =>
+      `With ${name}, you place every piece on the board by reading the clues around it, one careful deduction after another.`;
+    const page = (label: string, names: string[], tip: string) => ({
+      label,
+      names,
+      copy: fixtureGame({
+        hero: {
+          h1: label,
+          phoneAlt: "A screen.",
+          definition: `${label} is unique. ${label} stays unique for the test.`,
+        },
+        tips: { title: "Tips", items: [tip, "Tip 2", "Tip 3"] },
+      }),
+    });
+
+    it("refuse une phrase recopiée d'une page à l'autre avec le seul nom du jeu changé, que la garde R4 laisse passer", () => {
+      const pages = [
+        page("en:sudoku", ["Sudoku"], base("Sudoku")),
+        page("en:pandoku", ["Pandoku"], base("Pandoku")),
+      ];
+      expect(repeatedSentenceViolations(pages)).toEqual([]);
+      const violations = nearDuplicateViolations(pages);
+      expect(violations).toEqual([
+        expect.stringContaining("en:pandoku tips.items.0"),
+      ]);
+      expect(violations[0]).toContain("en:sudoku tips.items.0");
+    });
+
+    it("reconnaît le nom du jeu dans l'autre langue, au slug, sans accent ni casse", () => {
+      const violations = nearDuplicateViolations([
+        page(
+          "en:crossword",
+          ["Crossword", "Mots croisés", "crossword"],
+          base("MOTS CROISÉS"),
+        ),
+        page("en:arrow-maze", ["Arrow Maze", "arrow-maze"], base("arrow-maze")),
+      ]);
+      expect(violations).toHaveLength(1);
+    });
+
+    it("laisse passer deux phrases qui parlent de choses différentes", () => {
+      expect(
+        nearDuplicateViolations([
+          page(
+            "en:sudoku",
+            ["Sudoku"],
+            "Scan the grid for a digit that already appears often, then look in each box for the one cell where it still fits.",
+          ),
+          page(
+            "en:pandoku",
+            ["Pandoku"],
+            "Cross out freely, because crosses cost nothing and the more excluded cells you mark, the more forced cells appear.",
+          ),
+        ]),
+      ).toEqual([]);
+    });
+
+    it("n'examine pas les phrases de moins de 60 caractères", () => {
+      const short = "Place every piece by reading the clues around it, calmly.";
+      expect(short.length).toBeLessThan(60);
+      expect(
+        nearDuplicateViolations([
+          page("en:sudoku", ["Sudoku"], short),
+          page("en:pandoku", ["Pandoku"], short),
+        ]),
+      ).toEqual([]);
+    });
+
+    it("la similarité est le Jaccard des trigrammes de mots : 3 trigrammes communs sur 5 donnent 0,6", () => {
+      // abc bcd cde def contre abc bcd cde deg : 3 communs, 5 au total.
+      expect(trigramSimilarity("a b c d e f", "a b c d e g")).toBeCloseTo(0.6);
+      expect(trigramSimilarity("a b c d e f", "a b c d x y")).toBeCloseTo(
+        1 / 3,
+      );
+      expect(trigramSimilarity("a b c d", "a b c d")).toBe(1);
+    });
+
+    it("seuil de 0,6 : la paire à 0,6 est refusée, celle à 0,5 passe", () => {
+      // Six mots de douze lettres : 77 caractères, au-dessus du plancher de 60.
+      const words = [
+        "abcdefghijkl",
+        "bcdefghijklm",
+        "cdefghijklmn",
+        "defghijklmno",
+        "efghijklmnop",
+      ];
+      const sentence = (...tail: string[]) =>
+        `${[...words, ...tail].join(" ")}.`;
+      const pair = (a: string, b: string) => [
+        page("en:sudoku", ["Sudoku"], a),
+        page("en:pandoku", ["Pandoku"], b),
+      ];
+      const six = sentence("fghijklmnopq");
+      expect(six.length).toBeGreaterThanOrEqual(60);
+      expect(
+        nearDuplicateViolations(pair(six, sentence("zzzzzzzzzzzz"))),
+      ).toHaveLength(1); // 3 trigrammes communs sur 5 : 0,6
+      expect(
+        nearDuplicateViolations(
+          pair(
+            sentence("fghijklmnopq", "ghijklmnopqr"),
+            sentence("zzzzzzzzzzzz", "yyyyyyyyyyyy"),
+          ),
+        ),
+      ).toEqual([]); // 3 communs sur 7 : 0,43
+    });
+
+    it("une formule de la liste blanche est tolérée, tout le reste est refusé", () => {
+      const pages = [
+        page("en:sudoku", ["Sudoku"], base("Sudoku")),
+        page("en:pandoku", ["Pandoku"], base("Pandoku")),
+      ];
+      // La formule s'écrit avec le marqueur à la place du nom du jeu.
+      expect(nearDuplicateViolations(pages, [base("gamename")])).toEqual([]);
+      expect(nearDuplicateViolations(pages, [])).toHaveLength(1);
+    });
+
+    it("ne compare pas une page à elle-même", () => {
+      const twice = page("en:sudoku", ["Sudoku"], base("Sudoku"));
+      expect(nearDuplicateViolations([twice])).toEqual([]);
+    });
+
+    it("chaque entrée de la liste blanche sert encore : une formule déjà partagée par deux pages réelles", () => {
+      const uses = new Map<string, number>();
+      for (const locale of LOCALES) {
+        for (const page of nearDuplicatePagesOf(locale)) {
+          for (const { folded } of comparableSentencesOf(page)) {
+            uses.set(folded, (uses.get(folded) ?? 0) + 1);
+          }
+        }
+      }
+      const stale = NEAR_DUPLICATE_ALLOWLIST.filter(
+        (formula) => (uses.get(foldForComparison(formula)) ?? 0) < 2,
+      );
+      expect(stale).toEqual([]);
+    });
+  });
+
+  describe("typographie française", () => {
+    /** Une définition française de la bonne longueur et sans ponctuation haute : seul `h1` est fautif. */
+    const FR_DEFINITION =
+      "Pandoku est un puzzle de logique de type Star Battle dans Cerebrum, l'app de puzzles de Synapgeek pour iPhone et iPad. Placez un panda par ligne, par colonne et par région.";
+    const NB = "\u00a0";
+    const NNB = "\u202f";
+
+    it.each([
+      ["espace simple avant deux-points", "Bloqué : voyez l'indice", 1],
+      ["deux-points collé", "Bloqué: voyez l'indice", 1],
+      ["espace simple avant point-virgule", "Un ; deux", 1],
+      ["point-virgule collé", "Un; deux", 1],
+      ["espace simple avant point d'interrogation", "Bloqué ?", 1],
+      ["point d'exclamation collé", "Bravo!", 1],
+      ["espace simple avant point d'exclamation", "Bravo !", 1],
+      ["espace simple après guillemet ouvrant", "« mot\u00a0»", 1],
+      ["guillemet fermant collé", "«\u00a0mot»", 1],
+      ["guillemets collés", "«mot»", 2],
+      ["guillemets à espace simple", "« mot »", 2],
+    ])("refuse : %s", (_name, text, count) => {
+      expect(frenchTypographyProblems(text)).toHaveLength(count);
+    });
+
+    it.each([
+      ["espace insécable avant deux-points", `Bloqué${NB}: voyez`],
+      ["espace fine insécable avant point-virgule", `Un${NNB}; deux`],
+      ["espace insécable avant point d'interrogation", `Bloqué${NB}?`],
+      ["espace insécable avant point d'exclamation", `Bravo${NB}!`],
+      ["guillemets insécables", `«${NB}mot${NB}»`],
+      ["guillemets à espace fine insécable", `«${NNB}mot${NNB}»`],
+      ["point d'interrogation suivi d'un point d'exclamation", `Quoi${NB}?!`],
+      ["heure avec deux-points", "Rendez-vous à 20:30 ce soir"],
+      ["heure écrite 20 h", "Avant 20 h, jouez"],
+      [
+        "URL avec deux-points et point d'interrogation",
+        "Voir https://synapgeek.com/play?src=qr",
+      ],
+      [
+        "adresse avec deux-points seul en fin de lien",
+        "Voir http://exemple.fr",
+      ],
+      ["texte sans ponctuation haute", "Un texte simple."],
+      ["deux-points en début de chaîne", ": suite"],
+    ])("laisse passer : %s", (_name, text) => {
+      expect(frenchTypographyProblems(text)).toEqual([]);
+    });
+
+    it("ne vérifie que les modules français et nomme le chemin de la chaîne fautive", () => {
+      const hub = (locale: "en" | "fr") => ({
+        ...fixtureHub({
+          hero: { ...HUB_HERO, h1: "Bloqué : oui", definition: FR_DEFINITION },
+        }),
+        locale,
+      });
+      expect(frenchTypographyViolations(hub("en"))).toEqual([]);
+      expect(frenchTypographyViolations(hub("fr"))).toEqual([
+        expect.stringContaining("hero.h1"),
+      ]);
+    });
+
+    it("fait partie de entryViolations", () => {
+      const entry = {
+        ...fixtureHub({
+          hero: { ...HUB_HERO, h1: "Bloqué : oui", definition: FR_DEFINITION },
+        }),
+        locale: "fr" as const,
+      };
+      expect(entryViolations(entry)).toEqual([
+        expect.stringContaining("hero.h1"),
+      ]);
     });
   });
 

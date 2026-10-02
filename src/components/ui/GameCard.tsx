@@ -56,7 +56,7 @@ export function GameCard({
             src={icon}
             alt=""
             fill
-            sizes="(min-width: 1024px) 170px, 45vw"
+            sizes="(min-width: 1024px) 170px, (min-width: 640px) 25vw, 34vw"
             className="object-contain"
           />
         </div>

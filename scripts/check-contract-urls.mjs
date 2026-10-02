@@ -53,6 +53,11 @@
  * Toutes les requêtes partent en `redirect: "manual"` : on lit le statut et le
  * Location réels, jamais la page d'arrivée.
  *
+ * Déploiement Vercel protégé (aperçu derrière Vercel Authentication) : si la variable
+ * d'environnement `VERCEL_OIDC_TOKEN` est définie, elle part en en-tête
+ * `x-vercel-trusted-oidc-idp-token` sur CHAQUE requête (pages, og:image, sitemap). Le jeton
+ * n'est jamais affiché ni écrit dans le tableau.
+ *
  * Sortie : un tableau lisible, code de sortie 1 au premier écart.
  */
 import { readdirSync, readFileSync } from "node:fs";
@@ -80,6 +85,24 @@ const GOOGLE_PLAY_URL =
 const CAMPAIGN_PARAM = "src=contract-check";
 
 const SITEMAP_URL_COUNT = 34;
+
+/** Jeton OIDC des aperçus Vercel protégés (variable d'environnement, jamais journalisé). */
+const OIDC_TOKEN = process.env.VERCEL_OIDC_TOKEN;
+
+/** En-têtes communs à toute requête du script, og:image comprise. */
+function baseHeaders() {
+  return OIDC_TOKEN ? { "x-vercel-trusted-oidc-idp-token": OIDC_TOKEN } : {};
+}
+
+/** Chemins qui ne doivent JAMAIS figurer au sitemap (redirections, alias, repli QR). */
+const SITEMAP_FORBIDDEN = [
+  /^\/en$/,
+  /^\/en\/(?!privacy$|terms$|legal$)/,
+  /^\/fr\/(privacy|terms|legal)$/,
+  /^\/(cerebrum\/)?play$/,
+  /^\/jouer$/,
+  /^\/account-deletion$/,
+];
 
 /** Slug de chaque page de jeu livrée, par langue (le français de Démineur diffère). */
 const SLUGS = {
@@ -171,6 +194,12 @@ function contractChecks(base) {
     redirect("/en/", 308, "/en"),
     redirect(`/en?${CAMPAIGN_PARAM}`, 308, `/?${CAMPAIGN_PARAM}`),
     redirect("/en/cerebrum", 308, "/cerebrum"),
+    redirect(
+      `/en/cerebrum?${CAMPAIGN_PARAM}`,
+      308,
+      `/cerebrum?${CAMPAIGN_PARAM}`,
+    ),
+    redirect(`/en/about?${CAMPAIGN_PARAM}`, 308, `/about?${CAMPAIGN_PARAM}`),
     redirect("/en/cerebrum/sudoku", 308, "/cerebrum/sudoku"),
     redirect("/en/cerebrum/pandoku", 308, "/cerebrum/pandoku"),
     redirect("/en/cerebrum/minesweeper", 308, "/cerebrum/minesweeper"),
@@ -276,7 +305,21 @@ function contractChecks(base) {
     notFound("/fr/cerebrum/maze"),
     notFound("/cerebrum/labyrinthe"),
     notFound("/cerebrum/inconnu"),
-    notFound("/fr/cerebrum/inconnu"),
+    // Titres des 404 : la 404 racine (langue inconnue) porte exactement le sien, via
+    // `metadata` ; la 404 localisée n'en rend aucun dans le HTML serveur (le sien est posé
+    // côté client). Jamais deux.
+    {
+      path: "/de/inconnu",
+      expect: [
+        status(404),
+        noLocation(),
+        singleTitle("Page not found | Synapgeek"),
+      ],
+    },
+    {
+      path: "/fr/cerebrum/inconnu",
+      expect: [status(404), noLocation(), singleTitle()],
+    },
     // Pages de section (tâche 15) : anglais sans préfixe, français sous /fr avec son slug ;
     // /en/<slug> redirige, le slug de l'autre langue est un vrai 404.
     redirect("/en/about", 308, "/about"),
@@ -506,6 +549,7 @@ function singleOgImage(resolve) {
       const { pathname, search } = new URL(tags[0][1], APEX);
       const image = await fetch(resolve(`${pathname}${search}`), {
         redirect: "manual",
+        headers: baseHeaders(),
       });
       const type = image.headers.get("content-type") ?? "";
       if (image.status !== 200) return `og:image ${pathname} : ${image.status}`;
@@ -580,6 +624,24 @@ function bodyIncludes(fragment) {
     test: (res) => (res.body.includes(fragment) ? null : `${fragment} absent`),
   };
 }
+/** Au plus un `<title>` dans le HTML servi : un second est ignoré par les navigateurs et invalide le document. */
+function singleTitle(text) {
+  return {
+    describe: text
+      ? `un seul <title> : ${text}`
+      : "au plus un <title> dans le HTML servi",
+    test: (res) => {
+      const titles = [...res.body.matchAll(/<title>([^<]*)<\/title>/g)].map(
+        (match) => match[1],
+      );
+      if (titles.length > 1)
+        return `${titles.length} <title> : ${titles.join(" / ")}`;
+      if (text && titles[0] !== text)
+        return `<title> observé : ${titles[0] ?? "aucun"}`;
+      return null;
+    },
+  };
+}
 function bodyMatches(pattern, description = `${pattern}`) {
   return {
     describe: description,
@@ -622,6 +684,7 @@ async function fetchContract(base, check) {
   const response = await fetch(url, {
     redirect: "manual",
     headers: {
+      ...baseHeaders(),
       ...(check.userAgent ? { "user-agent": check.userAgent } : {}),
       ...(check.acceptLanguage
         ? { "accept-language": check.acceptLanguage }
@@ -709,7 +772,16 @@ async function sitemapChecks(base) {
       },
     ];
   }
-  return Promise.all(
+  const forbidden = locs
+    .map((loc) => new URL(loc).pathname)
+    .filter((pathname) => SITEMAP_FORBIDDEN.some((re) => re.test(pathname)));
+  const exclusion = {
+    label,
+    expected: "aucun /en/<page>, /fr/<légale>, alias ni route /cerebrum/play",
+    observed: forbidden.join(", ") || "conforme",
+    ok: !forbidden.length,
+  };
+  const rows = await Promise.all(
     locs.map((loc) => {
       const { pathname, search } = new URL(loc);
       return runCheck(base, {
@@ -719,6 +791,7 @@ async function sitemapChecks(base) {
       });
     }),
   );
+  return [exclusion, ...rows];
 }
 
 async function main() {

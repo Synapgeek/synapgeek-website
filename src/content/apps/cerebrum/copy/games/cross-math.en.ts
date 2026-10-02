@@ -17,7 +17,7 @@ export const crossMathEn: GameCopy = {
   howToPlay: {
     title: "How to play Cross Math",
     steps: [
-      "The grid looks like a crossword, but its words are sums: every run of cells joined by operators and an equals sign is an equation, such as 8 × 2 = 16. Some numbers are given, others are missing, and the goal is to fill every empty cell.",
+      "The grid looks like a crossword, but its words are calculations: every run of cells joined by operators and an equals sign is an equation, such as 8 × 2 = 16. Some numbers are given, others are missing, and the goal is to fill every empty cell.",
       "Under the grid, the pool lists the numbers you still have to place. It holds exactly the missing numbers, no more and no fewer: there are no decoys, and every number has its cell.",
       "Tap an empty cell, then a number in the pool, or drag the number onto the cell. Once placed, it leaves the pool.",
       "Equations follow the order of operations: multiplication and division come before addition and subtraction. So 2 + 3 × 4 makes 14, not 20. Every number is a whole number.",
@@ -31,8 +31,7 @@ export const crossMathEn: GameCopy = {
       "Cross Math has its own path in Cerebrum: each difficulty has a run of levels that open one after another. When you have finished a difficulty's path, Endless Mode takes over with more three-grid levels in that same difficulty.",
       "As the difficulty rises, the grids get bigger and the operators multiply: Easy sticks to addition and subtraction, Medium adds multiplication, Hard and Elite add division. The numbers you place run from 1 to 30, while the given numbers and the results go up to 100.",
       "You get three lives, shown as hearts: each wrong number takes one, and losing the third ends the run, though a second chance is on offer. A grid with no mistakes earns three stars, one mistake earns two, and two or more earn one. There is no Undo button: the fix happens by itself when the wrong number drops back into the pool.",
-      "The Hint button fills one cell with the right number. It explains nothing, but it gets you moving when two equations are holding each other up. For stars, only mistakes count: a hint never takes one away.",
-      "Cross Math is one of the games you can pick for the daily challenge, in Easy or Medium. Choose it and you play the same grid every other player gets that day.",
+      "The Hint button fills the cell you have selected, or else the one that most helps the grid. It gets you moving when two equations are holding each other up.",
     ],
     difficultyTable: {
       caption: "The Cross Math difficulties in Cerebrum",
@@ -45,17 +44,17 @@ export const crossMathEn: GameCopy = {
         {
           difficulty: "medium",
           detail:
-            "Mostly 7×7, sometimes 9×7 or 7×9. Multiplication joins addition and subtraction, for 6 to 9 numbers to place. Open from your first launch.",
+            "Mostly 7×7, also 9×7 or 7×9 and, rarely, 7×5. Multiplication joins addition and subtraction, for 6 to 9 numbers to place. Open from your first launch.",
         },
         {
           difficulty: "hard",
           detail:
-            "Mostly 9×9, with all four operations: division joins the other three. From 10 to 15 numbers to place. Opens as you progress through Medium.",
+            "Mostly 9×9, else 9×7 or 7×9, with all four operations: division joins the other three. From 10 to 15 numbers to place. Opens as you progress through Medium.",
         },
         {
           difficulty: "elite",
           detail:
-            "The Hard format: mostly 9×9, four operations, from 10 to 14 numbers to place. Opens as you progress through Hard.",
+            "Almost always 9×9, with the biggest share of equations where the order of operations matters. From 10 to 14 numbers to place. Opens as you progress through Hard.",
         },
       ],
     },
@@ -63,8 +62,8 @@ export const crossMathEn: GameCopy = {
   tips: {
     title: "Tips for playing Cross Math better",
     items: [
-      "Start with the equation that has only one empty cell: it is a sum with a single unknown, so its number is forced. In 7 + ? = 12, the cell is 5. Once it is placed, that number props up the equations that cross it, and the grid unravels step by step.",
-      "Apply the order of operations before you look for a number. In ? + 3 × 4 = 17, work out 3 × 4 = 12 first: the cell is 5. Read left to right, the same sum would give a very different result. It is the most common trap from Medium on, where multiplication appears.",
+      "Start with the equation that has only one empty cell: it is an equation with a single unknown, so its number is forced. In 7 + ? = 12, the cell is 5. Once it is placed, that number props up the equations that cross it, and the grid unravels step by step.",
+      "Apply the order of operations before you look for a number. In ? + 3 × 4 = 17, work out 3 × 4 = 12 first: the cell is 5. Read left to right, the same equation would give a very different result. It is the most common trap from Medium on, where multiplication appears.",
       "Rule out the pool numbers that cannot fit. In ? + 4 = 9, neither 24 nor 10 works, since in an addition no term can exceed the total. The pool empties fast, and the last numbers left fall into place on their own.",
       "In a division, start from the result. Because the numbers are whole, the dividend is a multiple of the divisor: for ? ÷ 4 = 6 the cell is 24, and for 36 ÷ ? = 9 look for the number that goes into 36 nine times.",
       "Test a number in both of its equations before you place it. A cell where a row and a column cross belongs to both: a number that suits one but not the other is wrong, and it costs a life. When in doubt, go first for the cell where one of the two equations is nearly complete.",
@@ -91,7 +90,7 @@ export const crossMathEn: GameCopy = {
       {
         question: "What does the Hint button do in Cross Math?",
         answer:
-          "It fills one cell with the right number. A hint costs no star: only mistakes count.",
+          "It fills the cell you have selected if it is empty, otherwise the cell of the equation with the fewest unknowns. A hint costs no star: only mistakes count.",
       },
       {
         question: "Is there a tutorial in Cross Math?",

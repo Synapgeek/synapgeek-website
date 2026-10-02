@@ -139,6 +139,35 @@ describe.each(CASES)("page $name ($locale)", ({ game, locale }) => {
     expect(link).toContain(`href="${pagePath("cerebrum", locale)}"`);
   });
 
+  it("dit le défi du jour une seule fois, par le gabarit, avec les difficultés du registre", async () => {
+    const markup = decode(await render(locale, slug));
+    const { difficulties } = getAppCopy("cerebrum", locale).gamePage;
+    const names = game.dailyDifficulties.map((id) => difficulties[id]);
+    const followsLanguage = game.contentLocales !== "all";
+    const template = followsLanguage
+      ? dict.common.gameDaily.lineByLanguage
+      : dict.common.gameDaily.line;
+    const line = template.replace("{game}", game.name[locale]).replace(
+      "{difficulties}",
+      new Intl.ListFormat(locale, {
+        style: "long",
+        type: "disjunction",
+      }).format(names),
+    );
+    expect(markup.split(line)).toHaveLength(2);
+    expect(line).not.toMatch(/[{}]/);
+    expect(line).not.toContain("—");
+    // La variante de langue remplace la phrase commune : jamais les deux.
+    const other = followsLanguage
+      ? dict.common.gameDaily.line
+      : dict.common.gameDaily.lineByLanguage;
+    expect(markup).not.toContain(
+      other
+        .replace("{game}", game.name[locale])
+        .replace("{difficulties}", names.join(" ou ")),
+    );
+  });
+
   it("nomme les difficultés dans la langue de la page, jamais en identifiants", async () => {
     const markup = await render(locale, slug);
     const { difficulties } = getAppCopy("cerebrum", locale).gamePage;
@@ -203,6 +232,41 @@ describe("page jeu : slugs refusés", () => {
       const game: GameEntry = BILINGUAL_SLUG!;
       await expectRefused("en", game.slug.fr);
       await expectRefused("fr", game.slug.en);
+    },
+  );
+});
+
+describe("défi du jour : phrases exactes", () => {
+  const slugOf = (id: string, locale: Locale) =>
+    PUBLISHED.find((game) => game.id === id)!.slug[locale];
+
+  it("jeu courant : une phrase, les difficultés du registre, sans nom de jeu en français", async () => {
+    const en = decode(await render("en", slugOf("sudoku", "en")));
+    const fr = decode(await render("fr", slugOf("sudoku", "fr")));
+    expect(en).toContain(
+      "Daily challenge: pick Sudoku and the app sets the day's grid on Easy or Medium, the same for every player.",
+    );
+    expect(fr).toContain(
+      "Défi du jour\u00a0: si vous choisissez ce jeu, l'app tire la grille du jour en difficulté Facile ou Moyen, la même pour tous.",
+    );
+    expect(fr).not.toContain("choisissez Sudoku");
+  });
+
+  it.each(["crossword", "word-search"])(
+    "%s : une seule phrase qui dit la langue, sans note qui la contredise",
+    async (id) => {
+      const en = decode(await render("en", slugOf(id, "en")));
+      const fr = decode(await render("fr", slugOf(id, "fr")));
+      expect(en).toContain(
+        "on Easy, the same for every player in your app's language, English or French.",
+      );
+      expect(fr).toContain(
+        "en difficulté Facile, la même pour tous ceux qui jouent dans la même langue, français ou anglais.",
+      );
+      expect(en).not.toContain("Everyone plays the same one");
+      expect(en).not.toContain("do not get the same one");
+      expect(fr).not.toContain("Tout le monde reçoit la même grille");
+      expect(fr).not.toContain("n'ont pas la même");
     },
   );
 });

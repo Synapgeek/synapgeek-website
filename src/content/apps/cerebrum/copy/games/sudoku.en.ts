@@ -21,7 +21,7 @@ export const sudokuEn: GameCopy = {
       "Your goal is to fill the empty cells so that each row, each column and each box contains the digits 1 to 9 with no repeats.",
       "In Cerebrum, tap a cell, then tap a digit on the pad. To jot down several possibilities in one cell, switch on Notes before you tap the digits.",
       "Every digit is checked the moment you place it. A wrong digit costs you a mistake, and the third mistake ends the game. You win when the whole grid is correct.",
-      "Stuck? The Hint button fills in one cell and walks you through the technique that finds it, step by step.",
+      "Stuck? The Hint button shows the next step of the reasoning: it explains the technique step by step, then reveals the digit.",
     ],
   },
   whatCerebrumAdds: {
@@ -29,10 +29,9 @@ export const sudokuEn: GameCopy = {
     paragraphs: [
       "Sudoku in Cerebrum is the classic 9×9 grid, with no variants. You move up a path of levels in the difficulty you choose. Finish the path of a difficulty and Endless Mode opens, serving fresh grids one after another.",
       "Four buttons sit under the grid: Undo, Erase, Notes and Hint. Duplicates are highlighted, your notes clear themselves from the related cells when you place a digit, and a key on the pad greys out once all nine of its correct digits are in place.",
-      "A hint does more than hand you the answer. It reveals one cell and explains the technique behind it step by step, so the next grid feels easier. Fill Notes completes your notes for you.",
-      "Three mistakes end the game, though a second chance is offered before you lose the grid.",
+      "A hint does more than hand you the answer: it shows the next step of the reasoning and names the technique behind it, so the next grid feels easier. Some advanced techniques remove the impossible candidates from your notes instead of placing a digit. When a hint needs your notes, Cerebrum offers to fill them in for you.",
+      "Three mistakes end the game, though a second chance is offered, up to twice, with two hearts back each time.",
       "Finish with no mistakes for three stars, one mistake for two, two or more for one. Hints do not count against your stars. The score rewards a quick, clean grid with few hints, and the difficulty multiplies it.",
-      "Sudoku is also one of the games you can pick for the daily challenge, on Easy or Medium. The grid is the same for everyone, and a missed day can be caught up from the calendar.",
     ],
     difficultyTable: {
       caption: "Sudoku difficulties in Cerebrum",
@@ -52,7 +51,8 @@ export const sudokuEn: GameCopy = {
         },
         {
           difficulty: "elite",
-          detail: "24 to 28 digits given. Opens as you progress through Hard.",
+          detail:
+            "24 to 28 digits given (up to 29 in Endless Mode), on grids that call for more advanced reasoning. Opens as you progress through Hard.",
         },
       ],
     },
@@ -87,17 +87,12 @@ export const sudokuEn: GameCopy = {
       {
         question: "What does the Hint button do?",
         answer:
-          "It reveals one cell and explains the technique that finds it, step by step, so you learn the method and not only the answer. Hints do not count against your stars.",
+          "It walks you through the reasoning one step at a time and names the technique at work. It usually ends by revealing the digit; with a few advanced techniques it removes the impossible candidates from your notes instead.",
       },
       {
         question: "Are there Sudoku variants in Cerebrum?",
         answer:
           "No. Cerebrum offers the classic 9×9 grid with no variants, from Easy to Elite.",
-      },
-      {
-        question: "Can I pick Sudoku for the daily challenge?",
-        answer:
-          "Yes, on Easy or Medium. Everyone who picks it that day gets the same grid.",
       },
     ],
   },

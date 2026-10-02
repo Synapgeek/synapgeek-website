@@ -30,7 +30,8 @@ export const cerebrumFr: AppCopy = {
       items: [
         "Réussissez le défi tous les jours d'un mois pour gagner le trophée du mois.",
         "Votre série avance chaque jour où vous terminez une partie. Si vous perdez une série d'au moins 2 jours, une pub facultative peut la rétablir dans les jours qui suivent, une fois par série perdue.",
-        "De 20 h à minuit, si votre série est en cours et que vous n'avez pas encore joué, une Live Activity sur l'écran verrouillé de l'iPhone ou de l'iPad, ou une notification sur Android, affiche le compte à rebours pour la sauver. Sur iPhone et iPad, vous pouvez la désactiver dans le Profil ; sur Android, il faut que les notifications soient autorisées.",
+        "Sur iPhone et iPad, de 20 h à minuit, si votre série est en cours et que vous n'avez pas encore joué, une Live Activity sur l'écran verrouillé affiche le compte à rebours pour la sauver. Vous pouvez la désactiver dans le Profil.",
+        "Sur Android, le même compte à rebours arrive sous forme de notification, à condition que les notifications soient autorisées.",
       ],
     },
     progress: {
@@ -45,7 +46,7 @@ export const cerebrumFr: AppCopy = {
     goodToKnow: {
       title: "Bon à savoir",
       items: [
-        "Pas de réseau ? Tout reste jouable, défi du jour et série compris. Si vous êtes connecté, votre progression se synchronise au retour en ligne.",
+        "Pas de réseau ? Tout reste jouable, défi du jour et série compris. Si vous êtes connecté à un compte, votre progression se synchronise au retour en ligne.",
         "Jouez en invité dès le premier lancement. La connexion est facultative, avec Apple, Google ou Facebook sur iPhone, iPad et Android. Votre progression suit alors votre compte d'un appareil à l'autre, sur iPhone, iPad et Android.",
         "L'app existe en 16 langues. Les grilles de Mots Croisés et de Mots Mêlés n'existent qu'en français et en anglais. Dans les 14 autres langues, ces deux jeux et leurs packs de thèmes sont masqués.",
         "Cerebrum fonctionne sur iPhone et iPad à partir d'iOS 17.0, et sur Android à partir d'Android 8.0.",
@@ -65,7 +66,7 @@ export const cerebrumFr: AppCopy = {
     },
     privacy: {
       title: "La confidentialité en bref",
-      body: "Cerebrum fonctionne sans connexion : vous jouez en invité. Si vous vous connectez, votre progression passe sur votre compte et suit ce compte d'un appareil à l'autre, sur iPhone, iPad et Android. Cerebrum conserve aussi le profil de base que votre fournisseur de connexion partage, comme votre nom et votre e-mail. L'app recueille aussi des statistiques d'usage et des rapports de plantage. Les pubs viennent de Google AdMob. Là où la loi l'exige, le formulaire de consentement de Google recueille d'abord votre choix, sur iPhone, iPad et Android ; sur iPhone et iPad, la demande de suivi d'Apple vient ensuite. Un refus ne bloque jamais un jeu. Ce n'est qu'un résumé, pas la liste complète de ce qui est collecté : la politique de confidentialité fait foi.",
+      body: "Cerebrum fonctionne sans vous connecter à un compte : vous jouez en invité. Si vous vous connectez, votre progression passe sur votre compte et suit ce compte d'un appareil à l'autre, sur iPhone, iPad et Android. Cerebrum conserve aussi le profil de base que votre fournisseur de connexion partage, comme votre nom et votre e-mail. L'app recueille par ailleurs des statistiques d'usage et des rapports de plantage. Les pubs viennent de Google AdMob. Là où la loi l'exige, le formulaire de consentement de Google recueille d'abord votre choix, sur iPhone, iPad et Android ; sur iPhone et iPad, la demande de suivi d'Apple vient ensuite. Un refus ne bloque jamais un jeu. Ce n'est qu'un résumé, pas la liste complète de ce qui est collecté : la politique de confidentialité fait foi.",
       cta: "Lire la politique de confidentialité",
     },
   },
@@ -85,7 +86,7 @@ export const cerebrumFr: AppCopy = {
       {
         question: "Peut-on jouer à Cerebrum sans connexion ?",
         answer:
-          "Oui. Toutes les grilles sont déjà dans l'app : chaque jeu fonctionne sans réseau, défi du jour et série compris. Si vous êtes connecté, votre progression se synchronise au retour en ligne. Les pubs, la connexion à un compte et les achats, eux, demandent du réseau.",
+          "Oui. Toutes les grilles sont déjà dans l'app : chaque jeu fonctionne sans réseau, défi du jour et série compris. Si vous êtes connecté à un compte, votre progression se synchronise au retour en ligne. Les pubs, la connexion à un compte et les achats, eux, demandent du réseau.",
       },
       {
         question: "Sur quels appareils fonctionne Cerebrum ?",
@@ -100,7 +101,7 @@ export const cerebrumFr: AppCopy = {
       {
         question: "Comment supprimer mon compte Cerebrum ?",
         answer:
-          "Si vous êtes connecté, ouvrez Profil, puis Supprimer le compte (une connexion est nécessaire). Votre compte et les données personnelles qui y sont liées sont alors supprimés de nos serveurs. En mode invité, ce bouton n'existe pas : la politique de confidentialité explique comment demander la suppression.",
+          "Si vous êtes connecté à un compte, ouvrez Profil, puis Supprimer le compte (une connexion est nécessaire). Votre compte et les données personnelles qui y sont liées sont alors supprimés de nos serveurs. En mode invité sur iPhone ou iPad, ce bouton n'existe pas : la politique de confidentialité explique comment demander la suppression.",
         link: {
           label:
             "La suppression de compte dans la politique de confidentialité",

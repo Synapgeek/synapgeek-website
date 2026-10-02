@@ -30,7 +30,8 @@ export const cerebrumEn: AppCopy = {
       items: [
         "Complete the challenge every day of a month to earn that month's trophy.",
         "Your streak grows every day you finish a game. If you lose a streak of 2 days or more, an optional ad can bring it back within a few days, once per lost streak.",
-        "From 8 p.m. to midnight, if your streak is alive and you have not played yet, a Live Activity on the Lock Screen of your iPhone or iPad, or a notification on Android, counts down the time left to save it. On iPhone and iPad you can turn it off in Profile; on Android, notifications must be allowed.",
+        "On iPhone and iPad, from 8 p.m. to midnight, if your streak is alive and you have not played yet, a Live Activity on the Lock Screen counts down the time left to save it. You can turn it off in Profile.",
+        "On Android, the same countdown arrives as a notification, as long as notifications are allowed.",
       ],
     },
     progress: {
@@ -65,7 +66,7 @@ export const cerebrumEn: AppCopy = {
     },
     privacy: {
       title: "Privacy in short",
-      body: "Cerebrum works without signing in: you play as a guest. If you sign in, your progress moves to your account and follows that account across iPhone, iPad and Android. Cerebrum also keeps the basic profile your provider shares, such as your name and email. The app also collects usage statistics and crash reports. Ads come from Google AdMob. Where the law requires it, Google's consent form asks for your choice first, on iPhone, iPad and Android; on iPhone and iPad, Apple's tracking prompt follows. Refusing never blocks a game. This is only a summary, not the full list of what is collected: the privacy policy is the reference.",
+      body: "Cerebrum works without signing in: you play as a guest. If you sign in, your progress moves to your account and follows that account across iPhone, iPad and Android. Cerebrum also keeps the basic profile your provider shares, such as your name and email. The app collects usage statistics and crash reports too. Ads come from Google AdMob. Where the law requires it, Google's consent form asks for your choice first, on iPhone, iPad and Android; on iPhone and iPad, Apple's tracking prompt follows. Refusing never blocks a game. This is only a summary, not the full list of what is collected: the privacy policy is the reference.",
       cta: "Read the privacy policy",
     },
   },
@@ -100,7 +101,7 @@ export const cerebrumEn: AppCopy = {
       {
         question: "How do I delete my Cerebrum account?",
         answer:
-          "If you signed in, open Profile, then Delete Account (you need to be online). Your account and the personal data tied to it are removed from our servers. As a guest there is no Delete Account button: the privacy policy explains how to ask for deletion.",
+          "If you signed in, open Profile, then Delete Account (you need to be online). Your account and the personal data tied to it are removed from our servers. As a guest on iPhone or iPad, there is no Delete Account button: the privacy policy explains how to ask for deletion.",
         link: {
           label: "Account deletion in the privacy policy",
           page: "privacy",

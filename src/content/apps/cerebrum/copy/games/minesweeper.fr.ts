@@ -12,7 +12,7 @@ export const minesweeperFr: GameCopy = {
     definition:
       "Le démineur est le jeu de logique classique où l'on repère des mines cachées : chaque chiffre compte les mines parmi les huit cases qui l'entourent. Il se joue hors ligne dans Cerebrum, l'app de Synapgeek, sur iPhone, iPad et Android.",
     phoneAlt:
-      "Démineur dans Cerebrum, niveau Facile : une grille de 9 lignes sur 8 colonnes avec des chiffres et des drapeaux, trois cœurs, le compteur de mines et un chronomètre au-dessus, les boutons Drapeau et Indice en dessous",
+      "Démineur dans Cerebrum, niveau Facile : une grille de 9 lignes sur 8 colonnes avec des chiffres et des drapeaux, trois cœurs, le compteur de mines et un chronomètre au-dessus, les boutons Drapeau et Vue d'ensemble et la pastille Indice en dessous",
   },
   howToPlay: {
     title: "Comment jouer au démineur",
@@ -22,18 +22,18 @@ export const minesweeperFr: GameCopy = {
       "Une case sans aucune mine voisine ne porte pas de chiffre : elle ouvre d'un coup toutes ses voisines, et la zone s'étend de proche en proche.",
       "Dans Cerebrum, touchez une case pour l'ouvrir. Pour poser un drapeau, restez appuyé sur la case ; restez appuyé de nouveau pour le retirer. Plusieurs mines à marquer d'affilée ? Le bouton Drapeau de la barre évite de maintenir à chaque fois.",
       "Quand un chiffre a déjà autant de drapeaux autour de lui que sa valeur, touchez-le : Cerebrum ouvre d'un coup toutes ses autres voisines. Sur les grandes grilles, pincez pour zoomer.",
-      "Toucher une mine coûte un cœur sur trois, et la case reste marquée. Au troisième, la partie s'arrête. Le tout premier toucher peut lui aussi tomber sur une mine ; ensuite, dès qu'une zone s'ouvre, tout le reste se déduit.",
+      "Toucher une mine coûte un cœur sur trois, et la case reste marquée. Au troisième, la partie s'arrête. Le tout premier toucher est aveugle et peut lui aussi tomber sur une mine ; ensuite, dès qu'une zone s'ouvre, le reste de la grille se déduit.",
     ],
   },
   whatCerebrumAdds: {
     title: "Ce que Cerebrum ajoute au démineur",
     paragraphs: [
       "Dans Cerebrum, vous progressez de grille en grille dans la difficulté de votre choix. Quand son parcours est terminé, le mode Infini sert d'autres champs de mines de cette même difficulté.",
-      "Le démineur s'ouvre sur une courte fiche « Comment jouer » de quatre pages : les chiffres, le premier toucher, le drapeau, les cœurs et l'indice.",
+      "Le démineur s'ouvre sur une courte fiche « Comment jouer » de quatre pages : les chiffres, le premier toucher, le drapeau, les cœurs et l'indice. Sur le premier niveau Facile, des cases en surbrillance indiquent où creuser et où poser un drapeau, et chaque geste reste le vôtre. Aucun cœur n'est en jeu et le chrono est coupé ; vous finissez ensuite seul les cases restantes, et Passer permet de commencer sans le guide.",
       "Le compteur de mines, toujours affiché en haut, donne le nombre de mines de la grille moins vos drapeaux. Posez un drapeau de trop et il passe sous zéro : il vous signale ainsi que l'un de vos drapeaux est faux.",
-      "Une mine touchée coûte un cœur, et la grille reste gagnable : la case se marque d'un drapeau, ce qui garde le compteur juste. Au troisième cœur, la partie est finie, sauf si vous reprenez ce même champ de mines.",
-      "L'indice ouvre pour vous la prochaine case sûre. Si l'un de vos drapeaux est mal placé, il commence par le retirer, avant d'ouvrir quoi que ce soit.",
-      "Zéro erreur donne trois étoiles, une erreur deux, deux erreurs ou plus une seule, et les indices n'y changent rien. Le défi du jour peut aussi se jouer au démineur, en Facile ou en Moyen : tout le monde reçoit la même grille.",
+      "Une mine touchée coûte un cœur, et la grille reste gagnable : la case reste marquée d'un drapeau, ce qui garde le compteur juste. Après le troisième cœur, vous pouvez reprendre ce même champ de mines, deux fois au plus, avec deux cœurs rendus à chaque fois.",
+      "L'indice ouvre pour vous la prochaine case sûre, avec la cascade habituelle. Il laisse vos drapeaux tranquilles, sauf si la case qu'il ouvre porte un faux drapeau : il le retire d'abord.",
+      "Les étoiles suivent vos erreurs : trois pour une grille sans faute, deux pour une erreur, une au-delà, et les indices n'y changent rien.",
     ],
     difficultyTable: {
       caption: "Les difficultés du démineur dans Cerebrum",
@@ -77,7 +77,7 @@ export const minesweeperFr: GameCopy = {
       {
         question: "Le premier toucher est-il toujours sûr ?",
         answer:
-          "Non. Le tout premier toucher peut tomber sur une mine et vous coûte alors un cœur. Une fois une zone ouverte, tout le reste de la grille se déduit : aucune grille ne demande de deviner.",
+          "Non. Le tout premier toucher est aveugle : il peut tomber sur une mine, ce qui coûte un cœur, ou sur un chiffre, qui n'ouvre rien. Dès qu'une zone s'ouvre, tout le reste se déduit : les grilles de Cerebrum sont vérifiées par un solveur.",
       },
       {
         question: "Comment poser un drapeau ?",
@@ -87,17 +87,17 @@ export const minesweeperFr: GameCopy = {
       {
         question: "Que se passe-t-il quand je touche une mine ?",
         answer:
-          "Vous perdez un cœur sur trois, et la case devient un drapeau : le compteur de mines reste juste. Le coût se compte par toucher, pas par mine : un seul toucher qui déterre plusieurs mines ne coûte qu'un cœur. Après le troisième, vous pouvez continuer sur la même grille au lieu de repartir de zéro.",
+          "Vous perdez un cœur sur trois, et la case devient un drapeau : le compteur de mines reste juste. Le coût se compte par toucher, pas par mine : un seul toucher qui déterre plusieurs mines ne coûte qu'un cœur. Quand le troisième est perdu, la même grille peut être reprise plutôt que recommencée, deux fois au plus.",
       },
       {
         question: "Que fait l'indice du démineur ?",
         answer:
-          "Il ouvre la prochaine case sûre, après avoir retiré l'un de vos drapeaux si celui-ci est mal placé. Il ne change jamais les étoiles que vous gagnez.",
+          "Il ouvre la prochaine case sûre, et ne retire l'un de vos drapeaux que si la case qu'il ouvre en porte un faux. Sur une grille vierge, il ouvre une zone de départ sûre.",
       },
       {
         question: "Que montre le compteur de mines ?",
         answer:
-          "Le nombre de mines de la grille moins les drapeaux posés. S'il passe sous zéro, l'un de vos drapeaux est faux. S'il affiche zéro et que vos drapeaux sont justes, toutes les cases encore cachées sont sûres.",
+          "Les mines de la grille moins les drapeaux posés. Il peut devenir négatif : sous zéro, au moins un de vos drapeaux est faux.",
       },
       {
         question:

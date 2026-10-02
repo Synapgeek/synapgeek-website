@@ -25,7 +25,7 @@ const fr: Dictionary = {
     consent: {
       title: "Votre choix sur la mesure d'audience",
       body: "Nous utilisons Google Analytics (cookies de mesure d'audience) pour comprendre comment ce site est utilisé. Selon votre pays, cette mesure attend votre accord ou est active par défaut : acceptez-la ou refusez-la ici, et changez d'avis à tout moment via « Gérer mes cookies ». Ce site n'affiche aucune publicité.",
-      learnMore: "En savoir plus",
+      learnMore: "Lire la politique de confidentialité",
       accept: "Accepter",
       refuse: "Refuser",
     },
@@ -77,6 +77,11 @@ const fr: Dictionary = {
         "Téléchargement gratuit, avec une bannière pendant la partie et des pubs entre certaines parties. Les pubs récompensées restent toujours facultatives. Avec Premium (hebdomadaire, mensuel ou annuel, souscrit dans chaque boutique), zéro pub imposée et des avantages en plus.",
       premiumLink: "Ce que Premium apporte",
     },
+    gameDaily: {
+      line: "Défi du jour : si vous choisissez ce jeu, l'app tire la grille du jour en difficulté {difficulties}, la même pour tous.",
+      lineByLanguage:
+        "Défi du jour : si vous choisissez ce jeu, l'app tire la grille du jour en difficulté {difficulties}, la même pour tous ceux qui jouent dans la même langue, français ou anglais.",
+    },
     contactForm: {
       name: "Nom",
       email: "Email",
@@ -104,7 +109,7 @@ const fr: Dictionary = {
   privacy: {
     title: "Politique de confidentialité",
     metaDescription:
-      "Politique de confidentialité des apps et services Synapgeek — données collectées, droits RGPD, publicités et cookies.",
+      "Politique de confidentialité des apps et services Synapgeek : données collectées, droits RGPD, publicités et cookies.",
     lastUpdated: "Dernière mise à jour : 12 septembre 2026",
     updatedAt: "2026-09-12",
     sections: [
@@ -190,7 +195,7 @@ const fr: Dictionary = {
   terms: {
     title: "Conditions Générales d'Utilisation",
     metaDescription:
-      "Conditions générales d'utilisation des apps Synapgeek — licence, achats in-app, biens virtuels, propriété intellectuelle.",
+      "Conditions générales d'utilisation des apps Synapgeek : licence, achats in-app, biens virtuels, propriété intellectuelle.",
     lastUpdated: "Dernière mise à jour : 1er octobre 2026",
     updatedAt: "2026-10-01",
     sections: [
@@ -274,7 +279,7 @@ const fr: Dictionary = {
   legal: {
     title: "Mentions légales",
     metaDescription:
-      "Mentions légales de Synapgeek — éditeur, hébergeur, immatriculation RCS et informations sur la société.",
+      "Mentions légales de Synapgeek : éditeur, hébergeur, immatriculation RCS et informations sur la société.",
     lastUpdated: "Dernière mise à jour : 4 juin 2026",
     updatedAt: "2026-06-04",
     sections: [

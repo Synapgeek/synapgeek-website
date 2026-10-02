@@ -46,7 +46,7 @@ Synapgeek est un studio français indépendant qui crée des applications mobile
 
 ### Bon à savoir
 
-- Pas de réseau ? Tout reste jouable, défi du jour et série compris. Si vous êtes connecté, votre progression se synchronise au retour en ligne.
+- Pas de réseau ? Tout reste jouable, défi du jour et série compris. Si vous êtes connecté à un compte, votre progression se synchronise au retour en ligne.
 - Jouez en invité dès le premier lancement. La connexion est facultative, avec Apple, Google ou Facebook sur iPhone, iPad et Android. Votre progression suit alors votre compte d'un appareil à l'autre, sur iPhone, iPad et Android.
 - L'app existe en 16 langues. Les grilles de Mots Croisés et de Mots Mêlés n'existent qu'en français et en anglais. Dans les 14 autres langues, ces deux jeux et leurs packs de thèmes sont masqués.
 - Cerebrum fonctionne sur iPhone et iPad à partir d'iOS 17.0, et sur Android à partir d'Android 8.0.
@@ -67,7 +67,7 @@ Synapgeek est un studio français indépendant qui crée des applications mobile
 - [Crossword in Cerebrum (English)](https://synapgeek.com/cerebrum/crossword): A crossword is the classic word-grid puzzle: you solve clues to fill in answers that cross one another. Play it offline in Cerebrum, the puzzle games app by Synapgeek, on iPhone, iPad and Android.
 - [Mots Croisés dans Cerebrum (français)](https://synapgeek.com/fr/cerebrum/mots-croises): Les mots croisés sont le jeu de grille classique où l'on retrouve des mots à partir de leurs définitions, chaque réponse croisant les autres. Ils se jouent hors ligne dans Cerebrum, l'app de Synapgeek, sur iPhone, iPad et Android.
 - [Word Search in Cerebrum (English)](https://synapgeek.com/cerebrum/word-search): A word search is the classic letter-grid puzzle where you hunt for hidden words that run in straight lines. Play it offline in Cerebrum, the puzzle games app by Synapgeek, on iPhone, iPad and Android.
-- [Mots Mêlés dans Cerebrum (français)](https://synapgeek.com/fr/cerebrum/mots-meles): Les mots mêlés sont le jeu de grille classique où l'on retrouve, dans un tableau de lettres, des mots cachés en ligne droite. On y joue hors ligne dans Cerebrum, l'app de Synapgeek, sur iPhone, iPad et Android.
+- [Mots Mêlés dans Cerebrum (français)](https://synapgeek.com/fr/cerebrum/mots-meles): Les mots mêlés sont le jeu de grille classique où l'on retrouve, dans un tableau de lettres, des mots cachés en ligne droite. Ils se jouent hors ligne dans Cerebrum, l'app de Synapgeek, sur iPhone, iPad et Android.
 - [Trace in Cerebrum (English)](https://synapgeek.com/cerebrum/trace): Trace is a one-line path puzzle: draw a single continuous line through every cell of the grid, crossing the numbered checkpoints in order. Play it offline in Cerebrum, the puzzle games app by Synapgeek, on iPhone, iPad and Android.
 - [Trace dans Cerebrum (français)](https://synapgeek.com/fr/cerebrum/trace): Trace est un puzzle à tracer d'un seul trait : une ligne continue doit passer par toutes les cases de la grille et franchir les points numérotés dans l'ordre. Il se joue hors ligne dans Cerebrum, l'app de Synapgeek, sur iPhone, iPad et Android.
 - [Maze in Cerebrum (English)](https://synapgeek.com/cerebrum/maze): Maze is a game where you guide a firefly through a maze to the exit portal, collecting crystals along the way. Play it offline in Cerebrum, the puzzle games app by Synapgeek, on iPhone, iPad and Android.

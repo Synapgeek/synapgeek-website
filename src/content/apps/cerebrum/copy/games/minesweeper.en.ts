@@ -12,7 +12,7 @@ export const minesweeperEn: GameCopy = {
     definition:
       "Minesweeper is the classic logic game of finding hidden mines: each number counts the mines among the eight cells around it. Play it offline in Cerebrum, the puzzle games app by Synapgeek, on iPhone, iPad and Android.",
     phoneAlt:
-      "Minesweeper in Cerebrum, Easy level: a grid of 9 rows by 8 columns with numbers and flags, three hearts, the mine counter and a timer above it, the Flag and Hint buttons below",
+      "Minesweeper in Cerebrum, Easy level: a grid of 9 rows by 8 columns with numbers and flags, three hearts, the mine counter and a timer above it, the Flag and Overview buttons and the Hint pill below",
   },
   howToPlay: {
     title: "How to play Minesweeper",
@@ -22,18 +22,18 @@ export const minesweeperEn: GameCopy = {
       "A cell with no mine next to it carries no number. Opening it opens all its neighbors at once, and the cleared area spreads outwards.",
       "In Cerebrum, tap a cell to open it. To plant a flag, press and hold the cell, and hold it again to take the flag away. Marking several mines in a row? The Flag button in the toolbar saves you from holding each time.",
       "When a number already has as many flags around it as its value, tap it and Cerebrum opens all its other neighbors in one go. On big grids, pinch to zoom.",
-      "Touching a mine costs one of your three hearts, and the cell stays marked. The third heart ends the game. Your very first tap can land on a mine too, but once an area is open, everything else can be worked out.",
+      "Touching a mine costs one of your three hearts, and the cell stays marked. The third heart ends the game. Your very first tap is blind and can land on a mine too, but once an area is open, the rest of the grid can be worked out by deduction.",
     ],
   },
   whatCerebrumAdds: {
     title: "What Cerebrum adds to Minesweeper",
     paragraphs: [
       "In Cerebrum you work through a path of grids in the difficulty you pick. When it is finished, Endless Mode serves more minefields of that same difficulty.",
-      "Minesweeper opens with a short four-page how-to-play sheet: the numbers, the first tap, flags, hearts and the hint.",
+      "Minesweeper opens with a short four-page how-to-play sheet: the numbers, the first tap, flags, hearts and the hint. On the first Easy level, highlighted cells show where to dig and where to flag, and every move is still yours to make. No heart is at stake and the timer is off; the remaining cells are yours alone, and Skip lets you start without the guide.",
       "The mine counter, always visible at the top, shows the mines in the grid minus your flags. Plant one flag too many and it drops below zero, which tells you that one of your flags is wrong.",
-      "A mine you touch costs a heart, yet the grid stays winnable: the cell is marked with a flag, so the counter stays accurate. When the third heart goes, the game is over unless you pick this same minefield back up.",
-      "The hint opens the next safe cell for you. If one of your flags is misplaced, it takes that flag off first, before it opens anything.",
-      "No mistakes earns three stars, one earns two, two or more earn one, and hints never change that. Minesweeper is also on the list for the daily challenge, on Easy or Medium: everyone gets the same grid.",
+      "A mine you touch costs a heart, yet the grid stays winnable: the cell stays flagged, so the counter stays accurate. After the third heart you can carry on with the same minefield, up to twice, with two hearts back each time.",
+      "The hint opens the next safe cell for you, with the usual cascade. It leaves your flags alone, except when the cell it opens carries a wrong one: it lifts that flag first.",
+      "Stars follow your mistakes: three for a clean grid, two for one mistake, one beyond that, and hints never change that.",
     ],
     difficultyTable: {
       caption: "Minesweeper difficulties in Cerebrum",
@@ -77,7 +77,7 @@ export const minesweeperEn: GameCopy = {
       {
         question: "Is the first tap always safe?",
         answer:
-          "No. Your very first tap can land on a mine, and it then costs you a heart. Once an area is open, the rest of the grid can be worked out: no grid ever asks you to guess.",
+          "No. Your very first tap is blind: it can land on a mine, which costs a heart, or on a number, which opens nothing. Once an area is open, the rest of the grid can be worked out by deduction: Cerebrum's grids are checked by a solver.",
       },
       {
         question: "How do I plant a flag?",
@@ -87,17 +87,17 @@ export const minesweeperEn: GameCopy = {
       {
         question: "What happens when I touch a mine?",
         answer:
-          "You lose one of your three hearts and the cell turns into a flag, so the mine counter stays right. The cost is counted per tap, not per mine: a single tap that uncovers several mines costs one heart. After the third, you can carry on with the same grid instead of starting over.",
+          "You lose one of your three hearts and the cell turns into a flag, so the mine counter stays right. The cost is counted per tap, not per mine: a single tap that uncovers several mines costs one heart. Once the third is gone, the same grid can be resumed rather than restarted, twice at most.",
       },
       {
         question: "What does the Minesweeper hint do?",
         answer:
-          "It opens the next safe cell, after taking off one of your flags if that flag is misplaced. It never changes the stars you earn.",
+          "It opens the next safe cell, and lifts one of your flags first only if the cell it opens carries a wrong one. On a blank grid, it opens a safe starting area.",
       },
       {
         question: "What does the mine counter show?",
         answer:
-          "The number of mines in the grid minus the flags you have planted. If it drops below zero, one of your flags is wrong. If it reads zero and your flags are right, every hidden cell left is safe.",
+          "The mines in the grid minus the flags you have planted. It can go negative: below zero, at least one of your flags is wrong.",
       },
       {
         question: "How do I open all the cells around a number at once?",

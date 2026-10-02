@@ -21,7 +21,7 @@ export const pandokuFr: GameCopy = {
       "Un panda par ligne et par colonne : chaque ligne et chaque colonne n'en contient qu'un seul.",
       "Un panda par région colorée, quelle que soit sa forme : chaque région n'en contient qu'un seul, elle aussi.",
       "Les pandas ne se touchent jamais, même en diagonale. Gardez chaque panda isolé de ses huit voisines.",
-      "Dans Cerebrum, touchez une case pour la barrer, puis touchez-la deux fois vite pour y poser un panda. Les croix ne sont qu'un pense-bête : elles ne comptent pas pour la victoire.",
+      "Dans Cerebrum, touchez une case pour la barrer, et touchez-la deux fois vite pour y poser un panda. Les croix ne sont qu'un pense-bête : elles ne comptent pas pour la victoire.",
       "Un panda mal placé est retiré et vous coûte un cœur sur trois ; un panda juste reste en place. Vous gagnez quand tous les pandas sont posés.",
     ],
   },
@@ -29,11 +29,11 @@ export const pandokuFr: GameCopy = {
     title: "Ce que Cerebrum ajoute à Pandoku",
     paragraphs: [
       "Dans Cerebrum, vous avancez de niveau en niveau dans la difficulté de votre choix. En Facile, la grille grandit au fil du parcours, de 4×4 à 8×8. Une fois le parcours d'une difficulté terminé, le mode Infini s'ouvre et enchaîne de nouvelles grilles.",
-      "Pandoku s'ouvre sur une courte fiche « Comment jouer ». Le premier niveau Facile est guidé : l'app vous fait poser les premiers pandas pas à pas, sans cœur perdu ni chrono (un bouton Passer permet de s'en dispenser). Chaque grille Facile commence avec un panda déjà posé : offert d'avance, il ne s'enlève pas et ne compte ni comme erreur, ni comme indice.",
-      "Il n'y a pas de bouton Annuler : un toucher barre une case, un autre efface la croix, et un panda juste est verrouillé pour de bon. Glissez le doigt pour barrer plusieurs cases d'un coup.",
+      "Pandoku s'ouvre sur une courte fiche « Comment jouer ». Le premier niveau Facile est guidé : le plateau allume les cases à jouer et c'est vous qui faites chaque geste, sans cœur perdu ni chrono. Un bouton Passer apparaît dès la deuxième étape, et les derniers pandas sont pour vous. Chaque grille Facile commence avec un panda déjà posé : offert d'avance, il ne s'enlève pas et ne compte ni comme erreur, ni comme indice.",
+      "Il n'y a pas de bouton Annuler : un second toucher rapide pose un panda, un toucher plus tardif sur une croix l'efface sans pénalité, et un panda juste est verrouillé pour de bon. Glissez le doigt depuis une case vide pour barrer plusieurs cases d'un coup, ou depuis une croix pour effacer une traînée de croix.",
       "Un panda mal placé est retiré et coûte un cœur ; au troisième, la partie est perdue, mais une seconde chance vous est proposée.",
-      "L'indice montre le raisonnement avant de jouer le coup. Il nomme la déduction disponible (case forcée, unité enfermée ou voisinage commun), la met en évidence, puis place le panda ou barre les cases à votre place. Quand rien de simple ne se présente, il vous donne un panda pour repartir.",
-      "Sans erreur, trois étoiles ; une erreur, deux ; deux ou plus, une. Les indices ne comptent pas. Pandoku fait aussi partie des jeux à choisir pour le défi du jour, en Facile ou en Moyen : même grille pour tout le monde, jour manqué rattrapable dans le calendrier.",
+      "L'indice montre le raisonnement avant de jouer le coup. Il nomme la déduction disponible (case forcée, unité enfermée ou voisinage commun), la met en évidence, puis place le panda ou barre les cases à votre place. Si votre plateau contient une marque fausse, l'indice la signale et la retire d'abord. Quand rien de simple ne se présente, il vous donne un panda pour repartir.",
+      "Sans erreur, trois étoiles ; une erreur, deux ; deux ou plus, une. Les indices ne comptent pas.",
     ],
     difficultyTable: {
       caption: "Les difficultés de Pandoku dans Cerebrum",
@@ -96,7 +96,7 @@ export const pandokuFr: GameCopy = {
       {
         question: "Y a-t-il un tutoriel pour Pandoku ?",
         answer:
-          "Oui. Pandoku s'ouvre sur une courte fiche « Comment jouer », puis le premier niveau Facile est guidé : l'app pose avec vous vos premiers pandas, sans cœur à perdre. Un bouton Passer permet de commencer seul.",
+          "Oui. Pandoku s'ouvre sur une courte fiche « Comment jouer », puis le premier niveau Facile est guidé : le plateau allume les cases où jouer et vous posez chaque panda vous-même, sans cœur à perdre. Vous pouvez passer le guide dès sa deuxième étape.",
       },
       {
         question:

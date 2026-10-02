@@ -20,5 +20,14 @@ export function LocalizedNotFound({
       ? strings[locale as Locale]
       : strings[DEFAULT_LOCALE];
 
-  return <NotFoundView {...selected} />;
+  return (
+    <>
+      {/* Un notFound() levé dans generateMetadata (slug inconnu) fait disparaître toute
+          métadonnée, `<title>` racine compris : l'onglet resterait sans nom. React 19 remonte
+          ce <title> dans <head>, dès le rendu serveur. La 404 racine n'en pose pas : son
+          titre vient de `metadata` (un second <title> serait ignoré et invaliderait le HTML). */}
+      <title>{`${selected.title} | Synapgeek`}</title>
+      <NotFoundView {...selected} />
+    </>
+  );
 }

@@ -10,7 +10,10 @@ export interface NotFoundStrings {
   href: string;
 }
 
-/** Corps de la 404 : partagé par la 404 localisée et la 404 racine (anglaise). */
+/**
+ * Corps de la 404 : partagé par la 404 localisée et la 404 racine (anglaise).
+ * Ne pose aucun `<title>` : chaque appelant sait s'il en a déjà un (voir leurs commentaires).
+ */
 export function NotFoundView({ title, body, cta, href }: NotFoundStrings) {
   return (
     <section className="mx-auto flex max-w-xl flex-col items-center px-gutter py-section text-center">

@@ -27,23 +27,14 @@ const APP_STORE_DEVELOPER_URL =
 const GOOGLE_PLAY_DEVELOPER_URL =
   "https://play.google.com/store/apps/developer?id=Synapgeek";
 
-// Titres des fiches store (FR + EN), utilisés comme `alternateName` de l'app.
-const APP_STORE_TITLE_FR = "Cerebrum : Jeux zen sans wifi";
-const APP_STORE_TITLE_EN = "Cerebrum: Offline Puzzle Games";
-const GOOGLE_PLAY_TITLE_FR = "Cerebrum : Jeux zen sans wifi";
-const GOOGLE_PLAY_TITLE_EN = "Cerebrum: Offline Puzzle Games";
-
-// Date de première publication de la fiche Cerebrum (iOS), conservée telle
-// quelle depuis le JSON-LD SoftwareApplication existant. Les pages À propos et
-// Presse la citent en toutes lettres : leur test la relit ici.
-export const CEREBRUM_DATE_PUBLISHED = "2026-06-03";
-
 // Les noeuds Organization et WebSite décrivent le site entier : même @id et même
 // url dans toutes les langues, pour que les moteurs ne voient qu'une entité.
 const SITE_ROOT_URL = `${BASE_URL}/`;
 const ORGANIZATION_ID = `${BASE_URL}/#organization`;
 const WEBSITE_ID = `${BASE_URL}/#website`;
-const CEREBRUM_APP_ID = `${BASE_URL}/cerebrum#app`;
+
+/** @id de l'app : sa page anglaise, une seule entité pour les deux langues. */
+const appId = (app: AppEntry): string => `${absoluteUrl(app.slug, "en")}#app`;
 /** Genre schema.org commun à tous les jeux ; le genre maison, quand il existe, s'y ajoute. */
 const VIDEO_GAME_GENRE = "Puzzle";
 
@@ -171,7 +162,7 @@ interface MobileApplicationSchema {
 }
 
 /**
- * Application Cerebrum, co-typée MobileApplication et VideoGame. Décisions
+ * Application du registre (Cerebrum aujourd'hui), co-typée MobileApplication et VideoGame. Décisions
  * volontaires : pas d'`aggregateRating` (pas de source unifiée iOS/Android
  * fiable), pas de `softwareVersion` (diverge entre stores et se périme vite),
  * pas de `contentRating`. Android n'est annoncé que si le registre en vérifie
@@ -184,25 +175,23 @@ export function mobileApplicationSchema(
     hero: Pick<AppCopy["hero"], "definition">;
   },
 ): MobileApplicationSchema {
-  const operatingSystem = [
-    "iOS",
-    ...(app.platforms.android.minOs ? ["Android"] : []),
+  // Android n'est annoncé que s'il est vérifié : système, boutiques et sameAs vont ensemble.
+  const hasAndroid = Boolean(app.platforms.android.minOs);
+  const operatingSystem = ["iOS", ...(hasAndroid ? ["Android"] : [])];
+  const storeUrls = [
+    app.appStoreUrl,
+    ...(hasAndroid ? [app.googlePlayUrl] : []),
   ];
 
   return {
     "@context": "https://schema.org",
     "@type": ["MobileApplication", "VideoGame"],
-    "@id": CEREBRUM_APP_ID,
+    "@id": appId(app),
     name: app.name,
-    alternateName: [
-      APP_STORE_TITLE_FR,
-      APP_STORE_TITLE_EN,
-      GOOGLE_PLAY_TITLE_FR,
-      GOOGLE_PLAY_TITLE_EN,
-    ].filter((value, index, all) => all.indexOf(value) === index),
+    alternateName: app.storeTitles,
     description: copy.hero.definition,
     url: absoluteUrl(app.slug, locale),
-    sameAs: [app.appStoreUrl, app.googlePlayUrl],
+    sameAs: storeUrls,
     operatingSystem,
     applicationCategory: "GameApplication",
     image: absolutePath(app.icon),
@@ -212,11 +201,11 @@ export function mobileApplicationSchema(
       priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
     },
-    downloadUrl: [app.appStoreUrl, app.googlePlayUrl],
+    downloadUrl: storeUrls,
     author: { "@id": ORGANIZATION_ID },
     publisher: { "@id": ORGANIZATION_ID },
     inLanguage: app.languages,
-    datePublished: CEREBRUM_DATE_PUBLISHED,
+    datePublished: app.datePublished,
     dateModified: copy.updatedAt,
   };
 }
@@ -265,7 +254,7 @@ export function videoGameSchema(
     image: absolutePath(game.icon),
     genre: houseGenre ? [VIDEO_GAME_GENRE, houseGenre] : [VIDEO_GAME_GENRE],
     gamePlatform: platformsFor(game),
-    isPartOf: { "@id": CEREBRUM_APP_ID },
+    isPartOf: { "@id": appId(app) },
     publisher: { "@id": ORGANIZATION_ID },
     inLanguage:
       game.contentLocales === "all" ? app.languages : game.contentLocales,

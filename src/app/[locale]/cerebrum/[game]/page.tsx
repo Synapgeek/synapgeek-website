@@ -83,6 +83,22 @@ export default async function GamePage({ params }: { params: Params }) {
   const appCopy = getAppCopy(app.slug, locale);
   const { gamePage } = appCopy;
   const name = game.name[locale];
+  // Les grilles de Mots croisés et de Mots mêlés suivent la langue de l'app :
+  // elles ont leur propre phrase, pas une note qui contredirait la première.
+  const dailyFollowsAppLanguage = game.contentLocales !== "all";
+  const dailyLine = (
+    dailyFollowsAppLanguage
+      ? dict.common.gameDaily.lineByLanguage
+      : dict.common.gameDaily.line
+  )
+    .replace("{game}", name)
+    .replace(
+      "{difficulties}",
+      new Intl.ListFormat(locale, {
+        style: "long",
+        type: "disjunction",
+      }).format(game.dailyDifficulties.map((id) => gamePage.difficulties[id])),
+    );
 
   // Le même tableau nourrit le fil visible et le JSON-LD BreadcrumbList.
   const breadcrumbs: readonly BreadcrumbItem[] = [
@@ -164,6 +180,7 @@ export default async function GamePage({ params }: { params: Params }) {
               {paragraph}
             </p>
           ))}
+          <p className="max-w-[65ch]">{dailyLine}</p>
         </div>
         <DifficultyTable
           className="mt-10"
