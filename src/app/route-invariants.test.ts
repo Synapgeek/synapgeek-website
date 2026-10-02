@@ -530,7 +530,6 @@ describe("pages légales sans JavaScript client (CLAUDE.md, « Règles critiques
   // suffirait à faire embarquer du JavaScript côté client par une page légale.
   it('LegalPage, les trois pages légales et tous leurs imports locaux, transitivement, n\'ont aucun "use client"', () => {
     const checked = transitiveLocalImports(LEGAL_ENTRY_POINTS);
-    expect(checked).toContain("src/components/ui/Badge.tsx");
     expect(checked).toContain("src/lib/legal-format.ts");
     // Atteint seulement par transitivité : la garde ne se limite pas au premier niveau.
     expect(checked).toContain("src/content/fr.ts");

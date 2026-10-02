@@ -55,7 +55,7 @@ export function SectionHero({
             width={256}
             height={256}
             sizes="(min-width: 1024px) 14rem, 10rem"
-            priority
+            preload
             fetchPriority="high"
             className={`size-[62%] ${mark.rounded ? "rounded-[22%] shadow-raised" : ""}`}
           />

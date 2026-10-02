@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { InternalLink } from "./InternalLink";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
 
 /**
@@ -46,14 +46,14 @@ export function Button({
   className = "",
   ...props
 }: ButtonElementProps | LinkElementProps) {
-  const classes = `inline-flex items-center justify-center gap-2 rounded-pill font-bold whitespace-nowrap transition-[background-color,color,box-shadow,transform] duration-150 ease-out active:scale-[0.97] ${VARIANTS[variant]} ${SIZES[size]} ${className}`;
+  const classes = `inline-flex items-center justify-center gap-2 rounded-pill font-bold whitespace-nowrap transition-[background-color,color,box-shadow,transform] duration-150 ease-out active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${VARIANTS[variant]} ${SIZES[size]} ${className}`;
 
   if (props.href !== undefined) {
     const { href, target, rel, ...anchor } = props as LinkElementProps;
     // Chemin interne : next/link ; ancre, mailto ou URL externe : <a> natif.
     if (href.startsWith("/")) {
       return (
-        <Link
+        <InternalLink
           href={href}
           target={target}
           rel={rel}

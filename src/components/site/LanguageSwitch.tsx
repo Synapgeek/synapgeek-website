@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { InternalLink } from "@/components/ui/InternalLink";
 import type { Locale } from "@/lib/i18n";
 import type { LanguageSwitchTable } from "@/lib/language-alternates";
 import { useLanguageAlternates } from "@/hooks/useLanguageAlternates";
@@ -33,7 +33,7 @@ export function LanguageSwitch({
   const alternates = useLanguageAlternates(table);
 
   return (
-    <Link
+    <InternalLink
       href={alternates[target]}
       hrefLang={target}
       lang={target}
@@ -48,6 +48,6 @@ export function LanguageSwitch({
       ) : (
         label
       )}
-    </Link>
+    </InternalLink>
   );
 }

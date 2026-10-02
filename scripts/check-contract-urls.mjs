@@ -188,6 +188,7 @@ function contractChecks(base) {
       bodyIncludes('id="contact"'),
       canonical(APEX),
       hreflangs({ en: APEX, fr: `${APEX}/fr`, "x-default": APEX }),
+      noPrefetchOfRewrittenLinks(),
     ]),
     // Spec §5.2 : /en n'est plus une page, 308 vers la racine, query conservée.
     redirect("/en", 308, "/"),
@@ -338,6 +339,7 @@ function contractChecks(base) {
       bodyIncludes('id="contact"'),
       canonical(`${APEX}/fr`),
       hreflangs({ en: APEX, fr: `${APEX}/fr`, "x-default": APEX }),
+      noPrefetchOfRewrittenLinks(),
     ]),
     redirect("/fr/", 308, "/fr"),
     ...LEGAL_PAGES.flatMap((page) => [
@@ -503,6 +505,7 @@ function legalExpectations(language, page) {
       fr: LEGAL_LANGUAGES.fr(page),
       "x-default": LEGAL_LANGUAGES.en(page),
     }),
+    noPrefetchOfRewrittenLinks(),
   ];
 }
 /** Page de jeu : langue, canonique, hreflang réciproques, une seule og:image qui répond en PNG. */
@@ -517,6 +520,7 @@ function gamePageExpectations(language, slugs, resolve) {
     canonical(urls[language]),
     hreflangs({ ...urls, "x-default": urls.en }),
     singleOgImage(resolve),
+    noPrefetchOfRewrittenLinks(),
   ];
 }
 /** Page de section : même schéma de langue que les pages jeux, une seule og:image qui répond. */
@@ -531,6 +535,7 @@ function sectionPageExpectations(language, slugs, resolve) {
     canonical(urls[language]),
     hreflangs({ ...urls, "x-default": urls.en }),
     singleOgImage(resolve),
+    noPrefetchOfRewrittenLinks(),
   ];
 }
 /**
@@ -639,6 +644,39 @@ function singleTitle(text) {
       if (text && titles[0] !== text)
         return `<title> observé : ${titles[0] ?? "aucun"}`;
       return null;
+    },
+  };
+}
+/**
+ * Aucun `next/link` vers un chemin d'un seul segment (`/privacy`, `/about`...) ne se
+ * précharge. Depuis une page `/fr/...` ou `/privacy`, le routeur client prédit un tel
+ * chemin comme l'accueil d'une locale, demande `/$d$locale/__PAGE__` que le proxy a
+ * réécrit ailleurs, et reçoit un 404 (console en erreur, préchargement perdu). Le
+ * HTML serveur embarque les props de chaque lien dans la charge utile RSC :
+ * `"href":"/privacy","prefetch":false`. Un lien sans `"prefetch":false` y est la
+ * régression. Les chemins `/fr` (une locale) et `/cerebrum` (dossier statique) sont
+ * bien prédits : même règle que src/lib/link-prefetch.ts. Les liens des composants
+ * client (sélecteur de langue, bandeau) n'y figurent pas : un test vitest garantit
+ * qu'ils passent tous par le même composant.
+ */
+function noPrefetchOfRewrittenLinks() {
+  const PREDICTED_RIGHT = new Set(["fr", "en", "cerebrum"]);
+  return {
+    describe: "aucun lien d'un seul segment ne se précharge (prefetch false)",
+    test: (res) => {
+      const offenders = [
+        ...res.body.matchAll(
+          /\\"href\\":\\"(\/[^"\\/?#]+)[^"\\]*\\",\\"prefetch\\":([^,}]+)/g,
+        ),
+      ]
+        .filter(
+          ([, path, prefetch]) =>
+            !PREDICTED_RIGHT.has(path.slice(1)) && prefetch !== "false",
+        )
+        .map(([, path]) => path);
+      return offenders.length === 0
+        ? null
+        : `liens préchargés : ${[...new Set(offenders)].join(", ")}`;
     },
   };
 }

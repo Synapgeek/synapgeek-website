@@ -42,6 +42,8 @@ export const cerebrumFr: AppCopy = {
         "Votre score cumulé, tous jeux confondus, vous fait monter de ligue, de Bronze à Légende.",
         "Pas de minuteur pour recharger des vies, pas d'attente : après une défaite, vous rejouez le niveau tout de suite.",
       ],
+      growthCaption:
+        "L'avatar Panda à trois stades de croissance : bébé, jeune et adulte.",
     },
     goodToKnow: {
       title: "Bon à savoir",

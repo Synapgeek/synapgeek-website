@@ -1,0 +1,423 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-02T12:00:00Z",
+  "title": "Design System: Synapgeek, hub du studio",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "neutral",
+        "displayName": "Encre nuit",
+        "canonical": "#1a1a2e",
+        "tonalRamp": [
+          "#1c1c31",
+          "#2e2e51",
+          "#404072",
+          "#535393",
+          "#7d7db5",
+          "#a4a4cb",
+          "#cecee3",
+          "#efeff6"
+        ]
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Blanc",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#262626",
+          "#404040",
+          "#595959",
+          "#737373",
+          "#999999",
+          "#b8b8b8",
+          "#d9d9d9",
+          "#f2f2f2"
+        ]
+      },
+      "canvas-soft": {
+        "role": "neutral",
+        "displayName": "Gris-bleu très clair",
+        "canonical": "#f7f7fb",
+        "tonalRamp": [
+          "#1a1a33",
+          "#2b2b55",
+          "#3c3c77",
+          "#4d4d99",
+          "#7777bb",
+          "#a0a0cf",
+          "#cccce5",
+          "#eeeef6"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Filet",
+        "canonical": "#e5e5e5",
+        "tonalRamp": [
+          "#262626",
+          "#404040",
+          "#595959",
+          "#737373",
+          "#999999",
+          "#b8b8b8",
+          "#d9d9d9",
+          "#f2f2f2"
+        ]
+      },
+      "text-secondary": {
+        "role": "neutral",
+        "displayName": "Gris texte",
+        "canonical": "#5b6270",
+        "tonalRamp": [
+          "#22252a",
+          "#393e46",
+          "#505662",
+          "#676f7f",
+          "#8e95a4",
+          "#b0b5bf",
+          "#d5d7dd",
+          "#f1f2f4"
+        ]
+      },
+      "text-tertiary": {
+        "role": "neutral",
+        "displayName": "Gris texte léger",
+        "canonical": "#6b7280",
+        "tonalRamp": [
+          "#23252a",
+          "#3a3e45",
+          "#515761",
+          "#686f7d",
+          "#9096a2",
+          "#b1b5be",
+          "#d5d8dc",
+          "#f1f2f3"
+        ]
+      },
+      "brand-green": {
+        "role": "primary",
+        "displayName": "Vert Synapgeek",
+        "canonical": "#58cc02",
+        "tonalRamp": [
+          "#214c01",
+          "#367e01",
+          "#4cb102",
+          "#62e302",
+          "#8afd35",
+          "#adfe72",
+          "#d3feb3",
+          "#f0ffe6"
+        ]
+      },
+      "brand-green-ink": {
+        "role": "primary",
+        "displayName": "Vert encre",
+        "canonical": "#2f6b00",
+        "tonalRamp": [
+          "#224c00",
+          "#388000",
+          "#4eb200",
+          "#65e600",
+          "#8dff33",
+          "#afff70",
+          "#d4ffb2",
+          "#f1ffe5"
+        ]
+      },
+      "brand-violet": {
+        "role": "secondary",
+        "displayName": "Violet Synapgeek",
+        "canonical": "#8549ba",
+        "tonalRamp": [
+          "#271537",
+          "#42235c",
+          "#5c3181",
+          "#763fa6",
+          "#9c6bc7",
+          "#ba97d8",
+          "#dac8ea",
+          "#f3edf8"
+        ]
+      },
+      "brand-violet-deep": {
+        "role": "secondary",
+        "displayName": "Violet profond",
+        "canonical": "#3b1f6e",
+        "tonalRamp": [
+          "#20113c",
+          "#351c63",
+          "#4b278b",
+          "#6032b3",
+          "#8860d2",
+          "#ac90e0",
+          "#d3c3ee",
+          "#f0ebf9"
+        ]
+      },
+      "wash-green": {
+        "role": "tertiary",
+        "displayName": "Lavis vert",
+        "canonical": "#d9f2c4",
+        "tonalRamp": [
+          "#243f0e",
+          "#3c6817",
+          "#549220",
+          "#6cbc29",
+          "#93da58",
+          "#b4e58a",
+          "#d7f1c0",
+          "#f2faea"
+        ]
+      },
+      "wash-violet": {
+        "role": "tertiary",
+        "displayName": "Lavis violet",
+        "canonical": "#e4d8f4",
+        "tonalRamp": [
+          "#23113c",
+          "#3b1c63",
+          "#52278b",
+          "#6a32b3",
+          "#9160d2",
+          "#b290e0",
+          "#d6c3ee",
+          "#f1ebf9"
+        ]
+      },
+      "error": {
+        "role": "tertiary",
+        "displayName": "Rouge d'erreur",
+        "canonical": "#b3261e",
+        "tonalRamp": [
+          "#2e0a08",
+          "#4d100c",
+          "#701610",
+          "#931d15",
+          "#c24a40",
+          "#d8847c",
+          "#ecbeb9",
+          "#f8e6e4"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "H1 du héros, un par page (Fredoka 700)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "H2 de chaque bande de page."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Noms de jeux, d'apps, légendes de tableaux."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Phrases lues, 65ch maximum (Figtree)."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Genres, plateformes, boutons, navigation."
+      }
+    },
+    "shadows": [
+      {
+        "name": "rest",
+        "value": "0 1px 2px rgba(26,26,46,.06), 0 4px 12px -4px rgba(26,26,46,.08)",
+        "purpose": "Cartes, bouton primaire (color-mix de l'encre)."
+      },
+      {
+        "name": "raised",
+        "value": "0 2px 4px rgba(26,26,46,.06), 0 12px 28px -8px rgba(26,26,46,.14)",
+        "purpose": "Survol du bouton, icône d'app."
+      },
+      {
+        "name": "lift",
+        "value": "0 4px 8px rgba(26,26,46,.08), 0 24px 48px -12px rgba(26,26,46,.22)",
+        "purpose": "Carte de jeu survolée ou focalisée."
+      },
+      {
+        "name": "phone",
+        "value": "drop-shadow(0 28px 36px rgba(26,26,46,.22))",
+        "purpose": "Cadre du téléphone."
+      }
+    ],
+    "motion": [
+      {
+        "name": "press",
+        "value": "150ms ease-out, scale(0.97)",
+        "purpose": "Boutons, badges des stores."
+      },
+      {
+        "name": "card-lift",
+        "value": "200ms ease-out, translateY(-6px)",
+        "purpose": "Cartes de jeux, survol et focus."
+      },
+      {
+        "name": "shell-pop",
+        "value": "200ms cubic-bezier(0.23,1,0.32,1)",
+        "purpose": "Menu mobile, suggestion de langue ; fondu seul en mouvement réduit."
+      },
+      {
+        "name": "band-in",
+        "value": "translateY(16px) piloté par le défilement (view())",
+        "purpose": "Entrée d'une section, jamais d'opacité."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "40rem"
+      },
+      {
+        "name": "md",
+        "value": "48rem"
+      },
+      {
+        "name": "lg",
+        "value": "64rem"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Bouton primaire",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Action principale : encre sur vert.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Télécharger</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 24px;border-radius:9999px;font-family:Figtree,system-ui,sans-serif;font-weight:700;font-size:14px;white-space:nowrap;cursor:pointer;border:0;transition:background-color .15s ease-out,color .15s ease-out,box-shadow .15s ease-out,transform .15s ease-out}.ds-btn:active{transform:scale(.97)}.ds-btn:focus-visible{outline:3px solid var(--color-brand-violet,#8549ba);outline-offset:3px}.ds-btn-primary{background:var(--color-brand-green,#58cc02);color:var(--color-ink,#1a1a2e);box-shadow:0 1px 2px rgba(26,26,46,.06),0 4px 12px -4px rgba(26,26,46,.08)}.ds-btn-primary:hover{background:color-mix(in srgb,var(--color-brand-green,#58cc02),var(--color-ink,#1a1a2e) 8%);box-shadow:0 2px 4px rgba(26,26,46,.06),0 12px 28px -8px rgba(26,26,46,.14)}"
+    },
+    {
+      "name": "Bouton secondaire",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Action d'appoint : encre sur lavis violet.",
+      "html": "<button class=\"ds-btn ds-btn-secondary\">En savoir plus</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 24px;border-radius:9999px;font-family:Figtree,system-ui,sans-serif;font-weight:700;font-size:14px;white-space:nowrap;cursor:pointer;border:0;transition:background-color .15s ease-out,color .15s ease-out,box-shadow .15s ease-out,transform .15s ease-out}.ds-btn:active{transform:scale(.97)}.ds-btn:focus-visible{outline:3px solid var(--color-brand-violet,#8549ba);outline-offset:3px}.ds-btn-secondary{background:var(--color-wash-violet,#e4d8f4);color:var(--color-ink,#1a1a2e)}.ds-btn-secondary:hover{background:color-mix(in srgb,var(--color-wash-violet,#e4d8f4),var(--color-brand-violet,#8549ba) 22%)}"
+    },
+    {
+      "name": "Bouton contour",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Action discrète : contour encre qui se remplit.",
+      "html": "<button class=\"ds-btn ds-btn-outline\">Presse</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 24px;border-radius:9999px;font-family:Figtree,system-ui,sans-serif;font-weight:700;font-size:14px;white-space:nowrap;cursor:pointer;border:0;transition:background-color .15s ease-out,color .15s ease-out,box-shadow .15s ease-out,transform .15s ease-out}.ds-btn:active{transform:scale(.97)}.ds-btn:focus-visible{outline:3px solid var(--color-brand-violet,#8549ba);outline-offset:3px}.ds-btn-outline{border:2px solid var(--color-ink,#1a1a2e);background:transparent;color:var(--color-ink,#1a1a2e)}.ds-btn-outline:hover{background:var(--color-ink,#1a1a2e);color:var(--color-canvas,#fff)}"
+    },
+    {
+      "name": "Bouton inverse",
+      "kind": "button",
+      "refersTo": "button-inverse",
+      "description": "Sur la section violet profond uniquement.",
+      "html": "<div class=\"ds-deep\"><button class=\"ds-btn ds-btn-inverse\">Nous écrire</button></div>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 24px;border-radius:9999px;font-family:Figtree,system-ui,sans-serif;font-weight:700;font-size:14px;white-space:nowrap;cursor:pointer;border:0;transition:background-color .15s ease-out,color .15s ease-out,box-shadow .15s ease-out,transform .15s ease-out}.ds-btn:active{transform:scale(.97)}.ds-btn:focus-visible{outline:3px solid var(--color-brand-violet,#8549ba);outline-offset:3px}.ds-deep{background:var(--color-brand-violet-deep,#3b1f6e);padding:24px;border-radius:28px}.ds-btn-inverse{background:var(--color-canvas,#fff);color:var(--color-brand-violet-deep,#3b1f6e)}.ds-btn-inverse:hover{background:var(--color-wash-violet,#e4d8f4)}.ds-deep .ds-btn:focus-visible{outline-color:#fff}"
+    },
+    {
+      "name": "Carte de jeu",
+      "kind": "card",
+      "refersTo": "game-card",
+      "description": "Format affiche 5:7, lavis et ton profond du jeu ; se soulève au survol.",
+      "html": "<article class=\"ds-game\"><div class=\"ds-game-icon\"></div><h3 class=\"ds-game-name\"><a href=\"#\">Sudoku</a></h3><p class=\"ds-game-genre\">Classique</p></article>",
+      "css": ".ds-game{--wash:#bfd9f7;--deep:#275c97;position:relative;display:flex;flex-direction:column;justify-content:flex-end;width:200px;aspect-ratio:5/7;overflow:hidden;border-radius:28px;background:var(--wash);color:var(--deep);text-align:center;padding:0 12px 20px;box-shadow:0 1px 2px rgba(26,26,46,.06),0 4px 12px -4px rgba(26,26,46,.08);transition:transform .2s ease-out,box-shadow .2s ease-out}.ds-game:hover,.ds-game:focus-within{transform:translateY(-6px);box-shadow:0 4px 8px rgba(26,26,46,.08),0 24px 48px -12px rgba(26,26,46,.22)}.ds-game-icon{flex:1;margin:16px auto 4px;width:78%;border-radius:22%;background:rgba(255,255,255,.55)}.ds-game-name{margin:0;font-family:Fredoka,system-ui,sans-serif;font-weight:700;font-size:20px;line-height:1.25}.ds-game-name a{color:inherit;text-decoration:none}.ds-game-name a::after{content:'';position:absolute;inset:0}.ds-game-genre{margin:4px 0 0;font-family:Figtree,system-ui,sans-serif;font-weight:600;font-size:13px}"
+    },
+    {
+      "name": "Carte d'app",
+      "kind": "card",
+      "refersTo": "app-card",
+      "description": "Lavis vert, icône, texte, un seul bouton primaire.",
+      "html": "<article class=\"ds-app\"><div class=\"ds-app-icon\"></div><div><h3 class=\"ds-app-name\">Cerebrum</h3><p class=\"ds-app-text\">Une app, six jeux de réflexion, hors ligne.</p><button class=\"ds-btn ds-btn-primary\">Découvrir</button></div></article>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 24px;border-radius:9999px;font-family:Figtree,system-ui,sans-serif;font-weight:700;font-size:14px;white-space:nowrap;cursor:pointer;border:0;transition:background-color .15s ease-out,color .15s ease-out,box-shadow .15s ease-out,transform .15s ease-out}.ds-btn:active{transform:scale(.97)}.ds-btn:focus-visible{outline:3px solid var(--color-brand-violet,#8549ba);outline-offset:3px}.ds-btn-primary{background:var(--color-brand-green,#58cc02);color:var(--color-ink,#1a1a2e)}.ds-app{display:flex;gap:24px;align-items:center;padding:32px;border-radius:28px;background:var(--color-wash-green,#d9f2c4);color:var(--color-ink,#1a1a2e);box-shadow:0 1px 2px rgba(26,26,46,.06),0 4px 12px -4px rgba(26,26,46,.08)}.ds-app-icon{width:96px;height:96px;flex:none;border-radius:22%;background:var(--color-brand-green,#58cc02);box-shadow:0 2px 4px rgba(26,26,46,.06),0 12px 28px -8px rgba(26,26,46,.14)}.ds-app-name{margin:0;font-family:Fredoka,system-ui,sans-serif;font-weight:700;font-size:30px;line-height:1.25}.ds-app-text{margin:8px 0 20px;max-width:65ch;font-family:Figtree,system-ui,sans-serif;font-size:16px;line-height:1.6}"
+    },
+    {
+      "name": "Tableau de difficulté",
+      "kind": "custom",
+      "refersTo": "difficulty-table",
+      "description": "Vrai tableau avec légende, en-tête gris-bleu clair, filets.",
+      "html": "<div class=\"ds-table\"><table><caption>Niveaux</caption><thead><tr><th>Niveau</th><th>Détail</th></tr></thead><tbody><tr><th>Facile</th><td>Grilles très remplies.</td></tr><tr><th>Difficile</th><td>Peu d'indices.</td></tr></tbody></table></div>",
+      "css": ".ds-table{overflow:hidden;border-radius:28px;background:var(--color-canvas,#fff);color:var(--color-ink,#1a1a2e);box-shadow:0 1px 2px rgba(26,26,46,.06),0 4px 12px -4px rgba(26,26,46,.08)}.ds-table table{width:100%;border-collapse:collapse;text-align:left}.ds-table caption{caption-side:top;padding:20px 24px 12px;font-family:Fredoka,system-ui,sans-serif;font-weight:700;font-size:18px}.ds-table thead tr{background:var(--color-canvas-soft,#f7f7fb);font-size:14px}.ds-table th,.ds-table td{padding:16px 24px;font-family:Figtree,system-ui,sans-serif;vertical-align:top}.ds-table tbody tr{border-top:1px solid var(--color-border,#e5e5e5)}.ds-table tbody th{font-family:Fredoka,system-ui,sans-serif;font-weight:700}.ds-table td{color:var(--color-text-secondary,#5b6270);line-height:1.6}"
+    },
+    {
+      "name": "Barre du site",
+      "kind": "nav",
+      "description": "Barre collante : logo et wordmark, liens pilule, sélecteur de langue.",
+      "html": "<header class=\"ds-nav\"><span class=\"ds-nav-brand\">Synapgeek</span><nav><a href=\"#\">Jeux</a><a href=\"#\">Cerebrum</a><a href=\"#\">À propos</a></nav><a class=\"ds-nav-lang\" href=\"#\">EN</a></header>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:16px;height:64px;padding:0 24px;background:rgba(255,255,255,.9);border-bottom:1px solid rgba(229,229,229,.7);font-family:Figtree,system-ui,sans-serif}.ds-nav-brand{font-family:Fredoka,system-ui,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.025em;color:var(--color-ink,#1a1a2e)}.ds-nav nav{margin-left:auto;display:flex;gap:4px}.ds-nav nav a{padding:8px 16px;border-radius:9999px;font-size:14px;font-weight:700;color:var(--color-text-secondary,#5b6270);text-decoration:none;transition:background-color .15s ease-out,color .15s ease-out}.ds-nav nav a:hover{background:var(--color-canvas-soft,#f7f7fb);color:var(--color-ink,#1a1a2e)}.ds-nav nav a:focus-visible,.ds-nav-lang:focus-visible{outline:3px solid var(--color-brand-violet,#8549ba);outline-offset:3px}.ds-nav-lang{min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;padding:0 16px;border-radius:9999px;background:var(--color-canvas-soft,#f7f7fb);font-size:14px;font-weight:700;color:var(--color-ink,#1a1a2e);text-decoration:none}.ds-nav-lang:hover{background:var(--color-wash-violet,#e4d8f4)}"
+    },
+    {
+      "name": "Champ de formulaire",
+      "kind": "input",
+      "description": "Bordure 2 px à 3:1, libellé flottant, focus violet, erreur après interaction.",
+      "html": "<div class=\"ds-input-group\"><input class=\"ds-input\" placeholder=\" \" id=\"n\"><label class=\"ds-input-label\" for=\"n\">Nom</label></div>",
+      "css": ".ds-input-group{position:relative;width:260px}.ds-input{width:100%;box-sizing:border-box;font-family:Figtree,system-ui,sans-serif;font-size:15px;padding:.9em 1em;border:2px solid var(--color-text-tertiary,#6b7280);background:var(--color-canvas,#fff);border-radius:16px;color:var(--color-ink,#1a1a2e);transition:border-color .15s ease-out}.ds-input:focus{border-color:var(--color-brand-violet,#8549ba)}.ds-input:focus-visible{outline:3px solid var(--color-brand-violet,#8549ba);outline-offset:3px}.ds-input:user-invalid{border-color:var(--color-error,#b3261e)}.ds-input-label{position:absolute;left:0;top:0;margin-left:.5em;padding:.9em 1em;font-family:Figtree,system-ui,sans-serif;font-size:15px;pointer-events:none;color:var(--color-text-tertiary,#6b7280);transition:transform .2s ease-out,margin .2s ease-out,padding .2s ease-out,color .15s ease-out}.ds-input:focus~.ds-input-label,.ds-input:not(:placeholder-shown)~.ds-input-label{transform:translateY(-50%) scale(.85);margin:0 0 0 .8em;padding:.2em .6em;background:var(--color-canvas,#fff);border-radius:8px;color:var(--color-text-secondary,#5b6270)}.ds-input:focus~.ds-input-label{color:var(--color-brand-violet,#8549ba)}.ds-input:user-invalid~.ds-input-label{color:var(--color-error,#b3261e)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "La vitrine du studio",
+    "overview": "**Creative North Star: \"La vitrine du studio\"**\n\nLe standard de la catégorie « landing de studio d'apps », exécuté proprement : un fond blanc, une encre quasi noire, un vert vif réservé à l'action, des lavis pastel qui portent les jeux, des cartes très arrondies et des boutons pilule. On n'ouvre pas sur un slogan sur dégradé, mais sur une phrase de définition et sur la vraie app dans un téléphone. La chaleur vient de la couleur des jeux et de Fredoka, pas de la décoration.\n\nLa densité est aérée : une section par idée, un seul fondu d'entrée par section, aucune parallaxe ni carrousel. La preuve visuelle est toujours réelle (captures de l'app 3.0.0 dans un cadre de téléphone dessiné en CSS, icônes des jeux, aquarelle Breeze de l'app, illustrations du Panda). Le public est adulte : les personnages sont des illustrations d'appoint, jamais des narrateurs.\n\nÉcart assumé par rapport au contrat de direction : le corps est en Figtree, non en Nunito (Nunito appartient à un autre site du même propriétaire). Le build fait foi.",
+    "keyCharacteristics": [
+      "Fond blanc, encre `#1a1a2e`, vert Synapgeek pour l'action, texte encre sur vert.",
+      "Une seule section violet profond par page, pour casser le rythme.",
+      "Couple lavis / ton profond propre à chaque jeu sur ses cartes et sa page.",
+      "Cartes de 28 px de rayon, boutons pilule, un seul bouton (`Button`, quatre variantes).",
+      "Ombres teintées encre, une échelle de trois crans, jamais décalées ni dures.",
+      "Mouvement court (150 à 250 ms, ease-out), respect de `prefers-reduced-motion`."
+    ],
+    "rules": [
+      {
+        "name": "The Ink On Green Rule",
+        "body": "Tout texte sur le vert est de l'encre. Le blanc sur vert échoue l'AA ; le bouton d'envoi du formulaire de contact suit désormais la règle (`Button` primaire).",
+        "section": "colors"
+      },
+      {
+        "name": "The One Deep Section Rule",
+        "body": "Une seule bande violet profond par page ; le focus y passe en blanc (`--focus-ring`).",
+        "section": "colors"
+      },
+      {
+        "name": "The Token Only Rule",
+        "body": "Une couleur d'état (erreur, succès, focus) vient d'un jeton de `globals.css`, jamais d'un rgba ni d'un hex posé dans un composant.",
+        "section": "colors"
+      },
+      {
+        "name": "The Wash Pair Rule",
+        "body": "Une couleur de jeu se lit toujours comme un couple : lavis en fond, ton profond en texte. Au survol, le voile éclaircit (35 % de blanc), il n'assombrit jamais, pour ne pas perdre le contraste.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Fredoka pour ce qu'on nomme (titres, noms, libellés de ligne), Figtree pour ce qu'on lit. Pas de troisième police, pas de capitales espacées.",
+        "section": "typography"
+      },
+      {
+        "name": "The 65ch Rule",
+        "body": "Toute prose est plafonnée à 65 caractères de large.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tinted Shadow Rule",
+        "body": "Toute ombre est `color-mix` de l'encre. Aucune ombre à décalage franc ni à contour dur.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** garder tout texte sur vert en encre (`#1a1a2e`), et le vert en texte clair via `brand-green-ink`.",
+      "**Do** colorer un jeu par son couple `--game-*-wash` / `--game-*-deep` via `gameColorVars`.",
+      "**Do** n'utiliser que `Button` pour une action, avec une de ses quatre variantes, formulaires compris.",
+      "**Do** signaler une erreur de champ par `error` (bordure et libellé), après interaction seulement.",
+      "**Do** laisser le ciel Breeze à 240 px de large et ses masques dans la boîte de leur élément.",
+      "**Do** faire monter une section de 16 px au plus, par la transform seule, jamais par l'opacité (un texte à opacité 0 échoue le contraste).",
+      "**Do** garder des cibles de 44 px, un anneau de focus visible, un seul H1 par page."
+    ],
+    "donts": [
+      "**Don't** ouvrir une page sur un slogan vague posé sur un dégradé : la phrase de définition et la vraie app d'abord.",
+      "**Don't** écrire un hex hors de `globals.css`, ni une couleur de jeu en dur.",
+      "**Don't** poser plus d'une section violet profond par page.",
+      "**Don't** ajouter parallaxe, carrousel automatique ou animation qui joue sur l'opacité d'un texte.",
+      "**Don't** remplacer le ciel Breeze par un fichier plus grand, ni remettre un masque sur `.breeze-clip`.",
+      "**Don't** viser l'enfant ou la famille (mots, images) ; les personnages restent des appoints.",
+      "**Don't** assombrir un lavis de jeu au survol : on éclaircit."
+    ]
+  }
+}

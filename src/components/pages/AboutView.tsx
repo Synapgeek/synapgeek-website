@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { InternalLink } from "@/components/ui/InternalLink";
 import { getDictionary } from "@/content";
 import { getAboutCopy } from "@/content/copy";
 import type { Locale } from "@/lib/i18n";
@@ -53,12 +53,12 @@ export function AboutView({ locale }: { locale: Locale }) {
       <SectionBand title={copy.what.title} width="prose">
         <p className="max-w-[65ch] text-lg leading-relaxed">{copy.what.body}</p>
         <p className="mt-6">
-          <Link
+          <InternalLink
             href={pagePath(copy.what.link.page, locale, copy.what.link.hash)}
             className={TEXT_LINK}
           >
             {copy.what.link.label}
-          </Link>
+          </InternalLink>
         </p>
         <StoreBadges
           locale={locale}

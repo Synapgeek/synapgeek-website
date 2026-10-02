@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { InternalLink } from "@/components/ui/InternalLink";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -111,7 +111,7 @@ export default async function PlayPage({
             width={96}
             height={96}
             className="mb-8 rounded-[22%] shadow-raised"
-            priority
+            preload
           />
           <h1 className="text-5xl leading-none tracking-[-0.03em] sm:text-6xl">
             Cerebrum
@@ -150,12 +150,12 @@ export default async function PlayPage({
             </a>
           </div>
 
-          <Link
+          <InternalLink
             href={pagePath("home", locale)}
             className="mt-12 rounded-sm font-bold text-ink underline underline-offset-4"
           >
             {dict.common.siteName}
-          </Link>
+          </InternalLink>
         </main>
       </body>
     </html>

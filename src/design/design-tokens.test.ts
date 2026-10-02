@@ -23,6 +23,8 @@ const SYSTEM_PAIRS: ReadonlyArray<readonly [string, string]> = [
   ["--color-canvas", "--color-ink"],
   ["--color-ink", "--color-wash-green"],
   ["--color-ink", "--color-wash-violet"],
+  ["--color-brand-green-ink", "--color-wash-green"],
+  ["--color-error", "--color-canvas"],
   ["--color-text-secondary", "--color-canvas"],
   ["--color-text-secondary", "--color-canvas-soft"],
   ["--color-text-tertiary", "--color-canvas"],

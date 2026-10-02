@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { InternalLink } from "@/components/ui/InternalLink";
 import { gameColorVars, type GameColor } from "./game-colors";
 
 type HeadingLevel = "h2" | "h3" | "h4";
@@ -61,16 +61,17 @@ export function GameCard({
           />
         </div>
       </div>
-      {/* Hauteur mini : les noms restent alignés d'une carte à l'autre, genre ou non. */}
-      <div className="min-h-[6.25rem] px-3 pt-1 pb-5 text-center">
+      {/* Bloc nom, genre, plateformes collé au bas de la carte : les lignes de plateformes
+          s'alignent d'une carte à l'autre, avec ou sans genre. */}
+      <div className="mt-auto flex min-h-[6.25rem] flex-col justify-end px-3 pt-1 pb-5 text-center">
         <Heading className="font-display text-lg leading-tight sm:text-xl">
           {interactive ? (
-            <Link
+            <InternalLink
               href={href}
               className="after:absolute after:inset-0 focus-visible:outline-transparent"
             >
               {name}
-            </Link>
+            </InternalLink>
           ) : (
             name
           )}

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { InternalLink } from "@/components/ui/InternalLink";
 import { Button } from "@/components/ui/Button";
 import { SectionBand } from "@/components/ui/SectionBand";
 import { PUBLISHER } from "@/content/publisher";
@@ -33,12 +33,12 @@ export function ContactBand({
         <ul role="list" className="mt-6 flex flex-wrap gap-x-6 gap-y-1">
           {links.map(({ label, href }) => (
             <li key={href}>
-              <Link
+              <InternalLink
                 href={href}
                 className="inline-block rounded-sm py-1.5 font-bold text-canvas underline underline-offset-4"
               >
                 {label}
-              </Link>
+              </InternalLink>
             </li>
           ))}
         </ul>

@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/Badge";
 import type { LegalSection } from "@/content/types";
 import {
   splitLegalBlocks,
@@ -81,9 +80,9 @@ export function LegalPage({
           <h1 className="text-4xl leading-tight tracking-tight sm:text-5xl">
             {title}
           </h1>
-          <Badge color="purple" className="mt-5">
+          <p className="mt-5 inline-flex rounded-pill bg-wash-violet px-3 py-1 text-sm font-bold text-ink">
             {lastUpdated}
-          </Badge>
+          </p>
         </div>
       </header>
 

@@ -10,8 +10,9 @@ const SCREEN_HEIGHT = 1738;
  * Téléphone dessiné en CSS autour d'une capture réelle de l'app. Composant
  * serveur : l'image reste rendue côté serveur (et peut donc être le LCP).
  * `priority` ne se pose que si l'appelant dit que cette capture est le LCP,
- * c'est-à-dire sur le héros : préchargement ET `fetchpriority="high"` (Next ne
- * pose que le premier) ; partout ailleurs elle charge paresseusement.
+ * c'est-à-dire sur le héros : `preload` (la propriété `priority` de next/image est
+ * dépréciée depuis Next 16) ET `fetchpriority="high"` (`preload` ne pose que le
+ * premier) ; partout ailleurs elle charge paresseusement.
  * `rotate` est l'inclinaison de repos en degrés (le suivi du pointeur,
  * `TiltOnPointer`, s'ajoute par-dessus).
  */
@@ -43,7 +44,7 @@ export function PhoneFrame({
             width={SCREEN_WIDTH}
             height={SCREEN_HEIGHT}
             sizes={sizes}
-            priority={priority}
+            preload={priority}
             fetchPriority={priority ? "high" : undefined}
           />
         </div>

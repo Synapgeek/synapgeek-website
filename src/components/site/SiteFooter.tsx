@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { InternalLink } from "@/components/ui/InternalLink";
 import { Languages } from "lucide-react";
 import type { Dictionary } from "@/content";
 import type { Locale } from "@/lib/i18n";
@@ -34,7 +34,7 @@ export function SiteFooter({
       <div className="mx-auto max-w-6xl px-gutter py-12 md:py-16">
         <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
           <div>
-            <Link
+            <InternalLink
               href={pagePath("home", locale)}
               className="inline-flex items-center gap-2.5 rounded-pill"
             >
@@ -47,7 +47,7 @@ export function SiteFooter({
               <span className="font-display text-2xl font-bold tracking-tight">
                 {dict.siteName}
               </span>
-            </Link>
+            </InternalLink>
             <p className="mt-3 max-w-xs text-sm text-text-secondary">
               {dict.tagline}
             </p>
@@ -75,20 +75,20 @@ export function SiteFooter({
               <p className={headingClasses}>{footer.productHeading}</p>
               <ul>
                 <li>
-                  <Link
+                  <InternalLink
                     href={pagePath("home", locale, "games")}
                     className={linkClasses}
                   >
                     {nav.games}
-                  </Link>
+                  </InternalLink>
                 </li>
                 <li>
-                  <Link
+                  <InternalLink
                     href={pagePath("cerebrum", locale)}
                     className={linkClasses}
                   >
                     {nav.cerebrum}
-                  </Link>
+                  </InternalLink>
                 </li>
               </ul>
             </div>
@@ -96,28 +96,28 @@ export function SiteFooter({
               <p className={headingClasses}>{footer.studioHeading}</p>
               <ul>
                 <li>
-                  <Link
+                  <InternalLink
                     href={pagePath("about", locale)}
                     className={linkClasses}
                   >
                     {nav.about}
-                  </Link>
+                  </InternalLink>
                 </li>
                 <li>
-                  <Link
+                  <InternalLink
                     href={pagePath("press", locale)}
                     className={linkClasses}
                   >
                     {nav.press}
-                  </Link>
+                  </InternalLink>
                 </li>
                 <li>
-                  <Link
+                  <InternalLink
                     href={pagePath("home", locale, "contact")}
                     className={linkClasses}
                   >
                     {footer.contact}
-                  </Link>
+                  </InternalLink>
                 </li>
               </ul>
             </div>
@@ -125,28 +125,28 @@ export function SiteFooter({
               <p className={headingClasses}>{footer.legalHeading}</p>
               <ul>
                 <li>
-                  <Link
+                  <InternalLink
                     href={pagePath("privacy", locale)}
                     className={linkClasses}
                   >
                     {footer.privacy}
-                  </Link>
+                  </InternalLink>
                 </li>
                 <li>
-                  <Link
+                  <InternalLink
                     href={pagePath("terms", locale)}
                     className={linkClasses}
                   >
                     {footer.terms}
-                  </Link>
+                  </InternalLink>
                 </li>
                 <li>
-                  <Link
+                  <InternalLink
                     href={pagePath("legal", locale)}
                     className={linkClasses}
                   >
                     {footer.legalNotice}
-                  </Link>
+                  </InternalLink>
                 </li>
                 <li>
                   <ReopenConsentLink

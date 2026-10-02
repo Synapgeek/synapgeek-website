@@ -22,14 +22,14 @@ export const minesweeperFr: GameCopy = {
       "Une case sans aucune mine voisine ne porte pas de chiffre : elle ouvre d'un coup toutes ses voisines, et la zone s'étend de proche en proche.",
       "Dans Cerebrum, touchez une case pour l'ouvrir. Pour poser un drapeau, restez appuyé sur la case ; restez appuyé de nouveau pour le retirer. Plusieurs mines à marquer d'affilée ? Le bouton Drapeau de la barre évite de maintenir à chaque fois.",
       "Quand un chiffre a déjà autant de drapeaux autour de lui que sa valeur, touchez-le : Cerebrum ouvre d'un coup toutes ses autres voisines. Sur les grandes grilles, pincez pour zoomer.",
-      "Toucher une mine coûte un cœur sur trois, et la case reste marquée. Au troisième, la partie s'arrête. Le tout premier toucher est aveugle et peut lui aussi tomber sur une mine ; ensuite, dès qu'une zone s'ouvre, le reste de la grille se déduit.",
+      "Toucher une mine coûte un cœur sur trois, et la case reste marquée. Au troisième, la partie s'arrête.",
     ],
   },
   whatCerebrumAdds: {
     title: "Ce que Cerebrum ajoute au démineur",
     paragraphs: [
       "Dans Cerebrum, vous progressez de grille en grille dans la difficulté de votre choix. Quand son parcours est terminé, le mode Infini sert d'autres champs de mines de cette même difficulté.",
-      "Le démineur s'ouvre sur une courte fiche « Comment jouer » de quatre pages : les chiffres, le premier toucher, le drapeau, les cœurs et l'indice. Sur le premier niveau Facile, des cases en surbrillance indiquent où creuser et où poser un drapeau, et chaque geste reste le vôtre. Aucun cœur n'est en jeu et le chrono est coupé ; vous finissez ensuite seul les cases restantes, et Passer permet de commencer sans le guide.",
+      "Le démineur s'ouvre sur une courte fiche « Comment jouer » de quatre pages : les chiffres, le premier toucher, le drapeau, les cœurs et l'indice. Sur le premier niveau Facile, des cases en surbrillance indiquent où ouvrir et où poser un drapeau, et chaque geste reste le vôtre. Aucun cœur n'est en jeu et le chrono est coupé ; vous finissez ensuite seul les cases restantes. Un bouton Passer apparaît dès la deuxième étape si vous préférez continuer sans le guide.",
       "Le compteur de mines, toujours affiché en haut, donne le nombre de mines de la grille moins vos drapeaux. Posez un drapeau de trop et il passe sous zéro : il vous signale ainsi que l'un de vos drapeaux est faux.",
       "Une mine touchée coûte un cœur, et la grille reste gagnable : la case reste marquée d'un drapeau, ce qui garde le compteur juste. Après le troisième cœur, vous pouvez reprendre ce même champ de mines, deux fois au plus, avec deux cœurs rendus à chaque fois.",
       "L'indice ouvre pour vous la prochaine case sûre, avec la cascade habituelle. Il laisse vos drapeaux tranquilles, sauf si la case qu'il ouvre porte un faux drapeau : il le retire d'abord.",

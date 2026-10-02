@@ -27,7 +27,7 @@ export function FactTable({
           className="grid gap-1 border-t border-border py-4 sm:grid-cols-[minmax(9rem,1fr)_2fr] sm:gap-8 sm:py-5"
         >
           <dt className="font-display text-base font-bold">{label}</dt>
-          <dd className="max-w-[65ch] text-base leading-relaxed text-text-secondary">
+          <dd className="max-w-[65ch] text-base tabular-nums leading-relaxed text-text-secondary">
             {value}
           </dd>
         </div>

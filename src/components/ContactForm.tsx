@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import Script from "next/script";
+import { Button } from "@/components/ui/Button";
 import { trackEvent } from "@/lib/gtag";
 import type { Dictionary } from "@/content/types";
 
@@ -121,12 +122,12 @@ export function ContactForm({ dict }: { dict: ContactFormDict }) {
       {status === "success" ? (
         <div
           role="status"
-          className="rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center"
+          className="rounded-2xl border border-brand-green-ink/20 bg-wash-green/40 p-8 text-center"
         >
           {/* Checkmark circle */}
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-wash-green">
             <svg
-              className="h-7 w-7 text-primary"
+              className="h-7 w-7 text-brand-green-ink"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -140,7 +141,9 @@ export function ContactForm({ dict }: { dict: ContactFormDict }) {
               />
             </svg>
           </div>
-          <p className="text-xl font-bold text-primary">{dict.successTitle}</p>
+          <p className="text-xl font-bold text-brand-green-ink">
+            {dict.successTitle}
+          </p>
           <p className="mt-2 text-sm leading-relaxed text-text-secondary">
             {dict.successBody}
           </p>
@@ -242,25 +245,24 @@ export function ContactForm({ dict }: { dict: ContactFormDict }) {
           {status === "error" && (
             <div
               role="alert"
-              className="rounded-xl border border-accent-coral/20 bg-accent-coral/5 px-4 py-3"
+              className="rounded-xl border border-error/30 bg-error/5 px-4 py-3"
             >
-              <p className="text-center text-sm text-accent-coral">
-                {dict.error}
-              </p>
+              <p className="text-center text-sm text-error">{dict.error}</p>
             </div>
           )}
 
           <div className="pt-2">
             {hasRecaptchaKey ? (
-              <button
+              <Button
                 type="submit"
+                size="lg"
+                className="w-full"
                 disabled={
                   !recaptchaToken || status === "sending" || !recaptchaReady
                 }
-                className="w-full rounded-xl bg-primary px-8 py-4 text-base font-bold text-white shadow-md shadow-primary/20 transition-all duration-300 hover:scale-[1.02] hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:scale-100"
               >
                 {status === "sending" ? (
-                  <span className="inline-flex items-center gap-2">
+                  <>
                     <svg
                       className="h-4 w-4 animate-spin"
                       viewBox="0 0 24 24"
@@ -282,11 +284,11 @@ export function ContactForm({ dict }: { dict: ContactFormDict }) {
                       />
                     </svg>
                     {dict.sending}
-                  </span>
+                  </>
                 ) : (
                   dict.submit
                 )}
-              </button>
+              </Button>
             ) : (
               <p
                 role="status"
