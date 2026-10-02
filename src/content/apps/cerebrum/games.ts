@@ -128,7 +128,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_2,
     contentLocales: ["fr", "en"],
     color: { wash: "--game-crossword-wash", deep: "--game-crossword-deep" },
-    published: false,
+    published: true,
     icon: icon("crossword"),
     screenshot: screenshot("crossword"),
   },

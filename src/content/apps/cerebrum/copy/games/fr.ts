@@ -1,5 +1,6 @@
 import type { GameId } from "@/content/apps";
 import { arrowMazeFr } from "./arrow-maze.fr";
+import { crosswordFr } from "./crossword.fr";
 import { minesweeperFr } from "./minesweeper.fr";
 import { pandokuFr } from "./pandoku.fr";
 import { pixelArtFr } from "./pixel-art.fr";
@@ -16,4 +17,5 @@ export const gamesFr: Partial<Record<GameId, GameCopy>> = {
   minesweeper: minesweeperFr,
   "pixel-art": pixelArtFr,
   "arrow-maze": arrowMazeFr,
+  crossword: crosswordFr,
 };
