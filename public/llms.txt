@@ -46,7 +46,7 @@ Synapgeek est un studio français indépendant qui crée des applications mobile
 
 ### Bon à savoir
 
-- Pas de réseau ? Tout reste jouable, défi du jour et série compris. Si vous êtes connecté, votre progression se synchronise au retour en ligne.
+- Pas de réseau ? Tout reste jouable, défi du jour et série compris. Si vous êtes connecté à un compte, votre progression se synchronise au retour en ligne.
 - Jouez en invité dès le premier lancement. La connexion est facultative, avec Apple, Google ou Facebook sur iPhone, iPad et Android. Votre progression suit alors votre compte d'un appareil à l'autre, sur iPhone, iPad et Android.
 - L'app existe en 16 langues. Les grilles de Mots Croisés et de Mots Mêlés n'existent qu'en français et en anglais. Dans les 14 autres langues, ces deux jeux et leurs packs de thèmes sont masqués.
 - Cerebrum fonctionne sur iPhone et iPad à partir d'iOS 17.0, et sur Android à partir d'Android 8.0.
