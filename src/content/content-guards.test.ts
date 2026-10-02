@@ -246,6 +246,13 @@ const APP_WIDE_ALLOWLIST: ReadonlyArray<{
     why: "Crossword grids exist in French and English only, and the game is hidden in other interface languages",
   },
   {
+    game: "word-search",
+    topics: ["languages"],
+    // Les grilles n'existent qu'en français et en anglais, et le jeu est masqué
+    // dans les autres langues de l'app : nommer ces deux langues est le contenu.
+    why: "Word Search grids exist in French and English only, and the game is hidden in other interface languages",
+  },
+  {
     game: "pixel-art",
     topics: ["languages"],
     // Le nom du dessin dévoilé à la victoire suit la langue de l'interface.
