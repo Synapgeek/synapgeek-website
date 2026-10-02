@@ -21,7 +21,7 @@ export const sudokuFr: GameCopy = {
       "Votre but : remplir les cases vides pour que chaque ligne, chaque colonne et chaque carré contienne les chiffres de 1 à 9, sans aucun doublon.",
       "Dans Cerebrum, touchez une case, puis un chiffre sur le pavé. Pour noter plusieurs possibilités dans une case, activez Notes avant de toucher les chiffres.",
       "Chaque chiffre est vérifié dès que vous le posez : un chiffre faux compte pour une erreur, et trois erreurs mettent fin à la partie. Vous gagnez quand la grille est entièrement juste.",
-      "Bloqué ? Le bouton Indice remplit une case et vous explique, étape par étape, la technique qui permet de la trouver.",
+      "Bloqué ? Le bouton Indice vous montre la prochaine étape du raisonnement : il explique la technique pas à pas, puis révèle le chiffre.",
     ],
   },
   whatCerebrumAdds: {
@@ -29,10 +29,10 @@ export const sudokuFr: GameCopy = {
     paragraphs: [
       "Le sudoku de Cerebrum est la grille classique de 9×9, sans variante. Vous avancez de niveau en niveau dans la difficulté de votre choix ; quand vous avez terminé le parcours d'une difficulté, le mode Infini s'ouvre et enchaîne de nouvelles grilles.",
       "Sous la grille, quatre boutons : Annuler, Effacer, Notes et Indice. Les doublons sont mis en évidence, les notes disparaissent d'elles-mêmes des cases liées quand vous posez un chiffre, et une touche du pavé se grise dès que ses neuf exemplaires corrects sont en place.",
-      "L'indice ne se contente pas de donner la réponse : il révèle une case et explique pas à pas la technique à l'œuvre, de quoi mieux aborder la grille suivante. « Remplir les notes » complète les notes à votre place.",
-      "Trois erreurs et la partie est perdue, mais une seconde chance vous est proposée avant de perdre la grille.",
+      "L'indice ne se contente pas de donner la réponse : il montre la prochaine étape du raisonnement et nomme la technique à l'œuvre, de quoi mieux aborder la grille suivante. Pour certaines techniques avancées, il retire à la place les candidats impossibles de vos notes. Quand un indice a besoin de vos notes, Cerebrum propose de les remplir à votre place.",
+      "Trois erreurs et la partie est perdue, mais une seconde chance vous est proposée, deux fois au plus, avec deux cœurs rendus à chaque fois.",
       "Les étoiles se comptent aux erreurs : trois pour une grille sans faute, deux pour une erreur, une dès la deuxième. Les indices ne comptent pas dans les étoiles. Le score récompense une grille rapide, propre et sans trop d'indices, et la difficulté le multiplie.",
-      "Le sudoku figure aussi parmi les jeux que vous pouvez choisir pour le défi du jour, en Facile ou en Moyen : la grille est la même pour tout le monde, et un jour manqué se rattrape dans le calendrier.",
+      "Le sudoku figure aussi parmi les jeux que vous pouvez choisir pour le défi du jour. L'app fixe la difficulté du jour, Facile ou Moyen, et la grille est la même pour tout le monde.",
     ],
     difficultyTable: {
       caption: "Les difficultés du sudoku dans Cerebrum",
@@ -55,7 +55,7 @@ export const sudokuFr: GameCopy = {
         {
           difficulty: "elite",
           detail:
-            "De 24 à 28 chiffres déjà placés. S'ouvre au fil de votre progression en Difficile.",
+            "De 24 à 28 chiffres déjà placés (jusqu'à 29 en mode Infini), sur des grilles qui demandent un raisonnement plus avancé. S'ouvre au fil de votre progression en Difficile.",
         },
       ],
     },
@@ -90,7 +90,7 @@ export const sudokuFr: GameCopy = {
       {
         question: "Que fait le bouton Indice ?",
         answer:
-          "Il révèle une case et explique, étape par étape, la technique qui permet de la trouver : vous apprenez la méthode, pas seulement la réponse. Les indices ne comptent pas dans les étoiles.",
+          "Il vous guide pas à pas dans le raisonnement et nomme la technique à l'œuvre. Il finit en général par révéler le chiffre ; avec quelques techniques avancées, il retire plutôt les candidats impossibles de vos notes.",
       },
       {
         question: "Y a-t-il des variantes du sudoku dans Cerebrum ?",
@@ -100,7 +100,7 @@ export const sudokuFr: GameCopy = {
       {
         question: "Peut-on choisir le sudoku pour le défi du jour ?",
         answer:
-          "Oui, en Facile ou en Moyen. Tous ceux qui le choisissent ce jour-là reçoivent la même grille.",
+          "Oui. La difficulté, Facile ou Moyen, est fixée par l'app pour la journée, pas par vous, et tous ceux qui jouent au sudoku ce jour-là reçoivent la même grille.",
       },
     ],
   },
