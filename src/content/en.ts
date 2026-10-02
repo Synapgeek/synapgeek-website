@@ -78,9 +78,9 @@ const en: Dictionary = {
       premiumLink: "What Premium adds",
     },
     gameDaily: {
-      line: "Daily challenge: pick {game} and the app sets the day's grid on {difficulties}. Everyone plays the same one.",
-      languageNote:
-        "The grid is drawn in the app's language, so players in English and players in French do not get the same one.",
+      line: "Daily challenge: pick {game} and the app sets the day's grid on {difficulties}, the same for every player.",
+      lineByLanguage:
+        "Daily challenge: pick {game} and the app sets the day's grid on {difficulties}, the same for every player in your app's language, English or French.",
     },
     contactForm: {
       name: "Name",

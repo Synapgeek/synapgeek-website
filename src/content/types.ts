@@ -124,12 +124,15 @@ export interface Dictionary {
     /**
      * Défi du jour d'une page jeu, dit une seule fois par le gabarit (ruling R7) :
      * la mécanique est celle de l'app, seules les difficultés viennent du registre.
-     * `{game}` et `{difficulties}` sont remplacés ; `languageNote` ne s'ajoute
-     * qu'aux jeux dont la grille suit la langue de l'app (Mots croisés, Mots mêlés).
+     * `{game}` (facultatif : le français n'en a pas besoin, les noms de jeu y
+     * demandent un article) et `{difficulties}` sont remplacés. `lineByLanguage`
+     * remplace `line` pour les jeux dont la grille suit la langue de l'app
+     * (Mots croisés, Mots mêlés) : une phrase de plus au lieu d'une note qui
+     * corrigerait la première.
      */
     gameDaily: {
       line: string;
-      languageNote: string;
+      lineByLanguage: string;
     };
     contactForm: {
       name: string;

@@ -78,9 +78,9 @@ const fr: Dictionary = {
       premiumLink: "Ce que Premium apporte",
     },
     gameDaily: {
-      line: "Défi du jour : choisissez {game} et l'app fixe la grille du jour, en {difficulties}. Tout le monde reçoit la même grille.",
-      languageNote:
-        "La grille est tirée dans la langue de l'app : les joueurs en français et ceux en anglais n'ont pas la même.",
+      line: "Défi du jour : si vous choisissez ce jeu, l'app tire la grille du jour en difficulté {difficulties}, la même pour tous.",
+      lineByLanguage:
+        "Défi du jour : si vous choisissez ce jeu, l'app tire la grille du jour en difficulté {difficulties}, la même pour tous ceux qui jouent dans la même langue, français ou anglais.",
     },
     contactForm: {
       name: "Nom",
