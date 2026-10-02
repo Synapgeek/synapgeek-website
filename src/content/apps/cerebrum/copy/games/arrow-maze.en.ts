@@ -101,8 +101,4 @@ export const arrowMazeEn: GameCopy = {
       },
     ],
   },
-  whereToPlay: {
-    title: "Play Arrow Maze",
-    body: "Arrow Maze is played with a fingertip: you tap a piece to send it out, drag to move around and pinch to zoom.",
-  },
 };

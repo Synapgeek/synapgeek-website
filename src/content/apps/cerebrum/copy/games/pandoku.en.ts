@@ -104,8 +104,4 @@ export const pandokuEn: GameCopy = {
       },
     ],
   },
-  whereToPlay: {
-    title: "Play Pandoku on iPhone, iPad and Android",
-    body: "Pandoku lives in Cerebrum, the brain games app by Synapgeek. It is free to download and works without a connection, on the commute, in a waiting room, or whenever you have five minutes. Install it from the App Store on iPhone and iPad, or from Google Play on Android.",
-  },
 };

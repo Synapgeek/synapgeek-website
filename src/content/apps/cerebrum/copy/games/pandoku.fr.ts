@@ -105,8 +105,4 @@ export const pandokuFr: GameCopy = {
       },
     ],
   },
-  whereToPlay: {
-    title: "Jouer à Pandoku sur iPhone, iPad et Android",
-    body: "Pandoku se joue dans Cerebrum, l'app de jeux de réflexion de Synapgeek, gratuite et utilisable sans connexion : dans le métro, en salle d'attente, ou dès que vous avez cinq minutes. Installez-la depuis l'App Store sur iPhone et iPad, ou depuis Google Play sur Android.",
-  },
 };

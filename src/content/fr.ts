@@ -57,6 +57,12 @@ const fr: Dictionary = {
       appStoreLabel: "Télécharger dans l'App Store",
       googlePlayLabel: "Disponible sur Google Play",
     },
+    gameGet: {
+      title: "Télécharger Cerebrum",
+      model:
+        "Téléchargement gratuit, avec une bannière pendant la partie et des pubs entre certaines parties. Les pubs récompensées restent toujours facultatives. Avec Premium (hebdomadaire, mensuel ou annuel, souscrit dans chaque boutique), zéro pub imposée et des avantages en plus.",
+      premiumLink: "Ce que Premium apporte",
+    },
     contactForm: {
       name: "Nom",
       email: "Email",

@@ -107,8 +107,4 @@ export const minesweeperEn: GameCopy = {
       },
     ],
   },
-  whereToPlay: {
-    title: "Play Minesweeper on iPhone, iPad and Android",
-    body: "Minesweeper is played in Cerebrum, the brain games app by Synapgeek, which is free to download. The smallest grids, 9×8 on Easy, are small enough for a short break or a queue. Cerebrum is on the App Store for iPhone and iPad, and on Google Play for Android.",
-  },
 };

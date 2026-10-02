@@ -92,6 +92,17 @@ export interface Dictionary {
       cta: string;
     };
     stores: StoreLabels;
+    /**
+     * Fin de page de chaque page jeu : le modèle économique de l'app, dit une
+     * seule fois ici (ruling R5) et jamais dans la copie d'un jeu.
+     */
+    gameGet: {
+      title: string;
+      /** Gratuit avec pubs, pubs récompensées facultatives, Premium : jamais « sans pub », aucun prix. */
+      model: string;
+      /** Libellé du lien vers la page de l'app. */
+      premiumLink: string;
+    };
     contactForm: {
       name: string;
       email: string;

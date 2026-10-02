@@ -101,8 +101,4 @@ export const sudokuEn: GameCopy = {
       },
     ],
   },
-  whereToPlay: {
-    title: "Play Sudoku on your phone",
-    body: "Sudoku is in Cerebrum, the puzzle games app by Synapgeek. It is free to download and works offline on iPhone, iPad and Android. Pick your store to install it.",
-  },
 };

@@ -101,8 +101,4 @@ export const arrowMazeFr: GameCopy = {
       },
     ],
   },
-  whereToPlay: {
-    title: "Jouer à Arrow Maze",
-    body: "Arrow Maze se joue du bout du doigt : on touche une pièce pour la faire sortir, on glisse pour se déplacer et on pince pour zoomer.",
-  },
 };

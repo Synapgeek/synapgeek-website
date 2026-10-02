@@ -104,8 +104,4 @@ export const sudokuFr: GameCopy = {
       },
     ],
   },
-  whereToPlay: {
-    title: "Jouer au sudoku sur votre téléphone",
-    body: "Le sudoku est dans Cerebrum, l'app de jeux de réflexion de Synapgeek : elle se télécharge gratuitement et fonctionne hors ligne sur iPhone, iPad et Android. Choisissez votre boutique pour l'installer.",
-  },
 };

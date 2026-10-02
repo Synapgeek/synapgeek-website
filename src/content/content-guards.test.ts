@@ -673,7 +673,6 @@ function fixtureGame(overrides: Partial<GameCopy> = {}): GameCopy {
         answer: `Answer ${n}.`,
       })),
     },
-    whereToPlay: { title: "Where to play", body: "In Cerebrum." },
     ...overrides,
   };
 }

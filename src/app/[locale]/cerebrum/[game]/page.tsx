@@ -218,11 +218,17 @@ export default async function GamePage({ params }: { params: Params }) {
       <SectionBand
         id="get-it"
         tone="violet-deep"
-        title={copy.whereToPlay.title}
+        title={dict.common.gameGet.title}
         width="prose"
       >
         <p className="max-w-[65ch] text-lg leading-relaxed">
-          {copy.whereToPlay.body}
+          {dict.common.gameGet.model}{" "}
+          <Link
+            href={pagePath("cerebrum", locale)}
+            className="rounded-sm font-bold text-canvas underline underline-offset-4"
+          >
+            {dict.common.gameGet.premiumLink}
+          </Link>
         </p>
         <StoreBadges
           locale={locale}

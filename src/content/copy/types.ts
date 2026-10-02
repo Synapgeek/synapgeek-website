@@ -54,8 +54,6 @@ export interface GameCopy extends Dated {
   tips: { title: string; items: readonly string[] };
   /** 3 à 6 questions. */
   faq: { title: string; items: readonly FaqEntry[] };
-  /** Où jouer : une phrase en texte brut, au-dessus des badges des boutiques. */
-  whereToPlay: { title: string; body: string };
 }
 
 export interface AppCopy extends Dated {

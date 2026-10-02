@@ -57,6 +57,12 @@ const en: Dictionary = {
       appStoreLabel: "Download on the App Store",
       googlePlayLabel: "Get it on Google Play",
     },
+    gameGet: {
+      title: "Get Cerebrum",
+      model:
+        "Free to download, with a banner during play and ads between some games. Rewarded ads are always optional. Premium, weekly, monthly or yearly and bought in each store, means no forced ads, plus extra perks.",
+      premiumLink: "What Premium adds",
+    },
     contactForm: {
       name: "Name",
       email: "Email",

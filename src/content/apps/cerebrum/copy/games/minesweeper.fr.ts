@@ -106,8 +106,4 @@ export const minesweeperFr: GameCopy = {
       },
     ],
   },
-  whereToPlay: {
-    title: "Jouer au démineur sur iPhone, iPad et Android",
-    body: "Le démineur se joue dans Cerebrum, l'app de Synapgeek, téléchargeable gratuitement. Les plus petites grilles, des 9×8 en Facile, tiennent dans une pause ou une file d'attente. Cerebrum est sur l'App Store pour iPhone et iPad, et sur Google Play pour Android.",
-  },
 };
