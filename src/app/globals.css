@@ -37,6 +37,9 @@
   --color-accent-teal: #2dd4bf;
   --color-border: #e5e5e5;
 
+  /* Erreur de saisie : texte et bordure, AA sur canvas et canvas-soft */
+  --color-error: #b3261e;
+
   /* Texte secondaire et tertiaire : AA sur canvas et canvas-soft */
   --color-text-secondary: #5b6270;
   --color-text-tertiary: #6b7280;
@@ -255,7 +258,13 @@
   animation: fade-in-up 0.6s ease-out both;
 }
 
-/* ===== INPUT GROUP — UIverse-inspired floating labels ===== */
+/* ===== CHAMPS DU FORMULAIRE — libellé flottant =====
+   Jetons seulement. Bordure au repos en text-tertiary (4,8:1 sur blanc : un champ
+   doit se distinguer de son fond à 3:1, WCAG 1.4.11). Focus : l'anneau violet
+   global (:focus-visible, 3 px décalé de 3 px) plus la bordure violette, jamais
+   le vert (2,1:1 sur blanc). Invalide : bordure --color-error, après une
+   interaction seulement (:user-invalid). Les transitions ne portent que sur ce
+   qui change, 150 à 200 ms. */
 .input-group {
   position: relative;
 }
@@ -263,34 +272,45 @@
 .input-field {
   font-size: 0.9375rem;
   padding: 0.9em 1em;
-  outline: none;
-  border: 2px solid var(--color-border);
-  background-color: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(4px);
+  border: 2px solid var(--color-text-tertiary);
+  background-color: var(--color-canvas);
   border-radius: 16px;
   width: 100%;
-  transition: all 0.3s ease;
-  color: var(--color-text-primary);
+  transition: border-color 150ms ease-out;
+  color: var(--color-ink);
 }
 
 /* Select natif habillé comme .input-field. `appearance: none` retire la flèche
-   du système, donc on en redessine une : sans elle, plus rien n'indique que le
-   champ se déroule. Le padding droit lui réserve sa place. */
+   du système, donc on en redessine une (deux dégradés qui forment un triangle,
+   en encre : une URL data: ne peut pas lire un jeton) : sans elle, plus rien
+   n'indique que le champ se déroule. Le padding droit lui réserve sa place. */
 .input-field:is(select) {
   appearance: none;
   padding-right: 2.75rem;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--color-ink) 50%),
+    linear-gradient(135deg, var(--color-ink) 50%, transparent 50%);
   background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 1.1em;
+  background-position:
+    calc(100% - 1.4rem) 50%,
+    calc(100% - 1.05rem) 50%;
+  background-size: 0.35rem 0.35rem;
   cursor: pointer;
 }
 
 .input-field:focus {
-  border-color: var(--color-primary);
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 0 3px
-    color-mix(in oklch, var(--color-primary) 12%, transparent);
+  border-color: var(--color-brand-violet);
+}
+
+.input-field:user-invalid {
+  border-color: var(--color-error);
+}
+
+.input-field:disabled {
+  background-color: var(--color-canvas-soft);
+  border-color: var(--color-border);
+  color: var(--color-text-tertiary);
+  cursor: not-allowed;
 }
 
 .input-label {
@@ -301,7 +321,12 @@
   padding: 0.9em 1em;
   margin-left: 0.5em;
   pointer-events: none;
-  transition: all 0.3s ease;
+  transition:
+    transform 200ms ease-out,
+    margin 200ms ease-out,
+    padding 200ms ease-out,
+    color 150ms ease-out,
+    background-color 150ms ease-out;
   color: var(--color-text-tertiary);
 }
 
@@ -311,13 +336,22 @@
   margin: 0;
   margin-left: 0.8em;
   padding: 0.2em 0.6em;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: var(--color-canvas);
   border-radius: 8px;
-  color: var(--color-primary);
+  color: var(--color-text-secondary);
 }
 
-.input-field:not(:placeholder-shown):not(:focus) ~ .input-label {
-  color: var(--color-text-secondary);
+.input-field:focus ~ .input-label {
+  color: var(--color-brand-violet);
+}
+
+.input-field:user-invalid ~ .input-label {
+  color: var(--color-error);
+}
+
+.input-field:disabled ~ .input-label {
+  background-color: var(--color-canvas-soft);
+  color: var(--color-text-tertiary);
 }
 
 /* ===== REDUCED MOTION ===== */
