@@ -293,9 +293,11 @@ en `redirect: "manual"` : statut et `Location` réels. Sans argument il contrôl
 affiché). Il couvre : pages légales (langue, canonical, hreflang), ancres, `/en` et ses
 variantes avec query, redirections `/en/<page>`, `/account-deletion`, matrice de `/cerebrum/play`
 et de ses alias par User-Agent, `.well-known`, pages jeu et sections (canonical, hreflang
-réciproques, une `og:image` 200 `image/png`), segments inconnus en 404 (`/de/inconnu`,
-`/fr/cerebrum/inconnu`, avec un seul `<title>` ; les slugs de l'autre langue sont gardés par
-les tests vitest), l'absence de préchargement des liens d'un seul segment, la redirection en 308 de chaque chemin vers l'apex sur `www`, sitemap sans
+réciproques, une `og:image` 200 `image/png`), sondes 404 (statut 404, sans `Location`) : les slugs de l'autre langue (`/fr/cerebrum/crossword`,
+`/cerebrum/mots-croises`, `/fr/cerebrum/word-search`, `/cerebrum/mots-meles`, `/fr/cerebrum/maze`,
+`/cerebrum/labyrinthe`, `/fr/about`, `/fr/press`, `/a-propos`, `/presse`), un slug inconnu
+(`/cerebrum/inconnu`) et deux 404 qui portent en plus un seul `<title>` : `/de/inconnu` (exactement
+« Page not found | Synapgeek ») et `/fr/cerebrum/inconnu` ; l'absence de préchargement des liens d'un seul segment, la redirection en 308 de chaque chemin vers l'apex sur `www`, sitemap sans
 URL interdite et à 34 `<loc>` qui répondent toutes 200. Il n'est pas dans la CI : à lancer contre
 `next start` avant tout merge qui touche routage, redirects, proxy ou `.well-known`, puis contre
 la production juste après le merge. Ses listes de slugs sont des copies de `page-slugs.ts` : les

@@ -50,6 +50,7 @@ d'AdMob. Brief produit : `PRODUCT.md`.
 ```bash
 npm run dev             # développement
 npm run build           # build de production
+npm run start           # serveur de production (build préalable) ; cible locale de check:contract
 npm run lint            # ESLint
 npm test                # vitest : routes, redirections, JSON-LD, sitemap, gardes de copie, design
 npm run format          # Prettier : ÉCRIT les fichiers (npx prettier --check pour vérifier)
@@ -92,9 +93,12 @@ sur `/` et `/fr` (jamais renommée ni retirée). Liens internes : `pagePath()` d
 
 - **JAMAIS casser** `/privacy`, `/terms`, `/legal`, `/account-deletion` (+ pendants `/en/`, `/fr/`),
   `/cerebrum/play`, `/play`, `/jouer`, les deux `/.well-known/*` ni `#contact`. Un 404 sur une URL
-  légale peut faire rejeter Cerebrum par Apple ou Google. `www.synapgeek.com` est aussi critique
-  que l'apex : host des App Links Android, site de contact de la fiche Play, anciennes
-  installations (Android 3.0.0 construit ses liens sur l'apex, comme iOS).
+  légale peut faire rejeter Cerebrum par Apple ou Google. `www.synapgeek.com` reste critique pour
+  les URLs référencées par les stores (site de contact de la fiche Play, anciennes installations ;
+  Android 3.0.0 construit ses liens sur l'apex, comme iOS). Mais en production `www/*` répond 308
+  vers l'apex, `/.well-known` compris (lignes `www` de `check:contract`) : la vérification Android
+  App Links sur `www` ne peut donc pas aboutir. Le sujet des liens web vers l'app est abandonné
+  par Adrien, aucune action.
 - **Aucun lien vers un autre site du portefeuille Synapgeek** (Word Search Trove, Maze Foundry),
   ni ressemblance de design ou de ton (skill `synapgeek-portfolio-rules`) : NO-GO pour
   `site-architect`, bloquant pour `site-reviewer`.

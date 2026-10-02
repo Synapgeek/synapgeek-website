@@ -31,7 +31,7 @@ export function PhoneStage({
 }) {
   return (
     <div
-      className={`relative isolate mx-auto w-full max-w-[15rem] sm:max-w-[17rem] lg:max-w-[19rem] ${className}`}
+      className={`relative isolate mx-auto w-full max-w-[12rem] min-[420px]:max-w-[15rem] sm:max-w-[17rem] lg:max-w-[19rem] ${className}`}
     >
       <span
         aria-hidden="true"

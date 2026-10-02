@@ -1,6 +1,6 @@
 ---
 name: site-reviewer
-description: Revue finale d'un chantier synapgeek.com avant merge — non-négociables (URLs légales App Store/Play, exactitude de la privacy policy, Apple 3.1.1, secrets, headers), SEO/i18n, copie, a11y et qualité du code. À utiliser en fin de plan d'implémentation, une fois `npm run lint`, `npm test` et `npm run build` verts, ou avant tout merge substantiel sur `main`.
+description: Revue finale d'un chantier synapgeek.com avant merge : non-négociables (URLs légales App Store/Play, exactitude de la privacy policy, Apple 3.1.1, secrets, headers), SEO/i18n, copie, a11y et qualité du code. À utiliser en fin de plan d'implémentation, une fois `npm run lint`, `npm test` et `npm run build` verts, ou avant tout merge substantiel sur `main`.
 tools: Read, Glob, Grep, Bash, Skill
 model: opus
 ---

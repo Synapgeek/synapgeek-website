@@ -93,7 +93,7 @@ export default async function HubPage({
           id="games"
           tone="soft"
           title={copy.games.title}
-          className="pt-40 sm:pt-section"
+          className="pt-28 sm:pt-section"
         >
           <GameGrid
             games={games}
@@ -126,10 +126,13 @@ export default async function HubPage({
       </SectionBand>
 
       <TrackSection name="studio">
-        <SectionBand tone="violet-deep" title={copy.studio.title}>
-          <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,38rem)_auto] lg:justify-between">
+        <SectionBand tone="violet-deep">
+          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,38rem)_auto] lg:justify-between">
             <div>
-              <p className="max-w-[65ch] text-lg leading-relaxed text-canvas/90">
+              <h2 className="text-3xl leading-[1.1] tracking-[-0.02em] sm:text-4xl lg:text-5xl">
+                {copy.studio.title}
+              </h2>
+              <p className="mt-6 max-w-[65ch] text-lg leading-relaxed text-canvas/90">
                 {copy.studio.body}
               </p>
               <Button
