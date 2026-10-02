@@ -17,10 +17,10 @@ export const mazeEn: GameCopy = {
   howToPlay: {
     title: "How to play Maze",
     steps: [
-      "Guide your firefly to the exit portal. Use the on-screen arrows or swipe across the maze: the firefly moves one cell at a time, up, down, left or right, never diagonally.",
+      "Guide your firefly to the exit portal. Use the on-screen arrows or swipe across the maze: the firefly moves one cell at a time, up, down, left or right, never diagonally. Hold an arrow, or keep your finger down after a swipe, and the firefly keeps walking. Tapping a cell does nothing.",
       "A wall in the way? Just try another direction. Walls stop the firefly and cost you nothing: there are no hearts to lose and no way to fail the level.",
       "Pick up the pink crystals scattered over the board. They are optional, since you can finish without them, but they count towards your stars.",
-      "Boosters lend a hand. In a dead end the bubble pops by itself and carries the firefly back toward the next crystal, or toward the exit once you have collected them all. The rocket sends the firefly off down the corridor on its own.",
+      "Boosters lend a hand. In a dead end the bubble pops by itself and carries the firefly back toward the nearest unexplored branch that still holds a crystal, or toward the exit when there is none within reach. The rocket sends the firefly off down the corridor on its own.",
       "In Elite the maze is wrapped in fog, and you only see what surrounds the firefly. The overview button shows the whole maze for a few seconds, three times per maze.",
     ],
   },
@@ -28,7 +28,7 @@ export const mazeEn: GameCopy = {
     title: "What Cerebrum adds to Maze",
     paragraphs: [
       "A Maze level is a single maze to get through. Each difficulty has its own path of levels, and once you have finished it, Endless Mode keeps going with more mazes of the same difficulty.",
-      "Most mazes have a shape: a heart, a star, a ring, an hourglass or a triangle cuts out the board, and the cells outside the shape cannot be entered. The others are plain rectangles.",
+      "Most mazes have a shape, from a triangle on Easy to a heart, a ring, a star or an hourglass on the harder levels, and the cells outside the shape cannot be entered. The others are plain rectangles.",
       "A small maze fits on screen in one piece. In a big one the view follows the firefly step by step, and the overview button zooms out to show the whole board at once, as often as you like whenever there is no fog.",
       "Each star rewards one thing: one for reaching the exit, one for collecting every crystal, one for arriving within the target time, which is worked out from the length of the shortest route.",
       "A five-page tutorial recaps the rules inside the app. If you pick Maze for the daily challenge, every player gets the same maze that day, and never an Elite one, so never any fog.",
@@ -85,7 +85,7 @@ export const mazeEn: GameCopy = {
       {
         question: "Are crystals the same as gems?",
         answer:
-          "No. Gems are the app's currency, while crystals are picked up inside the maze, and collecting every one of them earns one of the level's three stars.",
+          "No. Gems are the app's currency, while crystals are picked up inside the maze, and collecting every one of them earns one of the level's three stars. Each crystal also adds to your score.",
       },
       {
         question: "How is Maze different from Arrow Maze?",
@@ -95,7 +95,7 @@ export const mazeEn: GameCopy = {
       {
         question: "What does the Maze hint do?",
         answer:
-          "It lights up the next six cells of the shortest route to the exit for about four seconds, starting from where the firefly stands.",
+          "It lights up the next six cells of the shortest route to the exit for about four seconds, starting from where the firefly stands. Under the fog, the hint also reveals those cells for good.",
       },
     ],
   },

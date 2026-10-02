@@ -17,10 +17,10 @@ export const mazeFr: GameCopy = {
   howToPlay: {
     title: "Comment jouer au Labyrinthe",
     steps: [
-      "Guidez votre luciole jusqu'au portail de sortie. Avancez avec les flèches de l'écran ou en faisant glisser le doigt sur le labyrinthe : la luciole se déplace d'une case à la fois, vers le haut, le bas, la gauche ou la droite, jamais en diagonale.",
+      "Guidez votre luciole jusqu'au portail de sortie. Avancez avec les flèches de l'écran ou en faisant glisser le doigt sur le labyrinthe : la luciole se déplace d'une case à la fois, vers le haut, le bas, la gauche ou la droite, jamais en diagonale. Maintenez une flèche, ou gardez le doigt posé après un glissé, et la luciole continue d'avancer. Toucher une case ne fait rien.",
       "Un mur vous bloque ? Essayez simplement une autre direction. Le mur arrête la luciole sans rien vous coûter : il n'y a ni cœur à perdre ni partie à rater.",
       "Ramassez les cristaux roses qui jalonnent le plateau. Ils sont facultatifs, le labyrinthe se termine sans eux, mais ils comptent pour les étoiles.",
-      "Les boosters donnent un coup de pouce. Dans une impasse, la bulle éclate toute seule et ramène la luciole vers le prochain cristal, ou vers la sortie quand vous les avez tous ramassés. La fusée, elle, lance la luciole seule le long du couloir.",
+      "Les boosters donnent un coup de pouce. Dans une impasse, la bulle éclate toute seule et ramène la luciole vers la branche inexplorée la plus proche qui contient encore un cristal, ou vers la sortie quand il n'y en a pas à portée. La fusée, elle, lance la luciole seule le long du couloir.",
       "En Élite, le labyrinthe est plongé dans le brouillard : vous ne voyez que ce qui entoure la luciole. Le bouton de vue d'ensemble dévoile tout le labyrinthe pendant quelques secondes, trois fois par labyrinthe.",
     ],
   },
@@ -28,7 +28,7 @@ export const mazeFr: GameCopy = {
     title: "Ce que Cerebrum ajoute au Labyrinthe",
     paragraphs: [
       "Un niveau de Labyrinthe, c'est un seul labyrinthe à traverser. Chaque difficulté se parcourt niveau après niveau ; une fois au bout, le mode Infini prolonge la partie avec d'autres labyrinthes de la même difficulté.",
-      "La plupart des labyrinthes ont une forme : un cœur, une étoile, un anneau, un sablier ou un triangle découpent le plateau, et les cases hors de la forme ne se traversent pas. Les autres sont de simples rectangles.",
+      "La plupart des labyrinthes ont une forme, du triangle en Facile jusqu'au cœur, à l'anneau, à l'étoile ou au sablier dans les difficultés plus élevées, et les cases hors de la forme ne se traversent pas. Les autres sont de simples rectangles.",
       "Un petit labyrinthe tient tout entier à l'écran. Dans un grand, la vue suit la luciole pas à pas, et le bouton de vue d'ensemble dézoome pour montrer tout le plateau d'un coup, autant de fois que vous voulez tant qu'il n'y a pas de brouillard.",
       "Chaque étoile récompense une chose : une pour la sortie trouvée, une pour tous les cristaux ramassés, une pour l'arrivée dans le temps cible, calculé d'après la longueur du plus court chemin.",
       "Un tutoriel en cinq pages reprend les règles dans l'app. Si vous choisissez le Labyrinthe pour le défi du jour, c'est le même labyrinthe pour tous les joueurs ce jour-là, et jamais en Élite : pas de brouillard.",
@@ -54,7 +54,7 @@ export const mazeFr: GameCopy = {
         {
           difficulty: "elite",
           detail:
-            "Des labyrinthes jusqu'à 36×36 cases, noyés dans le brouillard : vous ne voyez que quelques cases autour de la luciole, et ce cercle se resserre dans les labyrinthes les plus tardifs. S'ouvre au fil de votre progression en Difficile.",
+            "Des labyrinthes jusqu'à 36×36 cases, noyés dans le brouillard : vous ne voyez que quelques cases autour de la luciole, et ce cercle se resserre dans les derniers labyrinthes du parcours. S'ouvre au fil de votre progression en Difficile.",
         },
       ],
     },
@@ -65,8 +65,8 @@ export const mazeFr: GameCopy = {
       "En Élite, regardez la vue d'ensemble avant d'avancer dans le brouillard. Elle ne dure que quelques secondes et ne se déclenche que trois fois par labyrinthe : employez-en une dès le départ pour repérer la sortie et le sens général du plateau, gardez les deux autres pour vous retrouver. Ce que la luciole a éclairé reste visible ensuite.",
       "Remontez le labyrinthe depuis la sortie. Dès que le plateau est en vue, suivez des yeux le couloir qui touche le portail, puis le suivant, jusqu'à rejoindre un passage proche de la luciole : un chemin cherché à l'envers évite de s'engager dans les branches qui s'éloignent du portail.",
       "Les cristaux se trouvent toujours au fond d'une impasse. Décidez tôt lesquels méritent le détour : une impasse courte au bord de votre route se visite en aller-retour, une longue branche coûte surtout du temps. Les ignorer tous laisse encore deux étoiles à portée d'une course rapide ; l'étoile des cristaux, elle, les exige tous.",
-      "Faites travailler vos boosters là où ils rapportent. Une fusée ramassée au début d'un long couloir vous emporte jusqu'au prochain carrefour ou à l'impasse, et il suffit de toucher une direction pour reprendre la main. Plusieurs bulles se cumulent en réserve : chacune se dépense seule dans une impasse, mais reste en réserve quand le retour ne vaut pas le détour.",
-      "Gardez l'indice pour le carrefour où vous hésitez. Il n'éclaire que les six prochaines cases du plus court chemin, pendant quelques secondes : notez la direction avant qu'elle ne s'éteigne, au lieu de le dépenser au milieu d'un couloir où vous n'avez pas le choix.",
+      "Faites travailler vos boosters là où ils rapportent. Une fusée ramassée au début d'un long couloir vous emporte jusqu'au prochain carrefour ou à la prochaine impasse, et il suffit de toucher une direction pour reprendre la main. Plusieurs bulles se cumulent en réserve : chacune se dépense seule dans une impasse, mais reste en réserve quand le retour ne vaut pas le détour.",
+      "Gardez l'indice pour le carrefour où vous hésitez. Il n'éclaire que les six prochaines cases du plus court chemin, pendant quelques secondes : notez la direction avant que les cases ne s'éteignent, au lieu de le dépenser au milieu d'un couloir où vous n'avez pas le choix.",
     ],
   },
   faq: {
@@ -85,7 +85,7 @@ export const mazeFr: GameCopy = {
       {
         question: "Les cristaux sont-ils des gemmes ?",
         answer:
-          "Non. Les gemmes sont la monnaie de l'app, alors que les cristaux se ramassent dans le labyrinthe, et les ramasser tous rapporte l'une des trois étoiles du niveau.",
+          "Non. Les gemmes sont la monnaie de l'app, alors que les cristaux se ramassent dans le labyrinthe, et les ramasser tous rapporte l'une des trois étoiles du niveau. Chaque cristal ajoute aussi des points à votre score.",
       },
       {
         question: "Quelle différence entre le Labyrinthe et Arrow Maze ?",
@@ -95,7 +95,7 @@ export const mazeFr: GameCopy = {
       {
         question: "Que fait l'indice du Labyrinthe ?",
         answer:
-          "Il allume pendant environ quatre secondes les six prochaines cases du plus court chemin vers la sortie, à partir de la position de la luciole.",
+          "Il allume pendant environ quatre secondes les six prochaines cases du plus court chemin vers la sortie, à partir de la position de la luciole. Sous le brouillard, l'indice révèle aussi ces cases pour de bon.",
       },
     ],
   },
