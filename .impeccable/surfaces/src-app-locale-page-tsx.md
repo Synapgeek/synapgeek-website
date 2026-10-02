@@ -51,3 +51,5 @@ direction tirée « Boîte de jeu » ; seed 91dc9609 ; construction code d'abord
 référence .impeccable/mocks/decision/canon.png.
 
 FINISH : unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+PREUVE DE LA GRAINE (ajoutée le 2026-10-02, revue de finition) : sortie de `impeccable concept-seed` du 2026-10-01 à 04:45 UTC, « DIRECTION CONCEPT SEED (key: 91dc9609; mode: persuade; source: api; approved pool: c3b204a1eed6; 306/564 human-approved) » ; choix canon signalé le même jour par `concept-seed --kind canon --from 91dc9609 --scope direction --mode persuade`. Chemin de construction : code d'abord pour cette session (bascule faite sur la page de décision, qui ne réécrit jamais `.impeccable/config.json` ; le défaut du projet reste « comp »).
