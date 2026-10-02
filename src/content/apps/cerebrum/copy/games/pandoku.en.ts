@@ -29,11 +29,11 @@ export const pandokuEn: GameCopy = {
     title: "What Cerebrum adds to Pandoku",
     paragraphs: [
       "In Cerebrum you climb a path of levels in the difficulty you choose. On Easy the grids grow along the way, from 4×4 up to 8×8. Clear the last level of a difficulty and Endless Mode takes over, one new grid after another.",
-      "Pandoku opens with a short how-to-play sheet. The first Easy level is guided: the app walks you through your first pandas step by step, with no heart lost and no timer, and a Skip button if you would rather start alone. Every Easy grid also begins with one panda already placed. It cannot be removed and counts neither as a mistake nor as a hint.",
-      "There is no Undo button. A tap crosses a cell, another tap erases the cross, and a correct panda is locked for good. Drag a finger across the grid to cross out several cells at once.",
+      "Pandoku opens with a short how-to-play sheet. The first Easy level is guided: the board lights up the cells to play and you make every move yourself, with no heart lost and no timer. A Skip button appears after the first step, and the last pandas are yours. Every Easy grid also begins with one panda already placed. It cannot be removed and counts neither as a mistake nor as a hint.",
+      "There is no Undo button. A quick second tap places a panda, a later tap on a cross erases it without any penalty, and a correct panda is locked for good. Drag a finger from an empty cell to cross out several cells at once, or from a cross to erase a trail of crosses.",
       "A panda placed in the wrong spot is removed and costs a heart. Lose the third and the game is over, though a second chance is offered.",
-      "The hint shows its reasoning before it plays the move. It names the deduction on offer (a forced cell, a confined unit or shared neighbors), highlights it, then places the panda or crosses out the cells for you. When nothing simple stands out, it hands you a panda to get going again.",
-      "Stars depend on mistakes alone: none earns three, one earns two, more earns one. Hints never cost you a star. Pandoku is also one of the games you can pick for the daily challenge, on Easy or Medium: the same grid for everyone, with a missed day caught up from the calendar.",
+      "The hint shows its reasoning before it plays the move. It names the deduction on offer (a forced cell, a confined unit or shared neighbors), highlights it, then places the panda or crosses out the cells for you. If your board holds a wrong mark, the hint flags and removes it first. When nothing simple stands out, it hands you a panda to get going again.",
+      "Stars depend on mistakes alone: none earns three, one earns two, more earns one. Hints never cost you a star. You can also pick Pandoku for the daily challenge: the app sets the day's difficulty, Easy or Medium, everyone plays the same grid, and a missed day can be made up from the calendar.",
     ],
     difficultyTable: {
       caption: "Pandoku difficulties in Cerebrum",
@@ -95,7 +95,7 @@ export const pandokuEn: GameCopy = {
       {
         question: "Is there a tutorial for Pandoku?",
         answer:
-          "Yes. Pandoku opens with a short how-to-play sheet, then the first Easy level is guided: the app places your first pandas with you, with no heart to lose. A Skip button lets you start alone.",
+          "Yes. Pandoku opens with a short how-to-play sheet, then the first Easy level is guided: the board lights up where to play and you place each panda yourself, with no heart to lose. You can skip the guide from its second step.",
       },
       {
         question: "Why does an Easy grid start with a panda already placed?",
