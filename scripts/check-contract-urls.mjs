@@ -42,8 +42,8 @@
  * `/`, query conservée, et chaque ancienne page anglaise non légale (`/en/cerebrum`…)
  * vers son pendant sans préfixe. La cible `/cerebrum` répond 200 depuis la tâche 13 ;
  * les pages de jeux (`/en/cerebrum/<jeu>`) ne sont contrôlées qu'à partir de leur
- * livraison : Sudoku (tâche 14) ouvre la série, Pandoku (tâche 141) la suit, chaque
- * jeu suivant ajoute ses lignes.
+ * livraison : Sudoku (tâche 14) ouvre la série, Pandoku (tâche 141) et Démineur (tâche 142)
+ * la suivent, chaque jeu suivant ajoute ses lignes.
  * Une page de jeu porte UNE seule `og:image`, et cette image répond 200 `image/png`
  * sans redirection (aperçu d'un lien partagé).
  * Seul `/fr/privacy`, `/fr/terms`, `/fr/legal` reste TRANSITOIRE :
@@ -79,7 +79,14 @@ const GOOGLE_PLAY_URL =
 // l'URL du store, sans jamais en écraser un paramètre déjà présent.
 const CAMPAIGN_PARAM = "src=contract-check";
 
-const SITEMAP_URL_COUNT = 14;
+const SITEMAP_URL_COUNT = 16;
+
+/** Slug de chaque page de jeu livrée, par langue (le français de Démineur diffère). */
+const SLUGS = {
+  sudoku: { en: "sudoku", fr: "sudoku" },
+  pandoku: { en: "pandoku", fr: "pandoku" },
+  minesweeper: { en: "minesweeper", fr: "demineur" },
+};
 
 const LEGAL_PAGES = ["/privacy", "/terms", "/legal"];
 // Les trois variantes de chaque page légale ; sur l'hôte www, chacune redirige en 308
@@ -147,6 +154,7 @@ function contractChecks(base) {
     redirect("/en/cerebrum", 308, "/cerebrum"),
     redirect("/en/cerebrum/sudoku", 308, "/cerebrum/sudoku"),
     redirect("/en/cerebrum/pandoku", 308, "/cerebrum/pandoku"),
+    redirect("/en/cerebrum/minesweeper", 308, "/cerebrum/minesweeper"),
     // Page de l'app (tâche 13) : anglais sans préfixe, français sous /fr.
     ok("/cerebrum", [
       contentType("text/html"),
@@ -169,10 +177,24 @@ function contractChecks(base) {
       }),
     ]),
     // Page de jeu (tâche 14) : même schéma de langue, une seule og:image qui répond.
-    ok("/cerebrum/sudoku", gamePageExpectations("en", "sudoku", resolve)),
-    ok("/fr/cerebrum/sudoku", gamePageExpectations("fr", "sudoku", resolve)),
-    ok("/cerebrum/pandoku", gamePageExpectations("en", "pandoku", resolve)),
-    ok("/fr/cerebrum/pandoku", gamePageExpectations("fr", "pandoku", resolve)),
+    ok("/cerebrum/sudoku", gamePageExpectations("en", SLUGS.sudoku, resolve)),
+    ok(
+      "/fr/cerebrum/sudoku",
+      gamePageExpectations("fr", SLUGS.sudoku, resolve),
+    ),
+    ok("/cerebrum/pandoku", gamePageExpectations("en", SLUGS.pandoku, resolve)),
+    ok(
+      "/fr/cerebrum/pandoku",
+      gamePageExpectations("fr", SLUGS.pandoku, resolve),
+    ),
+    ok(
+      "/cerebrum/minesweeper",
+      gamePageExpectations("en", SLUGS.minesweeper, resolve),
+    ),
+    ok(
+      "/fr/cerebrum/demineur",
+      gamePageExpectations("fr", SLUGS.minesweeper, resolve),
+    ),
     // Un slug ne se résout que dans sa langue ; un slug inconnu est un vrai 404.
     notFound("/fr/cerebrum/crossword"),
     notFound("/cerebrum/mots-croises"),
@@ -332,10 +354,10 @@ function legalExpectations(language, page) {
   ];
 }
 /** Page de jeu : langue, canonique, hreflang réciproques, une seule og:image qui répond en PNG. */
-function gamePageExpectations(language, slug, resolve) {
+function gamePageExpectations(language, slugs, resolve) {
   const urls = {
-    en: `${APEX}/cerebrum/${slug}`,
-    fr: `${APEX}/fr/cerebrum/${slug}`,
+    en: `${APEX}/cerebrum/${slugs.en}`,
+    fr: `${APEX}/fr/cerebrum/${slugs.fr}`,
   };
   return [
     contentType("text/html"),

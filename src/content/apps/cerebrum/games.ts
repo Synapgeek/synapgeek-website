@@ -80,7 +80,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_3,
     contentLocales: "all",
     color: { wash: "--game-minesweeper-wash", deep: "--game-minesweeper-deep" },
-    published: false,
+    published: true,
     icon: icon("minesweeper"),
     screenshot: screenshot("minesweeper"),
   },

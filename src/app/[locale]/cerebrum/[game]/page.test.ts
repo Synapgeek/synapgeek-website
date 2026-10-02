@@ -34,6 +34,8 @@ describe("generateStaticParams", () => {
       { locale: "fr", game: "sudoku" },
       { locale: "en", game: "pandoku" },
       { locale: "fr", game: "pandoku" },
+      { locale: "en", game: "minesweeper" },
+      { locale: "fr", game: "demineur" },
     ]);
   });
 });
@@ -188,12 +190,46 @@ describe.each(LOCALES)("page Pandoku (%s)", (locale) => {
   });
 });
 
+describe.each(LOCALES)("page Démineur (%s)", (locale) => {
+  const copy = getAppCopy("cerebrum", locale).games.minesweeper!;
+  const slug = locale === "en" ? "minesweeper" : "demineur";
+
+  it("a un seul H1, suivi de la phrase de définition", async () => {
+    const markup = decode(await render(locale, slug));
+    expect(markup.match(/<h1/g)).toHaveLength(1);
+    expect(markup).toContain(`>${copy.hero.h1}</h1>`);
+    const afterH1 = markup.slice(markup.indexOf("</h1>"));
+    expect(afterH1.match(/<p[^>]*>([^<]*)<\/p>/)?.[1]).toBe(
+      copy.hero.definition,
+    );
+  });
+
+  it("la FAQ du JSON-LD est mot pour mot la FAQ visible, la capture est celle de la langue", async () => {
+    const markup = await render(locale, slug);
+    const visible = decode(markup);
+    const faq = jsonLdNodes(markup).find(
+      (node) => node["@type"] === "FAQPage",
+    )!;
+    const entities = faq.mainEntity as Array<{
+      name: string;
+      acceptedAnswer: { text: string };
+    }>;
+    expect(entities).toHaveLength(copy.faq.items.length);
+    for (const entity of entities) {
+      expect(visible).toContain(entity.name);
+      expect(visible).toContain(entity.acceptedAnswer.text);
+    }
+    expect(visible).toContain(`minesweeper-${locale}.webp`);
+    expect(visible).toContain(`alt="${copy.hero.phoneAlt}"`);
+  });
+});
+
 describe("page jeu : slugs refusés", () => {
   it.each([
     ["en", "mots-croises", "slug d'une autre langue"],
     ["fr", "crossword", "slug d'une autre langue"],
     ["en", "maze", "jeu non publié"],
-    ["fr", "demineur", "jeu non publié"],
+    ["fr", "arrow-maze", "jeu non publié"],
     ["en", "inconnu", "slug inconnu"],
   ])(
     "%s/%s (%s) donne notFound(), page et métadonnées",

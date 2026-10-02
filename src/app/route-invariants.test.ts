@@ -229,7 +229,7 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
   // Spec §5.2 : l'anglais est la langue par défaut (racine sans préfixe), le
   // français vit sous /fr, sauf les trois pages légales figées (français sans
   // préfixe, anglais sous /en). x-default pointe toujours vers l'anglais.
-  it("sitemap() renvoie exactement les 14 URLs du schéma courant, x-default anglais", () => {
+  it("sitemap() renvoie exactement les 16 URLs du schéma courant, x-default anglais", () => {
     const entries = sitemap();
     expect(entries.map((entry) => entry.url)).toEqual([
       "https://synapgeek.com",
@@ -240,6 +240,8 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
       "https://synapgeek.com/fr/cerebrum/sudoku",
       "https://synapgeek.com/cerebrum/pandoku",
       "https://synapgeek.com/fr/cerebrum/pandoku",
+      "https://synapgeek.com/cerebrum/minesweeper",
+      "https://synapgeek.com/fr/cerebrum/demineur",
       "https://synapgeek.com/en/privacy",
       "https://synapgeek.com/privacy",
       "https://synapgeek.com/en/terms",
@@ -275,6 +277,13 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
     };
     expect(entries[6].alternates?.languages).toEqual(pandokuLanguages);
     expect(entries[7].alternates?.languages).toEqual(pandokuLanguages);
+    const minesweeperLanguages = {
+      en: "https://synapgeek.com/cerebrum/minesweeper",
+      fr: "https://synapgeek.com/fr/cerebrum/demineur",
+      "x-default": "https://synapgeek.com/cerebrum/minesweeper",
+    };
+    expect(entries[8].alternates?.languages).toEqual(minesweeperLanguages);
+    expect(entries[9].alternates?.languages).toEqual(minesweeperLanguages);
     for (const page of ["privacy", "terms", "legal"]) {
       const languages = {
         en: `https://synapgeek.com/en/${page}`,
