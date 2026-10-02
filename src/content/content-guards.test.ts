@@ -358,6 +358,64 @@ function parityViolations(entries: readonly CopyEntry[]): string[] {
   });
 }
 
+/** Une phrase de cette longueur ou plus ne se répète pas d'une page jeu à l'autre (ruling R4). */
+const REPEATED_SENTENCE_MIN_LENGTH = 60;
+/**
+ * Formules partagées voulues, et rien d'autre. Elles sont normalisées comme les
+ * phrases mesurées (espaces simples, minuscules). Chaque entrée se justifie.
+ */
+const SHARED_SENTENCE_ALLOWLIST: readonly string[] = [
+  // Fin imposée de la phrase de définition (copy-rules 1) : l'appareil, l'éditeur
+  // et l'app doivent y figurer, et les assistants la citent à l'identique.
+  "play it offline in cerebrum, the puzzle games app by synapgeek, on iphone, ipad and android.",
+  "il se joue hors ligne dans cerebrum, l'app de synapgeek, sur iphone, ipad et android.",
+  // Réponse « sur quels appareils » : une compatibilité (iOS 17.0, Android 8.0) est
+  // un fait unique, que la FAQ de Sudoku et de Pandoku énonce déjà à l'identique.
+  "on iphone and ipad with ios 17.0 or later, and on android with android 8.0 or later.",
+  "sur iphone et ipad avec ios 17.0 ou plus récent, et sur android avec android 8.0 ou plus récent.",
+];
+
+function normalizeSentence(sentence: string): string {
+  return sentence.replace(/\s+/g, " ").trim().toLowerCase();
+}
+
+function longSentencesOf(text: string): string[] {
+  return text
+    .split(/(?<=[.!?…])\s+/u)
+    .map(normalizeSentence)
+    .filter((sentence) => sentence.length >= REPEATED_SENTENCE_MIN_LENGTH);
+}
+
+/**
+ * Ruling R4 : un fait de l'app ne se répète pas à l'identique de page en page.
+ * Signale une phrase longue présente deux fois dans une page, ou dans deux
+ * pages jeux de la même langue.
+ */
+function repeatedSentenceViolations(
+  pages: ReadonlyArray<{ label: string; copy: GameCopy }>,
+  allowlist: readonly string[] = SHARED_SENTENCE_ALLOWLIST,
+): string[] {
+  const allowed = new Set(allowlist.map(normalizeSentence));
+  const seen = new Map<string, string>();
+  const found: string[] = [];
+  for (const { label, copy } of pages) {
+    for (const { path, value } of stringsOf(copy)) {
+      for (const sentence of longSentencesOf(value)) {
+        if (allowed.has(sentence)) continue;
+        const first = seen.get(sentence);
+        if (first === undefined) {
+          seen.set(sentence, `${label} ${path}`);
+        } else {
+          found.push(
+            `${label} ${path}: sentence already used in ${first} (${JSON.stringify(sentence.slice(0, 60))})`,
+          );
+        }
+      }
+    }
+  }
+  return found;
+}
+
 /** `games` remplace le registre pour prouver une garde sur une donnée que le registre n'a plus. */
 function entryViolations(
   entry: CopyEntry,
@@ -387,6 +445,21 @@ describe("copie enregistrée (spec §9)", () => {
   it("chaque module existe dans toutes les langues avec la même structure", () => {
     expect(parityViolations(REGISTERED_COPY)).toEqual([]);
   });
+
+  it.each(LOCALES)(
+    "aucune phrase longue ne se répète d'une page jeu à l'autre (%s, ruling R4)",
+    (locale) => {
+      const pages = REGISTERED_COPY.flatMap((entry) =>
+        entry.locale === locale
+          ? gamesOf(entry).map(([id, copy]) => ({
+              label: `${labelOf(entry)}:${id}`,
+              copy,
+            }))
+          : [],
+      );
+      expect(repeatedSentenceViolations(pages)).toEqual([]);
+    },
+  );
 });
 
 // ---------------------------------------------------------------------------
@@ -711,6 +784,91 @@ describe("contrôles positifs des gardes structurelles", () => {
     expect(
       coverageViolations(entry, [{ ...pandoku, published: false }]),
     ).toEqual([]);
+  });
+
+  describe("phrases répétées (ruling R4)", () => {
+    const SHARED =
+      "Une même phrase de plus de soixante caractères, recopiée mot pour mot.";
+    /** `name` rend la définition de chaque page unique : seule la phrase testée peut se répéter. */
+    const withTip = (tip: string, name = "Game") =>
+      fixtureGame({
+        hero: {
+          h1: name,
+          phoneAlt: "A screen.",
+          definition: DEFINITION_OK.replace("Pandoku", name),
+        },
+        tips: { title: "Tips", items: [tip, "Tip 2", "Tip 3"] },
+      });
+
+    it("refuse une phrase de 60 caractères ou plus partagée par deux pages", () => {
+      expect(SHARED.length).toBeGreaterThanOrEqual(60);
+      const violations = repeatedSentenceViolations([
+        { label: "en:sudoku", copy: withTip(`Intro. ${SHARED}`, "Sudoku") },
+        { label: "en:pandoku", copy: withTip(SHARED, "Pandoku") },
+      ]);
+      expect(violations).toEqual([
+        expect.stringContaining("en:pandoku tips.items.0"),
+      ]);
+    });
+
+    it("refuse une phrase longue présente deux fois dans une même page", () => {
+      const page = fixtureGame({
+        tips: { title: "Tips", items: [SHARED, SHARED, "Tip 3"] },
+      });
+      expect(
+        repeatedSentenceViolations([{ label: "en:sudoku", copy: page }]),
+      ).toHaveLength(1);
+    });
+
+    it("laisse passer une phrase courte partagée, et la même phrase à 59 caractères", () => {
+      const short = SHARED.slice(0, 58) + ".";
+      expect(short).toHaveLength(59);
+      expect(
+        repeatedSentenceViolations([
+          { label: "en:sudoku", copy: withTip(short, "Sudoku") },
+          { label: "en:pandoku", copy: withTip(short, "Pandoku") },
+        ]),
+      ).toEqual([]);
+    });
+
+    it("ignore la casse et les espaces, et lit chaque phrase d'une chaîne", () => {
+      const violations = repeatedSentenceViolations([
+        { label: "en:sudoku", copy: withTip(`First. ${SHARED}`, "Sudoku") },
+        {
+          label: "en:pandoku",
+          copy: withTip(`Other.   ${SHARED.toUpperCase()}`, "Pandoku"),
+        },
+      ]);
+      expect(violations).toHaveLength(1);
+    });
+
+    it("une entrée de la liste blanche est tolérée, tout le reste est refusé", () => {
+      const pages = [
+        { label: "en:sudoku", copy: withTip(SHARED, "Sudoku") },
+        { label: "en:pandoku", copy: withTip(SHARED, "Pandoku") },
+      ];
+      expect(repeatedSentenceViolations(pages, [SHARED])).toEqual([]);
+      expect(repeatedSentenceViolations(pages, [])).toHaveLength(1);
+    });
+
+    it("chaque entrée de la liste blanche sert encore : une formule déjà partagée par deux pages réelles", () => {
+      const uses = new Map<string, number>();
+      for (const entry of REGISTERED_COPY) {
+        for (const [, copy] of gamesOf(entry)) {
+          for (const { value } of stringsOf(copy)) {
+            for (const sentence of value
+              .split(/(?<=[.!?…])\s+/u)
+              .map(normalizeSentence)) {
+              uses.set(sentence, (uses.get(sentence) ?? 0) + 1);
+            }
+          }
+        }
+      }
+      const stale = SHARED_SENTENCE_ALLOWLIST.filter(
+        (sentence) => (uses.get(normalizeSentence(sentence)) ?? 0) < 2,
+      );
+      expect(stale).toEqual([]);
+    });
   });
 
   it("entryViolations (la composition appliquée aux modules enregistrés) lève une violation par règle", () => {

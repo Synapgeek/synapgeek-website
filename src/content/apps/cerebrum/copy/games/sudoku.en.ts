@@ -87,7 +87,7 @@ export const sudokuEn: GameCopy = {
       {
         question: "What does the Hint button do?",
         answer:
-          "It reveals one cell and explains the technique that finds it, step by step. Hints cost gems, or you can earn one by watching an optional ad. With Premium, five hints a day are free in each game.",
+          "It reveals one cell and explains the technique that finds it, step by step. Pay for it in gems, or earn it by watching an optional ad. With Premium, five hints a day are free in each game.",
       },
       {
         question: "Are there Sudoku variants in Cerebrum?",
