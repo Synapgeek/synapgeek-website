@@ -18,7 +18,7 @@ export function DifficultyTable({
     <div
       className={`overflow-hidden rounded-card bg-canvas text-ink shadow-rest ${className}`}
     >
-      <table className="w-full border-collapse text-left">
+      <table className="w-full border-collapse text-left tabular-nums">
         <caption className="caption-top px-5 pt-5 pb-3 text-left font-display text-lg font-bold sm:px-6">
           {caption}
         </caption>

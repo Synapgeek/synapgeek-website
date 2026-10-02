@@ -61,8 +61,9 @@ export function GameCard({
           />
         </div>
       </div>
-      {/* Hauteur mini : les noms restent alignés d'une carte à l'autre, genre ou non. */}
-      <div className="min-h-[6.25rem] px-3 pt-1 pb-5 text-center">
+      {/* Bloc nom, genre, plateformes collé au bas de la carte : les lignes de plateformes
+          s'alignent d'une carte à l'autre, avec ou sans genre. */}
+      <div className="mt-auto flex min-h-[6.25rem] flex-col justify-end px-3 pt-1 pb-5 text-center">
         <Heading className="font-display text-lg leading-tight sm:text-xl">
           {interactive ? (
             <Link
