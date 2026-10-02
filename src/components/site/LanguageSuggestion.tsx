@@ -10,6 +10,11 @@ import {
 } from "@/lib/language-alternates";
 import { trackEvent } from "@/lib/gtag";
 import { Button } from "@/components/ui/Button";
+import {
+  readBannerOpen,
+  readBannerOpenOnServer,
+  subscribeBannerOpen,
+} from "@/components/consent/banner-signal";
 
 /** Textes de la suggestion, rédigés dans la langue qu'ils proposent. */
 export interface LanguageSuggestionCopy {
@@ -37,12 +42,86 @@ function suggestedLocale(
   );
 }
 
+interface SuggestionInput {
+  browserLanguage: string | null;
+  locale: Locale;
+  /** Le bandeau de consentement, fixé lui aussi en bas, est ouvert. */
+  bannerOpen: boolean;
+  dismissed: boolean;
+  pathname: string;
+  excludedPaths: readonly string[];
+}
+
+/** Langue à proposer maintenant, ou `null` si la suggestion doit rester cachée. */
+export function visibleSuggestionTarget({
+  browserLanguage,
+  locale,
+  bannerOpen,
+  dismissed,
+  pathname,
+  excludedPaths,
+}: SuggestionInput): Locale | null {
+  if (bannerOpen || dismissed || excludedPaths.includes(pathname)) return null;
+  return suggestedLocale(browserLanguage, locale);
+}
+
+/**
+ * Sous `lg` : feuille compacte (message, pilule, fermeture sur une ligne) ancrée
+ * en bas, comme le bandeau de consentement, pour ne jamais couvrir le titre ni la
+ * définition du hero. À partir de `lg` : carte en haut à droite, sous le header.
+ */
+const CARD_CLASSES = [
+  "shell-pop fixed inset-x-gutter bottom-gutter z-30 flex items-center gap-2 rounded-card border border-border bg-canvas py-2 pr-2 pl-4 shadow-lift",
+  "lg:inset-x-auto lg:top-20 lg:right-[max(var(--spacing-gutter),calc((100vw-72rem)/2+var(--spacing-gutter)))] lg:bottom-auto lg:grid lg:w-[26rem] lg:grid-cols-[minmax(0,1fr)_auto] lg:items-stretch lg:gap-x-2 lg:gap-y-3 lg:p-4 lg:pl-6",
+].join(" ");
+
+export function LanguageSuggestionCard({
+  target,
+  messageId,
+  text,
+  href,
+  onNavigate,
+  onDismiss,
+}: {
+  target: Locale;
+  messageId: string;
+  text: LanguageSuggestionCopy;
+  href: string;
+  onNavigate: () => void;
+  onDismiss: () => void;
+}) {
+  return (
+    <aside lang={target} aria-labelledby={messageId} className={CARD_CLASSES}>
+      <p id={messageId} className="min-w-0 flex-1 text-sm lg:self-center">
+        {text.message}
+      </p>
+      <Button
+        href={href}
+        hrefLang={target}
+        onClick={onNavigate}
+        className="px-4! lg:col-span-2 lg:row-start-2 lg:px-6!"
+      >
+        {text.cta}
+      </Button>
+      <button
+        type="button"
+        onClick={onDismiss}
+        aria-label={text.dismiss}
+        className="inline-flex size-11 shrink-0 items-center justify-center rounded-pill text-text-secondary transition-colors duration-150 hover:bg-canvas-soft hover:text-ink lg:col-start-2 lg:row-start-1"
+      >
+        <X className="size-5" />
+      </button>
+    </aside>
+  );
+}
+
 /**
  * Invitation à lire la page dans la langue du navigateur. Feuille cliente : le
  * serveur ne connaît pas `navigator.language`, donc elle ne rend rien au serveur
  * et n'apparaît qu'après l'hydratation, en `position: fixed` (aucun décalage de
  * mise en page). Ni redirection ni stockage : un lien, une fermeture en mémoire.
- * Jamais sur les pages légales (`excludedPaths`).
+ * Jamais sur les pages légales (`excludedPaths`), et jamais tant que le bandeau
+ * de consentement est ouvert (signal `banner-signal`).
  */
 export function LanguageSuggestion({
   locale,
@@ -64,38 +143,32 @@ export function LanguageSuggestion({
     readBrowserLanguage,
     serverLanguage,
   );
+  const bannerOpen = useSyncExternalStore(
+    subscribeBannerOpen,
+    readBannerOpen,
+    readBannerOpenOnServer,
+  );
 
-  const target = suggestedLocale(browserLanguage, locale);
-  if (dismissed || !target || excludedPaths.includes(pathname)) return null;
+  const target = visibleSuggestionTarget({
+    browserLanguage,
+    locale,
+    bannerOpen,
+    dismissed,
+    pathname,
+    excludedPaths,
+  });
+  if (!target) return null;
 
-  const text = copy[target];
   return (
-    <aside
-      lang={target}
-      aria-labelledby={messageId}
-      className="shell-pop fixed inset-x-gutter top-20 z-30 grid grid-cols-[minmax(0,1fr)_auto] gap-x-2 gap-y-3 rounded-card border border-border bg-canvas p-4 pl-6 shadow-lift lg:right-[max(var(--spacing-gutter),calc((100vw-72rem)/2+var(--spacing-gutter)))] lg:left-auto lg:w-[26rem]"
-    >
-      <p id={messageId} className="self-center text-sm">
-        {text.message}
-      </p>
-      <Button
-        href={alternatesForPathname(table, pathname)[target]}
-        hrefLang={target}
-        onClick={() =>
-          trackEvent("language_switched", { from: locale, to: target })
-        }
-        className="col-span-2 row-start-2"
-      >
-        {text.cta}
-      </Button>
-      <button
-        type="button"
-        onClick={() => setDismissed(true)}
-        aria-label={text.dismiss}
-        className="col-start-2 row-start-1 inline-flex size-11 items-center justify-center rounded-pill text-text-secondary transition-colors duration-150 hover:bg-canvas-soft hover:text-ink"
-      >
-        <X className="size-5" />
-      </button>
-    </aside>
+    <LanguageSuggestionCard
+      target={target}
+      messageId={messageId}
+      text={copy[target]}
+      href={alternatesForPathname(table, pathname)[target]}
+      onNavigate={() =>
+        trackEvent("language_switched", { from: locale, to: target })
+      }
+      onDismiss={() => setDismissed(true)}
+    />
   );
 }
