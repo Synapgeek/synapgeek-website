@@ -33,7 +33,7 @@ export const crosswordFr: GameCopy = {
       "Trois cœurs, un par mot faux : au troisième, la partie s'arrête, avec une seconde chance proposée. Sans erreur, vous gagnez trois étoiles ; avec une erreur, deux ; avec deux erreurs ou plus, une seule. Les aides n'entrent jamais dans ce compte.",
       "Le bouton Indice propose trois aides. L'indice de définition donne une définition plus facile du même mot ; la lettre dévoile une case de la réponse ; le mot révèle toute la réponse d'un coup. En Facile, l'aide par définition n'est pas proposée.",
       "Trois packs thématiques, Cinéma, Cuisine et Voyage, ajoutent des grilles autour d'un thème. Ce sont des achats intégrés distincts du parcours, leurs grilles sont de difficulté Difficile, et un même pack ouvre aussi les Mots Mêlés.",
-      "Les mots croisés se choisissent aussi pour le défi du jour, mais en Facile seulement. Tous les joueurs qui le choisissent ce jour-là ont la même grille, et un jour manqué se rattrape dans le calendrier.",
+      "Les mots croisés se choisissent aussi pour le défi du jour, mais en Facile seulement. La grille est tirée dans la langue de l'app : ce jour-là, tous les joueurs en français ont la même, et ceux qui jouent en anglais en partagent une autre.",
     ],
     difficultyTable: {
       caption: "Les difficultés des mots croisés dans Cerebrum",
@@ -63,7 +63,7 @@ export const crosswordFr: GameCopy = {
       "Servez-vous du nombre entre parenthèses. Écartez toute réponse qui n'a pas le bon nombre de lettres, et attaquez les mots courts d'abord : ils laissent moins de réponses possibles, et leurs lettres tombent justement sur les longs mots.",
       "Lisez la définition comme une phrase. Un pluriel appelle une réponse au pluriel, donc sans doute un S final ; un féminin, un verbe conjugué ou un participe se retrouvent dans la terminaison. Le temps et l'accord de la définition sont presque toujours ceux de la réponse.",
       "Regardez les lettres déjà posées avant de demander une aide. Deux ou trois lettres bien placées suffisent souvent à débloquer une réponse hésitante. Si ce n'est pas assez, prenez l'aide la plus légère d'abord et gardez la révélation du mot pour la fin.",
-      "Ne posez pas la dernière lettre sur un coup de tête. La vérification se déclenche à cette lettre-là : avant, aucune erreur n'est possible. Complétez le mot à une case près, confrontez-le aux mots déjà verrouillés qui le croisent, puis validez seulement si le tout tient.",
+      "Ne posez pas sur un coup de tête la lettre qui complète un mot. Un mot est vérifié dès que sa dernière case vide est remplie, et ce peut être un mot croisé que vous ne regardiez pas. Avant de remplir la dernière case d'un mot, confrontez la réponse aux mots déjà verrouillés qui le croisent, puis validez seulement si le tout tient.",
     ],
   },
   faq: {

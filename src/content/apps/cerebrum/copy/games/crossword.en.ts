@@ -33,7 +33,7 @@ export const crosswordEn: GameCopy = {
       "You have three hearts, and a wrong word costs one: the third ends the game, with a second chance on offer. A clean grid earns three stars, one mistake two, and two or more just one. Hints never enter that count.",
       "The Hint button holds three kinds of help. The clue hint gives an easier clue for the same word; the letter hint uncovers one cell of the answer; the word hint reveals the whole answer at once. On Easy, the clue hint is not offered.",
       "Three theme packs, Movies, Cooking and Travel, add grids built around a subject. They are in-app purchases separate from the path, their grids are Hard, and one pack also opens Word Search.",
-      "Crosswords can also be picked for the daily challenge, on Easy only. Everyone who picks it that day gets the same grid, and a missed day can be caught up in the calendar.",
+      "Crosswords can also be picked for the daily challenge, on Easy only. The grid is drawn in your app's language, so everyone playing in English that day solves the same one, and everyone in French shares another.",
     ],
     difficultyTable: {
       caption: "Crossword difficulties in Cerebrum",
@@ -63,7 +63,7 @@ export const crosswordEn: GameCopy = {
       "Use the number in brackets. Throw out any answer that has the wrong number of letters, and take the short entries first: they leave fewer possible answers, and their letters land right in the middle of the long words.",
       "Read the clue like a sentence. A plural clue calls for a plural answer, so probably a final S; a past tense, a participle or an -ING form shows up in the ending. The tense and the agreement of the clue are almost always those of the answer.",
       "Look at the letters already in place before you ask for help. Two or three well-placed letters often unlock a doubtful answer. If that is not enough, take the lightest hint first and keep the word reveal for the end.",
-      "Never drop in the last letter on impulse. The check fires on that letter, and before it no mistake is possible. Fill the word up to one cell short, test it against the locked words that cross it, then commit only if everything fits.",
+      "Never drop in a letter that completes a word on impulse. A word is checked the moment its last empty cell is filled, and that can be a crossing word you were not looking at. Before you fill the last cell of any word, test the answer against the locked words that cross it, then commit only if everything fits.",
     ],
   },
   faq: {
