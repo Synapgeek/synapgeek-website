@@ -57,3 +57,13 @@ describe("LocalizedNotFound", () => {
     expect(html).not.toContain('href="/"');
   });
 });
+
+describe("titre de la 404", () => {
+  it.each(LOCALES)("%s : le <title> reprend le titre localisé", (locale) => {
+    params.current = { locale };
+    const out = render().replaceAll("&amp;", "&");
+    expect(out).toContain(
+      `<title>${getDictionary(locale).common.notFound.title} | Synapgeek</title>`,
+    );
+  });
+});

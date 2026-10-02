@@ -14,6 +14,9 @@ export interface NotFoundStrings {
 export function NotFoundView({ title, body, cta, href }: NotFoundStrings) {
   return (
     <section className="mx-auto flex max-w-xl flex-col items-center px-gutter py-section text-center">
+      {/* React 19 remonte ce <title> dans <head> : un notFound() levé dans generateMetadata
+          (slug inconnu) fait disparaître toute métadonnée, l'onglet resterait sans nom. */}
+      <title>{`${title} | Synapgeek`}</title>
       <Image
         src="/images/brand/logo-synapgeek.png"
         alt=""

@@ -25,7 +25,7 @@ const fr: Dictionary = {
     consent: {
       title: "Votre choix sur la mesure d'audience",
       body: "Nous utilisons Google Analytics (cookies de mesure d'audience) pour comprendre comment ce site est utilisé. Selon votre pays, cette mesure attend votre accord ou est active par défaut : acceptez-la ou refusez-la ici, et changez d'avis à tout moment via « Gérer mes cookies ». Ce site n'affiche aucune publicité.",
-      learnMore: "En savoir plus",
+      learnMore: "Lire la politique de confidentialité",
       accept: "Accepter",
       refuse: "Refuser",
     },

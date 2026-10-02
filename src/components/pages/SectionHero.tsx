@@ -56,6 +56,7 @@ export function SectionHero({
             height={256}
             sizes="(min-width: 1024px) 14rem, 10rem"
             priority
+            fetchPriority="high"
             className={`size-[62%] ${mark.rounded ? "rounded-[22%] shadow-raised" : ""}`}
           />
         </div>

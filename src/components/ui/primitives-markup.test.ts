@@ -5,6 +5,7 @@ import { AppCard } from "./AppCard";
 import { DifficultyTable } from "./DifficultyTable";
 import { FaqList } from "./FaqList";
 import { GameCard } from "./GameCard";
+import { PhoneFrame } from "./PhoneFrame";
 import { StepList } from "./StepList";
 import { StoreBadges } from "./StoreBadges";
 
@@ -147,5 +148,28 @@ describe("AppCard", () => {
     );
     expect(out.match(/<a /g)).toHaveLength(1);
     expect(out).toContain(">Découvrir Cerebrum</a>");
+  });
+});
+
+describe("PhoneFrame", () => {
+  const frame = (priority?: boolean) =>
+    html(
+      createElement(PhoneFrame, {
+        src: "/images/screens/v3/homepage-en.webp",
+        alt: "Home screen",
+        priority,
+      }),
+    );
+
+  it("the LCP capture is preloaded and fetched with high priority, never lazy", () => {
+    const out = frame(true);
+    expect(out).toContain('fetchPriority="high"');
+    expect(out).not.toContain('loading="lazy"');
+  });
+
+  it("any other capture loads lazily with the default priority", () => {
+    const out = frame();
+    expect(out).toContain('loading="lazy"');
+    expect(out).not.toContain("fetchPriority");
   });
 });
