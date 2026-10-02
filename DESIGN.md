@@ -110,7 +110,7 @@ components:
 
 Le standard de la catégorie « landing de studio d'apps », exécuté proprement : un fond blanc, une encre quasi noire, un vert vif réservé à l'action, des lavis pastel qui portent les jeux, des cartes très arrondies et des boutons pilule. On n'ouvre pas sur un slogan sur dégradé, mais sur une phrase de définition et sur la vraie app dans un téléphone. La chaleur vient de la couleur des jeux et de Fredoka, pas de la décoration.
 
-La densité est aérée : une section par idée, un seul fondu d'entrée par section, aucune parallaxe ni carrousel. La preuve visuelle est toujours réelle (captures de l'app 3.0.0 dans un cadre de téléphone dessiné en CSS, icônes des jeux, aquarelle Breeze de l'app, illustrations du Panda). Le public est adulte : les personnages sont des illustrations d'appoint, jamais des narrateurs.
+La densité est aérée : une section par idée, un seul fondu d'entrée par section, aucune parallaxe ; le slider de messages de l'accueil est le seul carrousel. La preuve visuelle est toujours réelle (captures de l'app 3.0.0 dans un cadre de téléphone dessiné en CSS, icônes des jeux, aquarelle Breeze de l'app, illustrations du Panda). Le public est adulte : les personnages sont des illustrations d'appoint, jamais des narrateurs.
 
 Écart assumé par rapport au contrat de direction : le corps est en Figtree, non en Nunito (Nunito appartient à un autre site du même propriétaire). Le build fait foi.
 
@@ -189,7 +189,7 @@ Une palette de marque courte (vert, violet), des lavis pastel, et une famille de
 
 Bandes pleine largeur (`SectionBand`) empilées ; chacune centre un contenu de 72 rem (`max-w-6xl`), ou 48 rem pour la colonne de lecture des pages de jeu. Gouttière latérale fluide (`gutter`), rythme vertical fluide entre bandes (`section`, 64 à 120 px). Les bandes alternent blanc, `canvas-soft`, lavis de jeu et, une fois, violet profond.
 
-Le héros est en une colonne centrée sur mobile (H1, définition, badges, puis téléphone) et en deux colonnes dès `lg` (texte à gauche, téléphone à droite). Sur mobile, le téléphone déborde de 6 rem sur la bande suivante (`-mb-24`) ; la bande des jeux compense par un padding haut de 7 rem. Ordre du hub : héros, jeux, carte d'app, contact. Les cartes de jeux se rangent en grille ; la barre est collante, 4 rem de haut, et toute ancre garde une marge de défilement d'au moins 6 rem. Cibles tactiles de 44 px au minimum.
+Le héros est en une colonne centrée sur mobile (H1, définition, badges, puis téléphone) et en deux colonnes dès `lg` (texte à gauche, téléphone à droite). Sur mobile, le téléphone déborde de 6 rem sur la bande suivante (`-mb-24`) ; la bande des jeux compense par un padding haut de 7 rem. Ordre du hub (accueil corporate, amendement d'Adrien du 2026-10-02) : slider, « Nos jeux » (un encart pleine largeur par app), « Construit par des passionnés » (la bande violet profond), contact. Le héros de l'accueil est le slider (`HomeHero`, `HeroSlider`) : cinq slides empilées dans une même cellule de grille (hauteur stable), fondu de 300 ms, défilement toutes les 6 s arrêté par le bouton pause, le survol de la souris et le focus clavier, jamais lancé en mouvement réduit ; le téléphone y déborde de sa boîte sur mobile et s'efface en bas par un masque dans cette boîte. Ce qui précède sur le héros en colonne s'applique à la page app. Les cartes de jeux se rangent en grille ; la barre est collante, 4 rem de haut, et toute ancre garde une marge de défilement d'au moins 6 rem. Cibles tactiles de 44 px au minimum.
 
 ## Elevation & Depth
 
@@ -234,7 +234,7 @@ Le seul bouton du site, `Button`, une pilule, quatre variantes, deux tailles, ja
 ### Cards / Containers
 
 - **Carte de jeu (`GameCard`)** : format affiche 5:7, lavis du jeu, icône kawaii à 78 % de la largeur, nom en Fredoka, genre, plateformes. Un lien étiré sur le nom (un seul arrêt de tabulation). Survol et focus : montée de 6 px, ombre « soulevé », voile blanc de 35 %. Sans lien (jeu non publié) : même carte, sans effet.
-- **Carte d'app (`AppCard`)** : lavis vert, 28 px, 24 à 32 px de padding, icône, description, note de modèle, plateformes, un bouton primaire (seul lien). Une illustration décorative `aside` déborde jusqu'aux bords dès `md`.
+- **Encart d'app (`AppShowcase`)** : lavis vert, 28 px, pleine largeur ; icône, nom, phrase de présentation, rangée des icônes des jeux (chacune un lien nommé par `aria-label`, jamais de texte visible), badges des boutiques, un bouton primaire ; le téléphone déborde le bas de l'encart, qui le coupe. Une app de plus, un encart de plus.
 - **Tableaux** : `DifficultyTable` (vrai `<table>` avec `<caption>`, deux colonnes, en-tête `canvas-soft`, filets) et `FactTable` (liste de définitions, libellé à gauche dès `sm`) ; chiffres tabulaires.
 - **Étapes (`StepList`)** : vraie `<ol>`, numéro décoratif en pastille blanche, texte à 18 px.
 
@@ -272,7 +272,7 @@ Badges officiels App Store (SVG) et Google Play (PNG), 44 px de haut, rayon 8 px
 - **Don't** ouvrir une page sur un slogan vague posé sur un dégradé : la phrase de définition et la vraie app d'abord.
 - **Don't** écrire un hex hors de `globals.css`, ni une couleur de jeu en dur.
 - **Don't** poser plus d'une section violet profond par page.
-- **Don't** ajouter parallaxe, carrousel automatique ou animation qui joue sur l'opacité d'un texte.
+- **Don't** ajouter parallaxe, un second carrousel automatique ou une animation qui joue sur l'opacité d'un texte (le fondu du slider d'accueil joue sur des slides dont le texte est masqué, `inert`, pas sur un texte lu).
 - **Don't** remplacer le ciel Breeze par un fichier plus grand, ni remettre un masque sur `.breeze-clip`.
 - **Don't** viser l'enfant ou la famille (mots, images) ; les personnages restent des appoints.
 - **Don't** assombrir un lavis de jeu au survol : on éclaircit.

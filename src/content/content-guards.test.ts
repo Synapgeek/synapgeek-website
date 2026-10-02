@@ -988,17 +988,39 @@ function fixtureHub(overrides: Partial<HubCopy> = {}): CopyEntry {
       updatedAt: "2026-10-01",
       meta: { title: "Synapgeek", description: "A studio." },
       hero: HUB_HERO,
-      apps: {
-        title: "Apps",
-        items: {
-          cerebrum: { description: "An app.", note: "A note.", cta: "Open" },
+      slider: {
+        label: "Highlights",
+        slideLabel: "{current} of {total}",
+        goTo: "Go to {current}",
+        previous: "Previous",
+        next: "Next",
+        pause: "Pause",
+        play: "Play",
+        cta: "Open",
+        slides: {
+          relax: { headline: "A.", body: "B.", phoneAlt: "A screen." },
+          classics: { headline: "C.", body: "D." },
+          offline: { headline: "E.", body: "F.", phoneAlt: "A screen." },
+          france: { headline: "G.", body: "H." },
         },
       },
       games: {
         title: "Games",
-        categories: { "logic-numbers": "A", words: "B", paths: "C" },
+        items: {
+          cerebrum: {
+            pitch: "An app.",
+            iconsLabel: "Games",
+            cta: "Open",
+            phoneAlt: "A screen.",
+          },
+        },
       },
-      studio: { title: "Studio", body: "Body.", cta: "Write" },
+      about: {
+        title: "About",
+        description: "Body.",
+        values: [{ title: "Value", description: "Text." }],
+        cta: "Read",
+      },
       contact: { title: "Contact" },
       ...overrides,
     },

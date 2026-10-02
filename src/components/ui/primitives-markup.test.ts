@@ -1,7 +1,6 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { AppCard } from "./AppCard";
 import { DifficultyTable } from "./DifficultyTable";
 import { FaqList } from "./FaqList";
 import { GameCard } from "./GameCard";
@@ -119,24 +118,6 @@ describe("StoreBadges", () => {
     const out = html(createElement(StoreBadges, { locale: "en", labels }));
     expect(out).toContain('aria-label="App Store"');
     expect(out).toContain('aria-label="Google Play"');
-  });
-});
-
-describe("AppCard", () => {
-  it("has a single link, the button, named by its label", () => {
-    const out = html(
-      createElement(AppCard, {
-        name: "Cerebrum",
-        description: "Des puzzles.",
-        note: "Gratuite.",
-        platforms: "iPhone, iPad et Android",
-        icon: "/icon.png",
-        href: "/cerebrum",
-        ctaLabel: "Découvrir Cerebrum",
-      }),
-    );
-    expect(out.match(/<a /g)).toHaveLength(1);
-    expect(out).toContain(">Découvrir Cerebrum</a>");
   });
 });
 
