@@ -38,7 +38,7 @@
 Verdict GO-avec-réserves. Where a task below disagrees with this section, this section wins.
 
 1. **Security first (I1).** The Next/React/nodemailer upgrade ships as its own PR to `main` (lot 0d, branch `fix/security-deps`), not only inside the rework. Task 2 of this plan stays (the rework branch already carries it) and dedupes on rebase.
-2. **One URL helper (B1, decision 3).** `pagePath(pageId: PageId, locale: Locale, hash?: string)` where `PageId = "home" | "cerebrum" | \`game:${GameId}\` | "about" | "press" | "privacy" | "terms" | "legal"` (a string union, serialisable to client leaves). The legal exception is data (`FROZEN_LEGAL_PATHS`), never a ternary. `getLocalePath` is removed and every caller rewired: `seo.ts`, `sitemap.ts`, `structured-data.ts`, `Footer.tsx`, `HeaderShell.tsx`, `FAQ.tsx`, `ConsentBanner.tsx`, `types.ts` (`FaqLink.path` becomes `{ page: PageId; hash?: string }`). A truth-table test covers every (page, locale) pair. CLAUDE.md's "tout lien interne passe par getLocalePath()" is rewritten.
+2. **One URL helper (B1, decision 3).** `pagePath(pageId: PageId, locale: Locale, hash?: string)` where `PageId = "home" | "cerebrum" | \`game:${GameId}\` | "about" | "press" | "privacy" | "terms" | "legal"` (a string union, serialisable to client leaves). The legal exception is data (`FROZEN_LEGAL_PATHS`), never a ternary. `getLocalePath`is removed and every caller rewired:`seo.ts`, `sitemap.ts`, `structured-data.ts`, `Footer.tsx`, `HeaderShell.tsx`, `FAQ.tsx`, `ConsentBanner.tsx`, `types.ts` (`FaqLink.path`becomes`{ page: PageId; hash?: string }`). A truth-table test covers every (page, locale) pair. CLAUDE.md's "tout lien interne passe par getLocalePath()" is rewritten.
 3. **Frozen legal paths are data (decision 1).** `FROZEN_LEGAL_PATHS = ["/privacy", "/terms", "/legal"]` lives in a dependency-free module without `@/` imports (`src/lib/frozen-legal-paths.ts`), read by the proxy, `pagePath`, the sitemap and `next.config.ts` (relative import). No future page joins it.
 4. **Proxy stays rewrite-only (decision 1).** Prefixed by `/en` or `/fr` → `next()`; unprefixed path equal to a frozen legal path → rewrite to `/fr<path>`; any other unprefixed path → rewrite to `/en<path>`. Matcher and `LOCALE_FREE_ROUTES` unchanged. Tested as a function with `isRewrite` / `getRewrittenUrl` from `next/experimental/testing/server`.
 5. **Redirects: literal sources only, no regex, no lookahead, no catch-all (decision 1).** Order: the three `/account-deletion` (unchanged, `permanent: false`); `/play`, `/jouer` (unchanged); `/en` → `/` (`permanent: true`); then one literal `/en<path>` → `<path>` (`permanent: true`) per published non-legal EN page, generated in `next.config.ts` from the dependency-free slug registry (`/en/cerebrum`, `/en/cerebrum/<game>`, `/en/about`, `/en/press`). A catch-all would also redirect the OG image routes under `/en/…/opengraph-image-*`. **No `/fr/{privacy,terms,legal}` redirect in this PR**: they stay 200 with their canonical (follow-up PR, 307, after production proof). Redirects are tested with `unstable_getResponseFromNextConfig`.
@@ -62,6 +62,7 @@ Verdict GO-avec-réserves. Where a task below disagrees with this section, this 
 ### Task 1: Integrate the lot branches and record the facts
 
 **Files:**
+
 - Branch `feat/studio-hub-rework` rebuilt on top of `fix/site-facts-3.0.0` (which sits on `chore/claude-stack-from-wst`, which sits on `feat/cerebrum-play-route`).
 - Create: `docs/contrat/faits-cerebrum-3.0.0.md` (copy of the iOS fact file)
 - Modify: `.gitignore` (add `/.impeccable/questions/`)
@@ -86,10 +87,12 @@ Verdict GO-avec-réserves. Where a task below disagrees with this section, this 
 ### Task 3: Page registry and path helpers
 
 **Files:**
+
 - Create: `src/lib/routes.ts`, `src/lib/routes.test.ts`
 - Modify: `src/lib/i18n.ts` (`DEFAULT_LOCALE = "en"`, keep `LOCALES = ["en", "fr"]`)
 
 **Interfaces:**
+
 - Produces:
   - `type PageRef = { kind: "hub" } | { kind: "app"; app: AppSlug } | { kind: "game"; app: AppSlug; game: GameId } | { kind: "section"; id: "about" | "press" } | { kind: "legal"; id: "privacy" | "terms" | "legal" }`
   - `pagePath(page: PageRef, locale: Locale, anchor?: string): string` (relative URL, no trailing slash, `/` for the EN hub)
@@ -111,11 +114,31 @@ describe("pagePath — English default, French under /fr", () => {
     [{ kind: "hub" } as const, "fr", "/fr"],
     [{ kind: "app", app: "cerebrum" } as const, "en", "/cerebrum"],
     [{ kind: "app", app: "cerebrum" } as const, "fr", "/fr/cerebrum"],
-    [{ kind: "game", app: "cerebrum", game: "crossword" } as const, "en", "/cerebrum/crossword"],
-    [{ kind: "game", app: "cerebrum", game: "crossword" } as const, "fr", "/fr/cerebrum/mots-croises"],
-    [{ kind: "game", app: "cerebrum", game: "minesweeper" } as const, "fr", "/fr/cerebrum/demineur"],
-    [{ kind: "game", app: "cerebrum", game: "maze" } as const, "fr", "/fr/cerebrum/labyrinthe"],
-    [{ kind: "game", app: "cerebrum", game: "word-search" } as const, "fr", "/fr/cerebrum/mots-meles"],
+    [
+      { kind: "game", app: "cerebrum", game: "crossword" } as const,
+      "en",
+      "/cerebrum/crossword",
+    ],
+    [
+      { kind: "game", app: "cerebrum", game: "crossword" } as const,
+      "fr",
+      "/fr/cerebrum/mots-croises",
+    ],
+    [
+      { kind: "game", app: "cerebrum", game: "minesweeper" } as const,
+      "fr",
+      "/fr/cerebrum/demineur",
+    ],
+    [
+      { kind: "game", app: "cerebrum", game: "maze" } as const,
+      "fr",
+      "/fr/cerebrum/labyrinthe",
+    ],
+    [
+      { kind: "game", app: "cerebrum", game: "word-search" } as const,
+      "fr",
+      "/fr/cerebrum/mots-meles",
+    ],
     [{ kind: "section", id: "about" } as const, "fr", "/fr/a-propos"],
     [{ kind: "section", id: "press" } as const, "fr", "/fr/presse"],
   ])("%j in %s → %s", (page, locale, expected) => {
@@ -124,7 +147,9 @@ describe("pagePath — English default, French under /fr", () => {
 
   it("keeps the frozen legal scheme (installed app, stores, UMP, Data Safety)", () => {
     expect(pagePath({ kind: "legal", id: "privacy" }, "fr")).toBe("/privacy");
-    expect(pagePath({ kind: "legal", id: "privacy" }, "en")).toBe("/en/privacy");
+    expect(pagePath({ kind: "legal", id: "privacy" }, "en")).toBe(
+      "/en/privacy",
+    );
     expect(pagePath({ kind: "legal", id: "terms" }, "fr")).toBe("/terms");
     expect(pagePath({ kind: "legal", id: "legal" }, "en")).toBe("/en/legal");
   });
@@ -146,8 +171,14 @@ describe("pagePath — English default, French under /fr", () => {
       fr: "https://synapgeek.com/privacy",
       "x-default": "https://synapgeek.com/en/privacy",
     });
-    const game = alternatesFor({ kind: "game", app: "cerebrum", game: "minesweeper" });
-    expect(game.languages["x-default"]).toBe("https://synapgeek.com/cerebrum/minesweeper");
+    const game = alternatesFor({
+      kind: "game",
+      app: "cerebrum",
+      game: "minesweeper",
+    });
+    expect(game.languages["x-default"]).toBe(
+      "https://synapgeek.com/cerebrum/minesweeper",
+    );
   });
 });
 ```
@@ -157,7 +188,13 @@ describe("pagePath — English default, French under /fr", () => {
 
 ```ts
 import { LOCALES, type Locale } from "./i18n";
-import { getApps, getGames, gameSlug, type AppSlug, type GameId } from "@/content/apps";
+import {
+  getApps,
+  getGames,
+  gameSlug,
+  type AppSlug,
+  type GameId,
+} from "@/content/apps";
 
 export const BASE_URL = "https://synapgeek.com";
 export const X_DEFAULT_LOCALE: Locale = "en";
@@ -180,7 +217,11 @@ function localePrefix(locale: Locale): string {
   return locale === "en" ? "" : `/${locale}`;
 }
 
-export function pagePath(page: PageRef, locale: Locale, anchor?: string): string {
+export function pagePath(
+  page: PageRef,
+  locale: Locale,
+  anchor?: string,
+): string {
   let path: string;
   switch (page.kind) {
     case "hub":
@@ -215,7 +256,10 @@ export function alternatesFor(page: PageRef) {
   ) as Record<Locale, string>;
   return {
     canonical: (locale: Locale) => absoluteUrl(page, locale),
-    languages: { ...languages, "x-default": absoluteUrl(page, X_DEFAULT_LOCALE) },
+    languages: {
+      ...languages,
+      "x-default": absoluteUrl(page, X_DEFAULT_LOCALE),
+    },
   };
 }
 
@@ -230,10 +274,18 @@ export function allPages(): PageRef[] {
   const pages: PageRef[] = [{ kind: "hub" }];
   for (const app of getApps()) {
     pages.push({ kind: "app", app: app.slug });
-    for (const game of getGames(app.slug)) pages.push({ kind: "game", app: app.slug, game: game.id });
+    for (const game of getGames(app.slug))
+      pages.push({ kind: "game", app: app.slug, game: game.id });
   }
-  pages.push({ kind: "section", id: "about" }, { kind: "section", id: "press" });
-  pages.push({ kind: "legal", id: "privacy" }, { kind: "legal", id: "terms" }, { kind: "legal", id: "legal" });
+  pages.push(
+    { kind: "section", id: "about" },
+    { kind: "section", id: "press" },
+  );
+  pages.push(
+    { kind: "legal", id: "privacy" },
+    { kind: "legal", id: "terms" },
+    { kind: "legal", id: "legal" },
+  );
   return pages;
 }
 ```
@@ -256,13 +308,21 @@ const FROZEN_FR_PATHS = ["/privacy", "/terms", "/legal"];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  if (LOCALE_FREE_ROUTES.some((r) => pathname === r || pathname.startsWith(`${r}/`))) {
+  if (
+    LOCALE_FREE_ROUTES.some(
+      (r) => pathname === r || pathname.startsWith(`${r}/`),
+    )
+  ) {
     return NextResponse.next();
   }
-  const hasLocale = LOCALES.some((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`));
+  const hasLocale = LOCALES.some(
+    (l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`),
+  );
   if (hasLocale) return NextResponse.next();
   const url = request.nextUrl.clone();
-  url.pathname = FROZEN_FR_PATHS.includes(pathname) ? `/fr${pathname}` : `/${DEFAULT_LOCALE}${pathname === "/" ? "" : pathname}`;
+  url.pathname = FROZEN_FR_PATHS.includes(pathname)
+    ? `/fr${pathname}`
+    : `/${DEFAULT_LOCALE}${pathname === "/" ? "" : pathname}`;
   return NextResponse.rewrite(url);
 }
 ```
@@ -294,46 +354,73 @@ export function proxy(request: NextRequest) {
 ### Task 7: Apps and games registry
 
 **Files:**
+
 - Create: `src/content/apps/types.ts`, `src/content/apps/index.ts`, `src/content/apps/cerebrum/app.ts`, `src/content/apps/cerebrum/games.ts`, `src/content/apps/registry.test.ts`
 - Modify: `src/lib/app.ts` (re-export store constants from the registry, keep `APP_STORE_QR_URL`)
 
 **Interfaces:**
+
 - Produces:
 
 ```ts
 export type AppSlug = "cerebrum";
-export type GameId = "sudoku" | "pandoku" | "minesweeper" | "pixel-art" | "cross-math" | "crossword" | "word-search" | "trace" | "maze" | "arrow-maze";
+export type GameId =
+  | "sudoku"
+  | "pandoku"
+  | "minesweeper"
+  | "pixel-art"
+  | "cross-math"
+  | "crossword"
+  | "word-search"
+  | "trace"
+  | "maze"
+  | "arrow-maze";
 export type GameCategory = "logic-numbers" | "words" | "paths";
 export type Difficulty = "easy" | "medium" | "hard" | "elite";
-export interface PlatformAvailability { ios: string | null; android: string | null } // app version that shipped the game, null = not available
+export interface PlatformAvailability {
+  ios: string | null;
+  android: string | null;
+} // app version that shipped the game, null = not available
 export interface GameEntry {
   id: GameId;
   category: GameCategory;
   slug: Record<Locale, string>;
-  name: Record<Locale, string>;      // in-app name (FR/EN)
+  name: Record<Locale, string>; // in-app name (FR/EN)
   genre: Record<Locale, string | null>; // generic genre next to a house name, null for classics
   difficulties: readonly Difficulty[];
   lives: "three-hearts" | "three-lives" | "none" | "grid-defined";
   hasTutorial: boolean;
   availability: PlatformAvailability;
   contentLocales: "all" | readonly Locale[]; // crossword and word-search: ["fr", "en"]
-  color: { wash: string; deep: string };     // from cerebrum-ios/docs/port/game-palette.json via design-system values
-  icon: string;                              // /images/games/<id>-v3.webp
-  screenshot: Record<Locale, string>;        // /images/screens/v3/<id>-<locale>.webp
+  color: { wash: string; deep: string }; // from cerebrum-ios/docs/port/game-palette.json via design-system values
+  icon: string; // /images/games/<id>-v3.webp
+  screenshot: Record<Locale, string>; // /images/screens/v3/<id>-<locale>.webp
 }
 export interface AppEntry {
-  slug: AppSlug; name: string; publisher: "Synapgeek";
-  appStoreId: string; appStoreUrl: string; googlePlayUrl: string;
+  slug: AppSlug;
+  name: string;
+  publisher: "Synapgeek";
+  appStoreId: string;
+  appStoreUrl: string;
+  googlePlayUrl: string;
   platforms: { ios: { minOs: string }; android: { minOs: string | null } };
-  languages: readonly string[]; contentRating: { appStore: "4+" };
-  icon: string; games: readonly GameId[];
+  languages: readonly string[];
+  contentRating: { appStore: "4+" };
+  icon: string;
+  games: readonly GameId[];
 }
 export function getApps(): readonly AppEntry[];
 export function getApp(slug: AppSlug): AppEntry;
 export function getGames(app: AppSlug): readonly GameEntry[];
 export function gameSlug(app: AppSlug, game: GameId, locale: Locale): string;
-export function findGameBySlug(app: AppSlug, locale: Locale, slug: string): GameEntry | null;
-export function platformsFor(game: GameEntry): Array<"iPhone" | "iPad" | "Android">;
+export function findGameBySlug(
+  app: AppSlug,
+  locale: Locale,
+  slug: string,
+): GameEntry | null;
+export function platformsFor(
+  game: GameEntry,
+): Array<"iPhone" | "iPad" | "Android">;
 ```
 
 - [ ] **Step 1: Write the failing test** `registry.test.ts`: ten games in the published order (Sudoku, Pandoku, Minesweeper, Pixel Art, Cross Math, Crossword, Word Search, Trace, Maze, Arrow Maze); slugs unique per locale and never one of `play`, `privacy`, `terms`, `legal`, `about`, `a-propos`, `press`, `presse`, `en`, `fr`; `findGameBySlug("cerebrum","fr","crossword")` is null and `findGameBySlug("cerebrum","en","mots-croises")` is null; difficulties: four for every game except crossword, word-search and arrow-maze (three, no elite); crossword and word-search `contentLocales` are `["fr","en"]`; `platformsFor` of pandoku returns `["iPhone","iPad"]` while `availability.android` is null, and adds `"Android"` when it is set; every `icon` and `screenshot` path exists under `public/`.
@@ -345,35 +432,77 @@ export function platformsFor(game: GameEntry): Array<"iPhone" | "iPad" | "Androi
 ### Task 8: Copy modules and content guards
 
 **Files:**
+
 - Create: `src/content/copy/types.ts`, `src/content/copy/en/{hub,about,press}.ts`, `src/content/copy/fr/{hub,about,press}.ts`, `src/content/apps/cerebrum/copy/{en,fr}.ts`, `src/content/content-guards.test.ts`
 - Modify: `src/content/types.ts` (drop `landing.*`, keep `common`, `privacy`, `terms`, `legal`, `play`; add `common.a11y.skipToContent`, `common.languageSuggestion`)
 
 **Interfaces:**
+
 - Produces:
 
 ```ts
-export interface DefinitionBlock { h1: string; definition: string } // definition: 150-250 chars
-export interface FaqEntry { question: string; answer: string }
+export interface DefinitionBlock {
+  h1: string;
+  definition: string;
+} // definition: 150-250 chars
+export interface FaqEntry {
+  question: string;
+  answer: string;
+}
 export interface GameCopy {
   updatedAt: string; // ISO date
   meta: { title: string; description: string }; // description <= 155 chars
   hero: DefinitionBlock;
-  howToPlay: { title: string; steps: readonly string[] };      // 3 to 6 steps
-  whatCerebrumAdds: { title: string; paragraphs: readonly string[]; difficultyTable: { caption: string; rows: ReadonlyArray<{ difficulty: Difficulty; detail: string }> } };
-  tips: { title: string; items: readonly string[] };            // 3 to 5
-  faq: { title: string; items: readonly FaqEntry[] };           // 3 to 6
+  howToPlay: { title: string; steps: readonly string[] }; // 3 to 6 steps
+  whatCerebrumAdds: {
+    title: string;
+    paragraphs: readonly string[];
+    difficultyTable: {
+      caption: string;
+      rows: ReadonlyArray<{ difficulty: Difficulty; detail: string }>;
+    };
+  };
+  tips: { title: string; items: readonly string[] }; // 3 to 5
+  faq: { title: string; items: readonly FaqEntry[] }; // 3 to 6
 }
 export interface AppCopy {
   updatedAt: string;
   meta: { title: string; description: string };
   hero: DefinitionBlock;
-  sections: { games: string; daily: { title: string; body: string }; progress: { title: string; items: readonly string[] }; goodToKnow: { title: string; items: readonly string[] }; model: { title: string; items: readonly string[] } };
+  sections: {
+    games: string;
+    daily: { title: string; body: string };
+    progress: { title: string; items: readonly string[] };
+    goodToKnow: { title: string; items: readonly string[] };
+    model: { title: string; items: readonly string[] };
+  };
   faq: { title: string; items: readonly FaqEntry[] };
   games: Record<GameId, GameCopy>;
 }
-export interface HubCopy { updatedAt: string; meta: { title: string; description: string }; hero: DefinitionBlock; apps: { title: string }; games: { title: string; categories: Record<GameCategory, string> }; facts: ReadonlyArray<{ value: string; label: string }>; studio: { title: string; body: string; cta: string }; contact: { title: string } }
-export interface AboutCopy { updatedAt: string; meta: { title: string; description: string }; hero: DefinitionBlock; sections: ReadonlyArray<{ title: string; body: string }> }
-export interface PressCopy { updatedAt: string; meta: { title: string; description: string }; hero: DefinitionBlock; factSheet: ReadonlyArray<{ label: string; value: string }>; downloads: ReadonlyArray<{ label: string; href: string }>; contact: string }
+export interface HubCopy {
+  updatedAt: string;
+  meta: { title: string; description: string };
+  hero: DefinitionBlock;
+  apps: { title: string };
+  games: { title: string; categories: Record<GameCategory, string> };
+  facts: ReadonlyArray<{ value: string; label: string }>;
+  studio: { title: string; body: string; cta: string };
+  contact: { title: string };
+}
+export interface AboutCopy {
+  updatedAt: string;
+  meta: { title: string; description: string };
+  hero: DefinitionBlock;
+  sections: ReadonlyArray<{ title: string; body: string }>;
+}
+export interface PressCopy {
+  updatedAt: string;
+  meta: { title: string; description: string };
+  hero: DefinitionBlock;
+  factSheet: ReadonlyArray<{ label: string; value: string }>;
+  downloads: ReadonlyArray<{ label: string; href: string }>;
+  contact: string;
+}
 export function getHubCopy(locale: Locale): HubCopy;
 export function getAppCopy(app: AppSlug, locale: Locale): AppCopy;
 export function getAboutCopy(locale: Locale): AboutCopy;
@@ -385,17 +514,24 @@ export function getPressCopy(locale: Locale): PressCopy;
 ```ts
 const FORBIDDEN: Array<[RegExp, string]> = [
   [/\b(six|dix|ten|10|6)\s+(jeux|games|puzzles?)\b/i, "no number of games"],
-  [/\b\d[\d\s ]*\s*(niveaux|levels|grilles|puzzles)\b/i, "no number of levels or puzzles"],
+  [
+    /\b\d[\d\s ]*\s*(niveaux|levels|grilles|puzzles)\b/i,
+    "no number of levels or puzzles",
+  ],
   [/—/, "no em dash in visible copy"],
   [/\b(sans pub|ad-free|no ads)\b/i, "say no forced ads, never ad-free"],
   [/\b(zip|queens|picross)\b/i, "never Zip, Queens, Picross"],
-  [/\b(enfants?|kids?|children|famille|family|éducatif|educational|pour les petits)\b/i, "never address children or families"],
+  [
+    /\b(enfants?|kids?|children|famille|family|éducatif|educational|pour les petits)\b/i,
+    "never address children or families",
+  ],
   [/\b(classements?|leaderboards?)\b/i, "leaderboards are hidden in 3.0.0"],
   [/(€|\$|\bUSD\b|\bEUR\b)/, "no price"],
 ];
 ```
 
-  plus: every `hero.definition` is 150 to 250 characters; every `meta.description` ≤ 155 characters; FR and EN modules expose the same keys and the same number of FAQ items, steps and tips per game; every house game (`genre` not null) has its genre mentioned in its own `hero.definition`.
+plus: every `hero.definition` is 150 to 250 characters; every `meta.description` ≤ 155 characters; FR and EN modules expose the same keys and the same number of FAQ items, steps and tips per game; every house game (`genre` not null) has its genre mentioned in its own `hero.definition`.
+
 - [ ] **Step 2:** Run. Expected: PASS vacuously only for missing modules; create the modules with real copy in Tasks 12 to 16, the guards bite as each lands.
 - [ ] **Step 3:** Move the shared UI strings: skip link text into `common.a11y.skipToContent` (removes the layout ternary), and the three legal `generateMetadata` descriptions into `privacy.metaDescription`, `terms.metaDescription`, `legal.metaDescription` (removes the three remaining ternaries); lower the ternary ratchet in `route-invariants.test.ts` to 0.
 - [ ] **Step 4:** Run lint, tsc, tests. Commit `feat(content): typed copy modules, content guards, zero locale ternaries`.

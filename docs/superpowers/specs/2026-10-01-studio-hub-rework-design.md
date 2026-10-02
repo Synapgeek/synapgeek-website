@@ -33,21 +33,21 @@ Pourquoi maintenant :
 
 ## 2. Décisions d'Adrien (2026-10-01)
 
-| Sujet | Décision |
-|---|---|
-| Périmètre du hub | Apps mobiles uniquement. Word Search Trove et Maze Foundry n'apparaissent jamais (règle portefeuille 2). |
-| Nature du studio | Studio d'apps, pas seulement de jeux. L'app non-jeu en développement n'est jamais nommée (nom de code interne). |
-| Architecture | Option A : hub + jeux rangés sous leur app (`/cerebrum/<jeu>`). |
-| Langues | Anglais par défaut sans préfixe, français sous `/fr`, architecture prête pour d'autres langues. |
-| Slugs | Traduits en français quand le nom change (`/fr/cerebrum/mots-croises`). |
-| Contenu | Pages jeux riches, explicatives « comme les descriptions ASO » ; rédigées par Claude, relues par Adrien ; guides plus tard. |
-| Presse | Une page Presse dès la v1. |
-| Redirection store | `/cerebrum/play` canonique (QR des chevalets) ; `/play` et `/jouer` y redirigent (lot 0c, PR #11). |
-| Visuel | Le standard de la catégorie (landing de studio d'apps), au niveau de finition d'easybrain.com et oakevergames.com, ADN conservé (logo cerveau, vert et violet, icônes kawaii des jeux). |
-| Méthode | Construction code d'abord pour cette refonte (bascule faite sur la page de décision impeccable). |
-| Public | Adultes de 30 à 60 ans, pause détente ; WCAG 2.1 AA standard. |
-| Modèles | Sous-agents Sonnet pour l'implémentation ; Opus réservé aux revues et aux gates. |
-| Déploiement | Seule `main` déploie sur Vercel (`git.deploymentEnabled`), aucune preview de branche. |
+| Sujet             | Décision                                                                                                                                                                                |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Périmètre du hub  | Apps mobiles uniquement. Word Search Trove et Maze Foundry n'apparaissent jamais (règle portefeuille 2).                                                                                |
+| Nature du studio  | Studio d'apps, pas seulement de jeux. L'app non-jeu en développement n'est jamais nommée (nom de code interne).                                                                         |
+| Architecture      | Option A : hub + jeux rangés sous leur app (`/cerebrum/<jeu>`).                                                                                                                         |
+| Langues           | Anglais par défaut sans préfixe, français sous `/fr`, architecture prête pour d'autres langues.                                                                                         |
+| Slugs             | Traduits en français quand le nom change (`/fr/cerebrum/mots-croises`).                                                                                                                 |
+| Contenu           | Pages jeux riches, explicatives « comme les descriptions ASO » ; rédigées par Claude, relues par Adrien ; guides plus tard.                                                             |
+| Presse            | Une page Presse dès la v1.                                                                                                                                                              |
+| Redirection store | `/cerebrum/play` canonique (QR des chevalets) ; `/play` et `/jouer` y redirigent (lot 0c, PR #11).                                                                                      |
+| Visuel            | Le standard de la catégorie (landing de studio d'apps), au niveau de finition d'easybrain.com et oakevergames.com, ADN conservé (logo cerveau, vert et violet, icônes kawaii des jeux). |
+| Méthode           | Construction code d'abord pour cette refonte (bascule faite sur la page de décision impeccable).                                                                                        |
+| Public            | Adultes de 30 à 60 ans, pause détente ; WCAG 2.1 AA standard.                                                                                                                           |
+| Modèles           | Sous-agents Sonnet pour l'implémentation ; Opus réservé aux revues et aux gates.                                                                                                        |
+| Déploiement       | Seule `main` déploie sur Vercel (`git.deploymentEnabled`), aucune preview de branche.                                                                                                   |
 
 ## 3. Hors périmètre
 
@@ -67,11 +67,11 @@ La refonte se construit **par-dessus** trois branches déjà prêtes, intégrée
 `feat/studio-hub-rework` (merge de branches) puis re-synchronisées avec `main` quand Adrien les
 aura mergées :
 
-| Lot | Branche | Contenu | État |
-|---|---|---|---|
-| 0a | `chore/claude-stack-from-wst` | vitest + `route-invariants.test.ts`, `check:contract`, CI GitHub, skill `design-references`, MCP shadcn, agents mis à jour | correctifs de revue en cours |
-| 0b | `fix/site-facts-3.0.0` | site actuel aligné sur Cerebrum 3.0.0 | correctifs en cours ; merge après Android 3.0.0 à 100 % et le point zéro des prompts « marque » |
-| 0c | `feat/cerebrum-play-route` (PR #11) | `/cerebrum/play` + alias `/play`, `/jouer` | mergeable, vérifié sur Vercel |
+| Lot | Branche                             | Contenu                                                                                                                    | État                                                                                            |
+| --- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| 0a  | `chore/claude-stack-from-wst`       | vitest + `route-invariants.test.ts`, `check:contract`, CI GitHub, skill `design-references`, MCP shadcn, agents mis à jour | correctifs de revue en cours                                                                    |
+| 0b  | `fix/site-facts-3.0.0`              | site actuel aligné sur Cerebrum 3.0.0                                                                                      | correctifs en cours ; merge après Android 3.0.0 à 100 % et le point zéro des prompts « marque » |
+| 0c  | `feat/cerebrum-play-route` (PR #11) | `/cerebrum/play` + alias `/play`, `/jouer`                                                                                 | mergeable, vérifié sur Vercel                                                                   |
 
 Les trois portent la règle `vercel.json` « seule `main` déploie ».
 
@@ -79,25 +79,25 @@ Les trois portent la règle `vercel.json` « seule `main` déploie ».
 
 ### 5.1 Arborescence
 
-| Page | Anglais (défaut) | Français |
-|---|---|---|
-| Hub studio | `/` | `/fr` |
-| App Cerebrum | `/cerebrum` | `/fr/cerebrum` |
-| Sudoku | `/cerebrum/sudoku` | `/fr/cerebrum/sudoku` |
-| Pandoku | `/cerebrum/pandoku` | `/fr/cerebrum/pandoku` |
-| Minesweeper / Démineur | `/cerebrum/minesweeper` | `/fr/cerebrum/demineur` |
-| Pixel Art | `/cerebrum/pixel-art` | `/fr/cerebrum/pixel-art` |
-| Cross Math | `/cerebrum/cross-math` | `/fr/cerebrum/cross-math` |
-| Crossword / Mots croisés | `/cerebrum/crossword` | `/fr/cerebrum/mots-croises` |
-| Word Search / Mots mêlés | `/cerebrum/word-search` | `/fr/cerebrum/mots-meles` |
-| Trace | `/cerebrum/trace` | `/fr/cerebrum/trace` |
-| Maze / Labyrinthe | `/cerebrum/maze` | `/fr/cerebrum/labyrinthe` |
-| Arrow Maze | `/cerebrum/arrow-maze` | `/fr/cerebrum/arrow-maze` |
-| À propos | `/about` | `/fr/a-propos` |
-| Presse | `/press` | `/fr/presse` |
-| Confidentialité (gelée) | `/en/privacy` | `/privacy` |
-| CGU (gelées) | `/en/terms` | `/terms` |
-| Mentions légales (gelées) | `/en/legal` | `/legal` |
+| Page                      | Anglais (défaut)        | Français                    |
+| ------------------------- | ----------------------- | --------------------------- |
+| Hub studio                | `/`                     | `/fr`                       |
+| App Cerebrum              | `/cerebrum`             | `/fr/cerebrum`              |
+| Sudoku                    | `/cerebrum/sudoku`      | `/fr/cerebrum/sudoku`       |
+| Pandoku                   | `/cerebrum/pandoku`     | `/fr/cerebrum/pandoku`      |
+| Minesweeper / Démineur    | `/cerebrum/minesweeper` | `/fr/cerebrum/demineur`     |
+| Pixel Art                 | `/cerebrum/pixel-art`   | `/fr/cerebrum/pixel-art`    |
+| Cross Math                | `/cerebrum/cross-math`  | `/fr/cerebrum/cross-math`   |
+| Crossword / Mots croisés  | `/cerebrum/crossword`   | `/fr/cerebrum/mots-croises` |
+| Word Search / Mots mêlés  | `/cerebrum/word-search` | `/fr/cerebrum/mots-meles`   |
+| Trace                     | `/cerebrum/trace`       | `/fr/cerebrum/trace`        |
+| Maze / Labyrinthe         | `/cerebrum/maze`        | `/fr/cerebrum/labyrinthe`   |
+| Arrow Maze                | `/cerebrum/arrow-maze`  | `/fr/cerebrum/arrow-maze`   |
+| À propos                  | `/about`                | `/fr/a-propos`              |
+| Presse                    | `/press`                | `/fr/presse`                |
+| Confidentialité (gelée)   | `/en/privacy`           | `/privacy`                  |
+| CGU (gelées)              | `/en/terms`             | `/terms`                    |
+| Mentions légales (gelées) | `/en/legal`             | `/legal`                    |
 
 Service, sans langue : `/cerebrum/play` (noindex, hors sitemap).
 
@@ -110,19 +110,19 @@ est le français, et `/en/privacy`, `/en/terms`, `/en#contact` dans les 15 autre
 `/en/privacy` ; UMP (AdMob) et le formulaire Data Safety de Google Play (`/account-deletion`)
 pointent aussi ces URLs. Une app installée ne se met pas à jour. Donc :
 
-| URL | Comportement après la refonte |
-|---|---|
-| `/privacy`, `/terms`, `/legal` | 200, **français** (inchangé) |
-| `/en/privacy`, `/en/terms`, `/en/legal` | 200, anglais (inchangé) |
-| `/fr/privacy`, `/fr/terms`, `/fr/legal` | 308 vers `/privacy`, `/terms`, `/legal` (fin du doublon) |
-| `/account-deletion` (+ `/en/`, `/fr/`) | 307 vers l'ancre `#account-deletion`, inchangé |
-| `/` | 200, hub **anglais**, garde `id="contact"` |
-| `/en` (et `/en/`) | 308 vers `/` (l'ancre `#contact` est conservée par le navigateur) |
-| `/fr` | 200, hub français, garde `id="contact"` |
-| `/cerebrum/play`, `/play`, `/jouer` | lot 0c, inchangé |
-| `/.well-known/*`, `/app-ads.txt`, `/llms.txt`, `/robots.txt`, `/sitemap.xml` | 200, inchangés |
-| `www.synapgeek.com/*` | 308 vers l'apex, chemin conservé (réglage Vercel, inchangé) |
-| Toute autre URL `/en/<x>` | 308 vers `/<x>` (pas de doublon anglais préfixé) |
+| URL                                                                          | Comportement après la refonte                                     |
+| ---------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `/privacy`, `/terms`, `/legal`                                               | 200, **français** (inchangé)                                      |
+| `/en/privacy`, `/en/terms`, `/en/legal`                                      | 200, anglais (inchangé)                                           |
+| `/fr/privacy`, `/fr/terms`, `/fr/legal`                                      | 308 vers `/privacy`, `/terms`, `/legal` (fin du doublon)          |
+| `/account-deletion` (+ `/en/`, `/fr/`)                                       | 307 vers l'ancre `#account-deletion`, inchangé                    |
+| `/`                                                                          | 200, hub **anglais**, garde `id="contact"`                        |
+| `/en` (et `/en/`)                                                            | 308 vers `/` (l'ancre `#contact` est conservée par le navigateur) |
+| `/fr`                                                                        | 200, hub français, garde `id="contact"`                           |
+| `/cerebrum/play`, `/play`, `/jouer`                                          | lot 0c, inchangé                                                  |
+| `/.well-known/*`, `/app-ads.txt`, `/llms.txt`, `/robots.txt`, `/sitemap.xml` | 200, inchangés                                                    |
+| `www.synapgeek.com/*`                                                        | 308 vers l'apex, chemin conservé (réglage Vercel, inchangé)       |
+| Toute autre URL `/en/<x>`                                                    | 308 vers `/<x>` (pas de doublon anglais préfixé)                  |
 
 Un francophone arrivé sur le hub anglais par l'app (`/#contact`) voit un lien discret « Version
 française » vers `/fr#contact` (détection `navigator.language` côté client, sans redirection
@@ -291,14 +291,14 @@ Seules les recommandations vérifiées sur sources primaires (playbook du 2026-1
 
 ## 12. Risques et questions ouvertes
 
-| Risque | Parade |
-|---|---|
-| Android encore en 2.1.5 au moment du merge | disponibilité par plateforme en données (§6) |
-| Contenu interchangeable entre pages jeux | valeur propre par jeu, relecture, garde de contenu |
-| Le fun bascule vers l'enfantin (Families policy) | garde-fous COPPA (§8), ton adulte, revue |
+| Risque                                                | Parade                                                                   |
+| ----------------------------------------------------- | ------------------------------------------------------------------------ |
+| Android encore en 2.1.5 au moment du merge            | disponibilité par plateforme en données (§6)                             |
+| Contenu interchangeable entre pages jeux              | valeur propre par jeu, relecture, garde de contenu                       |
+| Le fun bascule vers l'enfantin (Families policy)      | garde-fous COPPA (§8), ton adulte, revue                                 |
 | Redirections différentes entre `next start` et Vercel | `vercel build` + `check:contract` sur la production juste après le merge |
-| Volume de texte à relire pour Adrien | deux vagues, relecture factuelle iOS d'abord |
-| Montée de version Next | lot isolé, tests et build verts avant toute autre modification |
+| Volume de texte à relire pour Adrien                  | deux vagues, relecture factuelle iOS d'abord                             |
+| Montée de version Next                                | lot isolé, tests et build verts avant toute autre modification           |
 
 Questions ouvertes (non bloquantes) : la phrase sur les solveurs (§10) ; l'ajout futur d'autres
 langues ; la règle portefeuille 8 sur le bandeau de consentement (hors chantier).

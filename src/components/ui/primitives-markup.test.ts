@@ -115,22 +115,10 @@ describe("GameCard", () => {
 describe("StoreBadges", () => {
   const labels = { appStoreLabel: "App Store", googlePlayLabel: "Google Play" };
 
-  it("shows both stores by default, each link with an accessible name", () => {
+  it("shows both stores, each link with an accessible name", () => {
     const out = html(createElement(StoreBadges, { locale: "en", labels }));
     expect(out).toContain('aria-label="App Store"');
     expect(out).toContain('aria-label="Google Play"');
-  });
-
-  it("can show the App Store alone (a game not yet on Android)", () => {
-    const out = html(
-      createElement(StoreBadges, {
-        locale: "fr",
-        labels,
-        stores: ["app-store"],
-      }),
-    );
-    expect(out).toContain('aria-label="App Store"');
-    expect(out).not.toContain("Google Play");
   });
 });
 

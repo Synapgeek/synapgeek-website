@@ -111,7 +111,7 @@ export default async function PlayPage({
             width={96}
             height={96}
             className="mb-8 rounded-[22%] shadow-raised"
-            priority
+            preload
           />
           <h1 className="text-5xl leading-none tracking-[-0.03em] sm:text-6xl">
             Cerebrum

@@ -20,8 +20,6 @@ import {
 } from "./routes";
 
 // Pages développeur des stores — utilisées comme `sameAs` de l'organisation.
-// Faits stores fournis par la tâche ; on omet une URL introuvable plutôt que
-// d'en inventer une.
 const APP_STORE_DEVELOPER_URL =
   "https://apps.apple.com/fr/developer/synapgeek/id1895554771?uo=4";
 const GOOGLE_PLAY_DEVELOPER_URL =
@@ -78,9 +76,7 @@ interface OrganizationSchema {
  * (référencé en `publisher`/`author` ailleurs plutôt que redupliqué).
  */
 export function organizationSchema(): OrganizationSchema {
-  const sameAs = [APP_STORE_DEVELOPER_URL, GOOGLE_PLAY_DEVELOPER_URL].filter(
-    (url): url is string => Boolean(url),
-  );
+  const sameAs = [APP_STORE_DEVELOPER_URL, GOOGLE_PLAY_DEVELOPER_URL];
 
   return {
     "@context": "https://schema.org",
