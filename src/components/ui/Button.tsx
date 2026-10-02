@@ -46,7 +46,7 @@ export function Button({
   className = "",
   ...props
 }: ButtonElementProps | LinkElementProps) {
-  const classes = `inline-flex items-center justify-center gap-2 rounded-pill font-bold whitespace-nowrap transition-[background-color,color,box-shadow,transform] duration-150 ease-out active:scale-[0.97] ${VARIANTS[variant]} ${SIZES[size]} ${className}`;
+  const classes = `inline-flex items-center justify-center gap-2 rounded-pill font-bold whitespace-nowrap transition-[background-color,color,box-shadow,transform] duration-150 ease-out active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${VARIANTS[variant]} ${SIZES[size]} ${className}`;
 
   if (props.href !== undefined) {
     const { href, target, rel, ...anchor } = props as LinkElementProps;

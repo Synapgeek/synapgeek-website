@@ -9,8 +9,8 @@ Règles qui valent ici. Direction visuelle : `DESIGN.md` ; règles racine : `CLA
    hex dans un `.tsx` de `components/` ou `app/`. Les couleurs d'un jeu s'obtiennent par
    `gameColorVars` (noms de propriétés CSS).
 3. **Un seul bouton** : `Button` (primary, secondary, outline, inverse), jamais un cinquième.
-   Dette connue : le bouton d'envoi de `ContactForm` a encore son propre style (blanc sur vert,
-   sous le contraste AA). Les primitives sont dans `ui/` ; en explorer une de shadcn par `view`
+   Le bouton d'envoi de `ContactForm` est ce `Button` (primary, `lg`, pleine largeur). Les
+   primitives sont dans `ui/` ; en explorer une de shadcn par `view`
    puis la réécrire.
 4. **Aucun texte en dur**, `aria-label` et `alt` compris : tout vient du Dictionnaire ou d'un module
    de copie, passé en props. Aucun ternaire `locale === "fr"`.
