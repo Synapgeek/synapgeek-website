@@ -82,6 +82,8 @@ pages. La clé est le nom du fichier `public/<32 hex>.txt` (son contenu est la c
 par conception) : ne pas le renommer ni le supprimer, `npm test` et `check:contract` le
 vérifient.
 
+`check:contract` contre un déploiement Vercel protégé : définir `VERCEL_OIDC_TOKEN`, le script l'envoie en en-tête `x-vercel-trusted-oidc-idp-token` sur chaque requête (jamais affiché).
+
 Portes automatiques : `npm run lint`, `npm test`, `npm run build`, rejouées par la CI
 (`.github/workflows/ci.yml`, sans secret). `check:contract` n'est pas dans la CI : à lancer
 contre `next start` en local avant tout merge touchant routage, redirects ou
