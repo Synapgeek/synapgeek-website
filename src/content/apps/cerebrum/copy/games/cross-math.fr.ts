@@ -22,7 +22,7 @@ export const crossMathFr: GameCopy = {
       "Touchez une case vide puis un nombre de la réserve, ou faites glisser le nombre jusqu'à la case. Posé, il quitte la réserve.",
       "Les calculs suivent la priorité des opérations : les multiplications et les divisions passent avant les additions et les soustractions. 2 + 3 × 4 fait donc 14, et non 20. Tous les nombres sont entiers.",
       "Chaque nombre est vérifié au moment où vous le posez. Un nombre juste se verrouille. Un nombre faux est signalé aussitôt et vous coûte une vie ; cinq secondes plus tard, il s'efface de la case et regagne la réserve.",
-      "Un niveau enchaîne trois grilles. Le chronomètre et les erreurs continuent de courir d'une grille à l'autre, et rien n'est comptabilisé avant la fin de la troisième.",
+      "Un niveau enchaîne trois grilles. Le chronomètre continue de tourner et les erreurs se cumulent d'une grille à l'autre, et rien n'est comptabilisé avant la fin de la troisième.",
     ],
   },
   whatCerebrumAdds: {
@@ -30,9 +30,9 @@ export const crossMathFr: GameCopy = {
     paragraphs: [
       "Cross Math a sa propre progression dans Cerebrum : chaque difficulté a son parcours de niveaux, qui s'ouvrent l'un après l'autre. Quand vous avez terminé le parcours d'une difficulté, le mode Infini prend le relais avec d'autres niveaux de trois grilles, toujours dans cette difficulté.",
       "Plus la difficulté monte, plus les grilles grandissent et plus les opérations se multiplient : Facile s'en tient à l'addition et à la soustraction, Moyen y ajoute la multiplication, Difficile et Élite y ajoutent la division. Les nombres à placer vont de 1 à 30, tandis que les nombres donnés et les résultats montent jusqu'à 100.",
-      "Vous disposez de trois vies, affichées en cœurs : chaque nombre faux en retire une, et la troisième perdue arrête la partie, mais une seconde chance reste possible. Une grille sans erreur rapporte trois étoiles, une seule erreur deux, deux erreurs ou plus une seule. Aucun bouton Annuler : la correction se fait toute seule, quand le nombre faux retourne dans la réserve.",
-      "Le bouton Indice remplit une case avec le bon nombre. Il ne vous explique rien, mais il vous débloque quand deux équations se bloquent mutuellement. Pour les étoiles, seules comptent les erreurs : un indice ne vous en retire aucune.",
-      "Cross Math fait partie des jeux proposés pour le défi du jour, en Facile ou en Moyen. Si vous le choisissez, vous jouez la grille que tous les autres joueurs de la journée reçoivent aussi.",
+      "Vous disposez de trois vies, affichées en cœurs : chaque nombre faux en retire une, et la troisième perdue arrête la partie, mais une seconde chance reste possible. Une grille sans erreur rapporte trois étoiles, une seule erreur, deux ; deux erreurs ou plus, une seule. Aucun bouton Annuler : la correction se fait toute seule, quand le nombre faux retourne dans la réserve.",
+      "Le bouton Indice remplit la case que vous avez sélectionnée, sinon celle qui fait le plus avancer la grille. Il vous relance quand deux équations se tiennent mutuellement en échec.",
+      "Choisissez Cross Math pour le défi du jour : l'app fixe la difficulté du jour, Facile ou Moyen, et vous jouez la même grille que tous les autres joueurs.",
     ],
     difficultyTable: {
       caption: "Les difficultés de Cross Math dans Cerebrum",
@@ -45,17 +45,17 @@ export const crossMathFr: GameCopy = {
         {
           difficulty: "medium",
           detail:
-            "Surtout du 7×7, parfois du 9×7 ou du 7×9. La multiplication s'ajoute à l'addition et à la soustraction, pour 6 à 9 nombres à placer. Ouverte dès le premier lancement.",
+            "Surtout du 7×7, aussi du 9×7 ou du 7×9 et, plus rarement, du 7×5. La multiplication s'ajoute à l'addition et à la soustraction, pour 6 à 9 nombres à placer. Ouverte dès le premier lancement.",
         },
         {
           difficulty: "hard",
           detail:
-            "Surtout du 9×9, avec les quatre opérations : la division rejoint les trois autres. De 10 à 15 nombres à placer. S'ouvre au fil de votre progression en Moyen.",
+            "Surtout du 9×9, sinon du 9×7 ou du 7×9, avec les quatre opérations : la division rejoint les trois autres. De 10 à 15 nombres à placer. S'ouvre au fil de votre progression en Moyen.",
         },
         {
           difficulty: "elite",
           detail:
-            "Le gabarit de Difficile : surtout du 9×9, quatre opérations, de 10 à 14 nombres à placer. S'ouvre au fil de votre progression en Difficile.",
+            "Presque toujours du 9×9, avec la plus grande part d'équations où la priorité des opérations compte. De 10 à 14 nombres à placer. S'ouvre au fil de votre progression en Difficile.",
         },
       ],
     },
@@ -63,7 +63,7 @@ export const crossMathFr: GameCopy = {
   tips: {
     title: "Astuces pour mieux jouer à Cross Math",
     items: [
-      "Commencez par l'équation qui n'a plus qu'une case vide : c'est un calcul à une seule inconnue, son nombre est imposé. Dans 7 + ? = 12, la case vaut 5. Une fois posé, ce nombre sert d'appui aux équations qui le croisent, et la grille se défait de proche en proche.",
+      "Commencez par l'équation qui n'a plus qu'une case vide : c'est un calcul à une seule inconnue, son nombre est imposé. Dans 7 + ? = 12, la case vaut 5. Une fois posé, ce nombre sert d'appui aux équations qui le croisent, et la grille se dénoue de proche en proche.",
       "Appliquez la priorité des opérations avant de chercher un nombre. Dans ? + 3 × 4 = 17, calculez d'abord 3 × 4 = 12 : la case vaut 5. Lu de gauche à droite, le même calcul donnerait un tout autre résultat. C'est le piège le plus courant dès le niveau Moyen, là où la multiplication apparaît.",
       "Écartez les nombres de la réserve qui ne peuvent pas convenir. Dans ? + 4 = 9, ni 24 ni 10 ne tiennent, puisque dans une addition aucun terme ne dépasse le total. La réserve fond vite, et les derniers nombres qui restent s'imposent d'eux-mêmes.",
       "Dans une division, partez du résultat. Les nombres étant entiers, le dividende est un multiple du diviseur : pour ? ÷ 4 = 6, la case vaut 24, et pour 36 ÷ ? = 9, cherchez le nombre qui entre neuf fois dans 36.",
@@ -91,7 +91,7 @@ export const crossMathFr: GameCopy = {
       {
         question: "Que fait le bouton Indice dans Cross Math ?",
         answer:
-          "Il remplit une case avec le bon nombre. Un indice ne coûte aucune étoile : seules les erreurs comptent.",
+          "Il remplit la case sélectionnée si elle est vide, sinon la case de l'équation qui compte le moins d'inconnues. Un indice ne coûte aucune étoile : seules les erreurs comptent.",
       },
       {
         question: "Y a-t-il un tutoriel dans Cross Math ?",
