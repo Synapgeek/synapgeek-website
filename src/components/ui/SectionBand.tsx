@@ -30,6 +30,8 @@ type SectionBandProps = ToneProps & {
   id?: string;
   /** Titre H2 de la section ; sans titre, la bande est un simple conteneur. */
   title?: string;
+  /** Id du titre que la section rend elle-même (quand `title` n'est pas passé), pour garder une région nommée. */
+  labelledBy?: string;
   intro?: string;
   /** `prose` : colonne de lecture étroite (pages de jeu). */
   width?: "wide" | "prose";
@@ -45,6 +47,7 @@ export function SectionBand({
   color,
   id,
   title,
+  labelledBy,
   intro,
   width = "wide",
   enter = true,
@@ -56,7 +59,7 @@ export function SectionBand({
   return (
     <section
       id={id}
-      aria-labelledby={title ? titleId : undefined}
+      aria-labelledby={title ? titleId : labelledBy}
       style={color ? gameColorVars(color) : undefined}
       className={`scroll-mt-24 py-section ${TONE_CLASSES[tone]} ${className}`}
     >

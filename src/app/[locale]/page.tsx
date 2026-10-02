@@ -126,10 +126,13 @@ export default async function HubPage({
       </SectionBand>
 
       <TrackSection name="studio">
-        <SectionBand tone="violet-deep">
+        <SectionBand tone="violet-deep" labelledBy="studio-title">
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,38rem)_auto] lg:justify-between">
             <div>
-              <h2 className="text-3xl leading-[1.1] tracking-[-0.02em] sm:text-4xl lg:text-5xl">
+              <h2
+                id="studio-title"
+                className="text-3xl leading-[1.1] tracking-[-0.02em] sm:text-4xl lg:text-5xl"
+              >
                 {copy.studio.title}
               </h2>
               <p className="mt-6 max-w-[65ch] text-lg leading-relaxed text-canvas/90">
