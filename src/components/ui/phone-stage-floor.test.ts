@@ -14,7 +14,11 @@ import { SectionBand } from "./SectionBand";
  * (elementFromPoint sur le titre) est consignée dans le rapport de la tâche.
  */
 const read = (path: string) => readFileSync(path, "utf8");
-const css = read("src/app/globals.css");
+// Les commentaires de la feuille expliquent le piège Safari et citent donc `no-clip` :
+// seules les règles comptent.
+const css = read("src/app/globals.css").replace(/\/\*[\s\S]*?\*\//g, "");
+const rule = (selector: string) =>
+  new RegExp(`(?:^|\\s)${selector}\\s*\\{([^}]*)\\}`).exec(css)?.[1] ?? "";
 
 const stage = renderToStaticMarkup(
   createElement(PhoneStage, {
@@ -38,7 +42,7 @@ describe("PhoneStage sky clip", () => {
   });
 
   it("clips the layer at the hero band's floor: 6rem up on mobile, the band padding down from sm", () => {
-    const base = /\.breeze-clip\s*\{([^}]*)\}/.exec(css)?.[1] ?? "";
+    const base = rule("\\.breeze-clip");
     expect(base).toMatch(/clip-path:\s*inset\([^)]*\s6rem\s[^)]*\)/);
     const wide =
       /@media \(min-width: 40rem\)\s*\{\s*\.breeze-clip\s*\{([^}]*)\}/.exec(
@@ -49,24 +53,41 @@ describe("PhoneStage sky clip", () => {
     );
   });
 
-  it("fades the sky out above that same floor, so the clip never leaves a straight edge", () => {
-    const base = /\.breeze-clip\s*\{([^}]*)\}/.exec(css)?.[1] ?? "";
+  it("fades the sky out above that same floor, inside the field's own box", () => {
+    const field = rule("\\.breeze-field");
     // Un dégradé vertical opaque -> transparent, dont le bas tombe sur le bord de la bande.
-    expect(base).toMatch(
-      /mask-image:\s*linear-gradient\(\s*to bottom,\s*black[^;]*transparent/,
+    expect(field).toMatch(
+      /mask-image:\s*linear-gradient\(\s*to bottom,\s*black[^;]*transparent\s+var\(--breeze-floor\)/,
     );
-    expect(base).toMatch(/mask-clip:\s*no-clip/);
-    expect(base).toMatch(/mask-repeat:\s*no-repeat/);
-    // Image du masque aligné sur le bord : 6rem au-dessus du bas de la couche sur mobile...
-    expect(base).toMatch(/mask-position:\s*50%\s+calc\(100%\s-\s6rem\)/);
+    expect(field).toMatch(/--breeze-floor:\s*calc\(50%\s\+\s34\.1%\s-\s6rem\)/);
     // ...et le padding de la bande en dessous dès sm, comme le clip-path.
     const wide =
-      /@media \(min-width: 40rem\)\s*\{\s*\.breeze-clip\s*\{([^}]*)\}/.exec(
+      /@media \(min-width: 40rem\)\s*\{\s*\.breeze-field\s*\{([^}]*)\}/.exec(
         css,
       )?.[1] ?? "";
     expect(wide).toMatch(
-      /mask-position:\s*50%\s+calc\(100%\s\+\svar\(--spacing-section\)\)/,
+      /--breeze-floor:\s*calc\(50%\s\+\s34\.1%\s\+\svar\(--spacing-section\)\)/,
     );
+  });
+
+  it("uses no mask technique Safari lacks: no mask-clip, no oversized or repositioned mask image", () => {
+    // Safari (bureau et iOS) ne supporte pas `mask-clip: no-clip` : un masque y rogne
+    // son élément à sa boîte, et le champ, qui déborde de la scène, devenait un rectangle.
+    expect(css).not.toMatch(/mask-clip/);
+    expect(css).not.toMatch(/no-clip/);
+    expect(css).not.toMatch(/mask-size/);
+    expect(css).not.toMatch(/mask-position/);
+    expect(css).not.toMatch(/mask-origin/);
+    // Aucun masque sur la couche découpée : elle est de la taille de la scène, le champ
+    // la dépasse.
+    for (const body of [
+      rule("\\.breeze-clip"),
+      /@media \(min-width: 40rem\)\s*\{\s*\.breeze-clip\s*\{([^}]*)\}/.exec(
+        css,
+      )?.[1] ?? "",
+    ]) {
+      expect(body).not.toMatch(/mask/);
+    }
   });
 
   it("keeps the 6rem floor equal to the negative margin both hero pages give the stage", () => {

@@ -188,21 +188,24 @@
    (l'écrêtage horizontal est celui de la bande). Sans cela, le ciel peint la bande des
    jeux par-dessus son fond et le titre H2 y vire au gris-violet.
    Le découpage seul laisserait une arête rectiligne là où la texture rencontre la bande
-   suivante. Un masque vertical (opaque -> transparent) l'efface : son image est
-   alignée sur ce même bord (son bas y tombe), donc le ciel est à zéro exactement
-   là où le clip-path coupe, et le rectangle disparaît. `mask-clip: no-clip` et une
-   image de masque plus grande que la couche empêchent le masque de rogner le ciel,
-   qui déborde largement de la scène. Il se compose avec le masque radial du champ. */
+   suivante. Le champ lui-même s'efface donc avant ce bord : son masque vertical est
+   exprimé dans SA propre boîte (jamais dans celle de `.breeze-clip`), si bien que le
+   ciel est à zéro exactement là où le clip-path coupe, et le rectangle disparaît.
+   SAFARI : `mask-clip: no-clip` (et toute autre valeur que border-box) n'y est pas
+   supporté, un masque y rogne son élément à sa boîte. Tout masque ci-dessous doit donc
+   tenir DANS la boîte de l'élément qui le porte, sans `mask-size` ni `mask-position`
+   plus grands que lui. Ne jamais remettre un masque sur `.breeze-clip`.
+   Calcul du bord (--breeze-floor, dans la boîte du champ, de haut en bas) : le champ est
+   centré sur la scène, donc le centre de la scène est à 50 %. La scène fait 2,1125 fois
+   sa largeur de haut (le téléphone) et le champ 3,0997 fois la largeur de la scène : la
+   moitié de la scène vaut 34,1 % du champ, à toute largeur. Le bord est 6rem au-dessus
+   du bas de la scène sur mobile, `--spacing-section` en dessous dès `sm`. Si le téléphone
+   change de proportions, ce 34,1 % change avec lui. */
 .breeze-clip {
   position: absolute;
   inset: 0;
   z-index: -10;
   clip-path: inset(-100vmax -100vmax 6rem -100vmax);
-  mask-image: linear-gradient(to bottom, black calc(100% - 10rem), transparent);
-  mask-size: 400vmax 400vmax;
-  mask-repeat: no-repeat;
-  mask-clip: no-clip;
-  mask-position: 50% calc(100% - 6rem);
 }
 
 @media (min-width: 40rem) {
@@ -210,7 +213,21 @@
     clip-path: inset(
       -100vmax -100vmax calc(-1 * var(--spacing-section)) -100vmax
     );
-    mask-position: 50% calc(100% + var(--spacing-section));
+  }
+}
+
+.breeze-field {
+  --breeze-floor: calc(50% + 34.1% - 6rem);
+  mask-image: linear-gradient(
+    to bottom,
+    black calc(var(--breeze-floor) - 10rem),
+    transparent var(--breeze-floor)
+  );
+}
+
+@media (min-width: 40rem) {
+  .breeze-field {
+    --breeze-floor: calc(50% + 34.1% + var(--spacing-section));
   }
 }
 
