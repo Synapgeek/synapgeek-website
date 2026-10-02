@@ -140,6 +140,7 @@ describe("AppCard", () => {
       createElement(AppCard, {
         name: "Cerebrum",
         description: "Des puzzles.",
+        note: "Gratuite.",
         platforms: "iPhone, iPad et Android",
         icon: "/icon.png",
         href: "/cerebrum",

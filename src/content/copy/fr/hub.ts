@@ -20,6 +20,7 @@ export const hubFr: HubCopy = {
       cerebrum: {
         description:
           "Sudoku, Mots Croisés et Mots Mêlés côtoient Pandoku, Pixel Art, Trace et d'autres. Défi du jour, ligues et séries, le tout jouable sans réseau.",
+        note: "Gratuite au téléchargement, financée par la publicité. Premium, c'est zéro pub imposée. Interface en 16 langues.",
         cta: "Découvrir Cerebrum",
       },
     },
@@ -32,12 +33,6 @@ export const hubFr: HubCopy = {
       paths: "Chemins et labyrinthes",
     },
   },
-  facts: [
-    { value: "Hors ligne", label: "toutes les grilles sont dans l'app" },
-    { value: "16", label: "langues d'interface" },
-    { value: "iPhone, iPad, Android", label: "pour y jouer" },
-    { value: "Gratuit", label: "au téléchargement" },
-  ],
   studio: {
     title: "Un studio français indépendant",
     body: "Synapgeek SAS est un studio indépendant installé à Frontenas, en France, et l'éditeur de Cerebrum. Découvrez qui conçoit les apps et comment le studio travaille.",

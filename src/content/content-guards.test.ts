@@ -916,7 +916,11 @@ function fixtureApp(
           categories: { "logic-numbers": "A", words: "B", paths: "C" },
         },
         daily: { title: "Daily", body: "One a day.", items: ["A streak"] },
-        progress: { title: "Progress", items: ["Stars"] },
+        progress: {
+          title: "Progress",
+          items: ["Stars"],
+          growthCaption: "A panda.",
+        },
         goodToKnow: { title: "Good to know", items: ["Offline"] },
         model: { title: "Model", items: ["Free"] },
         privacy: { title: "Privacy", body: "Short.", cta: "Read" },
@@ -954,13 +958,14 @@ function fixtureHub(overrides: Partial<HubCopy> = {}): CopyEntry {
       hero: HUB_HERO,
       apps: {
         title: "Apps",
-        items: { cerebrum: { description: "An app.", cta: "Open" } },
+        items: {
+          cerebrum: { description: "An app.", note: "A note.", cta: "Open" },
+        },
       },
       games: {
         title: "Games",
         categories: { "logic-numbers": "A", words: "B", paths: "C" },
       },
-      facts: [{ value: "iOS", label: "Platform" }],
       studio: { title: "Studio", body: "Body.", cta: "Write" },
       contact: { title: "Contact" },
       ...overrides,

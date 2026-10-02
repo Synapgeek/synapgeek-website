@@ -2,9 +2,9 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { getGames } from "@/content/apps";
-import { CardList } from "./CardList";
 import { CheckList } from "./CheckList";
 import { GameGrid } from "./GameGrid";
+import { ProseList } from "./ProseList";
 
 // Les pages jeux n'existent que pour les jeux publiés : tout le registre est
 // publié ici pour vérifier le schéma d'URL de chaque jeu, quel que soit
@@ -18,9 +18,9 @@ vi.mock("@/content/apps", async (importOriginal) =>
 const html = (element: Parameters<typeof renderToStaticMarkup>[0]) =>
   renderToStaticMarkup(element);
 
-describe("CardList", () => {
+describe("ProseList", () => {
   const out = html(
-    createElement(CardList, { items: ["Un", "Deux", "Trois"], tone: "violet" }),
+    createElement(ProseList, { items: ["Un", "Deux", "Trois"] }),
   );
 
   it("is a list with one item per fact, kept a list for Safari", () => {
@@ -28,18 +28,8 @@ describe("CardList", () => {
     expect(out.match(/<li/g)).toHaveLength(3);
   });
 
-  it("only goes to three columns when the caller says three cards", () => {
-    expect(out).toContain("sm:grid-cols-2");
-    expect(out).not.toContain("lg:grid-cols-3");
-    expect(
-      html(
-        createElement(CardList, {
-          items: ["Un", "Deux", "Trois"],
-          tone: "green",
-          columns: 3,
-        }),
-      ),
-    ).toContain("lg:grid-cols-3");
+  it("sets facts as prose, never as cards", () => {
+    expect(out).not.toMatch(/bg-wash|rounded-card|shadow/);
   });
 });
 

@@ -42,6 +42,8 @@ export const cerebrumEn: AppCopy = {
         "Your total score across all games moves you up the leagues, from Bronze to Legend.",
         "No timer to refill lives and no waiting: after a game over, replay the level right away.",
       ],
+      growthCaption:
+        "The Panda avatar at three stages of growth: baby, young and adult.",
     },
     goodToKnow: {
       title: "Good to know",

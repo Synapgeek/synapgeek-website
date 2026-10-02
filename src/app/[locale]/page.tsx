@@ -10,17 +10,13 @@ import { ContactForm } from "@/components/ContactForm";
 import { TrackSection } from "@/components/TrackSection";
 import { AppCard } from "@/components/ui/AppCard";
 import { Button } from "@/components/ui/Button";
-import { FactStrip } from "@/components/ui/FactStrip";
 import { GameGrid } from "@/components/ui/GameGrid";
 import { PhoneFrame } from "@/components/ui/PhoneFrame";
+import { PhoneStage } from "@/components/ui/PhoneStage";
 import { SectionBand } from "@/components/ui/SectionBand";
 import { StoreBadges } from "@/components/ui/StoreBadges";
-import { TiltOnPointer } from "@/components/ui/TiltOnPointer";
 
 export { generateStaticParams };
-
-/** Inclinaison de repos du téléphone, en degrés (le suivi du pointeur s'ajoute). */
-const PHONE_REST_ROTATE = 5;
 
 /** Plateformes où au moins un jeu de l'app est annoncé, en liste localisée (« iPhone, iPad et Android »). */
 function appPlatforms(locale: Locale): string {
@@ -66,7 +62,7 @@ export default async function HubPage({
     <>
       <SectionBand
         enter={false}
-        className="relative overflow-hidden pt-8 pb-0 sm:pt-14 sm:pb-section lg:pt-20"
+        className="relative z-10 overflow-x-clip pt-8 pb-0 sm:pt-14 sm:pb-section lg:pt-20"
       >
         <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-8">
           <div className="text-center lg:text-left">
@@ -83,43 +79,22 @@ export default async function HubPage({
             />
           </div>
 
-          <div className="relative isolate mx-auto -mb-60 w-full max-w-[15rem] sm:mb-0 sm:max-w-[17rem] lg:max-w-[19rem]">
-            {/* Lavis pastel : décoratifs, derrière le téléphone */}
-            <span
-              aria-hidden="true"
-              className="absolute top-[6%] -left-[34%] -z-10 size-[105%] rounded-[42%_58%_55%_45%/55%_40%_60%_45%] bg-wash-green"
-            />
-            <span
-              aria-hidden="true"
-              className="absolute -right-[32%] bottom-[12%] -z-10 size-[78%] rounded-[55%_45%_35%_65%/40%_60%_40%_60%] bg-wash-violet"
-            />
-            <span
-              aria-hidden="true"
-              className="absolute bottom-[4%] -left-[26%] -z-10 size-[22%] rounded-[35%_65%_50%_50%/60%_40%_55%_45%] bg-wash-violet"
-            />
-            <TiltOnPointer>
-              <PhoneFrame
-                src={`/images/screens/v3/homepage-${locale}.webp`}
-                alt={copy.hero.phoneAlt}
-                priority
-                sizes="(min-width: 1024px) 304px, (min-width: 640px) 272px, 240px"
-                rotate={PHONE_REST_ROTATE}
-              />
-            </TiltOnPointer>
-            <Image
-              src={cerebrum.icon}
-              alt=""
-              width={128}
-              height={128}
-              sizes="(min-width: 1024px) 128px, 96px"
-              className="absolute -top-5 -left-8 size-24 rounded-[22%] shadow-raised sm:-left-12 lg:size-32"
-            />
-          </div>
+          <PhoneStage
+            screenSrc={`/images/screens/v3/homepage-${locale}.webp`}
+            screenAlt={copy.hero.phoneAlt}
+            icon={cerebrum.icon}
+            className="-mb-24 sm:mb-0"
+          />
         </div>
       </SectionBand>
 
       <TrackSection name="games">
-        <SectionBand id="games" tone="soft" title={copy.games.title}>
+        <SectionBand
+          id="games"
+          tone="soft"
+          title={copy.games.title}
+          className="pt-40 sm:pt-section"
+        >
           <GameGrid
             games={games}
             categories={copy.games.categories}
@@ -132,29 +107,54 @@ export default async function HubPage({
         <AppCard
           name={cerebrum.name}
           description={copy.apps.items.cerebrum.description}
+          note={copy.apps.items.cerebrum.note}
           platforms={appPlatforms(locale)}
           icon={cerebrum.icon}
           href={pagePath("cerebrum", locale)}
           ctaLabel={copy.apps.items.cerebrum.cta}
+          aside={
+            <div className="absolute top-8 left-1/2 w-52 -translate-x-1/2 lg:w-60">
+              <PhoneFrame
+                src={`/images/screens/v3/pandoku-${locale}.webp`}
+                alt=""
+                rotate={-4}
+                sizes="(min-width: 1024px) 240px, 208px"
+              />
+            </div>
+          }
         />
       </SectionBand>
 
-      <SectionBand tone="soft">
-        <FactStrip facts={copy.facts} />
-      </SectionBand>
-
       <TrackSection name="studio">
-        <SectionBand tone="violet-deep" title={copy.studio.title} width="prose">
-          <p className="max-w-[65ch] text-lg leading-relaxed text-canvas/90">
-            {copy.studio.body}
-          </p>
-          <Button
-            href={pagePath("about", locale)}
-            variant="inverse"
-            className="mt-8"
-          >
-            {copy.studio.cta}
-          </Button>
+        <SectionBand tone="violet-deep" title={copy.studio.title}>
+          <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,38rem)_auto] lg:justify-between">
+            <div>
+              <p className="max-w-[65ch] text-lg leading-relaxed text-canvas/90">
+                {copy.studio.body}
+              </p>
+              <Button
+                href={pagePath("about", locale)}
+                variant="inverse"
+                className="mt-8"
+              >
+                {copy.studio.cta}
+              </Button>
+            </div>
+            <div className="relative mx-auto w-40 sm:w-48 lg:w-56">
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-[-8%] top-[8%] bottom-0 rounded-full bg-canvas/10"
+              />
+              <Image
+                src="/images/characters/panda-adult-v1.webp"
+                alt=""
+                width={480}
+                height={635}
+                sizes="(min-width: 1024px) 224px, (min-width: 640px) 192px, 160px"
+                className="relative h-auto w-full"
+              />
+            </div>
+          </div>
         </SectionBand>
       </TrackSection>
 

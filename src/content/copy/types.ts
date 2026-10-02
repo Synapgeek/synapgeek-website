@@ -70,7 +70,12 @@ export interface AppCopy extends Dated {
   sections: {
     games: { title: string; categories: Record<GameCategory, string> };
     daily: { title: string; body: string; items: readonly string[] };
-    progress: { title: string; items: readonly string[] };
+    progress: {
+      title: string;
+      items: readonly string[];
+      /** Légende, pour lecteur d'écran seulement, de la suite d'illustrations bébé, jeune, adulte. */
+      growthCaption: string;
+    };
     goodToKnow: { title: string; items: readonly string[] };
     model: { title: string; items: readonly string[] };
     /** Résumé de confidentialité : la politique reste la référence, `cta` y mène. */
@@ -96,11 +101,13 @@ export interface HubCopy extends Dated {
   hero: DefinitionBlock & { phoneAlt: string };
   apps: {
     title: string;
-    /** Une entrée par app : la phrase de la carte et le libellé de son lien. */
-    items: Record<AppSlug, { description: string; cta: string }>;
+    /**
+     * Une entrée par app : la phrase de la carte, la phrase du modèle
+     * (gratuité, publicité, langues) et le libellé de son lien.
+     */
+    items: Record<AppSlug, { description: string; note: string; cta: string }>;
   };
   games: { title: string; categories: Record<GameCategory, string> };
-  facts: ReadonlyArray<{ value: string; label: string }>;
   studio: { title: string; body: string; cta: string };
   contact: { title: string };
 }

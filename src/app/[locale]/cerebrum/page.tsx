@@ -20,19 +20,15 @@ import {
   type BreadcrumbItem,
 } from "@/components/site/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
-import { CardList } from "@/components/ui/CardList";
 import { CheckList } from "@/components/ui/CheckList";
 import { FaqList } from "@/components/ui/FaqList";
 import { GameGrid } from "@/components/ui/GameGrid";
-import { PhoneFrame } from "@/components/ui/PhoneFrame";
+import { PhoneStage } from "@/components/ui/PhoneStage";
+import { ProseList } from "@/components/ui/ProseList";
 import { SectionBand } from "@/components/ui/SectionBand";
 import { StoreBadges } from "@/components/ui/StoreBadges";
-import { TiltOnPointer } from "@/components/ui/TiltOnPointer";
 
 export { generateStaticParams };
-
-/** Inclinaison de repos du téléphone, en degrés (le suivi du pointeur s'ajoute). */
-const PHONE_REST_ROTATE = 5;
 
 export async function generateMetadata({
   params,
@@ -77,7 +73,7 @@ export default async function CerebrumPage({
 
       <SectionBand
         enter={false}
-        className="relative overflow-hidden pt-6 pb-0 sm:pt-10 sm:pb-section lg:pt-14"
+        className="relative z-10 overflow-x-clip pt-6 pb-0 sm:pt-10 sm:pb-section lg:pt-14"
       >
         <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-8">
           <div className="text-center lg:text-left">
@@ -99,43 +95,22 @@ export default async function CerebrumPage({
             />
           </div>
 
-          <div className="relative isolate mx-auto -mb-60 w-full max-w-[15rem] sm:mb-0 sm:max-w-[17rem] lg:max-w-[19rem]">
-            {/* Lavis pastel : décoratifs, derrière le téléphone */}
-            <span
-              aria-hidden="true"
-              className="absolute top-[6%] -left-[34%] -z-10 size-[105%] rounded-[42%_58%_55%_45%/55%_40%_60%_45%] bg-wash-green"
-            />
-            <span
-              aria-hidden="true"
-              className="absolute -right-[32%] bottom-[12%] -z-10 size-[78%] rounded-[55%_45%_35%_65%/40%_60%_40%_60%] bg-wash-violet"
-            />
-            <span
-              aria-hidden="true"
-              className="absolute bottom-[4%] -left-[26%] -z-10 size-[22%] rounded-[35%_65%_50%_50%/60%_40%_55%_45%] bg-wash-violet"
-            />
-            <TiltOnPointer>
-              <PhoneFrame
-                src={`/images/screens/v3/homepage-${locale}.webp`}
-                alt={copy.hero.phoneAlt}
-                priority
-                sizes="(min-width: 1024px) 304px, (min-width: 640px) 272px, 240px"
-                rotate={PHONE_REST_ROTATE}
-              />
-            </TiltOnPointer>
-            <Image
-              src={app.icon}
-              alt=""
-              width={128}
-              height={128}
-              sizes="(min-width: 1024px) 128px, 96px"
-              className="absolute -top-5 -left-8 size-24 rounded-[22%] shadow-raised sm:-left-12 lg:size-32"
-            />
-          </div>
+          <PhoneStage
+            screenSrc={`/images/screens/v3/homepage-${locale}.webp`}
+            screenAlt={copy.hero.phoneAlt}
+            icon={app.icon}
+            className="-mb-24 sm:mb-0"
+          />
         </div>
       </SectionBand>
 
       <TrackSection name="cerebrum_games">
-        <SectionBand id="games" tone="soft" title={sections.games.title}>
+        <SectionBand
+          id="games"
+          tone="soft"
+          title={sections.games.title}
+          className="pt-40 sm:pt-section"
+        >
           <GameGrid
             games={getGames("cerebrum")}
             categories={sections.games.categories}
@@ -145,14 +120,47 @@ export default async function CerebrumPage({
       </TrackSection>
 
       <SectionBand id="daily" title={sections.daily.title}>
-        <p className="mb-8 max-w-[65ch] text-lg leading-relaxed sm:text-xl">
-          {sections.daily.body}
-        </p>
-        <CardList items={sections.daily.items} tone="violet" columns={3} />
+        <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
+          <p className="max-w-[65ch] text-xl leading-relaxed sm:text-2xl">
+            {sections.daily.body}
+          </p>
+          <ProseList items={sections.daily.items} />
+        </div>
       </SectionBand>
 
       <SectionBand id="progress" tone="soft" title={sections.progress.title}>
-        <CardList items={sections.progress.items} tone="green" />
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:gap-16">
+          <ProseList items={sections.progress.items} />
+          <figure className="flex items-end justify-center gap-3 rounded-card bg-wash-green px-4 pt-10 pb-8 sm:gap-6 sm:px-6 lg:gap-4">
+            <Image
+              src="/images/characters/panda-baby-v1.webp"
+              alt=""
+              width={320}
+              height={359}
+              sizes="120px"
+              className="h-20 w-auto sm:h-32 lg:h-24"
+            />
+            <Image
+              src="/images/characters/panda-teen-v1.webp"
+              alt=""
+              width={320}
+              height={406}
+              sizes="140px"
+              className="h-24 w-auto sm:h-44 lg:h-32"
+            />
+            <Image
+              src="/images/characters/panda-adult-v1.webp"
+              alt=""
+              width={480}
+              height={635}
+              sizes="180px"
+              className="h-32 w-auto sm:h-56 lg:h-44"
+            />
+            <figcaption className="sr-only">
+              {sections.progress.growthCaption}
+            </figcaption>
+          </figure>
+        </div>
       </SectionBand>
 
       <SectionBand id="good-to-know" title={sections.goodToKnow.title}>

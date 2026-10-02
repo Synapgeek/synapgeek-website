@@ -92,6 +92,24 @@
     text-wrap: pretty;
   }
 
+  /* Surfaces du navigateur, aux couleurs de la palette : sélection (encre sur lavis
+     violet, lisible aussi sur la section violet profond), curseur de saisie, trait
+     des liens souligné à distance du texte. */
+  ::selection {
+    background: var(--color-wash-violet);
+    color: var(--color-ink);
+  }
+
+  input,
+  textarea,
+  select {
+    caret-color: var(--color-brand-violet);
+  }
+
+  a {
+    text-underline-offset: 0.2em;
+  }
+
   /* Anneau de focus visible, jamais supprimé : violet sur fond clair, blanc sur la
      section violet profond (qui pose --focus-ring) */
   :focus-visible {
@@ -152,6 +170,17 @@
       animation-range: entry 0% entry 40%;
     }
   }
+}
+
+/* ===== CIEL AQUARELLE — PhoneStage =====
+   Le fond Breeze de l'app, fondu vers la transparence : une ellipse inscrite dans
+   l'image, jamais un rectangle qui flotte sur le fond blanc de la page. */
+.breeze-field::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/images/backgrounds/breeze-day-v1.webp") center / cover;
+  mask-image: radial-gradient(closest-side, black 60%, transparent);
 }
 
 /* ===== ENTRÉE DU BANDEAU DE CONSENTEMENT ===== */
