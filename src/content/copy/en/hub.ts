@@ -9,9 +9,9 @@ export const hubEn: HubCopy = {
   },
   hero: {
     h1: "Synapgeek",
-    tagline: "Your break deserves a good puzzle.",
+    tagline: "Well-crafted apps for the little moments that feel good.",
     definition:
-      "Synapgeek is an independent French studio that makes mobile apps. We craft elegant brain games to be savoured like a good coffee: for a break, a commute or a quiet evening.",
+      "Synapgeek is an independent French studio that makes mobile apps. We create elegant apps meant to slip into a break, a commute or a quiet evening, and to make you want to come back.",
     cta: "Discover Cerebrum",
   },
   games: {

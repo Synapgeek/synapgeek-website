@@ -6,10 +6,10 @@ Synapgeek est un studio français indépendant qui crée des applications mobile
 
 ## The studio
 
-- [Synapgeek (English)](https://synapgeek.com): Synapgeek is an independent French studio that makes mobile apps. We craft elegant brain games to be savoured like a good coffee: for a break, a commute or a quiet evening.
+- [Synapgeek (English)](https://synapgeek.com): Synapgeek is an independent French studio that makes mobile apps. We create elegant apps meant to slip into a break, a commute or a quiet evening, and to make you want to come back.
 - [About (English)](https://synapgeek.com/about): Synapgeek is an independent French studio based in Frontenas, in the Rhône, that makes mobile apps. It is the publisher of Cerebrum, an offline puzzle games app for iPhone, iPad and Android.
 - [Press (English)](https://synapgeek.com/press): The facts to quote about Synapgeek, an independent French studio, and about Cerebrum, its offline puzzle games app for iPhone, iPad and Android, with the logo, the app icon and screenshots to download.
-- [Synapgeek (français)](https://synapgeek.com/fr): Synapgeek est un studio français indépendant d'applications mobiles. Nous imaginons des jeux de réflexion élégants, à savourer comme un bon café : le temps d'une pause, d'un trajet ou d'une soirée tranquille.
+- [Synapgeek (français)](https://synapgeek.com/fr): Synapgeek est un studio français indépendant d'applications mobiles. Nous créons des apps élégantes, pensées pour se glisser dans une pause, un trajet ou une soirée tranquille, et pour donner envie d'y revenir.
 - [À propos (français)](https://synapgeek.com/fr/a-propos): Synapgeek est un studio français indépendant, installé à Frontenas, dans le Rhône, qui crée des applications mobiles. Il est l'éditeur de Cerebrum, une app de jeux de réflexion hors ligne pour iPhone, iPad et Android.
 - [Presse (français)](https://synapgeek.com/fr/presse): Les faits à citer sur Synapgeek, studio français indépendant, et sur Cerebrum, son app de jeux de réflexion hors ligne pour iPhone, iPad et Android, avec le logo, l'icône de l'app et des captures à télécharger.
 
