@@ -179,7 +179,16 @@ export function HeroSlider({
             >
               <ChevronLeft aria-hidden="true" className="size-5" />
             </button>
-            <ul className="flex items-center">
+            {/* Sous sm, cinq points de 44 px et trois boutons de 44 px ne tiennent
+                pas dans 350 px : la position passe en texte, précédent et suivant
+                restent les deux voies de navigation. */}
+            <span
+              aria-hidden="true"
+              className="min-w-14 px-1 text-center text-sm font-semibold text-ink sm:hidden"
+            >
+              {formatSlideLabel(labels.slide, state.index + 1, total)}
+            </span>
+            <ul className="hidden items-center sm:flex">
               {slides.map((_, index) => {
                 const active = index === state.index;
                 return (
@@ -193,7 +202,7 @@ export function HeroSlider({
                       )}
                       aria-current={active ? "true" : undefined}
                       onClick={() => dispatch({ type: "goTo", index })}
-                      className="group inline-flex h-11 w-7 items-center justify-center"
+                      className="group inline-flex size-11 items-center justify-center"
                     >
                       <span
                         aria-hidden="true"

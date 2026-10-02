@@ -94,6 +94,20 @@ describe("HeroSlider", () => {
     expect(dots[2]).not.toContain("aria-current");
   });
 
+  it("gives every dot a 44 px hit area and a text position below sm", () => {
+    const out = slider();
+    const dots = tags(out, /<button[^>]*aria-label="Go to \d"[^>]*>/g);
+    for (const dot of dots) {
+      expect(dot).toMatch(/class="[^"]*\bsize-11\b/);
+    }
+    // Les points se masquent sous sm (350 px ne portent pas 8 cibles de 44 px) :
+    // la position reste lisible, sans doubler l'annonce des lecteurs d'écran.
+    expect(out).toMatch(/<ul class="hidden[^"]*\bsm:flex"/);
+    expect(out).toMatch(
+      /<span aria-hidden="true"[^>]*\bsm:hidden"[^>]*>1 of 3<\/span>/,
+    );
+  });
+
   it("starts without a live region announcement while it rotates", () => {
     expect(slider()).toContain('aria-live="off"');
   });

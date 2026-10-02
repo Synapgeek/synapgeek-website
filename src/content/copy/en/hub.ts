@@ -12,7 +12,7 @@ export const hubEn: HubCopy = {
     definition:
       "Synapgeek is an independent French studio that makes mobile apps. Its first app, Cerebrum, brings classic and newer puzzle games together in one offline app for iPhone, iPad and Android.",
     phoneAlt:
-      "Cerebrum home screen with the Daily Challenge, the themes and game cards including Sudoku, Word Search, Pandoku and Minesweeper",
+      "Cerebrum home screen with the Daily Challenge, the themes and game cards including Sudoku, Word Search and Minesweeper",
   },
   slider: {
     label: "The studio in a few messages",
@@ -38,7 +38,7 @@ export const hubEn: HubCopy = {
         headline: "Offline, on iPhone, iPad and Android.",
         body: "The grids are inside the app, so it plays without a network, daily challenge included. The interface comes in 16 languages.",
         phoneAlt:
-          "A panda drawing revealed at the end of a Pixel Art grid, the nonogram game in Cerebrum",
+          "A panda drawing revealed at the end of a Pixel Art grid, one of the nonograms in Cerebrum",
       },
       france: {
         headline: "Designed and developed in France by an independent studio.",
@@ -51,7 +51,7 @@ export const hubEn: HubCopy = {
     items: {
       cerebrum: {
         pitch:
-          "Sudoku, Crossword and Word Search sit next to Pandoku, Pixel Art, Trace and more, in one app that plays offline.",
+          "Sudoku, Crossword and Word Search sit next to Pandoku (a Star Battle logic puzzle), Pixel Art (nonograms), Trace (a one-line path puzzle) and more, in one app that plays offline.",
         iconsLabel: "Cerebrum's games",
         cta: "Discover Cerebrum",
         phoneAlt:
@@ -65,9 +65,9 @@ export const hubEn: HubCopy = {
       "Synapgeek is the independent French studio that designs and publishes Cerebrum, available on the App Store and Google Play. We love games that combine elegance, challenge and pure enjoyment.",
     values: [
       {
-        title: "Games that need no network",
+        title: "Verified puzzles",
         description:
-          "The grids are inside the app: everything plays without a connection, daily challenge and streak included. Your progress syncs once you are back online.",
+          "Our puzzles are built by our own tools, then checked automatically before they reach the app.",
       },
       {
         title: "Your data, your choice",
