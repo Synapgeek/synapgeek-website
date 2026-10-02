@@ -29,7 +29,7 @@ export const minesweeperFr: GameCopy = {
     title: "Ce que Cerebrum ajoute au démineur",
     paragraphs: [
       "Dans Cerebrum, vous progressez de grille en grille dans la difficulté de votre choix. Quand son parcours est terminé, le mode Infini sert d'autres champs de mines de cette même difficulté.",
-      "Le démineur s'ouvre sur une courte fiche « Comment jouer » de quatre pages: les chiffres, le premier toucher, le drapeau, les cœurs et l'indice.",
+      "Le démineur s'ouvre sur une courte fiche « Comment jouer » de quatre pages : les chiffres, le premier toucher, le drapeau, les cœurs et l'indice.",
       "Le compteur de mines, toujours affiché en haut, donne le nombre de mines de la grille moins vos drapeaux. Posez un drapeau de trop et il passe sous zéro : il vous signale ainsi que l'un de vos drapeaux est faux.",
       "Une mine touchée coûte un cœur, et la grille reste gagnable : la case se marque d'un drapeau, ce qui garde le compteur juste. Au troisième cœur, la partie est finie, sauf si vous reprenez ce même champ de mines.",
       "L'indice ouvre pour vous la prochaine case sûre. Si l'un de vos drapeaux est mal placé, il commence par le retirer, avant d'ouvrir quoi que ce soit.",

@@ -29,7 +29,7 @@ export const sudokuEn: GameCopy = {
     paragraphs: [
       "Sudoku in Cerebrum is the classic 9×9 grid, with no variants. You move up a path of levels in the difficulty you choose. Finish the path of a difficulty and Endless Mode opens, serving fresh grids one after another.",
       "Four buttons sit under the grid: Undo, Erase, Notes and Hint. Duplicates are highlighted, your notes clear themselves from the related cells when you place a digit, and a key on the pad greys out once all nine of its correct digits are in place.",
-      "A hint does more than hand you the answer. It reveals one cell and explains the technique behind it step by step, so the next grid feels easier. Hints cost gems. Fill Notes completes your notes for you, also for gems.",
+      "A hint does more than hand you the answer. It reveals one cell and explains the technique behind it step by step, so the next grid feels easier. Fill Notes completes your notes for you.",
       "Three mistakes end the game, though a second chance is offered before you lose the grid.",
       "Finish with no mistakes for three stars, one mistake for two, two or more for one. Hints do not count against your stars. The score rewards a quick, clean grid with few hints, and the difficulty multiplies it.",
       "Sudoku is also one of the games you can pick for the daily challenge, on Easy or Medium. The grid is the same for everyone, and a missed day can be caught up from the calendar.",

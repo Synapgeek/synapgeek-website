@@ -29,7 +29,7 @@ export const sudokuFr: GameCopy = {
     paragraphs: [
       "Le sudoku de Cerebrum est la grille classique de 9×9, sans variante. Vous avancez de niveau en niveau dans la difficulté de votre choix ; quand vous avez terminé le parcours d'une difficulté, le mode Infini s'ouvre et enchaîne de nouvelles grilles.",
       "Sous la grille, quatre boutons : Annuler, Effacer, Notes et Indice. Les doublons sont mis en évidence, les notes disparaissent d'elles-mêmes des cases liées quand vous posez un chiffre, et une touche du pavé se grise dès que ses neuf exemplaires corrects sont en place.",
-      "L'indice ne se contente pas de donner la réponse : il révèle une case et explique pas à pas la technique à l'œuvre, de quoi mieux aborder la grille suivante. Il se paie en gemmes. « Remplir les notes » complète les notes à votre place, contre des gemmes.",
+      "L'indice ne se contente pas de donner la réponse : il révèle une case et explique pas à pas la technique à l'œuvre, de quoi mieux aborder la grille suivante. « Remplir les notes » complète les notes à votre place.",
       "Trois erreurs et la partie est perdue, mais une seconde chance vous est proposée avant de perdre la grille.",
       "Sans erreur, vous gagnez trois étoiles ; avec une erreur, deux ; avec deux erreurs ou plus, une. Les indices ne comptent pas dans les étoiles. Le score récompense une grille rapide, propre et sans trop d'indices, et la difficulté le multiplie.",
       "Le sudoku figure aussi parmi les jeux que vous pouvez choisir pour le défi du jour, en Facile ou en Moyen : la grille est la même pour tout le monde, et un jour manqué se rattrape dans le calendrier.",

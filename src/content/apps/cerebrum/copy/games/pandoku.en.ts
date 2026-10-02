@@ -32,7 +32,7 @@ export const pandokuEn: GameCopy = {
       "Pandoku opens with a short how-to-play sheet. The first Easy level is guided: the app walks you through your first pandas step by step, with no heart lost and no timer, and a Skip button if you would rather start alone. Every Easy grid also begins with one panda already placed. It cannot be removed and counts neither as a mistake nor as a hint.",
       "There is no Undo button. A tap crosses a cell, another tap erases the cross, and a correct panda is locked for good. Drag a finger across the grid to cross out several cells at once.",
       "A panda placed in the wrong spot is removed and costs a heart. Lose the third and the game is over, though a second chance is offered.",
-      "The hint shows its reasoning before it plays the move. It names the deduction on offer (a forced cell, a confined unit or shared neighbors), highlights it, then places the panda or crosses out the cells for you. When nothing simple stands out, it hands you a panda to get going again. Each hint is paid in gems.",
+      "The hint shows its reasoning before it plays the move. It names the deduction on offer (a forced cell, a confined unit or shared neighbors), highlights it, then places the panda or crosses out the cells for you. When nothing simple stands out, it hands you a panda to get going again.",
       "Stars depend on mistakes alone: none earns three, one earns two, more earns one. Hints never cost you a star. Pandoku is also one of the games you can pick for the daily challenge, on Easy or Medium: the same grid for everyone, with a missed day caught up from the calendar.",
     ],
     difficultyTable: {

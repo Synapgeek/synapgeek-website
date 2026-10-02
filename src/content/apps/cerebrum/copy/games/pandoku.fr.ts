@@ -32,7 +32,7 @@ export const pandokuFr: GameCopy = {
       "Pandoku s'ouvre sur une courte fiche « Comment jouer ». Le premier niveau Facile est guidé : l'app vous fait poser les premiers pandas pas à pas, sans cœur perdu ni chrono (un bouton Passer permet de s'en dispenser). Chaque grille Facile commence avec un panda déjà posé : offert d'avance, il ne s'enlève pas et ne compte ni comme erreur, ni comme indice.",
       "Il n'y a pas de bouton Annuler : un toucher barre une case, un autre efface la croix, et un panda juste est verrouillé pour de bon. Glissez le doigt pour barrer plusieurs cases d'un coup.",
       "Un panda mal placé est retiré et coûte un cœur ; au troisième, la partie est perdue, mais une seconde chance vous est proposée.",
-      "L'indice montre le raisonnement avant de jouer le coup. Il nomme la déduction disponible (case forcée, unité enfermée ou voisinage commun), la met en évidence, puis place le panda ou barre les cases à votre place. Quand rien de simple ne se présente, il vous donne un panda pour repartir. Chaque indice se règle en gemmes.",
+      "L'indice montre le raisonnement avant de jouer le coup. Il nomme la déduction disponible (case forcée, unité enfermée ou voisinage commun), la met en évidence, puis place le panda ou barre les cases à votre place. Quand rien de simple ne se présente, il vous donne un panda pour repartir.",
       "Sans erreur, trois étoiles ; une erreur, deux ; deux ou plus, une. Les indices ne comptent pas. Pandoku fait aussi partie des jeux à choisir pour le défi du jour, en Facile ou en Moyen : même grille pour tout le monde, jour manqué rattrapable dans le calendrier.",
     ],
     difficultyTable: {
