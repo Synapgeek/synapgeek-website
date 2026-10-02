@@ -98,7 +98,7 @@ export const minesweeperEn: GameCopy = {
         question:
           "Is Minesweeper free, and can I play it without a connection?",
         answer:
-          "It is free, like every game in Cerebrum, and the minefields are already in the app, so a round never waits for the network. While you play a banner stays on screen, and ads appear between some games; rewarded ads stay optional, and Premium means no forced ads.",
+          "It is free, like every game in Cerebrum, and the minefields are already in the app, so a round never waits for the network. While you play a banner stays on screen, and ads appear between some games; you choose whether to watch a rewarded ad, and Premium removes the ads you did not choose.",
       },
       {
         question: "Does the guided level exist on Android?",
