@@ -421,11 +421,20 @@ function coverageViolations(
   games: readonly GameEntry[],
 ): string[] {
   if (entry.kind !== "app") return [];
-  return games
+  const missing = games
     .filter((game) => game.published && !(game.id in entry.copy.games))
     .map(
       (game) => `${labelOf(entry)}: published game "${game.id}" has no copy`,
     );
+  // Une copie dont l'identifiant n'est pas au registre : les gardes qui lisent le
+  // registre (genre, plateforme, quasi-doublons) ne la verraient pas.
+  const orphans = gamesOf(entry)
+    .filter(([id]) => !games.some((game) => game.id === id))
+    .map(
+      ([id]) =>
+        `${labelOf(entry)}:${id}: copy for a game that is not in the registry`,
+    );
+  return [...missing, ...orphans];
 }
 
 /** Différences de structure : mêmes clés partout, mêmes longueurs sur les tableaux comptés. */
@@ -595,6 +604,10 @@ function frenchTypographyProblems(text: string): string[] {
   return found;
 }
 
+/**
+ * Portée : les modules français de `REGISTERED_COPY` (ici) et le Dictionnaire
+ * `src/content/fr.ts`, qui n'est pas un module enregistré (test dédié, mêmes règles).
+ */
 function frenchTypographyViolations(entry: CopyEntry): string[] {
   if (entry.locale !== "fr") return [];
   return stringsOf(entry.copy).flatMap(({ path, value }) =>
@@ -718,15 +731,22 @@ function nearDuplicateViolations(
 }
 
 /** Les pages jeux d'une langue, chacune avec les noms que le jeu porte dans les deux langues et ses slugs. */
-function nearDuplicatePagesOf(locale: string): NearDuplicatePage[] {
+function nearDuplicatePagesOf(
+  locale: string,
+  entries: readonly CopyEntry[] = REGISTERED_COPY,
+): NearDuplicatePage[] {
   const games = getGames("cerebrum");
-  return REGISTERED_COPY.flatMap((entry) =>
+  return entries.flatMap((entry) =>
     entry.locale === locale
       ? gamesOf(entry).map(([id, copy]) => {
-          const game = games.find((candidate) => candidate.id === id)!;
+          // Un identifiant hors registre n'a pas de noms à masquer : coverageViolations
+          // le signale, cette comparaison ne doit pas planter avant.
+          const game = games.find((candidate) => candidate.id === id);
           return {
             label: `${labelOf(entry)}:${id}`,
-            names: [...Object.values(game.name), ...Object.values(game.slug)],
+            names: game
+              ? [...Object.values(game.name), ...Object.values(game.slug)]
+              : [],
             copy,
           };
         })
@@ -826,6 +846,18 @@ describe("copie enregistrée (spec §9)", () => {
     expect(
       REGISTERED_COPY.flatMap((entry) => frenchTypographyViolations(entry)),
     ).toEqual([]);
+  });
+
+  it("la typographie française est respectée dans le Dictionnaire (src/content/fr.ts)", () => {
+    // Le Dictionnaire (libellés communs, pages légales, formulaire) n'est pas dans
+    // REGISTERED_COPY : sans cette garde, ses chaînes françaises échappent à la règle.
+    const violations = stringsOf(getDictionary("fr")).flatMap(
+      ({ path, value }) =>
+        frenchTypographyProblems(value).map(
+          (problem) => `dictionary:fr ${path}: ${problem}`,
+        ),
+    );
+    expect(violations).toEqual([]);
   });
 });
 
@@ -1167,6 +1199,20 @@ describe("contrôles positifs des gardes structurelles", () => {
     ).toEqual([]);
   });
 
+  it("une copie de jeu hors registre est signalée, sans faire planter les autres gardes", () => {
+    // `GameId` est une union fermée : l'identifiant hors registre ne s'écrit qu'avec un cast.
+    const orphan = fixtureApp("en", {
+      ["unregistered" as GameId]: fixtureGame(),
+    });
+    expect(coverageViolations(orphan, GAMES)).toContainEqual(
+      expect.stringContaining(
+        "unregistered: copy for a game that is not in the registry",
+      ),
+    );
+    expect(() => nearDuplicatePagesOf("en", [orphan])).not.toThrow();
+    expect(nearDuplicatePagesOf("en", [orphan])[0].names).toEqual([]);
+  });
+
   describe("phrases répétées (ruling R4)", () => {
     const SHARED =
       "Une même phrase de plus de soixante caractères, recopiée mot pour mot.";
@@ -1369,7 +1415,7 @@ describe("contrôles positifs des gardes structurelles", () => {
       expect(trigramSimilarity("a b c d", "a b c d")).toBe(1);
     });
 
-    it("seuil de 0,6 : la paire à 0,6 est refusée, celle à 0,5 passe", () => {
+    it("seuil de 0,6 : la paire à 0,6 est refusée, celle à 0,43 passe", () => {
       // Six mots de douze lettres : 77 caractères, au-dessus du plancher de 60.
       const words = [
         "abcdefghijkl",

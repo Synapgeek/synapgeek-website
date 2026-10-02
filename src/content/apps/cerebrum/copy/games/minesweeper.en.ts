@@ -22,14 +22,14 @@ export const minesweeperEn: GameCopy = {
       "A cell with no mine next to it carries no number. Opening it opens all its neighbors at once, and the cleared area spreads outwards.",
       "In Cerebrum, tap a cell to open it. To plant a flag, press and hold the cell, and hold it again to take the flag away. Marking several mines in a row? The Flag button in the toolbar saves you from holding each time.",
       "When a number already has as many flags around it as its value, tap it and Cerebrum opens all its other neighbors in one go. On big grids, pinch to zoom.",
-      "Touching a mine costs one of your three hearts, and the cell stays marked. The third heart ends the game. Your very first tap is blind and can land on a mine too, but once an area is open, the rest of the grid can be worked out by deduction.",
+      "Touching a mine costs one of your three hearts, and the cell stays marked. The third heart ends the game.",
     ],
   },
   whatCerebrumAdds: {
     title: "What Cerebrum adds to Minesweeper",
     paragraphs: [
       "In Cerebrum you work through a path of grids in the difficulty you pick. When it is finished, Endless Mode serves more minefields of that same difficulty.",
-      "Minesweeper opens with a short four-page how-to-play sheet: the numbers, the first tap, flags, hearts and the hint. On the first Easy level, highlighted cells show where to dig and where to flag, and every move is still yours to make. No heart is at stake and the timer is off; the remaining cells are yours alone, and Skip lets you start without the guide.",
+      "Minesweeper opens with a short four-page how-to-play sheet: the numbers, the first tap, flags, hearts and the hint. On the first Easy level, highlighted cells show where to open and where to flag, and every move is still yours to make. No heart is at stake and the timer is off; the remaining cells are yours alone. A Skip button appears from the second step if you prefer to go on without the guide.",
       "The mine counter, always visible at the top, shows the mines in the grid minus your flags. Plant one flag too many and it drops below zero, which tells you that one of your flags is wrong.",
       "A mine you touch costs a heart, yet the grid stays winnable: the cell stays flagged, so the counter stays accurate. After the third heart you can carry on with the same minefield, up to twice, with two hearts back each time.",
       "The hint opens the next safe cell for you, with the usual cascade. It leaves your flags alone, except when the cell it opens carries a wrong one: it lifts that flag first.",

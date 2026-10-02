@@ -19,7 +19,7 @@ export const hubFr: HubCopy = {
     items: {
       cerebrum: {
         description:
-          "Sudoku, Mots Croisés et Mots Mêlés côtoient Pandoku, Pixel Art, Trace et d'autres. Défi du jour, ligues et séries, le tout jouable sans réseau.",
+          "Sudoku, Mots Croisés et Mots Mêlés côtoient Pandoku, Pixel Art, Trace et d'autres. Les grilles, le défi du jour et la série se jouent hors ligne, la progression se synchronise au retour du réseau.",
         note: "Gratuite au téléchargement, financée par la publicité. Premium, c'est zéro pub imposée. Interface en 16 langues.",
         cta: "Découvrir Cerebrum",
       },

@@ -19,7 +19,7 @@ export const hubEn: HubCopy = {
     items: {
       cerebrum: {
         description:
-          "Sudoku, Crossword and Word Search next to Pandoku, Pixel Art, Trace and more. Daily challenge, leagues and streaks, all playable without a network.",
+          "Sudoku, Crossword and Word Search next to Pandoku, Pixel Art, Trace and more. The grids, the daily challenge and your streak work offline, and your progress syncs once you are back online.",
         note: "Free to download, supported by ads. Premium means no forced ads. Interface in 16 languages.",
         cta: "Discover Cerebrum",
       },

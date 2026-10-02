@@ -3,7 +3,7 @@ import type { Dictionary } from "./types";
 const en: Dictionary = {
   common: {
     siteName: "Synapgeek",
-    tagline: "Indie mobile game studio",
+    tagline: "Independent mobile app studio",
     nav: {
       games: "Games",
       cerebrum: "Cerebrum",
