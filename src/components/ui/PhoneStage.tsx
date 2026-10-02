@@ -15,7 +15,11 @@ const PHONE_REST_ROTATE = 5;
  * 576 px est devenu le LCP : 3,9 s, performance 88). Ne jamais le remplacer par une
  * version plus grande (voir `.breeze-field` dans globals.css). Sur mobile,
  * le parent peut faire déborder le téléphone sur la bande
- * suivante (marge négative), qui lui laisse la place.
+ * suivante (marge négative `-mb-24`), qui lui laisse la place. Le ciel, lui, ne
+ * déborde jamais : sa couche (`.breeze-clip`) est découpée au bord bas de la bande du
+ * héros, pour que le titre de la bande suivante reste en encre pleine sur son propre
+ * fond. Ce bord suppose `-mb-24 sm:mb-0` sur le téléphone et `pb-0 sm:pb-section` sur
+ * la bande (voir `.breeze-clip` dans globals.css et `phone-stage-floor.test.ts`).
  */
 export function PhoneStage({
   screenSrc,
@@ -33,10 +37,9 @@ export function PhoneStage({
     <div
       className={`relative isolate mx-auto w-full max-w-[12rem] min-[420px]:max-w-[15rem] sm:max-w-[17rem] lg:max-w-[19rem] ${className}`}
     >
-      <span
-        aria-hidden="true"
-        className="breeze-field pointer-events-none absolute top-1/2 left-1/2 -z-10 aspect-[960/1239] w-[240%] -translate-x-1/2 -translate-y-1/2"
-      />
+      <span aria-hidden="true" className="breeze-clip pointer-events-none">
+        <span className="breeze-field absolute top-1/2 left-1/2 aspect-[960/1239] w-[240%] -translate-x-1/2 -translate-y-1/2" />
+      </span>
       <TiltOnPointer>
         <PhoneFrame
           src={screenSrc}

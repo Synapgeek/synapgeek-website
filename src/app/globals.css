@@ -181,6 +181,27 @@
    deviendrait le LCP : mesuré à 576 px, LCP 3,9 s et performance 88, sous le seuil de 90.
    Garder l'image à 240 px ; l'agrandissement et le masque radial rendent le flou voulu.
    Mesures : docs/contrat/provenance-visuels-r8.md. */
+/* Le ciel ne dépasse jamais la bande du héros. La couche couvre la scène et est découpée
+   à son bord bas : la scène déborde de 6rem (marge négative `-mb-24`) sur mobile, donc le
+   bord de la bande est 6rem au-dessus de la scène ; dès `sm`, il est `--spacing-section`
+   en dessous (padding bas de la bande). Les autres côtés ne sont pas découpés
+   (l'écrêtage horizontal est celui de la bande). Sans cela, le ciel peint la bande des
+   jeux par-dessus son fond et le titre H2 y vire au gris-violet. */
+.breeze-clip {
+  position: absolute;
+  inset: 0;
+  z-index: -10;
+  clip-path: inset(-100vmax -100vmax 6rem -100vmax);
+}
+
+@media (min-width: 40rem) {
+  .breeze-clip {
+    clip-path: inset(
+      -100vmax -100vmax calc(-1 * var(--spacing-section)) -100vmax
+    );
+  }
+}
+
 .breeze-field::before {
   content: "";
   position: absolute;
