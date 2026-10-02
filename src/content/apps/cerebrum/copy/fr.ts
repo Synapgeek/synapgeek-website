@@ -26,11 +26,11 @@ export const cerebrumFr: AppCopy = {
     },
     daily: {
       title: "Défi du jour et série",
-      body: "Il y a un seul défi par jour pour toute l'app. Vous choisissez votre jeu, la grille est la même pour tout le monde, et elle se joue hors ligne. Un jour manqué se rattrape dans le calendrier du mois.",
+      body: "Il y a un seul défi par jour pour toute l'app. Vous choisissez votre jeu, et la grille est la même pour tous les joueurs de ce jeu, dans la même langue. Elle se joue hors ligne. Un jour manqué se rattrape dans le calendrier du mois.",
       items: [
         "Réussissez le défi tous les jours d'un mois pour gagner le trophée du mois.",
-        "Votre série avance chaque jour où vous terminez une partie. Perdue ? Vous avez quelques jours pour la récupérer, avec une pub facultative.",
-        "Sur iPhone, une Live Activity sur l'écran verrouillé affiche le soir le compte à rebours pour sauver votre série.",
+        "Votre série avance chaque jour où vous terminez une partie. Si vous perdez une série d'au moins 2 jours, une pub facultative peut la rétablir dans les jours qui suivent, une fois par série perdue.",
+        "De 20 h à minuit, si votre série est en cours et que vous n'avez pas encore joué, une Live Activity sur l'écran verrouillé de l'iPhone ou de l'iPad, ou une notification sur Android, affiche le compte à rebours pour la sauver. Sur iPhone et iPad, vous pouvez la désactiver dans le Profil ; sur Android, il faut que les notifications soient autorisées.",
       ],
     },
     progress: {
@@ -45,11 +45,11 @@ export const cerebrumFr: AppCopy = {
     goodToKnow: {
       title: "Bon à savoir",
       items: [
-        "Pas de réseau ? Tout reste jouable, défi du jour et série compris. Votre progression se synchronise au retour en ligne.",
-        "Jouez en invité dès le premier lancement. La connexion est facultative et synchronise vos appareils ; sur iPhone et iPad, vous pouvez utiliser Apple, Google ou Facebook.",
-        "L'app existe en 16 langues. Les grilles de Mots Croisés et de Mots Mêlés n'existent qu'en français et en anglais.",
+        "Pas de réseau ? Tout reste jouable, défi du jour et série compris. Si vous êtes connecté, votre progression se synchronise au retour en ligne.",
+        "Jouez en invité dès le premier lancement. La connexion est facultative, avec Apple, Google ou Facebook sur iPhone, iPad et Android. Votre progression suit alors votre compte d'un appareil à l'autre, sur iPhone, iPad et Android.",
+        "L'app existe en 16 langues. Les grilles de Mots Croisés et de Mots Mêlés n'existent qu'en français et en anglais. Dans les 14 autres langues, ces deux jeux et leurs packs de thèmes sont masqués.",
         "Cerebrum fonctionne sur iPhone et iPad à partir d'iOS 17.0, et sur Android à partir d'Android 8.0.",
-        "Sur iPhone et iPad, l'app suit le mode clair ou sombre, permet de régler les sons et les vibrations, et fonctionne avec VoiceOver.",
+        "Sur iPhone, iPad et Android, l'app prend en charge le mode clair et le mode sombre (automatique, ou à votre choix dans le Profil) et permet de régler les sons et les vibrations. Sur iPhone et iPad, elle fonctionne aussi avec VoiceOver.",
       ],
     },
     model: {
@@ -58,13 +58,14 @@ export const cerebrumFr: AppCopy = {
         "Cerebrum se télécharge gratuitement et vit de la publicité : une bannière pendant la partie et des pubs entre certaines parties.",
         "Les pubs récompensées restent toujours facultatives : à regarder pour des gemmes, un indice ou une seconde chance.",
         "Premium est un abonnement à la semaine, au mois ou à l'année. Il garantit zéro pub imposée : il retire la bannière et les pubs entre les parties. Il ajoute aussi des vies infinies dans les jeux qui ont des vies, 5 indices gratuits par jour et par jeu, la première erreur pardonnée à chaque partie, des gemmes offertes chaque jour et des gemmes doublées après chaque victoire.",
+        "Premium s'achète et se conserve dans chaque boutique : sur l'App Store pour iPhone et iPad, sur Google Play pour Android. Un abonnement ne passe pas d'une boutique à l'autre.",
         "Les achats intégrés sont facultatifs : des packs de gemmes, et les packs de thèmes Cinéma, Cuisine et Voyage (mots croisés et mots mêlés thématiques), non inclus dans Premium.",
         "Aucun jeu ni aucune difficulté n'est réservé à un achat.",
       ],
     },
     privacy: {
       title: "La confidentialité en bref",
-      body: "Cerebrum fonctionne sans compte. Si vous vous connectez, l'app conserve votre progression et le profil de base que votre fournisseur de connexion partage, comme votre nom et votre e-mail, pour garder vos appareils synchronisés. Les pubs viennent de Google AdMob : là où la loi l'exige, un formulaire de consentement recueille d'abord votre choix, puis, sur iPhone et iPad, la demande de suivi d'Apple. Un refus ne bloque jamais un jeu. Ce n'est qu'un résumé : la politique de confidentialité fait foi.",
+      body: "Cerebrum fonctionne sans connexion : vous jouez en invité. Si vous vous connectez, votre progression passe sur votre compte et suit ce compte d'un appareil à l'autre, sur iPhone, iPad et Android. Cerebrum conserve aussi le profil de base que votre fournisseur de connexion partage, comme votre nom et votre e-mail. L'app recueille aussi des statistiques d'usage et des rapports de plantage. Les pubs viennent de Google AdMob. Là où la loi l'exige, le formulaire de consentement de Google recueille d'abord votre choix, sur iPhone, iPad et Android ; sur iPhone et iPad, la demande de suivi d'Apple vient ensuite. Un refus ne bloque jamais un jeu. Ce n'est qu'un résumé, pas la liste complète de ce qui est collecté : la politique de confidentialité fait foi.",
       cta: "Lire la politique de confidentialité",
     },
   },
@@ -84,7 +85,7 @@ export const cerebrumFr: AppCopy = {
       {
         question: "Peut-on jouer à Cerebrum sans connexion ?",
         answer:
-          "Oui. Toutes les grilles sont déjà dans l'app : chaque jeu fonctionne sans réseau, défi du jour et série compris. Votre progression se synchronise au retour en ligne. Les pubs, la connexion à un compte et les achats, eux, demandent du réseau.",
+          "Oui. Toutes les grilles sont déjà dans l'app : chaque jeu fonctionne sans réseau, défi du jour et série compris. Si vous êtes connecté, votre progression se synchronise au retour en ligne. Les pubs, la connexion à un compte et les achats, eux, demandent du réseau.",
       },
       {
         question: "Sur quels appareils fonctionne Cerebrum ?",
@@ -94,12 +95,12 @@ export const cerebrumFr: AppCopy = {
       {
         question: "Dans quelles langues Cerebrum est-il disponible ?",
         answer:
-          "L'app existe en anglais, français, espagnol, portugais (Brésil), allemand, italien, néerlandais, turc, indonésien, vietnamien, japonais, coréen, chinois (simplifié et traditionnel), hindi et thaï. Les grilles de Mots Croisés et de Mots Mêlés n'existent qu'en français et en anglais.",
+          "L'app existe en anglais, français, espagnol, portugais (Brésil), allemand, italien, néerlandais, turc, indonésien, vietnamien, japonais, coréen, chinois (simplifié et traditionnel), hindi et thaï. Les grilles de Mots Croisés et de Mots Mêlés n'existent qu'en français et en anglais. Dans les 14 autres langues, ces deux jeux et leurs packs de thèmes sont masqués.",
       },
       {
         question: "Comment supprimer mon compte Cerebrum ?",
         answer:
-          "Dans l'app, ouvrez Profil, puis Supprimer le compte. Votre compte et les données personnelles qui y sont liées sont alors supprimés de nos serveurs. Si vous ne pouvez plus ouvrir l'app, la politique de confidentialité explique comment demander la suppression.",
+          "Si vous êtes connecté, ouvrez Profil, puis Supprimer le compte (une connexion est nécessaire). Votre compte et les données personnelles qui y sont liées sont alors supprimés de nos serveurs. En mode invité, ce bouton n'existe pas : la politique de confidentialité explique comment demander la suppression.",
         link: {
           label:
             "La suppression de compte dans la politique de confidentialité",

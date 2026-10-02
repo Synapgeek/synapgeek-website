@@ -16,4 +16,14 @@ describe("formatUpdatedAt", () => {
     expect(() => formatUpdatedAt("02/10/2026", "en")).toThrow(/AAAA-MM-JJ/);
     expect(() => formatUpdatedAt("2026-13-45", "en")).toThrow(/AAAA-MM-JJ/);
   });
+
+  it("refuse un jour impossible que le moteur de dates ramènerait au mois suivant", () => {
+    expect(() => formatUpdatedAt("2026-02-30", "en")).toThrow(/AAAA-MM-JJ/);
+    expect(() => formatUpdatedAt("2026-02-29", "fr")).toThrow(/AAAA-MM-JJ/);
+    expect(() => formatUpdatedAt("2026-04-31", "en")).toThrow(/AAAA-MM-JJ/);
+  });
+
+  it("accepte le 29 février d'une année bissextile", () => {
+    expect(formatUpdatedAt("2028-02-29", "en")).toBe("February 29, 2028");
+  });
 });
