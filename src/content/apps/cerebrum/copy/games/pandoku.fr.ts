@@ -32,7 +32,7 @@ export const pandokuFr: GameCopy = {
       "Pandoku s'ouvre sur une courte fiche « Comment jouer ». Le premier niveau Facile est guidé : l'app vous fait poser les premiers pandas pas à pas, sans cœur perdu ni chrono (un bouton Passer permet de s'en dispenser). Chaque grille Facile commence avec un panda déjà posé : offert d'avance, il ne s'enlève pas et ne compte ni comme erreur, ni comme indice.",
       "Il n'y a pas de bouton Annuler : un toucher barre une case, un autre efface la croix, gratuitement, et un panda juste est verrouillé pour de bon. Glissez le doigt pour barrer plusieurs cases d'un coup.",
       "Un panda mal placé est retiré et coûte un cœur ; au troisième, la partie est perdue, mais vous pouvez la reprendre une fois avec une pub facultative, puis une fois avec des gemmes. Avec Premium, les cœurs sont infinis et la première erreur de chaque partie est pardonnée.",
-      "L'indice montre le raisonnement avant de jouer le coup. Il nomme la déduction disponible (case forcée, unité enfermée ou voisinage commun), la met en évidence, puis place le panda ou barre les cases à votre place. Quand rien de simple ne se présente, il vous donne un panda pour repartir. Il se paie en gemmes, ou se gagne avec une pub facultative ; avec Premium, cinq indices par jour sont offerts dans chaque jeu.",
+      "L'indice montre le raisonnement avant de jouer le coup. Il nomme la déduction disponible (case forcée, unité enfermée ou voisinage commun), la met en évidence, puis place le panda ou barre les cases à votre place. Quand rien de simple ne se présente, il vous donne un panda pour repartir. Chaque indice se règle en gemmes ou se débloque avec une pub facultative, et les abonnés Premium en reçoivent cinq gratuits par jour dans chaque jeu.",
       "Sans erreur, trois étoiles ; une erreur, deux ; deux ou plus, une. Les indices ne comptent pas. Pandoku fait aussi partie des jeux à choisir pour le défi du jour, en Facile ou en Moyen : même grille pour tout le monde, jouable hors ligne, jour manqué rattrapable dans le calendrier.",
     ],
     difficultyTable: {
@@ -76,7 +76,7 @@ export const pandokuFr: GameCopy = {
       {
         question: "Pandoku est-il un Star Battle ?",
         answer:
-          "Oui. Pandoku est le nom que Cerebrum donne à ce puzzle de logique de type Star Battle : on y pose des pandas là où le Star Battle place des étoiles, avec les règles du genre.",
+          "Oui. Pandoku est le nom que Cerebrum donne à ce puzzle de logique de type Star Battle : on y pose des pandas là où le Star Battle place des étoiles, une par ligne, par colonne et par région.",
       },
       {
         question: "Comment poser un panda ou une croix ?",
@@ -91,12 +91,12 @@ export const pandokuFr: GameCopy = {
       {
         question: "Que fait l'indice de Pandoku ?",
         answer:
-          "Il montre le raisonnement avant de jouer le coup : il nomme la déduction disponible, puis place le panda ou barre les cases à votre place. Il se paie en gemmes ou se gagne avec une pub facultative ; avec Premium, cinq indices par jour sont offerts.",
+          "Il montre le raisonnement avant de jouer le coup : il nomme la déduction disponible, puis place le panda ou barre les cases à votre place. Il se paie en gemmes ou se gagne avec une pub facultative ; Premium en offre cinq par jour.",
       },
       {
         question: "Pandoku est-il gratuit, et se joue-t-il hors ligne ?",
         answer:
-          "Oui aux deux. Aucune difficulté n'est réservée à un achat, et les grilles sont dans l'app : seuls les pubs, la connexion et les achats demandent un réseau. La version gratuite affiche une bannière et des pubs entre certaines parties ; les pubs récompensées restent facultatives, et Premium garantit zéro pub imposée.",
+          "Oui aux deux. Aucune difficulté n'est réservée à un achat, et les grilles sont dans l'app : il ne faut du réseau que pour les pubs, la connexion à votre compte et les achats. La version gratuite affiche une bannière et des pubs entre certaines parties ; les pubs récompensées restent facultatives, et Premium garantit zéro pub imposée.",
       },
       {
         question: "Sur quels appareils jouer à Pandoku ?",
@@ -107,6 +107,6 @@ export const pandokuFr: GameCopy = {
   },
   whereToPlay: {
     title: "Jouer à Pandoku sur iPhone, iPad et Android",
-    body: "Pandoku se joue dans Cerebrum, l'app de jeux de réflexion de Synapgeek, gratuite et utilisable sans connexion : dans le métro, en salle d'attente, ou pour cinq minutes. Installez-la depuis l'App Store sur iPhone et iPad, ou depuis Google Play sur Android.",
+    body: "Pandoku se joue dans Cerebrum, l'app de jeux de réflexion de Synapgeek, gratuite et utilisable sans connexion : dans le métro, en salle d'attente, ou dès que vous avez cinq minutes. Installez-la depuis l'App Store sur iPhone et iPad, ou depuis Google Play sur Android.",
   },
 };
