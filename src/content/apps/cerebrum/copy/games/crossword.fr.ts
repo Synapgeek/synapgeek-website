@@ -22,17 +22,17 @@ export const crosswordFr: GameCopy = {
       "Touchez une case pour choisir son mot, puis tapez la réponse sur le clavier intégré : AZERTY pour les grilles en français, QWERTY pour celles en anglais. Les accents ne comptent pas : E suffit pour É, È ou Ê.",
       "Une case située au croisement de deux mots appartient aux deux. Touchez-la une seconde fois pour passer du sens horizontal au sens vertical, et inversement.",
       "Un mot est vérifié dès que sa dernière lettre est posée. Juste, il se verrouille et ses lettres deviennent des certitudes pour les mots qui le croisent. Faux, il passe au rouge, vous perdez un cœur et ses lettres sont effacées.",
-      "Bloqué ? Le bouton Indice propose trois aides, de la plus légère à la réponse entière.",
+      "Bloqué ? Le bouton Indice propose jusqu'à trois aides, de la plus légère à la réponse entière.",
     ],
   },
   whatCerebrumAdds: {
     title: "Ce que Cerebrum ajoute aux mots croisés",
     paragraphs: [
-      "Les mots croisés de Cerebrum sont des grilles de définitions libres : ni carrées, ni bordées de cases noires. Chaque difficulté a son parcours, où les grilles s'ouvrent une à une ; une fois le parcours terminé, le mode Infini en enchaîne d'autres de la même difficulté.",
-      "Le jeu n'existe qu'en français et en anglais : définitions, réponses et clavier sont tous d'une même version, celle de l'app. Si l'app est réglée sur une autre langue, les mots croisés sont simplement masqués.",
-      "Trois cœurs, un par mot faux : au troisième, la partie s'arrête, avec une seconde chance proposée. Sans erreur, vous gagnez trois étoiles ; avec une erreur, deux ; avec deux erreurs ou plus, une seule. Les aides n'entrent jamais dans ce compte.",
-      "Le bouton Indice propose trois aides. L'indice de définition donne une définition plus facile du même mot ; la lettre dévoile une case de la réponse ; le mot révèle toute la réponse d'un coup. En Facile, l'aide par définition n'est pas proposée.",
-      "Trois packs thématiques, Cinéma, Cuisine et Voyage, ajoutent des grilles autour d'un thème. Ce sont des achats intégrés distincts du parcours, leurs grilles sont de difficulté Difficile, et un même pack ouvre aussi les Mots Mêlés.",
+      "Les mots croisés de Cerebrum sont des grilles libres, à définitions : ni carrées, ni bordées de cases noires. Chaque difficulté a son parcours, où les grilles s'ouvrent une à une ; une fois le parcours terminé, le mode Infini en enchaîne d'autres de la même difficulté.",
+      "Le jeu n'existe qu'en français et en anglais : définitions, réponses et clavier sont tous dans la même langue, celle de l'app. Si l'app est réglée sur une autre langue, les mots croisés sont simplement masqués.",
+      "Vous avez trois cœurs. Un mot faux en coûte un, et une lettre qui complète deux mots faux en coûte deux. Quand le troisième cœur est perdu, vous pouvez reprendre jusqu'à deux fois, avec deux cœurs rendus à chaque reprise. Sans erreur, vous gagnez trois étoiles ; avec une erreur, deux ; avec deux erreurs ou plus, une seule. Les aides n'entrent jamais dans ce compte.",
+      "Le bouton Indice propose jusqu'à trois aides. L'aide par définition donne une définition plus facile du même mot ; l'aide par lettre remplit la case que vous avez sélectionnée ; l'aide par mot révèle le mot en cours. Aucune ne coûte de cœur. En Facile, l'aide par définition n'est pas proposée.",
+      "Des grilles thématiques, Cinéma, Cuisine et Voyage, s'ajoutent au parcours : elles se jouent en difficulté Difficile, avec des définitions de niveau Moyen, et chaque pack ouvre aussi les Mots Mêlés.",
       "Les mots croisés se choisissent aussi pour le défi du jour, mais en Facile seulement. La grille est tirée dans la langue de l'app : ce jour-là, tous les joueurs en français ont la même, et ceux qui jouent en anglais en partagent une autre.",
     ],
     difficultyTable: {
@@ -46,12 +46,12 @@ export const crosswordFr: GameCopy = {
         {
           difficulty: "medium",
           detail:
-            "Des grilles de même taille, de 14 à 20 mots, avec l'aide par définition. Ouverte dès le premier lancement.",
+            "Des grilles à peu près de même taille et de même nombre de mots qu'en Facile, avec l'aide par définition. Ouverte dès le premier lancement.",
         },
         {
           difficulty: "hard",
           detail:
-            "Des grilles de 6 à 12 sur 10 à 12 cases, de 9 à 15 mots. C'est aussi la difficulté des packs thématiques. S'ouvre au fil de votre progression en Moyen.",
+            "Des grilles de 6 à 12 sur 10 à 12 cases, de 9 à 15 mots : moins de mots, mais des définitions plus allusives. S'ouvre au fil de votre progression en Moyen.",
         },
       ],
     },
@@ -61,7 +61,7 @@ export const crosswordFr: GameCopy = {
     items: [
       "Commencez par les définitions dont vous êtes sûr : un synonyme direct, un nom propre, une réponse évidente. Chaque mot juste se verrouille, et ses lettres vous servent d'appuis pour les mots qui le croisent : les réponses plus difficiles se dégagent d'elles-mêmes.",
       "Servez-vous du nombre entre parenthèses. Écartez toute réponse qui n'a pas le bon nombre de lettres, et attaquez les mots courts d'abord : ils laissent moins de réponses possibles, et leurs lettres tombent justement sur les longs mots.",
-      "Lisez la définition comme une phrase. Un pluriel appelle une réponse au pluriel, donc sans doute un S final ; un féminin, un verbe conjugué ou un participe se retrouvent dans la terminaison. Le temps et l'accord de la définition sont presque toujours ceux de la réponse.",
+      "Lisez la définition comme une phrase. Un pluriel appelle une réponse au pluriel, donc sans doute un S final ; un féminin, un verbe conjugué ou un participe se retrouvent dans la terminaison. Le temps et l'accord de la définition sont en général ceux de la réponse.",
       "Regardez les lettres déjà posées avant de demander une aide. Deux ou trois lettres bien placées suffisent souvent à débloquer une réponse hésitante. Si ce n'est pas assez, prenez l'aide la plus légère d'abord et gardez la révélation du mot pour la fin.",
       "Ne posez pas sur un coup de tête la lettre qui complète un mot. Un mot est vérifié dès que sa dernière case vide est remplie, et ce peut être un mot croisé que vous ne regardiez pas. Avant de remplir la dernière case d'un mot, confrontez la réponse aux mots déjà verrouillés qui le croisent, puis validez seulement si le tout tient.",
     ],
@@ -72,7 +72,7 @@ export const crosswordFr: GameCopy = {
       {
         question: "Que se passe-t-il quand un mot est faux ?",
         answer:
-          "Dès que vous posez sa dernière lettre, le mot est vérifié. S'il est faux, ses cases passent au rouge, un cœur disparaît et les lettres s'effacent. Le troisième cœur perdu met fin à la partie, avec une seconde chance proposée.",
+          "Dès que vous posez sa dernière lettre, le mot est vérifié. S'il est faux, ses cases passent au rouge, un cœur disparaît et les lettres s'effacent, sauf celles partagées avec un mot déjà verrouillé. Le troisième cœur perdu met fin à la partie.",
       },
       {
         question: "Comment passer d'un mot horizontal à un mot vertical ?",
@@ -87,12 +87,7 @@ export const crosswordFr: GameCopy = {
       {
         question: "Que font les aides des mots croisés ?",
         answer:
-          "Trois aides existent : une définition plus facile pour le mot en cours, une lettre dévoilée, ou le mot entier. La première n'est pas proposée en Facile. Les étoiles ne tiennent compte que des erreurs, jamais des aides.",
-      },
-      {
-        question: "À quoi servent les packs Cinéma, Cuisine et Voyage ?",
-        answer:
-          "Chacun apporte des grilles autour de son thème, toutes de difficulté Difficile. C'est un achat intégré à part, qui ouvre aussi les Mots Mêlés. Un pack déjà acheté n'est jamais retiré.",
+          "Trois aides existent : une définition plus facile pour le mot en cours, la case sélectionnée remplie, ou le mot entier. La première n'est pas proposée en Facile. Les étoiles ne tiennent compte que des erreurs, jamais des aides.",
       },
       {
         question:
