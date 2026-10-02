@@ -27,7 +27,7 @@ export const mazeFr: GameCopy = {
   whatCerebrumAdds: {
     title: "Ce que Cerebrum ajoute au Labyrinthe",
     paragraphs: [
-      "Un niveau de Labyrinthe, c'est un seul labyrinthe à traverser. Chaque difficulté a son parcours de niveaux ; quand vous l'avez terminé, le mode Infini prolonge la partie avec d'autres labyrinthes de la même difficulté.",
+      "Un niveau de Labyrinthe, c'est un seul labyrinthe à traverser. Chaque difficulté se parcourt niveau après niveau ; une fois au bout, le mode Infini prolonge la partie avec d'autres labyrinthes de la même difficulté.",
       "La plupart des labyrinthes ont une forme : un cœur, une étoile, un anneau, un sablier ou un triangle découpent le plateau, et les cases hors de la forme ne se traversent pas. Les autres sont de simples rectangles.",
       "Un petit labyrinthe tient tout entier à l'écran. Dans un grand, la vue suit la luciole pas à pas, et le bouton de vue d'ensemble dézoome pour montrer tout le plateau d'un coup, autant de fois que vous voulez tant qu'il n'y a pas de brouillard.",
       "Chaque étoile récompense une chose : une pour la sortie trouvée, une pour tous les cristaux ramassés, une pour l'arrivée dans le temps cible, calculé d'après la longueur du plus court chemin.",

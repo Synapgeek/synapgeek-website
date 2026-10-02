@@ -33,7 +33,7 @@ export const minesweeperFr: GameCopy = {
       "Le compteur de mines, toujours affiché en haut, donne le nombre de mines de la grille moins vos drapeaux. Posez un drapeau de trop et il passe sous zéro : il vous signale ainsi que l'un de vos drapeaux est faux.",
       "Une mine touchée coûte un cœur, et la grille reste gagnable : la case se marque d'un drapeau, ce qui garde le compteur juste. Au troisième cœur, la partie est finie, sauf si vous reprenez ce même champ de mines.",
       "L'indice ouvre pour vous la prochaine case sûre. Si l'un de vos drapeaux est mal placé, il commence par le retirer, avant d'ouvrir quoi que ce soit.",
-      "Zéro erreur donne trois étoiles, une erreur deux, deux erreurs ou plus une seule, et les indices n'y changent rien. Le défi du jour peut aussi se jouer au démineur, en Facile ou en Moyen : tout le monde reçoit la même grille.",
+      "Les étoiles suivent vos erreurs : trois pour une grille sans faute, deux pour une erreur, une au-delà, et les indices n'y changent rien. Le défi du jour peut aussi se jouer au démineur, en Facile ou en Moyen : tout le monde reçoit la même grille.",
     ],
     difficultyTable: {
       caption: "Les difficultés du démineur dans Cerebrum",

@@ -5,12 +5,12 @@ export const wordSearchFr: GameCopy = {
   meta: {
     title: "Mots mêlés : règles, astuces et app Cerebrum | Synapgeek",
     description:
-      "Comment jouer aux mots mêlés : règles, astuces de repérage et ce qu'ajoute Cerebrum, de Facile à Difficile. Hors ligne sur iPhone, iPad et Android.",
+      "Les règles des mots mêlés, des astuces pour repérer les mots et ce qu'ajoute Cerebrum, de Facile à Difficile. Hors ligne sur iPhone, iPad et Android.",
   },
   hero: {
     h1: "Mots Mêlés",
     definition:
-      "Les mots mêlés sont le jeu de grille classique où l'on retrouve, dans un tableau de lettres, des mots cachés en ligne droite. On y joue hors ligne dans Cerebrum, l'app de Synapgeek, sur iPhone, iPad et Android.",
+      "Les mots mêlés sont le jeu de grille classique où l'on retrouve, dans un tableau de lettres, des mots cachés en ligne droite. Ils se jouent hors ligne dans Cerebrum, l'app de Synapgeek, sur iPhone, iPad et Android.",
     phoneAlt:
       "Mots mêlés dans Cerebrum, niveau Facile : une grille de lettres où trois mots sont surlignés en couleur, le compteur de mots trouvés et le chronomètre au-dessus, le bouton Indice et la liste des mots en dessous, les mots trouvés barrés",
   },
@@ -94,8 +94,7 @@ export const wordSearchFr: GameCopy = {
           "Chaque niveau est conçu comme une série de trois grilles, toujours les mêmes et dans le même ordre. Pour les étoiles, c'est le temps moyen par grille qui compte, pas le temps total du niveau.",
       },
       {
-        question:
-          "Pourquoi les mots mêlés n'apparaissent-ils pas dans mon app ?",
+        question: "Pourquoi les mots mêlés sont-ils absents de mon app ?",
         answer:
           "Les mots mêlés se jouent sur des grilles en français ou en anglais, et nulle part ailleurs. Avec l'app réglée sur une autre langue, le jeu est donc masqué ; il revient dès que vous choisissez l'une de ces deux langues.",
       },
