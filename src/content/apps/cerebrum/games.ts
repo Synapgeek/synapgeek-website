@@ -64,7 +64,7 @@ export const cerebrumGames: readonly GameEntry[] = [
     availability: SINCE_3,
     contentLocales: "all",
     color: { wash: "--game-pandoku-wash", deep: "--game-pandoku-deep" },
-    published: false,
+    published: true,
     icon: icon("pandoku"),
     screenshot: screenshot("pandoku"),
   },

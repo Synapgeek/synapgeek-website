@@ -1,4 +1,5 @@
 import type { GameId } from "@/content/apps";
+import { pandokuEn } from "./pandoku.en";
 import { sudokuEn } from "./sudoku.en";
 import type { GameCopy } from "@/content/copy/types";
 
@@ -8,4 +9,5 @@ import type { GameCopy } from "@/content/copy/types";
  */
 export const gamesEn: Partial<Record<GameId, GameCopy>> = {
   sudoku: sudokuEn,
+  pandoku: pandokuEn,
 };

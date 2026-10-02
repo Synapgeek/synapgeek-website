@@ -20,6 +20,8 @@ describe("opengraph-image d'un jeu", () => {
     expect(generateStaticParams()).toEqual([
       { locale: "en", game: "sudoku" },
       { locale: "fr", game: "sudoku" },
+      { locale: "en", game: "pandoku" },
+      { locale: "fr", game: "pandoku" },
     ]);
   });
 
@@ -61,7 +63,7 @@ describe("opengraph-image d'un jeu", () => {
   });
 
   it.each([
-    ["en", "pandoku"],
+    ["en", "maze"],
     ["en", "inconnu"],
     ["fr", "mots-croises"],
   ])("refuse %s/%s : jeu non publié ou slug inconnu", async (locale, game) => {

@@ -131,6 +131,7 @@ const RENDERED_PAGE_IDS: ReadonlySet<PageId> = new Set<PageId>([
   "home",
   "cerebrum",
   "game:sudoku",
+  "game:pandoku",
   ...LEGAL_IDS,
 ]);
 
