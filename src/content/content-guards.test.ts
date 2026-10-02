@@ -226,13 +226,6 @@ const APP_WIDE_ALLOWLIST: ReadonlyArray<{
   why: string;
 }> = [
   {
-    game: "pixel-art",
-    topics: ["iPhone", "iPad", "Android"],
-    // copy-rules 13 : les vies, les étoiles, le départ de la difficulté Facile et
-    // Annuler diffèrent entre iPhone/iPad et Android. Les nommer est le contenu.
-    why: "Pixel Art plays differently on iPhone and iPad than on Android",
-  },
-  {
     game: "arrow-maze",
     topics: ["free"],
     // « Free piece » est le terme du jeu pour une flèche que rien ne bloque.
