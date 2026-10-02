@@ -9,42 +9,10 @@ export const hubEn: HubCopy = {
   },
   hero: {
     h1: "Synapgeek",
+    tagline: "Your break deserves a good puzzle.",
     definition:
-      "Synapgeek is an independent French studio that makes mobile apps. Its first app, Cerebrum, brings classic and newer puzzle games together in one offline app for iPhone, iPad and Android.",
-    phoneAlt:
-      "Cerebrum home screen with the Daily Challenge, the themes and game cards including Sudoku, Word Search and Minesweeper",
-  },
-  slider: {
-    label: "The studio in a few messages",
-    slideLabel: "{current} of {total}",
-    goTo: "Go to message {current}",
-    previous: "Previous message",
-    next: "Next message",
-    pause: "Pause automatic rotation",
-    play: "Start automatic rotation",
+      "Synapgeek is an independent French studio that makes mobile apps. We craft elegant brain games to be savoured like a good coffee: for a break, a commute or a quiet evening.",
     cta: "Discover Cerebrum",
-    slides: {
-      relax: {
-        headline: "Games that relax you and get your mind working.",
-        body: "A break, a commute, a queue: Cerebrum plays at your pace, one grid at a time.",
-        phoneAlt:
-          "A Sudoku grid in Cerebrum, with the three hearts, the timer and the number pad",
-      },
-      classics: {
-        headline: "The classics and newer puzzles, together in one app.",
-        body: "Sudoku, Crossword and Word Search on one side. Pandoku, a Star Battle logic puzzle, Minesweeper, Pixel Art nonograms and more on the other. They all live in Cerebrum.",
-      },
-      offline: {
-        headline: "Offline, on iPhone, iPad and Android.",
-        body: "The grids are inside the app, so it plays without a network, daily challenge included. The interface comes in 16 languages.",
-        phoneAlt:
-          "A panda drawing revealed at the end of a Pixel Art grid, one of the nonograms in Cerebrum",
-      },
-      france: {
-        headline: "Designed and developed in France by an independent studio.",
-        body: "Synapgeek SAS is based in Frontenas, in the Rhône. We publish our apps ourselves.",
-      },
-    },
   },
   games: {
     title: "Our games",

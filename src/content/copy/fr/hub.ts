@@ -9,43 +9,10 @@ export const hubFr: HubCopy = {
   },
   hero: {
     h1: "Synapgeek",
+    tagline: "Votre pause mérite un bon casse-tête.",
     definition:
-      "Synapgeek est un studio français indépendant qui crée des applications mobiles. Sa première, Cerebrum, réunit des jeux de réflexion classiques et récents dans une seule app hors ligne, sur iPhone, iPad et Android.",
-    phoneAlt:
-      "Écran d'accueil de Cerebrum avec le défi quotidien, les thèmes et les cartes de jeux, dont Sudoku, Mots Mêlés et Démineur",
-  },
-  slider: {
-    label: "Le studio en quelques messages",
-    slideLabel: "{current} sur {total}",
-    goTo: "Aller au message {current}",
-    previous: "Message précédent",
-    next: "Message suivant",
-    pause: "Mettre le défilement en pause",
-    play: "Relancer le défilement",
+      "Synapgeek est un studio français indépendant d'applications mobiles. Nous imaginons des jeux de réflexion élégants, à savourer comme un bon café\u00a0: le temps d'une pause, d'un trajet ou d'une soirée tranquille.",
     cta: "Découvrir Cerebrum",
-    slides: {
-      relax: {
-        headline: "Des jeux qui détendent et font travailler l'esprit.",
-        body: "Une pause, un trajet, une file d'attente\u00a0: Cerebrum se joue à votre rythme, une grille à la fois.",
-        phoneAlt:
-          "Grille de Sudoku dans Cerebrum, avec les trois cœurs, le chronomètre et le clavier de chiffres",
-      },
-      classics: {
-        headline:
-          "Les classiques et les casse-tête récents, dans une seule app.",
-        body: "Sudoku, Mots Croisés et Mots Mêlés d'un côté\u00a0; de l'autre, Pandoku (un puzzle de logique de type Star Battle), Démineur, Pixel Art (des nonogrammes) et d'autres. Tout se retrouve dans Cerebrum.",
-      },
-      offline: {
-        headline: "Hors ligne, sur iPhone, iPad et Android.",
-        body: "Les grilles sont dans l'app\u00a0: elle se joue sans réseau, défi du jour compris. L'interface existe en 16 langues.",
-        phoneAlt:
-          "Dessin de panda révélé à la fin d'une grille de Pixel Art, un jeu de nonogrammes de Cerebrum",
-      },
-      france: {
-        headline: "Conçu et développé en France par un studio indépendant.",
-        body: "Synapgeek SAS est installé à Frontenas, dans le Rhône. Nous éditons nos apps nous-mêmes.",
-      },
-    },
   },
   games: {
     title: "Nos jeux",

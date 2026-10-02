@@ -1008,8 +1008,9 @@ function fixtureApp(
 
 const HUB_HERO: HubCopy["hero"] = {
   h1: "Synapgeek",
+  tagline: "A tagline.",
   definition: DEFINITION_OK,
-  phoneAlt: "A screen.",
+  cta: "Open",
 };
 
 function fixtureHub(overrides: Partial<HubCopy> = {}): CopyEntry {
@@ -1020,22 +1021,6 @@ function fixtureHub(overrides: Partial<HubCopy> = {}): CopyEntry {
       updatedAt: "2026-10-01",
       meta: { title: "Synapgeek", description: "A studio." },
       hero: HUB_HERO,
-      slider: {
-        label: "Highlights",
-        slideLabel: "{current} of {total}",
-        goTo: "Go to {current}",
-        previous: "Previous",
-        next: "Next",
-        pause: "Pause",
-        play: "Play",
-        cta: "Open",
-        slides: {
-          relax: { headline: "A.", body: "B.", phoneAlt: "A screen." },
-          classics: { headline: "C.", body: "D." },
-          offline: { headline: "E.", body: "F.", phoneAlt: "A screen." },
-          france: { headline: "G.", body: "H." },
-        },
-      },
       games: {
         title: "Games",
         items: {
@@ -1200,14 +1185,14 @@ describe("contrôles positifs des gardes structurelles", () => {
     expect(hubMentionGenreViolations(named, GAMES)).toEqual([]);
     // Un mot courant n'est pas un nom de jeu, un classique n'a pas de genre.
     const common = fixtureHub({
-      hero: { ...HUB_HERO, phoneAlt: "A trace of Sudoku and Crossword." },
+      hero: { ...HUB_HERO, tagline: "A trace of Sudoku and Crossword." },
     });
     expect(hubMentionGenreViolations(common, GAMES)).toEqual([]);
   });
 
   it("le garde du genre à l'accueil fait partie de entryViolations", () => {
     const entry = fixtureHub({
-      hero: { ...HUB_HERO, phoneAlt: "A screen with Pandoku." },
+      hero: { ...HUB_HERO, tagline: "A screen with Pandoku." },
     });
     expect(entryViolations(entry)).toEqual([
       expect.stringContaining('names "Pandoku" without its genre'),

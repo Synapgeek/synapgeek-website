@@ -91,7 +91,7 @@ describe("PhoneStage sky clip", () => {
   });
 
   it("keeps the 6rem floor equal to the negative margin the app page gives the stage", () => {
-    // La page d'accueil n'utilise plus PhoneStage (son héros est le slider) : seule la page app le pose.
+    // La page d'accueil n'utilise plus PhoneStage (son héros est la photo de la table) : seule la page app le pose.
     const page = "src/app/[locale]/cerebrum/page.tsx";
     const source = read(page);
     expect(source, page).toMatch(
