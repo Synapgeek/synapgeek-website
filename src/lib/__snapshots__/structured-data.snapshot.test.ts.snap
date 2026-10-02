@@ -1,0 +1,983 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`JSON-LD de Cerebrum (étalon) > application, en 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": [
+    "MobileApplication",
+    "VideoGame"
+  ],
+  "@id": "https://synapgeek.com/cerebrum#app",
+  "name": "Cerebrum",
+  "alternateName": [
+    "Cerebrum : Jeux zen sans wifi",
+    "Cerebrum: Offline Puzzle Games"
+  ],
+  "description": "d",
+  "url": "https://synapgeek.com/cerebrum",
+  "sameAs": [
+    "https://apps.apple.com/app/id6763915130",
+    "https://play.google.com/store/apps/details?id=com.synapgeek.cerebrum"
+  ],
+  "operatingSystem": [
+    "iOS",
+    "Android"
+  ],
+  "applicationCategory": "GameApplication",
+  "image": "https://synapgeek.com/images/brand/cerebrum-icon.png",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR",
+    "availability": "https://schema.org/InStock"
+  },
+  "downloadUrl": [
+    "https://apps.apple.com/app/id6763915130",
+    "https://play.google.com/store/apps/details?id=com.synapgeek.cerebrum"
+  ],
+  "author": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "datePublished": "2026-06-03",
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > application, fr 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": [
+    "MobileApplication",
+    "VideoGame"
+  ],
+  "@id": "https://synapgeek.com/cerebrum#app",
+  "name": "Cerebrum",
+  "alternateName": [
+    "Cerebrum : Jeux zen sans wifi",
+    "Cerebrum: Offline Puzzle Games"
+  ],
+  "description": "d",
+  "url": "https://synapgeek.com/fr/cerebrum",
+  "sameAs": [
+    "https://apps.apple.com/app/id6763915130",
+    "https://play.google.com/store/apps/details?id=com.synapgeek.cerebrum"
+  ],
+  "operatingSystem": [
+    "iOS",
+    "Android"
+  ],
+  "applicationCategory": "GameApplication",
+  "image": "https://synapgeek.com/images/brand/cerebrum-icon.png",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR",
+    "availability": "https://schema.org/InStock"
+  },
+  "downloadUrl": [
+    "https://apps.apple.com/app/id6763915130",
+    "https://play.google.com/store/apps/details?id=com.synapgeek.cerebrum"
+  ],
+  "author": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "datePublished": "2026-06-03",
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu arrow-maze, en 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/arrow-maze#game",
+  "name": "Arrow Maze",
+  "description": "d",
+  "url": "https://synapgeek.com/cerebrum/arrow-maze",
+  "image": "https://synapgeek.com/images/games/arrow-maze-v3.webp",
+  "genre": [
+    "Puzzle",
+    "arrow puzzle"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu arrow-maze, fr 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/arrow-maze#game",
+  "name": "Arrow Maze",
+  "description": "d",
+  "url": "https://synapgeek.com/fr/cerebrum/arrow-maze",
+  "image": "https://synapgeek.com/images/games/arrow-maze-v3.webp",
+  "genre": [
+    "Puzzle",
+    "casse-tête de flèches"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu cross-math, en 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/cross-math#game",
+  "name": "Cross Math",
+  "description": "d",
+  "url": "https://synapgeek.com/cerebrum/cross-math",
+  "image": "https://synapgeek.com/images/games/cross-math-v3.webp",
+  "genre": [
+    "Puzzle",
+    "math crossword"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu cross-math, fr 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/cross-math#game",
+  "name": "Cross Math",
+  "description": "d",
+  "url": "https://synapgeek.com/fr/cerebrum/cross-math",
+  "image": "https://synapgeek.com/images/games/cross-math-v3.webp",
+  "genre": [
+    "Puzzle",
+    "mots croisés de calcul"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu crossword, en 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/crossword#game",
+  "name": "Crossword",
+  "description": "d",
+  "url": "https://synapgeek.com/cerebrum/crossword",
+  "image": "https://synapgeek.com/images/games/crossword-v3.webp",
+  "genre": [
+    "Puzzle"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "fr",
+    "en"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu crossword, fr 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/crossword#game",
+  "name": "Mots Croisés",
+  "description": "d",
+  "url": "https://synapgeek.com/fr/cerebrum/mots-croises",
+  "image": "https://synapgeek.com/images/games/crossword-v3.webp",
+  "genre": [
+    "Puzzle"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "fr",
+    "en"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu maze, en 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/maze#game",
+  "name": "Maze",
+  "description": "d",
+  "url": "https://synapgeek.com/cerebrum/maze",
+  "image": "https://synapgeek.com/images/games/maze-v3.webp",
+  "genre": [
+    "Puzzle"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu maze, fr 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/maze#game",
+  "name": "Labyrinthe",
+  "description": "d",
+  "url": "https://synapgeek.com/fr/cerebrum/labyrinthe",
+  "image": "https://synapgeek.com/images/games/maze-v3.webp",
+  "genre": [
+    "Puzzle"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu minesweeper, en 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/minesweeper#game",
+  "name": "Minesweeper",
+  "description": "d",
+  "url": "https://synapgeek.com/cerebrum/minesweeper",
+  "image": "https://synapgeek.com/images/games/minesweeper-v3.webp",
+  "genre": [
+    "Puzzle"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu minesweeper, fr 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/minesweeper#game",
+  "name": "Démineur",
+  "description": "d",
+  "url": "https://synapgeek.com/fr/cerebrum/demineur",
+  "image": "https://synapgeek.com/images/games/minesweeper-v3.webp",
+  "genre": [
+    "Puzzle"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu pandoku, en 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/pandoku#game",
+  "name": "Pandoku",
+  "description": "d",
+  "url": "https://synapgeek.com/cerebrum/pandoku",
+  "image": "https://synapgeek.com/images/games/pandoku-v3.webp",
+  "genre": [
+    "Puzzle",
+    "Star Battle logic puzzle"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu pandoku, fr 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/pandoku#game",
+  "name": "Pandoku",
+  "description": "d",
+  "url": "https://synapgeek.com/fr/cerebrum/pandoku",
+  "image": "https://synapgeek.com/images/games/pandoku-v3.webp",
+  "genre": [
+    "Puzzle",
+    "puzzle de logique de type Star Battle"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu pixel-art, en 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/pixel-art#game",
+  "name": "Pixel Art",
+  "description": "d",
+  "url": "https://synapgeek.com/cerebrum/pixel-art",
+  "image": "https://synapgeek.com/images/games/pixel-art-v3.webp",
+  "genre": [
+    "Puzzle",
+    "nonograms"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu pixel-art, fr 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/pixel-art#game",
+  "name": "Pixel Art",
+  "description": "d",
+  "url": "https://synapgeek.com/fr/cerebrum/pixel-art",
+  "image": "https://synapgeek.com/images/games/pixel-art-v3.webp",
+  "genre": [
+    "Puzzle",
+    "nonogrammes (logimages)"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu sudoku, en 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/sudoku#game",
+  "name": "Sudoku",
+  "description": "d",
+  "url": "https://synapgeek.com/cerebrum/sudoku",
+  "image": "https://synapgeek.com/images/games/sudoku-v3.webp",
+  "genre": [
+    "Puzzle"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu sudoku, fr 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/sudoku#game",
+  "name": "Sudoku",
+  "description": "d",
+  "url": "https://synapgeek.com/fr/cerebrum/sudoku",
+  "image": "https://synapgeek.com/images/games/sudoku-v3.webp",
+  "genre": [
+    "Puzzle"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu trace, en 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/trace#game",
+  "name": "Trace",
+  "description": "d",
+  "url": "https://synapgeek.com/cerebrum/trace",
+  "image": "https://synapgeek.com/images/games/trace-v3.webp",
+  "genre": [
+    "Puzzle",
+    "one-line path puzzle"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu trace, fr 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/trace#game",
+  "name": "Trace",
+  "description": "d",
+  "url": "https://synapgeek.com/fr/cerebrum/trace",
+  "image": "https://synapgeek.com/images/games/trace-v3.webp",
+  "genre": [
+    "Puzzle",
+    "puzzle à tracer d'un seul trait"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "fr",
+    "es",
+    "pt-BR",
+    "de",
+    "it",
+    "nl",
+    "tr",
+    "id",
+    "vi",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "zh-Hant",
+    "hi",
+    "th"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu word-search, en 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/word-search#game",
+  "name": "Word Search",
+  "description": "d",
+  "url": "https://synapgeek.com/cerebrum/word-search",
+  "image": "https://synapgeek.com/images/games/word-search-v3.webp",
+  "genre": [
+    "Puzzle"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "fr",
+    "en"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
+
+exports[`JSON-LD de Cerebrum (étalon) > jeu word-search, fr 1`] = `
+"{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://synapgeek.com/cerebrum/word-search#game",
+  "name": "Mots Mêlés",
+  "description": "d",
+  "url": "https://synapgeek.com/fr/cerebrum/mots-meles",
+  "image": "https://synapgeek.com/images/games/word-search-v3.webp",
+  "genre": [
+    "Puzzle"
+  ],
+  "gamePlatform": [
+    "iPhone",
+    "iPad",
+    "Android"
+  ],
+  "isPartOf": {
+    "@id": "https://synapgeek.com/cerebrum#app"
+  },
+  "publisher": {
+    "@id": "https://synapgeek.com/#organization"
+  },
+  "inLanguage": [
+    "fr",
+    "en"
+  ],
+  "dateModified": "2026-10-02"
+}"
+`;
