@@ -42,6 +42,20 @@ const en: Dictionary = {
       home: "Home",
     },
     updatedOn: "Updated on",
+    publisher: {
+      legalName: "Company name",
+      legalForm: "Legal form",
+      legalFormValue: "Simplified joint-stock company (SAS)",
+      capital: "Share capital",
+      address: "Registered office",
+      rcs: "Trade and Companies Register",
+      siret: "SIRET",
+      ape: "APE code",
+      vat: "VAT number",
+      publicationDirector: "Publication director",
+      host: "Hosting provider",
+      email: "Email",
+    },
 
     languageSuggestion: {
       message: "This site is also available in English.",

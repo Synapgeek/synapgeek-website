@@ -42,6 +42,20 @@ const fr: Dictionary = {
       home: "Accueil",
     },
     updatedOn: "Mis à jour le",
+    publisher: {
+      legalName: "Raison sociale",
+      legalForm: "Forme juridique",
+      legalFormValue: "Société par actions simplifiée (SAS)",
+      capital: "Capital social",
+      address: "Siège social",
+      rcs: "RCS",
+      siret: "SIRET",
+      ape: "Code APE",
+      vat: "TVA intracommunautaire",
+      publicationDirector: "Directeur de la publication",
+      host: "Hébergeur",
+      email: "Email",
+    },
 
     languageSuggestion: {
       message: "Ce site est aussi disponible en français.",

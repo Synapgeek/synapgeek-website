@@ -140,6 +140,7 @@ const RENDERED_PAGE_IDS: ReadonlySet<PageId> = new Set<PageId>([
   "game:trace",
   "game:maze",
   "game:arrow-maze",
+  ...SECTION_IDS,
   ...LEGAL_IDS,
 ]);
 
@@ -159,6 +160,17 @@ export function publishedGameParams(): Array<{ locale: Locale; game: string }> {
     .flatMap((game) =>
       LOCALES.map((locale) => ({ locale, game: game.slug[locale] })),
     );
+}
+
+/**
+ * Paramètres statiques des pages de section (À propos, Presse) : une entrée
+ * par section et par langue, avec le slug de CETTE langue (`a-propos`, pas
+ * `about`, en français). Partagés par la page et par son `opengraph-image`.
+ */
+export function sectionParams(): Array<{ locale: Locale; slug: string }> {
+  return SECTION_IDS.flatMap((id) =>
+    LOCALES.map((locale) => ({ locale, slug: SECTION_SLUGS[id][locale] })),
+  );
 }
 
 /** `null` : slug inconnu dans cette locale (le caller décide, en général `notFound()`). */

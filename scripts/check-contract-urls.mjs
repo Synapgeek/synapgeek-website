@@ -79,7 +79,7 @@ const GOOGLE_PLAY_URL =
 // l'URL du store, sans jamais en écraser un paramètre déjà présent.
 const CAMPAIGN_PARAM = "src=contract-check";
 
-const SITEMAP_URL_COUNT = 30;
+const SITEMAP_URL_COUNT = 34;
 
 /** Slug de chaque page de jeu livrée, par langue (le français de Démineur diffère). */
 const SLUGS = {
@@ -93,6 +93,12 @@ const SLUGS = {
   trace: { en: "trace", fr: "trace" },
   maze: { en: "maze", fr: "labyrinthe" },
   arrowMaze: { en: "arrow-maze", fr: "arrow-maze" },
+};
+
+/** Slug de chaque page de section livrée (À propos, Presse), par langue : copie de src/lib/page-slugs.ts (SECTION_SLUGS). */
+const SECTIONS = {
+  about: { en: "about", fr: "a-propos" },
+  press: { en: "press", fr: "presse" },
 };
 
 const LEGAL_PAGES = ["/privacy", "/terms", "/legal"];
@@ -265,6 +271,18 @@ function contractChecks(base) {
     notFound("/cerebrum/labyrinthe"),
     notFound("/cerebrum/inconnu"),
     notFound("/fr/cerebrum/inconnu"),
+    // Pages de section (tâche 15) : anglais sans préfixe, français sous /fr avec son slug ;
+    // /en/<slug> redirige, le slug de l'autre langue est un vrai 404.
+    redirect("/en/about", 308, "/about"),
+    redirect("/en/press", 308, "/press"),
+    ...Object.values(SECTIONS).flatMap((slugs) => [
+      ok(`/${slugs.en}`, sectionPageExpectations("en", slugs, resolve)),
+      ok(`/fr/${slugs.fr}`, sectionPageExpectations("fr", slugs, resolve)),
+    ]),
+    notFound("/fr/about"),
+    notFound("/fr/press"),
+    notFound("/a-propos"),
+    notFound("/presse"),
     ok("/fr", [
       contentType("text/html"),
       htmlLang("fr"),
@@ -423,6 +441,20 @@ function gamePageExpectations(language, slugs, resolve) {
   const urls = {
     en: `${APEX}/cerebrum/${slugs.en}`,
     fr: `${APEX}/fr/cerebrum/${slugs.fr}`,
+  };
+  return [
+    contentType("text/html"),
+    htmlLang(language),
+    canonical(urls[language]),
+    hreflangs({ ...urls, "x-default": urls.en }),
+    singleOgImage(resolve),
+  ];
+}
+/** Page de section : même schéma de langue que les pages jeux, une seule og:image qui répond. */
+function sectionPageExpectations(language, slugs, resolve) {
+  const urls = {
+    en: `${APEX}/${slugs.en}`,
+    fr: `${APEX}/fr/${slugs.fr}`,
   };
   return [
     contentType("text/html"),

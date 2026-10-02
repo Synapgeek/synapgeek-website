@@ -229,7 +229,7 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
   // Spec §5.2 : l'anglais est la langue par défaut (racine sans préfixe), le
   // français vit sous /fr, sauf les trois pages légales figées (français sans
   // préfixe, anglais sous /en). x-default pointe toujours vers l'anglais.
-  it("sitemap() renvoie exactement les 30 URLs du schéma courant, x-default anglais", () => {
+  it("sitemap() renvoie exactement les 34 URLs du schéma courant, x-default anglais", () => {
     const entries = sitemap();
     expect(entries.map((entry) => entry.url)).toEqual([
       "https://synapgeek.com",
@@ -256,6 +256,10 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
       "https://synapgeek.com/fr/cerebrum/labyrinthe",
       "https://synapgeek.com/cerebrum/arrow-maze",
       "https://synapgeek.com/fr/cerebrum/arrow-maze",
+      "https://synapgeek.com/about",
+      "https://synapgeek.com/fr/a-propos",
+      "https://synapgeek.com/press",
+      "https://synapgeek.com/fr/presse",
       "https://synapgeek.com/en/privacy",
       "https://synapgeek.com/privacy",
       "https://synapgeek.com/en/terms",
@@ -347,6 +351,20 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
     };
     expect(entries[22].alternates?.languages).toEqual(arrowMazeLanguages);
     expect(entries[23].alternates?.languages).toEqual(arrowMazeLanguages);
+    const aboutLanguages = {
+      en: "https://synapgeek.com/about",
+      fr: "https://synapgeek.com/fr/a-propos",
+      "x-default": "https://synapgeek.com/about",
+    };
+    expect(entries[24].alternates?.languages).toEqual(aboutLanguages);
+    expect(entries[25].alternates?.languages).toEqual(aboutLanguages);
+    const pressLanguages = {
+      en: "https://synapgeek.com/press",
+      fr: "https://synapgeek.com/fr/presse",
+      "x-default": "https://synapgeek.com/press",
+    };
+    expect(entries[26].alternates?.languages).toEqual(pressLanguages);
+    expect(entries[27].alternates?.languages).toEqual(pressLanguages);
     for (const page of ["privacy", "terms", "legal"]) {
       const languages = {
         en: `https://synapgeek.com/en/${page}`,

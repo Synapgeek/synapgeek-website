@@ -1,7 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 import { LOCALES } from "./i18n";
 import { getApp, getGames } from "@/content/apps";
+import { PUBLISHER } from "@/content/publisher";
 import {
+  aboutPageSchema,
   breadcrumbSchema,
   mobileApplicationSchema,
   organizationSchema,
@@ -225,4 +227,46 @@ describe("JSON-LD — fil d'Ariane", () => {
     ]).itemListElement;
     expect(home.item).toBe(`${ORIGIN}/fr`);
   });
+});
+
+describe("JSON-LD — organisation et page À propos", () => {
+  it("l'organisation lit son identité dans PUBLISHER", () => {
+    const org = organizationSchema();
+    expect(org.legalName).toBe(PUBLISHER.legalName);
+    expect(org.address).toEqual({
+      "@type": "PostalAddress",
+      streetAddress: PUBLISHER.address.street,
+      postalCode: PUBLISHER.address.postalCode,
+      addressLocality: PUBLISHER.address.locality,
+      addressCountry: PUBLISHER.address.countryCode,
+    });
+    expect(org.vatID).toBe(PUBLISHER.vat);
+    expect(org.contactPoint.email).toBe(PUBLISHER.contactEmail);
+  });
+
+  it("sameAs se limite aux deux pages développeur des boutiques", () => {
+    expect(organizationSchema().sameAs).toEqual([
+      "https://apps.apple.com/fr/developer/synapgeek/id1895554771?uo=4",
+      "https://play.google.com/store/apps/developer?id=Synapgeek",
+    ]);
+  });
+
+  it.each(LOCALES)(
+    "AboutPage (%s) référence l'organisation sans en créer une seconde",
+    (locale) => {
+      const page = aboutPageSchema({
+        locale,
+        name: "n",
+        dateModified: "2026-10-02",
+      });
+      expect(page["@type"]).toBe("AboutPage");
+      expect(page.about["@id"]).toBe(`${ORIGIN}/#organization`);
+      expect(page.isPartOf["@id"]).toBe(`${ORIGIN}/#website`);
+      expect(page.inLanguage).toBe(locale);
+      expect(JSON.stringify(page)).not.toContain('"Organization"');
+      expect(page.url).toBe(
+        locale === "en" ? `${ORIGIN}/about` : `${ORIGIN}/fr/a-propos`,
+      );
+    },
+  );
 });
