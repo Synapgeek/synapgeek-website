@@ -24,6 +24,8 @@ describe("opengraph-image d'un jeu", () => {
       { locale: "fr", game: "pandoku" },
       { locale: "en", game: "minesweeper" },
       { locale: "fr", game: "demineur" },
+      { locale: "en", game: "pixel-art" },
+      { locale: "fr", game: "pixel-art" },
     ]);
   });
 

@@ -1,0 +1,113 @@
+import type { GameCopy } from "@/content/copy/types";
+
+export const pixelArtFr: GameCopy = {
+  updatedAt: "2026-10-02",
+  meta: {
+    title: "Pixel Art : règles, astuces et app Cerebrum | Synapgeek",
+    description:
+      "Comment jouer au Pixel Art (nonogrammes, logimages) : règles, astuces et ce qu'ajoute Cerebrum. Hors ligne sur iPhone, iPad et Android.",
+  },
+  hero: {
+    h1: "Pixel Art",
+    definition:
+      "Pixel Art est un jeu de nonogrammes, aussi appelés logimages : les nombres en bord de grille disent quelles cases noircir pour révéler un dessin caché. Il se joue hors ligne dans Cerebrum, l'app de Synapgeek, sur iPhone, iPad et Android.",
+    phoneAlt:
+      "Pixel Art dans Cerebrum, niveau Élite : un panda de 15×15 cases révélé en couleur, trois cœurs, un pinceau à 100 % et un chronomètre au-dessus, et le panneau « Tu as peint : Panda » avec le bouton Continuer",
+  },
+  howToPlay: {
+    title: "Comment jouer au Pixel Art",
+    steps: [
+      "La grille est un carré de cases vides, avec des nombres en tête de chaque ligne et de chaque colonne. Votre but : noircir les bonnes cases pour faire apparaître un dessin.",
+      "Chaque nombre est une série de cases noircies d'affilée dans sa ligne ou sa colonne. Un 3 veut dire trois cases noircies côte à côte. Avec deux nombres, comme 2 puis 1, la ligne porte deux séries dans cet ordre, séparées par au moins une case vide.",
+      "Dans Cerebrum, faites glisser le doigt sur les cases pour les noircir : un seul geste peint toute une série. Deux modes, Remplir et Croix, s'alternent avec le bouton bascule.",
+      "Passez en mode Croix pour marquer les cases que vous savez vides. Une croix ne coûte jamais rien.",
+      "Sur iPhone et iPad, noircir une mauvaise case coûte une vie sur trois, et la case devient une croix verrouillée. Une case juste se verrouille aussi.",
+      "Vous avez gagné quand toute la grille est résolue : le dessin se colore, avec jusqu'à quatre teintes, et son nom s'affiche.",
+    ],
+  },
+  whatCerebrumAdds: {
+    title: "Ce que Cerebrum ajoute au Pixel Art",
+    paragraphs: [
+      "Dans Cerebrum, vous avancez de dessin en dessin dans la difficulté de votre choix. Quand son parcours est terminé, le mode Infini en sert d'autres de la même taille.",
+      "Pixel Art s'ouvre sur une courte fiche « Comment jouer » de quatre pages : lire les indices, glisser pour peindre, croiser ce qui est vide, finir pour révéler.",
+      "Pendant la partie, la grille reste en noir et blanc. Le bouton bascule fait passer de Remplir à Croix, et le glissé pose plusieurs cases d'un seul geste.",
+      "Sur iPhone et iPad, dès qu'une ligne ou une colonne est complète, ses cases vides se barrent toutes seules. Annuler ne reprend que les croix.",
+      "L'indice commence par corriger une erreur, s'il y en a une. Sinon, il révèle une case.",
+      "À la victoire, le dessin passe en couleur et son nom apparaît : Panda, par exemple. Les grilles sont les mêmes quelle que soit la langue de l'app, mais le nom se lit dans la langue que vous avez choisie.",
+      "Les étoiles se comptent aux erreurs sur iPhone et iPad (aucune, trois étoiles ; une, deux ; deux ou plus, une, sans tenir compte des indices) et au temps sur Android. Pixel Art fait aussi partie des jeux du défi du jour, en Facile ou en Moyen : tout le monde reçoit la même grille.",
+    ],
+    difficultyTable: {
+      caption: "Les difficultés du Pixel Art dans Cerebrum",
+      rows: [
+        {
+          difficulty: "easy",
+          detail:
+            "Des grilles de 8×8. Sur iPhone et iPad, le parcours démarre par de plus petites, de 5×5. Ouverte dès le premier lancement.",
+        },
+        {
+          difficulty: "medium",
+          detail: "Des grilles de 10×10. Ouverte dès le premier lancement.",
+        },
+        {
+          difficulty: "hard",
+          detail:
+            "Des grilles de 12×12. S'ouvre au fil de votre progression en Moyen.",
+        },
+        {
+          difficulty: "elite",
+          detail:
+            "Des grilles de 15×15, les plus grandes. S'ouvre au fil de votre progression en Difficile.",
+        },
+      ],
+    },
+  },
+  tips: {
+    title: "Astuces pour mieux jouer au Pixel Art",
+    items: [
+      "Commencez par les longues séries, avec la méthode du recouvrement. Dans une ligne de 10 cases, un 7 peut glisser de trois cases au plus : quelle que soit sa position, les quatre cases du milieu sont noires. Plus la série est longue par rapport à la ligne, plus il y a de cases sûres.",
+      "Repérez les lignes qui se remplissent d'elles-mêmes. Si les nombres, plus une case vide entre deux séries, couvrent exactement la longueur de la ligne, tout est déterminé : dans 10 cases, un 4-1-3 donne quatre cases noires, un vide, une noire, un vide, puis trois noires.",
+      "Travaillez depuis les bords. Quand la première case d'une ligne est noire, la première série part de ce bord : noircissez-la sur toute sa longueur, puis barrez la case qui la suit. La dernière série se traite de la même façon, côté opposé.",
+      "Croisez sans attendre ce que vous savez vide. Une croix ne coûte jamais rien, et quand toutes les séries d'une ligne sont placées, tout le reste de la ligne se barre. Sur iPhone et iPad, noircir à tort coûte une vie : n'en noircissez une qu'à coup sûr, sinon passez en Croix.",
+      "Alternez lignes et colonnes. Chaque case noircie ou barrée apporte une certitude à la ligne qu'elle croise. Quand une ligne ne donne plus rien, passez à la colonne suivante, puis revenez : c'est la grille entière qui se débloque, case après case.",
+    ],
+  },
+  faq: {
+    title: "Questions fréquentes sur le Pixel Art dans Cerebrum",
+    items: [
+      {
+        question: "Pixel Art est-il un nonogramme ?",
+        answer:
+          "Oui. Pixel Art est le nom que Cerebrum donne à ses nonogrammes, aussi appelés logimages : on noircit des cases d'après les nombres des lignes et des colonnes, et le résultat dessine une image.",
+      },
+      {
+        question: "Comment peindre et croiser les cases ?",
+        answer:
+          "Faites glisser le doigt sur la grille pour noircir plusieurs cases d'un geste. Le bouton bascule alterne entre Remplir et Croix : en mode Croix, vous marquez les cases que vous savez vides, et cela ne coûte jamais rien.",
+      },
+      {
+        question: "Que se passe-t-il quand je noircis une mauvaise case ?",
+        answer:
+          "Sur iPhone et iPad, vous perdez une vie sur trois, et la case devient une croix verrouillée. Sur Android, il n'y a ni vie ni défaite : rien n'est vérifié pendant que vous peignez.",
+      },
+      {
+        question: "À quoi sert le bouton Annuler ?",
+        answer:
+          "Sur iPhone et iPad, Annuler ne reprend que les croix. Sur Android, il reprend aussi bien les cases noircies que les croix.",
+      },
+      {
+        question: "Que fait l'indice du Pixel Art ?",
+        answer:
+          "Il corrige d'abord une erreur, s'il y en a une. Sinon, il révèle une case.",
+      },
+      {
+        question: "Le nom du dessin change-t-il avec la langue ?",
+        answer:
+          "Les grilles sont les mêmes dans toutes les langues de l'app, mais le nom du dessin, révélé à la victoire, s'affiche dans la langue que vous avez choisie dans Cerebrum.",
+      },
+    ],
+  },
+  whereToPlay: {
+    title: "Jouer au Pixel Art",
+    body: "Pixel Art se joue du bout du doigt : on glisse sur la grille pour peindre, puis on bascule en mode Croix pour marquer les cases vides.",
+  },
+};
