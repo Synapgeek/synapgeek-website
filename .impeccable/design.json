@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-02T00:00:00Z",
+  "generatedAt": "2026-10-02T12:00:00Z",
   "title": "Design System: Synapgeek, hub du studio",
   "extensions": {
     "colorMeta": {
@@ -183,6 +183,21 @@
           "#d6c3ee",
           "#f1ebf9"
         ]
+      },
+      "error": {
+        "role": "tertiary",
+        "displayName": "Rouge d'erreur",
+        "canonical": "#b3261e",
+        "tonalRamp": [
+          "#2e0a08",
+          "#4d100c",
+          "#701610",
+          "#931d15",
+          "#c24a40",
+          "#d8847c",
+          "#ecbeb9",
+          "#f8e6e4"
+        ]
       }
     },
     "typographyMeta": {
@@ -329,6 +344,13 @@
       "description": "Barre collante : logo et wordmark, liens pilule, sélecteur de langue.",
       "html": "<header class=\"ds-nav\"><span class=\"ds-nav-brand\">Synapgeek</span><nav><a href=\"#\">Jeux</a><a href=\"#\">Cerebrum</a><a href=\"#\">À propos</a></nav><a class=\"ds-nav-lang\" href=\"#\">EN</a></header>",
       "css": ".ds-nav{display:flex;align-items:center;gap:16px;height:64px;padding:0 24px;background:rgba(255,255,255,.9);border-bottom:1px solid rgba(229,229,229,.7);font-family:Figtree,system-ui,sans-serif}.ds-nav-brand{font-family:Fredoka,system-ui,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.025em;color:var(--color-ink,#1a1a2e)}.ds-nav nav{margin-left:auto;display:flex;gap:4px}.ds-nav nav a{padding:8px 16px;border-radius:9999px;font-size:14px;font-weight:700;color:var(--color-text-secondary,#5b6270);text-decoration:none;transition:background-color .15s ease-out,color .15s ease-out}.ds-nav nav a:hover{background:var(--color-canvas-soft,#f7f7fb);color:var(--color-ink,#1a1a2e)}.ds-nav nav a:focus-visible,.ds-nav-lang:focus-visible{outline:3px solid var(--color-brand-violet,#8549ba);outline-offset:3px}.ds-nav-lang{min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;padding:0 16px;border-radius:9999px;background:var(--color-canvas-soft,#f7f7fb);font-size:14px;font-weight:700;color:var(--color-ink,#1a1a2e);text-decoration:none}.ds-nav-lang:hover{background:var(--color-wash-violet,#e4d8f4)}"
+    },
+    {
+      "name": "Champ de formulaire",
+      "kind": "input",
+      "description": "Bordure 2 px à 3:1, libellé flottant, focus violet, erreur après interaction.",
+      "html": "<div class=\"ds-input-group\"><input class=\"ds-input\" placeholder=\" \" id=\"n\"><label class=\"ds-input-label\" for=\"n\">Nom</label></div>",
+      "css": ".ds-input-group{position:relative;width:260px}.ds-input{width:100%;box-sizing:border-box;font-family:Figtree,system-ui,sans-serif;font-size:15px;padding:.9em 1em;border:2px solid var(--color-text-tertiary,#6b7280);background:var(--color-canvas,#fff);border-radius:16px;color:var(--color-ink,#1a1a2e);transition:border-color .15s ease-out}.ds-input:focus{border-color:var(--color-brand-violet,#8549ba)}.ds-input:focus-visible{outline:3px solid var(--color-brand-violet,#8549ba);outline-offset:3px}.ds-input:user-invalid{border-color:var(--color-error,#b3261e)}.ds-input-label{position:absolute;left:0;top:0;margin-left:.5em;padding:.9em 1em;font-family:Figtree,system-ui,sans-serif;font-size:15px;pointer-events:none;color:var(--color-text-tertiary,#6b7280);transition:transform .2s ease-out,margin .2s ease-out,padding .2s ease-out,color .15s ease-out}.ds-input:focus~.ds-input-label,.ds-input:not(:placeholder-shown)~.ds-input-label{transform:translateY(-50%) scale(.85);margin:0 0 0 .8em;padding:.2em .6em;background:var(--color-canvas,#fff);border-radius:8px;color:var(--color-text-secondary,#5b6270)}.ds-input:focus~.ds-input-label{color:var(--color-brand-violet,#8549ba)}.ds-input:user-invalid~.ds-input-label{color:var(--color-error,#b3261e)}"
     }
   ],
   "narrative": {
@@ -345,12 +367,17 @@
     "rules": [
       {
         "name": "The Ink On Green Rule",
-        "body": "Tout texte sur le vert est de l'encre. Le blanc sur vert échoue l'AA et reste une dette connue (bouton d'envoi du formulaire de contact).",
+        "body": "Tout texte sur le vert est de l'encre. Le blanc sur vert échoue l'AA ; le bouton d'envoi du formulaire de contact suit désormais la règle (`Button` primaire).",
         "section": "colors"
       },
       {
         "name": "The One Deep Section Rule",
         "body": "Une seule bande violet profond par page ; le focus y passe en blanc (`--focus-ring`).",
+        "section": "colors"
+      },
+      {
+        "name": "The Token Only Rule",
+        "body": "Une couleur d'état (erreur, succès, focus) vient d'un jeton de `globals.css`, jamais d'un rgba ni d'un hex posé dans un composant.",
         "section": "colors"
       },
       {
@@ -377,7 +404,8 @@
     "dos": [
       "**Do** garder tout texte sur vert en encre (`#1a1a2e`), et le vert en texte clair via `brand-green-ink`.",
       "**Do** colorer un jeu par son couple `--game-*-wash` / `--game-*-deep` via `gameColorVars`.",
-      "**Do** n'utiliser que `Button` pour une action, avec une de ses quatre variantes.",
+      "**Do** n'utiliser que `Button` pour une action, avec une de ses quatre variantes, formulaires compris.",
+      "**Do** signaler une erreur de champ par `error` (bordure et libellé), après interaction seulement.",
       "**Do** laisser le ciel Breeze à 240 px de large et ses masques dans la boîte de leur élément.",
       "**Do** faire monter une section de 16 px au plus, par la transform seule, jamais par l'opacité (un texte à opacité 0 échoue le contraste).",
       "**Do** garder des cibles de 44 px, un anneau de focus visible, un seul H1 par page."

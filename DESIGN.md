@@ -14,6 +14,7 @@ colors:
   brand-violet-deep: "#3b1f6e"
   wash-green: "#d9f2c4"
   wash-violet: "#e4d8f4"
+  error: "#b3261e"
 typography:
   display:
     fontFamily: "Fredoka, system-ui, sans-serif"
@@ -142,6 +143,10 @@ Une palette de marque courte (vert, violet), des lavis pastel, et une famille de
 - **Lavis violet** (`wash-violet`) : bouton secondaire, sélection de texte, survol de la langue.
 - **Couples par jeu** (variables `--game-<jeu>-wash` et `--game-<jeu>-deep`, dix jeux) : le lavis est le fond, le ton profond est le texte sur ce lavis, assombri pour tenir 4,5:1 (vérifié par `design-tokens.test.ts`). Ils s'appliquent par `gameColorVars`, jamais en copiant une valeur.
 
+### Erreur
+
+- **Rouge d'erreur** (`error`) : bordure et libellé d'un champ invalide, texte et filet de l'avis d'erreur du formulaire. Jamais en fond plein ; en teinte (5 % de fond, 30 % de filet) pour l'avis.
+
 ### Neutral
 
 - **Encre** (`ink`) : texte et ombres (teinte des ombres).
@@ -151,9 +156,11 @@ Une palette de marque courte (vert, violet), des lavis pastel, et une famille de
 
 ### Named Rules
 
-**The Ink On Green Rule.** Tout texte sur le vert est de l'encre. Le blanc sur vert échoue l'AA et reste une dette connue (bouton d'envoi du formulaire de contact).
+**The Ink On Green Rule.** Tout texte sur le vert est de l'encre. Le blanc sur vert échoue l'AA ; le bouton d'envoi du formulaire de contact suit désormais la règle (`Button` primaire).
 
 **The One Deep Section Rule.** Une seule bande violet profond par page ; le focus y passe en blanc (`--focus-ring`).
+
+**The Token Only Rule.** Une couleur d'état (erreur, succès, focus) vient d'un jeton de `globals.css`, jamais d'un rgba ni d'un hex posé dans un composant.
 
 **The Wash Pair Rule.** Une couleur de jeu se lit toujours comme un couple : lavis en fond, ton profond en texte. Au survol, le voile éclaircit (35 % de blanc), il n'assombrit jamais, pour ne pas perdre le contraste.
 
@@ -218,7 +225,7 @@ Les illustrations du Panda (bébé, ado, adulte) sont des appoints décoratifs, 
 Le seul bouton du site, `Button`, une pilule, quatre variantes, deux tailles, jamais une cinquième.
 
 - **Shape:** pilule (9999 px), Figtree 700, hauteur minimale 44 px (`md`, 24 px de padding, 14 px) ou 56 px (`lg`, 32 px, 16 px).
-- **Primary:** vert sur encre, ombre de repos ; au survol le vert fonce de 8 % d'encre et l'ombre monte.
+- **Primary:** vert sur encre (aussi le bouton d'envoi du formulaire de contact), ombre de repos ; au survol le vert fonce de 8 % d'encre et l'ombre monte.
 - **Secondary:** encre sur lavis violet, renforcé de 22 % de violet au survol.
 - **Outline:** contour encre de 2 px, se remplit d'encre au survol.
 - **Inverse:** blanc avec texte violet profond, sur la section profonde uniquement.
@@ -233,7 +240,12 @@ Le seul bouton du site, `Button`, une pilule, quatre variantes, deux tailles, ja
 
 ### Inputs / Fields
 
-Champ à bordure de 2 px (`border`), 16 px de rayon, libellé flottant ; au focus, bordure verte et halo vert à 12 %. Voir la dérive notée plus bas.
+Champ à bordure de 2 px en `text-tertiary` (4,8:1 sur blanc, donc 3:1 minimum contre le fond), fond blanc, 16 px de rayon, libellé flottant (`.input-field` / `.input-label`). Jetons seulement : ni verre dépoli, ni rgba, ni `transition: all` (transitions ciblées de 150 à 200 ms).
+
+- **Focus:** bordure violette (`brand-violet`) plus l'anneau violet global de 3 px décalé de 3 px ; le libellé flotte et passe en violet. Jamais le vert (2,1:1 sur blanc).
+- **Erreur:** bordure et libellé en `error`, après une interaction seulement (`:user-invalid`). L'avis d'erreur du formulaire est en `error` sur teinte légère ; l'avis de succès en `brand-green-ink` sur `wash-green` ; les deux passent l'AA.
+- **Select:** apparence native retirée, flèche en triangle dessiné par deux dégradés d'encre.
+- **Désactivé:** fond `canvas-soft`, filet `border`, texte `text-tertiary`.
 
 ### Navigation
 
@@ -249,7 +261,8 @@ Badges officiels App Store (SVG) et Google Play (PNG), 44 px de haut, rayon 8 px
 
 - **Do** garder tout texte sur vert en encre (`#1a1a2e`), et le vert en texte clair via `brand-green-ink`.
 - **Do** colorer un jeu par son couple `--game-*-wash` / `--game-*-deep` via `gameColorVars`.
-- **Do** n'utiliser que `Button` pour une action, avec une de ses quatre variantes.
+- **Do** n'utiliser que `Button` pour une action, avec une de ses quatre variantes, formulaires compris.
+- **Do** signaler une erreur de champ par `error` (bordure et libellé), après interaction seulement.
 - **Do** laisser le ciel Breeze à 240 px de large et ses masques dans la boîte de leur élément.
 - **Do** faire monter une section de 16 px au plus, par la transform seule, jamais par l'opacité (un texte à opacité 0 échoue le contraste).
 - **Do** garder des cibles de 44 px, un anneau de focus visible, un seul H1 par page.
