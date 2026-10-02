@@ -14,7 +14,7 @@ export const aboutEn: AboutCopy = {
   },
   who: {
     title: "Who is behind Synapgeek",
-    body: "Synapgeek SAS is a French company registered in Frontenas, in the Rhône. It is an independent studio: it designs and publishes its own apps. Synapgeek is the publisher name on its App Store and Google Play listings, and on the legal pages of this site. Looking for another product called Cerebrum? This one is the puzzle games app published by Synapgeek SAS.",
+    body: "Synapgeek SAS is a French company headquartered in Frontenas, in the Rhône. It is an independent studio: it designs and publishes its own apps. Synapgeek is the publisher name on its App Store and Google Play listings, and on the legal pages of this site. Looking for another product called Cerebrum? This one is the puzzle games app published by Synapgeek SAS.",
   },
   what: {
     title: "What the studio makes",
