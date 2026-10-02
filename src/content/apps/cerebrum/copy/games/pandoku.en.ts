@@ -30,10 +30,10 @@ export const pandokuEn: GameCopy = {
     paragraphs: [
       "In Cerebrum you climb a path of levels in the difficulty you choose. On Easy the grids grow along the way, from 4×4 up to 8×8. Clear the last level of a difficulty and Endless Mode takes over, one new grid after another.",
       "Pandoku opens with a short how-to-play sheet. The first Easy level is guided: the app walks you through your first pandas step by step, with no heart lost and no timer, and a Skip button if you would rather start alone. Every Easy grid also begins with one panda already placed. It cannot be removed and counts neither as a mistake nor as a hint.",
-      "There is no Undo button. A tap crosses a cell, another tap erases the cross for free, and a correct panda is locked for good. Drag a finger across the grid to cross out several cells at once.",
-      "A panda placed in the wrong spot is removed and costs a heart. Lose the third and the game is over, but you can carry on once by watching an optional ad and once more with gems. With Premium, hearts are infinite and the first mistake of every game is forgiven.",
-      "The hint shows its reasoning before it plays the move. It names the deduction on offer (a forced cell, a confined unit or shared neighbors), highlights it, then places the panda or crosses out the cells for you. When nothing simple stands out, it hands you a panda to get going again. Each hint is paid in gems or unlocked by an optional ad, and Premium players get five free ones a day in every game.",
-      "Stars depend on mistakes alone: none earns three, one earns two, more earns one. Hints never cost you a star. Pandoku is also one of the games you can pick for the daily challenge, on Easy or Medium: the same grid for everyone, playable offline, with a missed day caught up from the calendar.",
+      "There is no Undo button. A tap crosses a cell, another tap erases the cross, and a correct panda is locked for good. Drag a finger across the grid to cross out several cells at once.",
+      "A panda placed in the wrong spot is removed and costs a heart. Lose the third and the game is over, though a second chance is offered.",
+      "The hint shows its reasoning before it plays the move. It names the deduction on offer (a forced cell, a confined unit or shared neighbors), highlights it, then places the panda or crosses out the cells for you. When nothing simple stands out, it hands you a panda to get going again. Each hint is paid in gems.",
+      "Stars depend on mistakes alone: none earns three, one earns two, more earns one. Hints never cost you a star. Pandoku is also one of the games you can pick for the daily challenge, on Easy or Medium: the same grid for everyone, with a missed day caught up from the calendar.",
     ],
     difficultyTable: {
       caption: "Pandoku difficulties in Cerebrum",
@@ -85,22 +85,22 @@ export const pandokuEn: GameCopy = {
       {
         question: "What happens when I make a mistake?",
         answer:
-          "A misplaced panda is removed and costs you one of three hearts. The third ends the game, which you can resume with an optional ad or with gems. Premium gives infinite hearts.",
+          "A misplaced panda is removed and costs you one of three hearts. The third ends the game, though a second chance is offered.",
       },
       {
         question: "What does the Pandoku hint do?",
         answer:
-          "It shows its reasoning before it plays the move: it names the deduction on offer, then places the panda or crosses out the cells for you. Gems or an optional ad pay for it; Premium includes five a day.",
+          "It shows its reasoning before it plays the move: it names the deduction on offer, then places the panda or crosses out the cells for you. A hint never costs you a star.",
       },
       {
-        question: "Is Pandoku free, and does it work offline?",
+        question: "Is there a tutorial for Pandoku?",
         answer:
-          "Both. No difficulty is locked behind a purchase, and the grids already live in the app, so Pandoku plays anywhere: a connection only matters for ads, signing in and purchases. The free version shows a banner and ads between some games. Rewarded ads are always optional, and Premium means no forced ads.",
+          "Yes. Pandoku opens with a short how-to-play sheet, then the first Easy level is guided: the app places your first pandas with you, with no heart to lose. A Skip button lets you start alone.",
       },
       {
-        question: "Which devices can I play Pandoku on?",
+        question: "Why does an Easy grid start with a panda already placed?",
         answer:
-          "Cerebrum runs on iPhone and iPad from iOS 17.0, and on Android from Android 8.0. Premium is bought and kept in each store: a subscription taken on the App Store does not carry over to Google Play, and the other way round.",
+          "It is a head start. That panda is locked in place and never counts as a mistake or as a hint.",
       },
     ],
   },

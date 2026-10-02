@@ -233,6 +233,12 @@ const APP_WIDE_ALLOWLIST: ReadonlyArray<{
     why: "Pixel Art plays differently on iPhone and iPad than on Android",
   },
   {
+    game: "arrow-maze",
+    topics: ["free"],
+    // « Free piece » est le terme du jeu pour une flèche que rien ne bloque.
+    why: "a free piece is Arrow Maze's own term for an unblocked arrow",
+  },
+  {
     game: "pixel-art",
     topics: ["languages"],
     // Le nom du dessin dévoilé à la victoire suit la langue de l'interface.

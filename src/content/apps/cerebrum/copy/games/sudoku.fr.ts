@@ -29,10 +29,10 @@ export const sudokuFr: GameCopy = {
     paragraphs: [
       "Le sudoku de Cerebrum est la grille classique de 9×9, sans variante. Vous avancez de niveau en niveau dans la difficulté de votre choix ; quand vous avez terminé le parcours d'une difficulté, le mode Infini s'ouvre et enchaîne de nouvelles grilles.",
       "Sous la grille, quatre boutons : Annuler, Effacer, Notes et Indice. Les doublons sont mis en évidence, les notes disparaissent d'elles-mêmes des cases liées quand vous posez un chiffre, et une touche du pavé se grise dès que ses neuf exemplaires corrects sont en place.",
-      "L'indice ne se contente pas de donner la réponse : il révèle une case et explique pas à pas la technique à l'œuvre, de quoi mieux aborder la grille suivante. Il se paie en gemmes, ou se gagne en regardant une pub facultative ; avec Premium, cinq indices par jour sont offerts dans chaque jeu. « Remplir les notes » complète les notes à votre place, contre des gemmes ou une pub facultative.",
-      "Trois erreurs et la partie est perdue, mais vous pouvez la reprendre une fois avec une pub facultative, puis une fois avec des gemmes. Avec Premium, les vies sont infinies et la première erreur de chaque partie est pardonnée.",
+      "L'indice ne se contente pas de donner la réponse : il révèle une case et explique pas à pas la technique à l'œuvre, de quoi mieux aborder la grille suivante. Il se paie en gemmes. « Remplir les notes » complète les notes à votre place, contre des gemmes.",
+      "Trois erreurs et la partie est perdue, mais une seconde chance vous est proposée avant de perdre la grille.",
       "Sans erreur, vous gagnez trois étoiles ; avec une erreur, deux ; avec deux erreurs ou plus, une. Les indices ne comptent pas dans les étoiles. Le score récompense une grille rapide, propre et sans trop d'indices, et la difficulté le multiplie.",
-      "Le sudoku figure aussi parmi les jeux que vous pouvez choisir pour le défi du jour, en Facile ou en Moyen : la grille est la même pour tout le monde, elle se joue hors ligne, et un jour manqué se rattrape dans le calendrier.",
+      "Le sudoku figure aussi parmi les jeux que vous pouvez choisir pour le défi du jour, en Facile ou en Moyen : la grille est la même pour tout le monde, et un jour manqué se rattrape dans le calendrier.",
     ],
     difficultyTable: {
       caption: "Les difficultés du sudoku dans Cerebrum",
@@ -73,24 +73,24 @@ export const sudokuFr: GameCopy = {
     title: "Questions fréquentes sur le sudoku dans Cerebrum",
     items: [
       {
-        question: "Le sudoku de Cerebrum est-il gratuit ?",
+        question: "Comment gagne-t-on des étoiles au sudoku ?",
         answer:
-          "Oui, le sudoku est gratuit dans Cerebrum, comme tous les jeux de l'app : aucune difficulté n'est réservée à un achat. La version gratuite affiche une bannière pendant la partie et des pubs entre certaines parties ; les pubs récompensées sont toujours facultatives, et l'abonnement Premium garantit zéro pub imposée.",
+          "Seules les erreurs comptent : une grille sans faute rapporte trois étoiles, une erreur deux, et au-delà une seule. Les indices ne les font jamais baisser.",
       },
       {
-        question: "Peut-on jouer au sudoku sans connexion ?",
+        question: "À quoi servent les notes ?",
         answer:
-          "Oui. Toutes les grilles sont déjà dans l'app : le sudoku, le défi du jour et la série fonctionnent sans réseau, et votre progression se synchronise au retour en ligne. Seuls les pubs, la connexion et les achats ont besoin d'une connexion.",
+          "Activez Notes pour inscrire plusieurs candidats dans une même case. À chaque chiffre posé, Cerebrum l'efface des notes des cases liées : vos notes restent à jour.",
       },
       {
         question: "Comment fonctionnent les erreurs au sudoku ?",
         answer:
-          "Chaque chiffre est vérifié dès que vous le posez. Un chiffre faux compte pour une erreur et trois erreurs terminent la partie. Vous pouvez la reprendre une fois avec une pub facultative, puis une fois avec des gemmes. Premium offre des vies infinies et pardonne la première erreur de chaque partie.",
+          "La grille vérifie chaque chiffre dès que vous le posez. Un chiffre faux compte pour une erreur, la troisième met fin à la partie, avec une seconde chance proposée.",
       },
       {
         question: "Que fait le bouton Indice ?",
         answer:
-          "Il révèle une case et explique, étape par étape, la technique qui permet de la trouver. Il se paie en gemmes, ou se gagne en regardant une pub facultative. Avec Premium, cinq indices par jour sont offerts dans chaque jeu.",
+          "Il révèle une case et explique, étape par étape, la technique qui permet de la trouver : vous apprenez la méthode, pas seulement la réponse. Les indices ne comptent pas dans les étoiles.",
       },
       {
         question: "Y a-t-il des variantes du sudoku dans Cerebrum ?",
@@ -98,9 +98,9 @@ export const sudokuFr: GameCopy = {
           "Non : Cerebrum propose la grille classique de 9×9, sans variante, de Facile à Élite.",
       },
       {
-        question: "Sur quels appareils jouer au sudoku avec Cerebrum ?",
+        question: "Peut-on choisir le sudoku pour le défi du jour ?",
         answer:
-          "Sur iPhone et iPad avec iOS 17.0 ou plus récent, et sur Android avec Android 8.0 ou plus récent. C'est la même app Cerebrum, avec les mêmes jeux.",
+          "Oui, en Facile ou en Moyen. Tous ceux qui le choisissent ce jour-là reçoivent la même grille.",
       },
     ],
   },

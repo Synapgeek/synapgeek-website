@@ -29,7 +29,7 @@ export const minesweeperFr: GameCopy = {
     title: "Ce que Cerebrum ajoute au démineur",
     paragraphs: [
       "Dans Cerebrum, vous progressez de grille en grille dans la difficulté de votre choix. Quand son parcours est terminé, le mode Infini sert d'autres champs de mines de cette même difficulté.",
-      "Le démineur s'ouvre sur une courte fiche « Comment jouer » de quatre pages, sur iPhone, iPad et Android : les chiffres, le premier toucher, le drapeau, les cœurs et l'indice. Sur iPhone et iPad, le premier niveau Facile est en plus guidé, en quatre étapes.",
+      "Le démineur s'ouvre sur une courte fiche « Comment jouer » de quatre pages: les chiffres, le premier toucher, le drapeau, les cœurs et l'indice.",
       "Le compteur de mines, toujours affiché en haut, donne le nombre de mines de la grille moins vos drapeaux. Posez un drapeau de trop et il passe sous zéro : il vous signale ainsi que l'un de vos drapeaux est faux.",
       "Une mine touchée coûte un cœur, et la grille reste gagnable : la case se marque d'un drapeau, ce qui garde le compteur juste. Au troisième cœur, la partie est finie, sauf si vous reprenez ce même champ de mines.",
       "L'indice ouvre pour vous la prochaine case sûre. Si l'un de vos drapeaux est mal placé, il commence par le retirer, avant d'ouvrir quoi que ce soit.",
@@ -95,14 +95,15 @@ export const minesweeperFr: GameCopy = {
           "Il ouvre la prochaine case sûre, après avoir retiré l'un de vos drapeaux si celui-ci est mal placé. Il ne change jamais les étoiles que vous gagnez.",
       },
       {
-        question: "Le démineur est-il gratuit, et se joue-t-il sans réseau ?",
+        question: "Que montre le compteur de mines ?",
         answer:
-          "Il est gratuit, comme tous les jeux de Cerebrum, et les champs de mines sont déjà dans l'app : une partie n'attend jamais le réseau. Pendant la partie, une bannière reste affichée, et des pubs s'intercalent entre certaines parties ; les pubs avec récompense restent un choix, et Premium, c'est zéro pub imposée.",
+          "Le nombre de mines de la grille moins les drapeaux posés. S'il passe sous zéro, l'un de vos drapeaux est faux. S'il affiche zéro et que vos drapeaux sont justes, toutes les cases encore cachées sont sûres.",
       },
       {
-        question: "Le niveau guidé existe-t-il sur Android ?",
+        question:
+          "Comment ouvrir d'un coup toutes les cases autour d'un chiffre ?",
         answer:
-          "Pas tout à fait. La fiche « Comment jouer » de quatre pages existe sur iPhone, iPad et Android, mais le premier niveau Facile guidé n'existe que sur iPhone et iPad.",
+          "Quand un chiffre a autant de drapeaux autour de lui que sa valeur, touchez-le. Cerebrum ouvre le reste de ses voisines, mais il fait confiance à vos drapeaux : un drapeau mal placé déterre une vraie mine.",
       },
     ],
   },
