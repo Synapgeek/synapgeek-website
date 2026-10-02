@@ -43,7 +43,7 @@
  * vers son pendant sans préfixe. La cible `/cerebrum` répond 200 depuis la tâche 13 ;
  * les pages de jeux (`/en/cerebrum/<jeu>`) ne sont contrôlées qu'à partir de leur
  * livraison : Sudoku (tâche 14) ouvre la série, Pandoku (tâche 141), Démineur (tâche 142),
- * Pixel Art (tâche 143), Arrow Maze (tâche 144), Mots croisés (tâche 171), Mots mêlés (tâche 172) et Cross Math (tâche 173) la suivent, chaque jeu suivant ajoute ses lignes.
+ * Pixel Art (tâche 143), Arrow Maze (tâche 144), Mots croisés (tâche 171), Mots mêlés (tâche 172), Cross Math (tâche 173) et Trace (tâche 174) la suivent, chaque jeu suivant ajoute ses lignes.
  * Une page de jeu porte UNE seule `og:image`, et cette image répond 200 `image/png`
  * sans redirection (aperçu d'un lien partagé).
  * Seul `/fr/privacy`, `/fr/terms`, `/fr/legal` reste TRANSITOIRE :
@@ -79,7 +79,7 @@ const GOOGLE_PLAY_URL =
 // l'URL du store, sans jamais en écraser un paramètre déjà présent.
 const CAMPAIGN_PARAM = "src=contract-check";
 
-const SITEMAP_URL_COUNT = 26;
+const SITEMAP_URL_COUNT = 28;
 
 /** Slug de chaque page de jeu livrée, par langue (le français de Démineur diffère). */
 const SLUGS = {
@@ -90,6 +90,7 @@ const SLUGS = {
   crossMath: { en: "cross-math", fr: "cross-math" },
   crossword: { en: "crossword", fr: "mots-croises" },
   wordSearch: { en: "word-search", fr: "mots-meles" },
+  trace: { en: "trace", fr: "trace" },
   arrowMaze: { en: "arrow-maze", fr: "arrow-maze" },
 };
 
@@ -164,6 +165,7 @@ function contractChecks(base) {
     redirect("/en/cerebrum/cross-math", 308, "/cerebrum/cross-math"),
     redirect("/en/cerebrum/crossword", 308, "/cerebrum/crossword"),
     redirect("/en/cerebrum/word-search", 308, "/cerebrum/word-search"),
+    redirect("/en/cerebrum/trace", 308, "/cerebrum/trace"),
     redirect("/en/cerebrum/arrow-maze", 308, "/cerebrum/arrow-maze"),
     // Page de l'app (tâche 13) : anglais sans préfixe, français sous /fr.
     ok("/cerebrum", [
@@ -237,6 +239,8 @@ function contractChecks(base) {
       "/fr/cerebrum/mots-meles",
       gamePageExpectations("fr", SLUGS.wordSearch, resolve),
     ),
+    ok("/cerebrum/trace", gamePageExpectations("en", SLUGS.trace, resolve)),
+    ok("/fr/cerebrum/trace", gamePageExpectations("fr", SLUGS.trace, resolve)),
     ok(
       "/cerebrum/arrow-maze",
       gamePageExpectations("en", SLUGS.arrowMaze, resolve),

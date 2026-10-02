@@ -5,6 +5,7 @@ import { crosswordFr } from "./crossword.fr";
 import { minesweeperFr } from "./minesweeper.fr";
 import { pandokuFr } from "./pandoku.fr";
 import { pixelArtFr } from "./pixel-art.fr";
+import { traceFr } from "./trace.fr";
 import { sudokuFr } from "./sudoku.fr";
 import { wordSearchFr } from "./word-search.fr";
 import type { GameCopy } from "@/content/copy/types";
@@ -22,4 +23,5 @@ export const gamesFr: Partial<Record<GameId, GameCopy>> = {
   "cross-math": crossMathFr,
   crossword: crosswordFr,
   "word-search": wordSearchFr,
+  trace: traceFr,
 };

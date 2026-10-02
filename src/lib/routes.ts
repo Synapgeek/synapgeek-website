@@ -137,6 +137,7 @@ const RENDERED_PAGE_IDS: ReadonlySet<PageId> = new Set<PageId>([
   "game:cross-math",
   "game:crossword",
   "game:word-search",
+  "game:trace",
   "game:arrow-maze",
   ...LEGAL_IDS,
 ]);

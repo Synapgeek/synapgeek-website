@@ -229,7 +229,7 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
   // Spec §5.2 : l'anglais est la langue par défaut (racine sans préfixe), le
   // français vit sous /fr, sauf les trois pages légales figées (français sans
   // préfixe, anglais sous /en). x-default pointe toujours vers l'anglais.
-  it("sitemap() renvoie exactement les 26 URLs du schéma courant, x-default anglais", () => {
+  it("sitemap() renvoie exactement les 28 URLs du schéma courant, x-default anglais", () => {
     const entries = sitemap();
     expect(entries.map((entry) => entry.url)).toEqual([
       "https://synapgeek.com",
@@ -250,6 +250,8 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
       "https://synapgeek.com/fr/cerebrum/mots-croises",
       "https://synapgeek.com/cerebrum/word-search",
       "https://synapgeek.com/fr/cerebrum/mots-meles",
+      "https://synapgeek.com/cerebrum/trace",
+      "https://synapgeek.com/fr/cerebrum/trace",
       "https://synapgeek.com/cerebrum/arrow-maze",
       "https://synapgeek.com/fr/cerebrum/arrow-maze",
       "https://synapgeek.com/en/privacy",
@@ -322,13 +324,20 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
     };
     expect(entries[16].alternates?.languages).toEqual(wordSearchLanguages);
     expect(entries[17].alternates?.languages).toEqual(wordSearchLanguages);
+    const traceLanguages = {
+      en: "https://synapgeek.com/cerebrum/trace",
+      fr: "https://synapgeek.com/fr/cerebrum/trace",
+      "x-default": "https://synapgeek.com/cerebrum/trace",
+    };
+    expect(entries[18].alternates?.languages).toEqual(traceLanguages);
+    expect(entries[19].alternates?.languages).toEqual(traceLanguages);
     const arrowMazeLanguages = {
       en: "https://synapgeek.com/cerebrum/arrow-maze",
       fr: "https://synapgeek.com/fr/cerebrum/arrow-maze",
       "x-default": "https://synapgeek.com/cerebrum/arrow-maze",
     };
-    expect(entries[18].alternates?.languages).toEqual(arrowMazeLanguages);
-    expect(entries[19].alternates?.languages).toEqual(arrowMazeLanguages);
+    expect(entries[20].alternates?.languages).toEqual(arrowMazeLanguages);
+    expect(entries[21].alternates?.languages).toEqual(arrowMazeLanguages);
     for (const page of ["privacy", "terms", "legal"]) {
       const languages = {
         en: `https://synapgeek.com/en/${page}`,
