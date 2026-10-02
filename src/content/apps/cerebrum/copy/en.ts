@@ -26,11 +26,11 @@ export const cerebrumEn: AppCopy = {
     },
     daily: {
       title: "Daily challenge and streak",
-      body: "There is one daily challenge a day for the whole app. You pick the game, the grid is the same for everyone, and it plays offline. Missed a day? Catch up from the monthly calendar.",
+      body: "There is one daily challenge a day for the whole app. You pick the game, and the grid is the same for everyone playing that game in that language. It plays offline. Missed a day? Catch up from the monthly calendar.",
       items: [
         "Complete the challenge every day of a month to earn that month's trophy.",
-        "Your streak grows every day you finish a game. If you lose it, an optional ad can bring it back within a few days.",
-        "On iPhone, a Live Activity on the Lock Screen counts down the time left in the evening to save your streak.",
+        "Your streak grows every day you finish a game. If you lose a streak of 2 days or more, an optional ad can bring it back within a few days, once per lost streak.",
+        "From 8 p.m. to midnight, if your streak is alive and you have not played yet, a Live Activity on the Lock Screen of your iPhone or iPad, or a notification on Android, counts down the time left to save it. On iPhone and iPad you can turn it off in Profile; on Android, notifications must be allowed.",
       ],
     },
     progress: {
@@ -45,11 +45,11 @@ export const cerebrumEn: AppCopy = {
     goodToKnow: {
       title: "Good to know",
       items: [
-        "No connection? Every game still works, daily challenge and streak included. Your progress syncs when you are back online.",
-        "Play as a guest from the very first launch. Signing in is optional and syncs your devices; on iPhone and iPad you can use Apple, Google or Facebook.",
-        "The app speaks 16 languages. Crossword and Word Search grids exist in English and French only.",
+        "No connection? Every game still works, daily challenge and streak included. If you are signed in, your progress syncs when you are back online.",
+        "Play as a guest from the very first launch. Signing in is optional, with Apple, Google or Facebook on iPhone, iPad and Android. Your progress then follows your account across iPhone, iPad and Android.",
+        "The app speaks 16 languages. Crossword and Word Search grids exist in English and French only. In the other 14 languages these two games and their theme packs are hidden.",
         "Cerebrum runs on iPhone and iPad with iOS 17.0 or later, and on Android with Android 8.0 or later.",
-        "On iPhone and iPad, the app follows light or dark mode, lets you adjust sound effects and haptics, and works with VoiceOver.",
+        "On iPhone, iPad and Android, the app supports light and dark mode (automatic, or your choice in Profile) and lets you adjust sound effects and haptics. On iPhone and iPad, it also works with VoiceOver.",
       ],
     },
     model: {
@@ -58,13 +58,14 @@ export const cerebrumEn: AppCopy = {
         "Cerebrum is free to download and supported by ads: a banner during play and ads between some games.",
         "Rewarded ads are always optional: watch one for gems, a hint or a second chance.",
         "Premium is a weekly, monthly or yearly subscription. It means no forced ads: it removes the banner and the ads between games. It also adds infinite lives in the games that have lives, 5 free hints a day in each game, your first mistake forgiven in every puzzle, free daily gems and double gems after every win.",
+        "Premium is bought and kept in each store: the App Store on iPhone and iPad, Google Play on Android. A subscription does not move from one store to the other.",
         "In-app purchases are optional: gem packs, and the Movies, Cooking and Travel theme packs for crosswords and word searches, which are not included in Premium.",
         "No game and no difficulty level is locked behind a purchase.",
       ],
     },
     privacy: {
       title: "Privacy in short",
-      body: "Cerebrum works without an account. If you sign in, it keeps your progress and the basic profile your provider shares, such as your name and email, so your devices stay in sync. Ads come from Google AdMob: where the law requires it, a consent form asks for your choice first, and on iPhone and iPad Apple's tracking prompt follows. Refusing never blocks a game. This is only a summary: the privacy policy is the reference.",
+      body: "Cerebrum works without signing in: you play as a guest. If you sign in, your progress moves to your account and follows that account across iPhone, iPad and Android. Cerebrum also keeps the basic profile your provider shares, such as your name and email. The app also collects usage statistics and crash reports. Ads come from Google AdMob. Where the law requires it, Google's consent form asks for your choice first, on iPhone, iPad and Android; on iPhone and iPad, Apple's tracking prompt follows. Refusing never blocks a game. This is only a summary, not the full list of what is collected: the privacy policy is the reference.",
       cta: "Read the privacy policy",
     },
   },
@@ -84,7 +85,7 @@ export const cerebrumEn: AppCopy = {
       {
         question: "Can I play Cerebrum offline?",
         answer:
-          "Yes. Every grid is already inside the app, so every game works without a connection, daily challenge and streak included. Your progress syncs when you are back online. Ads, sign-in and purchases do need a connection.",
+          "Yes. Every grid is already inside the app, so every game works without a connection, daily challenge and streak included. If you are signed in, your progress syncs when you are back online. Ads, sign-in and purchases do need a connection.",
       },
       {
         question: "Which devices does Cerebrum run on?",
@@ -94,12 +95,12 @@ export const cerebrumEn: AppCopy = {
       {
         question: "Which languages is Cerebrum available in?",
         answer:
-          "The app is available in English, French, Spanish, Portuguese (Brazil), German, Italian, Dutch, Turkish, Indonesian, Vietnamese, Japanese, Korean, Chinese (simplified and traditional), Hindi and Thai. Crossword and Word Search grids exist in English and French only.",
+          "The app is available in English, French, Spanish, Portuguese (Brazil), German, Italian, Dutch, Turkish, Indonesian, Vietnamese, Japanese, Korean, Chinese (simplified and traditional), Hindi and Thai. Crossword and Word Search grids exist in English and French only. In the other 14 languages these two games and their theme packs are hidden.",
       },
       {
         question: "How do I delete my Cerebrum account?",
         answer:
-          "In the app, open Profile, then Delete Account. This removes your account and the personal data tied to it from our servers. If you can no longer open the app, the privacy policy explains how to ask for the deletion.",
+          "If you signed in, open Profile, then Delete Account (you need to be online). Your account and the personal data tied to it are removed from our servers. As a guest there is no Delete Account button: the privacy policy explains how to ask for deletion.",
         link: {
           label: "Account deletion in the privacy policy",
           page: "privacy",

@@ -92,6 +92,16 @@ describe.each(LOCALES)("page Cerebrum (%s)", (locale) => {
     expect(markup).toContain(`<time dateTime="${copy.updatedAt}">`);
   });
 
+  it("la date de mise à jour clôt la page et ne se lit pas comme celle de la politique", async () => {
+    const markup = await render(locale);
+    const time = markup.indexOf(`<time dateTime="${copy.updatedAt}">`);
+    const privacyStart = markup.indexOf('id="privacy"');
+    const privacyEnd = markup.indexOf("</section>", privacyStart);
+    expect(privacyStart).toBeGreaterThan(-1);
+    expect(time).toBeGreaterThan(privacyEnd);
+    expect(markup.slice(time)).not.toContain("<section");
+  });
+
   it("canonical et hreflang viennent de l'aide de routes", async () => {
     const metadata = await generateMetadata({
       params: Promise.resolve({ locale }),

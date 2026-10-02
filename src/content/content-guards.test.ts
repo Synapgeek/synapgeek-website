@@ -129,6 +129,137 @@ const FORBIDDEN: ReadonlyArray<{
 
 const ANDROID = word("android");
 
+/**
+ * Ruling R5 : sujets de l'app entière. Une page jeu n'en parle pas (sauf dans
+ * sa phrase de définition et ses balises `meta`) ; le modèle économique est
+ * porté une fois, par le gabarit de page, et le reste par la page de l'app.
+ */
+const APP_WIDE_TOPICS: ReadonlyArray<{
+  topic: string;
+  pattern: RegExp;
+  hits: readonly string[];
+  misses: readonly string[];
+}> = [
+  {
+    topic: "Premium",
+    pattern: word("premium"),
+    hits: ["With Premium", "Avec PREMIUM, les vies"],
+    misses: ["premiumish"],
+  },
+  {
+    topic: "App Store",
+    pattern: word("app\\s+store"),
+    hits: ["on the App Store", "dans l'app store"],
+    misses: ["an app that stores data", "App Storey"],
+  },
+  {
+    topic: "Google Play",
+    pattern: word("google\\s+play"),
+    hits: ["Google Play", "sur google play"],
+    misses: ["Google Playground"],
+  },
+  {
+    topic: "iPhone",
+    pattern: word("iphones?"),
+    hits: ["On iPhone and iPad", "sur iPhone"],
+    misses: ["a phone", "téléphone"],
+  },
+  {
+    topic: "iPad",
+    pattern: word("ipads?"),
+    hits: ["iPad", "sur iPad"],
+    misses: ["a pad of digits", "le pavé"],
+  },
+  {
+    topic: "Android",
+    pattern: ANDROID,
+    hits: ["Android 8.0", "sur android"],
+    misses: ["Androids dream"],
+  },
+  {
+    topic: "free",
+    pattern: word("free|gratuit(?:e|s|es|ement)?"),
+    hits: ["Is it free?", "Free to play", "Est-il gratuit ?", "gratuites"],
+    misses: ["freely", "gratuité", "a freeze"],
+  },
+  {
+    topic: "offline",
+    pattern: word("offline|hors[\\s-]ligne"),
+    hits: ["Works offline", "Hors ligne", "hors-ligne"],
+    misses: ["in line", "online"],
+  },
+  {
+    topic: "ads",
+    pattern: word("ads?|pubs?|publicit(?:é|és|e)"),
+    hits: [
+      "an optional ad",
+      "ads between games",
+      "une pub facultative",
+      "pubs",
+    ],
+    misses: ["add", "pubic", "ladder"],
+  },
+  {
+    topic: "subscription",
+    pattern: word("subscriptions?|abonnements?"),
+    hits: ["a subscription", "l'abonnement Premium"],
+    misses: ["describe"],
+  },
+  {
+    topic: "languages",
+    pattern: word("languages?|langues?"),
+    hits: ["16 languages", "Quelles langues ?", "la langue"],
+    misses: ["languid", "languette"],
+  },
+];
+
+/** Chemins d'une copie de jeu que R5 ne contrôle pas : la définition (formule des règles de copie) et les balises `meta`. */
+const APP_WIDE_EXEMPT_PATH = /^(hero\.definition|meta\..*)$/;
+/**
+ * Exceptions R5, par jeu et par sujet : une page jeu dont le contenu même
+ * dépend du sujet. Chaque entrée se justifie par `why`, et `entryViolations`
+ * échoue si une entrée ne sert plus.
+ */
+const APP_WIDE_ALLOWLIST: ReadonlyArray<{
+  game: GameId;
+  topics: readonly string[];
+  why: string;
+}> = [
+  {
+    game: "pixel-art",
+    topics: ["iPhone", "iPad", "Android"],
+    // copy-rules 13 : les vies, les étoiles, le départ de la difficulté Facile et
+    // Annuler diffèrent entre iPhone/iPad et Android. Les nommer est le contenu.
+    why: "Pixel Art plays differently on iPhone and iPad than on Android",
+  },
+  {
+    game: "arrow-maze",
+    topics: ["free"],
+    // « Free piece » est le terme du jeu pour une flèche que rien ne bloque.
+    why: "a free piece is Arrow Maze's own term for an unblocked arrow",
+  },
+  {
+    game: "crossword",
+    topics: ["languages"],
+    // Les grilles n'existent qu'en français et en anglais, et le jeu est masqué
+    // dans les autres langues de l'app : nommer ces deux langues est le contenu.
+    why: "Crossword grids exist in French and English only, and the game is hidden in other interface languages",
+  },
+  {
+    game: "word-search",
+    topics: ["languages"],
+    // Les grilles n'existent qu'en français et en anglais, et le jeu est masqué
+    // dans les autres langues de l'app : nommer ces deux langues est le contenu.
+    why: "Word Search grids exist in French and English only, and the game is hidden in other interface languages",
+  },
+  {
+    game: "pixel-art",
+    topics: ["languages"],
+    // Le nom du dessin dévoilé à la victoire suit la langue de l'interface.
+    why: "the revealed drawing's name follows the interface language",
+  },
+];
+
 // ---------------------------------------------------------------------------
 // Gardes pures
 // ---------------------------------------------------------------------------
@@ -358,11 +489,11 @@ function parityViolations(entries: readonly CopyEntry[]): string[] {
   });
 }
 
-/** Une phrase de cette longueur ou plus ne se répète pas d'une page jeu à l'autre (ruling R4). */
-const REPEATED_SENTENCE_MIN_LENGTH = 60;
+/** Une phrase ou une proposition de cette longueur ou plus ne se répète pas d'une page jeu à l'autre (ruling R4). */
+const REPEATED_CLAUSE_MIN_LENGTH = 60;
 /**
  * Formules partagées voulues, et rien d'autre. Elles sont normalisées comme les
- * phrases mesurées (espaces simples, minuscules). Chaque entrée se justifie.
+ * propositions mesurées (espaces simples, minuscules). Chaque entrée se justifie.
  */
 const SHARED_SENTENCE_ALLOWLIST: readonly string[] = [
   // Fin imposée de la phrase de définition (copy-rules 1) : l'appareil, l'éditeur
@@ -375,17 +506,26 @@ function normalizeSentence(sentence: string): string {
   return sentence.replace(/\s+/g, " ").trim().toLowerCase();
 }
 
-function longSentencesOf(text: string): string[] {
-  return text
-    .split(/(?<=[.!?…])\s+/u)
-    .map(normalizeSentence)
-    .filter((sentence) => sentence.length >= REPEATED_SENTENCE_MIN_LENGTH);
+/**
+ * Phrases, puis propositions : on coupe aussi sur `;` et sur les deux-points,
+ * sinon une phrase recopiée avec une incise de plus échappe à la garde.
+ */
+const CLAUSE_BOUNDARY = /(?<=[.!?…])\s+|\s*;\s*|\s*:\s+/u;
+
+function clausesOf(text: string): string[] {
+  return text.split(CLAUSE_BOUNDARY).map(normalizeSentence).filter(Boolean);
+}
+
+function longClausesOf(text: string): string[] {
+  return clausesOf(text).filter(
+    (clause) => clause.length >= REPEATED_CLAUSE_MIN_LENGTH,
+  );
 }
 
 /**
  * Ruling R4 : un fait de l'app ne se répète pas à l'identique de page en page.
- * Signale une phrase longue présente deux fois dans une page, ou dans deux
- * pages jeux de la même langue.
+ * Signale une phrase ou une proposition longue présente deux fois dans une
+ * page, ou dans deux pages jeux de la même langue.
  */
 function repeatedSentenceViolations(
   pages: ReadonlyArray<{ label: string; copy: GameCopy }>,
@@ -396,20 +536,48 @@ function repeatedSentenceViolations(
   const found: string[] = [];
   for (const { label, copy } of pages) {
     for (const { path, value } of stringsOf(copy)) {
-      for (const sentence of longSentencesOf(value)) {
-        if (allowed.has(sentence)) continue;
-        const first = seen.get(sentence);
+      for (const clause of longClausesOf(value)) {
+        if (allowed.has(clause)) continue;
+        const first = seen.get(clause);
         if (first === undefined) {
-          seen.set(sentence, `${label} ${path}`);
+          seen.set(clause, `${label} ${path}`);
         } else {
           found.push(
-            `${label} ${path}: sentence already used in ${first} (${JSON.stringify(sentence.slice(0, 60))})`,
+            `${label} ${path}: sentence already used in ${first} (${JSON.stringify(clause.slice(0, 60))})`,
           );
         }
       }
     }
   }
   return found;
+}
+
+/**
+ * Ruling R5 : une page jeu ne parle que du jeu. Chaque chaîne de la copie d'un
+ * jeu, hors définition et `meta`, est lue contre les sujets de l'app entière.
+ */
+function appWideTopicViolations(
+  entry: CopyEntry,
+  allowlist: typeof APP_WIDE_ALLOWLIST = APP_WIDE_ALLOWLIST,
+): string[] {
+  return gamesOf(entry).flatMap(([id, copy]) => {
+    const allowedTopics = new Set(
+      allowlist
+        .filter(({ game }) => game === id)
+        .flatMap(({ topics }) => topics),
+    );
+    return stringsOf(copy)
+      .filter(({ path }) => !APP_WIDE_EXEMPT_PATH.test(path))
+      .flatMap(({ path, value }) =>
+        APP_WIDE_TOPICS.filter(
+          ({ topic, pattern }) =>
+            !allowedTopics.has(topic) && pattern.test(value),
+        ).map(
+          ({ topic }) =>
+            `${labelOf(entry)}:${id} ${path}: app-wide topic "${topic}" belongs to the app page (${JSON.stringify(value.slice(0, 60))})`,
+        ),
+      );
+  });
 }
 
 /** `games` remplace le registre pour prouver une garde sur une donnée que le registre n'a plus. */
@@ -424,6 +592,7 @@ function entryViolations(
     ...androidViolations(entry, games),
     ...shapeViolations(entry, games),
     ...coverageViolations(entry, games),
+    ...appWideTopicViolations(entry),
   ];
 }
 
@@ -436,6 +605,12 @@ describe("copie enregistrée (spec §9)", () => {
     expect(REGISTERED_COPY.flatMap((entry) => entryViolations(entry))).toEqual(
       [],
     );
+  });
+
+  it("aucune page jeu ne parle des sujets de l'app entière (ruling R5)", () => {
+    expect(
+      REGISTERED_COPY.flatMap((entry) => appWideTopicViolations(entry)),
+    ).toEqual([]);
   });
 
   it("chaque module existe dans toutes les langues avec la même structure", () => {
@@ -465,6 +640,16 @@ describe("copie enregistrée (spec §9)", () => {
 describe("contrôles positifs des règles de texte", () => {
   it.each(FORBIDDEN)(
     "$reason : attrape ses cas, laisse passer les autres",
+    ({ pattern, hits, misses }) => {
+      for (const text of hits) expect(pattern.test(text), text).toBe(true);
+      for (const text of misses) expect(pattern.test(text), text).toBe(false);
+    },
+  );
+});
+
+describe("contrôles positifs des sujets de l'app entière (ruling R5)", () => {
+  it.each(APP_WIDE_TOPICS)(
+    "$topic : attrape ses cas, laisse passer les autres",
     ({ pattern, hits, misses }) => {
       for (const text of hits) expect(pattern.test(text), text).toBe(true);
       for (const text of misses) expect(pattern.test(text), text).toBe(false);
@@ -508,7 +693,6 @@ function fixtureGame(overrides: Partial<GameCopy> = {}): GameCopy {
         answer: `Answer ${n}.`,
       })),
     },
-    whereToPlay: { title: "Where to play", body: "In Cerebrum." },
     ...overrides,
   };
 }
@@ -838,6 +1022,46 @@ describe("contrôles positifs des gardes structurelles", () => {
       expect(violations).toHaveLength(1);
     });
 
+    it("coupe aussi sur le point-virgule et les deux-points : une proposition recopiée dans une autre phrase est refusée", () => {
+      const violations = repeatedSentenceViolations([
+        {
+          label: "en:sudoku",
+          copy: withTip(`Sudoku rule: ${SHARED}`, "Sudoku"),
+        },
+        {
+          label: "en:pandoku",
+          copy: withTip(`Other idea; ${SHARED}`, "Pandoku"),
+        },
+      ]);
+      expect(violations).toEqual([
+        expect.stringContaining("en:pandoku tips.items.0"),
+      ]);
+    });
+
+    it("coupe sur les deux-points français précédés d'une espace insécable", () => {
+      const violations = repeatedSentenceViolations([
+        {
+          label: "fr:sudoku",
+          copy: withTip(`Règle\u00a0: ${SHARED}`, "Sudoku"),
+        },
+        { label: "fr:pandoku", copy: withTip(SHARED, "Pandoku") },
+      ]);
+      expect(violations).toHaveLength(1);
+    });
+
+    it("une proposition de 59 caractères reste libre, 60 est refusée", () => {
+      const sixty =
+        "Une proposition qui compte exactement soixante caractères ok";
+      expect(sixty).toHaveLength(60);
+      const fiftyNine = sixty.slice(0, 58) + "k";
+      const pages = (clause: string) => [
+        { label: "en:sudoku", copy: withTip(`A: ${clause}`, "Sudoku") },
+        { label: "en:pandoku", copy: withTip(`B; ${clause}`, "Pandoku") },
+      ];
+      expect(repeatedSentenceViolations(pages(fiftyNine))).toEqual([]);
+      expect(repeatedSentenceViolations(pages(sixty))).toHaveLength(1);
+    });
+
     it("une entrée de la liste blanche est tolérée, tout le reste est refusé", () => {
       const pages = [
         { label: "en:sudoku", copy: withTip(SHARED, "Sudoku") },
@@ -852,16 +1076,138 @@ describe("contrôles positifs des gardes structurelles", () => {
       for (const entry of REGISTERED_COPY) {
         for (const [, copy] of gamesOf(entry)) {
           for (const { value } of stringsOf(copy)) {
-            for (const sentence of value
-              .split(/(?<=[.!?…])\s+/u)
-              .map(normalizeSentence)) {
-              uses.set(sentence, (uses.get(sentence) ?? 0) + 1);
+            for (const clause of clausesOf(value)) {
+              uses.set(clause, (uses.get(clause) ?? 0) + 1);
             }
           }
         }
       }
       const stale = SHARED_SENTENCE_ALLOWLIST.filter(
         (sentence) => (uses.get(normalizeSentence(sentence)) ?? 0) < 2,
+      );
+      expect(stale).toEqual([]);
+    });
+  });
+
+  describe("sujets de l'app entière (ruling R5)", () => {
+    const withFaq = (question: string, answer = "Answer.") =>
+      fixtureApp("en", {
+        pandoku: fixtureGame({
+          faq: {
+            title: "FAQ",
+            items: [
+              { question, answer },
+              { question: "B?", answer: "B." },
+              { question: "C?", answer: "C." },
+            ],
+          },
+        }),
+      });
+
+    it("refuse une question sur le prix, les appareils ou le hors ligne", () => {
+      for (const question of [
+        "Is Pandoku free?",
+        "Can I play on Android?",
+        "Can I play offline?",
+      ]) {
+        expect(
+          appWideTopicViolations(withFaq(question)),
+          question,
+        ).toHaveLength(1);
+      }
+    });
+
+    it("refuse un sujet d'app glissé dans une réponse, un conseil ou une étape", () => {
+      const entry = fixtureApp("en", {
+        pandoku: fixtureGame({
+          howToPlay: {
+            title: "How to play",
+            steps: ["Step 1", "Step 2", "Watch an ad to continue."],
+          },
+          tips: {
+            title: "Tips",
+            items: ["Tip 1", "Go Premium for more.", "Tip 3"],
+          },
+          whatCerebrumAdds: {
+            title: "What Cerebrum adds",
+            paragraphs: ["Subscribe to the monthly subscription."],
+            difficultyTable: {
+              caption: "Difficulties",
+              rows: [{ difficulty: "easy", detail: "Small grid." }],
+            },
+          },
+        }),
+      });
+      expect(appWideTopicViolations(entry)).toEqual([
+        expect.stringContaining("howToPlay.steps.2"),
+        expect.stringContaining("whatCerebrumAdds.paragraphs.0"),
+        expect.stringContaining("tips.items.1"),
+      ]);
+    });
+
+    it("laisse passer la définition et les balises meta, qui portent l'appareil et le hors ligne", () => {
+      const entry = fixtureApp("en", {
+        pandoku: fixtureGame({
+          meta: {
+            title: "Pandoku | Cerebrum",
+            description: "Free and offline on iPhone, iPad and Android.",
+          },
+          hero: {
+            h1: "Pandoku",
+            phoneAlt: "A screen.",
+            definition: `${DEFINITION_OK} Play it offline on iPhone, iPad and Android, for free.`,
+          },
+        }),
+      });
+      expect(appWideTopicViolations(entry)).toEqual([]);
+    });
+
+    it("lit la phoneAlt, qui n'est pas exemptée", () => {
+      const entry = fixtureApp("en", {
+        pandoku: fixtureGame({
+          hero: {
+            h1: "Pandoku",
+            definition: DEFINITION_OK,
+            phoneAlt: "Pandoku on an iPhone.",
+          },
+        }),
+      });
+      expect(appWideTopicViolations(entry)).toEqual([
+        expect.stringContaining("hero.phoneAlt"),
+      ]);
+    });
+
+    it("une exception de la liste blanche vaut pour son jeu et son sujet, pas pour un autre", () => {
+      const entry = withFaq("Is Pandoku free?");
+      const allow = (game: GameId, topic: string) => [
+        { game, topics: [topic], why: "test" },
+      ];
+      expect(appWideTopicViolations(entry, allow("pandoku", "free"))).toEqual(
+        [],
+      );
+      expect(
+        appWideTopicViolations(entry, allow("sudoku", "free")),
+      ).toHaveLength(1);
+      expect(
+        appWideTopicViolations(entry, allow("pandoku", "offline")),
+      ).toHaveLength(1);
+    });
+
+    it("chaque entrée de la liste blanche sert encore : le jeu cité dit réellement ce sujet", () => {
+      const live = REGISTERED_COPY.flatMap((entry) =>
+        appWideTopicViolations(entry, []),
+      );
+      const stale = APP_WIDE_ALLOWLIST.flatMap(({ game, topics }) =>
+        topics
+          .filter(
+            (topic) =>
+              !live.some(
+                (violation) =>
+                  violation.includes(`:${game} `) &&
+                  violation.includes(`app-wide topic "${topic}"`),
+              ),
+          )
+          .map((topic) => `${game}:${topic}`),
       );
       expect(stale).toEqual([]);
     });
@@ -907,6 +1253,7 @@ describe("contrôles positifs des gardes structurelles", () => {
         /cerebrum:en:pandoku: definition must name its genre/,
       ],
       ["androidViolations", /tips\.items\.0: mentions Android/],
+      ["appWideTopicViolations", /tips\.items\.0: app-wide topic "Android"/],
       ["shapeViolations", /cerebrum:en:pandoku: 1 steps, expected/],
       ["coverageViolations", /published game "sudoku" has no copy/],
     ];

@@ -7,9 +7,10 @@
  * le canonical, pour ne jamais en diverger.
  */
 
-import type { Locale } from "./i18n";
+import { LOCALES, type Locale } from "./i18n";
 import { platformsFor, type AppEntry, type GameEntry } from "@/content/apps";
 import type { AppCopy, GameCopy } from "@/content/copy";
+import { PUBLISHER } from "@/content/publisher";
 import {
   BASE_URL,
   absolutePath,
@@ -33,8 +34,9 @@ const GOOGLE_PLAY_TITLE_FR = "Cerebrum : Jeux zen sans wifi";
 const GOOGLE_PLAY_TITLE_EN = "Cerebrum: Offline Puzzle Games";
 
 // Date de première publication de la fiche Cerebrum (iOS), conservée telle
-// quelle depuis le JSON-LD SoftwareApplication existant.
-const CEREBRUM_DATE_PUBLISHED = "2026-06-03";
+// quelle depuis le JSON-LD SoftwareApplication existant. Les pages À propos et
+// Presse la citent en toutes lettres : leur test la relit ici.
+export const CEREBRUM_DATE_PUBLISHED = "2026-06-03";
 
 // Les noeuds Organization et WebSite décrivent le site entier : même @id et même
 // url dans toutes les langues, pour que les moteurs ne voient qu'une entité.
@@ -58,6 +60,13 @@ interface PersonSchema {
   readonly name: string;
 }
 
+interface ContactPointSchema {
+  readonly "@type": "ContactPoint";
+  readonly contactType: string;
+  readonly email: string;
+  readonly availableLanguage: readonly string[];
+}
+
 interface OrganizationSchema {
   readonly "@context": "https://schema.org";
   readonly "@type": "Organization";
@@ -67,6 +76,8 @@ interface OrganizationSchema {
   readonly url: string;
   readonly logo: string;
   readonly address: PostalAddressSchema;
+  readonly vatID: string;
+  readonly contactPoint: ContactPointSchema;
   readonly founder: PersonSchema;
   readonly sameAs: readonly string[];
 }
@@ -84,20 +95,27 @@ export function organizationSchema(): OrganizationSchema {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": ORGANIZATION_ID,
-    name: "Synapgeek",
-    legalName: "Synapgeek SAS",
+    name: PUBLISHER.brand,
+    legalName: PUBLISHER.legalName,
     url: SITE_ROOT_URL,
     logo: `${BASE_URL}/images/brand/logo-synapgeek.png`,
     address: {
       "@type": "PostalAddress",
-      streetAddress: "185 chemin des Brosses",
-      postalCode: "69620",
-      addressLocality: "Frontenas",
-      addressCountry: "FR",
+      streetAddress: PUBLISHER.address.street,
+      postalCode: PUBLISHER.address.postalCode,
+      addressLocality: PUBLISHER.address.locality,
+      addressCountry: PUBLISHER.address.countryCode,
+    },
+    vatID: PUBLISHER.vat,
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: PUBLISHER.contactEmail,
+      availableLanguage: LOCALES,
     },
     founder: {
       "@type": "Person",
-      name: "Adrien Monte",
+      name: PUBLISHER.publicationDirector,
     },
     sameAs,
   };
@@ -316,6 +334,42 @@ export function webPageSchema({
     inLanguage: locale,
     dateModified,
     isPartOf: { "@id": WEBSITE_ID },
+  };
+}
+
+interface AboutPageSchema {
+  readonly "@context": "https://schema.org";
+  readonly "@type": "AboutPage";
+  readonly url: string;
+  readonly name: string;
+  readonly inLanguage: string;
+  readonly dateModified: string;
+  readonly isPartOf: { readonly "@id": string };
+  readonly about: { readonly "@id": string };
+}
+
+/**
+ * Page À propos. Elle RÉFÉRENCE l'organisation par son @id : le noeud
+ * Organization complet reste unique, émis par le layout de langue.
+ */
+export function aboutPageSchema({
+  locale,
+  name,
+  dateModified,
+}: {
+  readonly locale: Locale;
+  readonly name: string;
+  readonly dateModified: string;
+}): AboutPageSchema {
+  return {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    url: absoluteUrl("about", locale),
+    name,
+    inLanguage: locale,
+    dateModified,
+    isPartOf: { "@id": WEBSITE_ID },
+    about: { "@id": ORGANIZATION_ID },
   };
 }
 

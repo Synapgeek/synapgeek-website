@@ -105,8 +105,4 @@ export const pixelArtEn: GameCopy = {
       },
     ],
   },
-  whereToPlay: {
-    title: "Play Pixel Art",
-    body: "Pixel Art is played with your fingertip: you drag across the grid to paint, then switch to Cross mode to mark the empty cells.",
-  },
 };

@@ -29,7 +29,7 @@ export const minesweeperEn: GameCopy = {
     title: "What Cerebrum adds to Minesweeper",
     paragraphs: [
       "In Cerebrum you work through a path of grids in the difficulty you pick. When it is finished, Endless Mode serves more minefields of that same difficulty.",
-      "Minesweeper opens with a short four-page how-to-play sheet on iPhone, iPad and Android: the numbers, the first tap, flags, hearts and the hint. On iPhone and iPad the first Easy level is also guided, in four steps.",
+      "Minesweeper opens with a short four-page how-to-play sheet: the numbers, the first tap, flags, hearts and the hint.",
       "The mine counter, always visible at the top, shows the mines in the grid minus your flags. Plant one flag too many and it drops below zero, which tells you that one of your flags is wrong.",
       "A mine you touch costs a heart, yet the grid stays winnable: the cell is marked with a flag, so the counter stays accurate. When the third heart goes, the game is over unless you pick this same minefield back up.",
       "The hint opens the next safe cell for you. If one of your flags is misplaced, it takes that flag off first, before it opens anything.",
@@ -65,7 +65,7 @@ export const minesweeperEn: GameCopy = {
     title: "Tips to play Minesweeper better",
     items: [
       "For your very first tap, aim for a corner: it has only three neighbors, so it is more likely to open a blank area at once. In Cerebrum that tap is not guaranteed safe, and it can land on a mine.",
-      "Put satisfied numbers to work. A 1 touching an identified mine needs no other mine, so all its other neighbors are free. Tap it to open them in one go, a shortcut that trusts your flags: mark only proven mines, because on a false flag it uncovers a real mine.",
+      "Put satisfied numbers to work. A 1 touching an identified mine needs no other mine, so all its other neighbors are safe. Tap it to open them in one go, a shortcut that trusts your flags: mark only proven mines, because on a false flag it uncovers a real mine.",
       "Subtract what you know. A 3 that already has two flags only waits for one more mine among its hidden neighbors. Reduced to that remainder, it often becomes a 1 or a 2 to compare with the neighboring number.",
       "Spot the sequences along a wall, meaning a row of numbers running alongside a row of hidden cells. When those cells are the only hidden neighbors of the numbers, a 1-2-1 puts a mine under each 1 and leaves the cell under the 2 safe; a 1-2-2-1 puts the mines under the two 2s.",
       "Keep an eye on the counter late in the grid. If it reads zero and your flags are right, everything still hidden is safe. If it equals the number of hidden, unmarked cells, they are all mines.",
@@ -95,20 +95,15 @@ export const minesweeperEn: GameCopy = {
           "It opens the next safe cell, after taking off one of your flags if that flag is misplaced. It never changes the stars you earn.",
       },
       {
-        question:
-          "Is Minesweeper free, and can I play it without a connection?",
+        question: "What does the mine counter show?",
         answer:
-          "It is free, like every game in Cerebrum, and the minefields are already in the app, so a round never waits for the network. While you play a banner stays on screen, and ads appear between some games; you choose whether to watch a rewarded ad, and Premium removes the ads you did not choose.",
+          "The number of mines in the grid minus the flags you have planted. If it drops below zero, one of your flags is wrong. If it reads zero and your flags are right, every hidden cell left is safe.",
       },
       {
-        question: "Does the guided level exist on Android?",
+        question: "How do I open all the cells around a number at once?",
         answer:
-          "Not quite. The four-page how-to-play sheet exists on iPhone, iPad and Android, but the guided first Easy level exists only on iPhone and iPad.",
+          "When a number has as many flags around it as its value, tap it. Cerebrum opens the rest of its neighbors, but it trusts your flags, so a misplaced flag will uncover a real mine.",
       },
     ],
-  },
-  whereToPlay: {
-    title: "Play Minesweeper on iPhone, iPad and Android",
-    body: "Minesweeper is played in Cerebrum, the brain games app by Synapgeek, which is free to download. The smallest grids, 9×8 on Easy, are small enough for a short break or a queue. Cerebrum is on the App Store for iPhone and iPad, and on Google Play for Android.",
   },
 };

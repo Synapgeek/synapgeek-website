@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check:contract": "node scripts/check-contract-urls.mjs"
+    "check:contract": "node scripts/check-contract-urls.mjs",
+    "indexnow": "node scripts/indexnow-ping.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

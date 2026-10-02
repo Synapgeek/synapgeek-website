@@ -211,13 +211,17 @@ export default async function CerebrumPage({
         >
           {sections.privacy.cta}
         </Button>
-        <p className="mt-10 text-sm text-text-secondary">
+      </SectionBand>
+
+      {/* Date de la page, pas de la politique : hors de la bande confidentialité. */}
+      <div className="bg-canvas py-8 text-text-secondary">
+        <p className="mx-auto max-w-3xl px-gutter text-sm">
           {dict.common.updatedOn}{" "}
           <time dateTime={copy.updatedAt}>
             {formatUpdatedAt(copy.updatedAt, locale)}
           </time>
         </p>
-      </SectionBand>
+      </div>
     </>
   );
 }

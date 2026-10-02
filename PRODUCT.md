@@ -51,8 +51,9 @@ Succès, par ordre d'importance :
   (Sudoku, Mots croisés, Mots mêlés) et des casse-tête plus récents (Pandoku, un puzzle de type
   Star Battle ; Démineur ; Pixel Art, des nonogrammes ; Arrow Maze ; Trace ; Labyrinthe ; Cross
   Math, des mots croisés de calcul). Aucun jeu ni aucune difficulté n'est réservé à un achat ; le
-  modèle économique est dit en clair. 16 langues d'interface. Les grilles sont générées par les
-  outils du studio et vérifiées par des solveurs.
+  modèle économique est dit en clair. 16 langues d'interface. Les dessins de Pixel Art sont
+  nommés, un à un, dans l'app ; on n'affirme rien de plus sur la fabrication des grilles tant
+  que la session iOS ne l'a pas vérifié.
 - **Synapgeek** est un studio indépendant français (Synapgeek SAS, Frontenas), éditeur
   identifiable de ses apps : c'est ce qui lève l'homonymie autour du nom « Cerebrum ».
 

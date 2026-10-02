@@ -1,69 +1,68 @@
 import { Badge } from "@/components/ui/Badge";
 import type { LegalSection } from "@/content/types";
+import {
+  splitLegalBlocks,
+  tokenizeLegalInline,
+  type LegalBlock,
+} from "@/lib/legal-format";
 
-const linkClasses = "text-primary underline hover:text-primary/80";
+// Composant serveur uniquement, comme tout ce qu'il importe : les pages légales
+// doivent se lire sans JavaScript (garde transitive dans route-invariants.test.ts).
 
-function formatText(text: string): React.ReactNode[] {
-  // First pass: bold
-  const boldParts = text.split(/(\*\*[^*]+\*\*)/g);
-  const withBold: React.ReactNode[] = boldParts.map((part, i) => {
-    if (part.startsWith("**") && part.endsWith("**")) {
-      return <strong key={`b${i}`}>{part.slice(2, -2)}</strong>;
-    }
-    return part;
-  });
+const LINK_CLASSES =
+  "rounded-sm font-semibold text-brand-violet-deep underline decoration-brand-violet/50 underline-offset-4 transition-colors hover:decoration-brand-violet";
 
-  // Second pass: auto-link URLs and emails in remaining string fragments
-  const result: React.ReactNode[] = [];
-  const linkPattern =
-    /(https?:\/\/[^\s),]+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
-
-  for (const node of withBold) {
-    if (typeof node !== "string") {
-      result.push(node);
-      continue;
-    }
-
-    let lastIndex = 0;
-    let match: RegExpExecArray | null;
-    linkPattern.lastIndex = 0;
-
-    while ((match = linkPattern.exec(node)) !== null) {
-      if (match.index > lastIndex) {
-        result.push(node.slice(lastIndex, match.index));
-      }
-      const value = match[0];
-      const isEmail = value.includes("@") && !value.startsWith("http");
-      result.push(
-        isEmail ? (
-          <a
-            key={`l${match.index}`}
-            href={`mailto:${value}`}
-            className={linkClasses}
-          >
-            {value}
+/** Gras, URL et e-mails d'un passage de texte (le découpage vit dans `legal-format`). */
+function Inline({ text }: { text: string }) {
+  return tokenizeLegalInline(text).map((token, i) => {
+    switch (token.kind) {
+      case "bold":
+        return (
+          <strong key={i} className="font-bold text-ink">
+            {token.value}
+          </strong>
+        );
+      case "email":
+        return (
+          <a key={i} href={`mailto:${token.value}`} className={LINK_CLASSES}>
+            {token.value}
           </a>
-        ) : (
+        );
+      case "link":
+        return (
           <a
-            key={`l${match.index}`}
-            href={value}
+            key={i}
+            href={token.value}
             target="_blank"
             rel="noopener noreferrer"
-            className={linkClasses}
+            className={LINK_CLASSES}
           >
-            {value}
+            {token.value}
           </a>
-        ),
-      );
-      lastIndex = match.index + value.length;
+        );
+      case "text":
+        return token.value;
     }
+  });
+}
 
-    if (lastIndex < node.length) {
-      result.push(node.slice(lastIndex));
-    }
+function Block({ block }: { block: LegalBlock }) {
+  if (block.kind === "list") {
+    return (
+      <ul className="list-disc space-y-1.5 pl-6 marker:text-brand-violet">
+        {block.items.map((item, i) => (
+          <li key={i}>
+            <Inline text={item} />
+          </li>
+        ))}
+      </ul>
+    );
   }
-
-  return result;
+  return (
+    <p className="whitespace-pre-line">
+      <Inline text={block.text} />
+    </p>
+  );
 }
 
 export function LegalPage({
@@ -76,31 +75,37 @@ export function LegalPage({
   sections: readonly LegalSection[];
 }) {
   return (
-    <article className="mx-auto max-w-3xl px-gutter py-12 md:py-16">
-      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
-        {title}
-      </h1>
-      <Badge color="purple" className="mt-4">
-        {lastUpdated}
-      </Badge>
+    <article>
+      <header className="border-b border-border bg-canvas-soft">
+        <div className="mx-auto max-w-3xl px-gutter py-10 md:py-14">
+          <h1 className="text-4xl leading-tight tracking-tight sm:text-5xl">
+            {title}
+          </h1>
+          <Badge color="purple" className="mt-5">
+            {lastUpdated}
+          </Badge>
+        </div>
+      </header>
 
-      <div className="mt-12 space-y-10">
+      <div className="mx-auto max-w-3xl space-y-10 px-gutter py-12 md:py-16">
         {sections.map((section) => (
-          // scroll-mt-24 (6 rem) compense l'en-tête collant de 4 rem : sans lui, une ancre place le titre sous le header.
+          // scroll-mt-24 (6 rem) compense l'en-tête collant de 4 rem (h-16) : sans lui, une ancre place le titre sous le header.
           // tabIndex=-1 : sans lui, un saut d'ancre déplace le viewport mais pas le focus
           // clavier — un lecteur d'écran resterait en haut de page.
           <section
             key={section.title}
             id={section.id}
             tabIndex={section.id ? -1 : undefined}
-            className="scroll-mt-24"
+            className="scroll-mt-24 border-t border-border pt-8 first:border-t-0 first:pt-0 focus-visible:rounded-2xl focus-visible:outline-offset-8"
           >
-            <h2 className="mb-4 text-xl font-bold">{section.title}</h2>
-            <div className="space-y-3 text-sm leading-relaxed text-text-secondary">
+            <h2 className="mb-4 text-2xl">{section.title}</h2>
+            <div className="max-w-[70ch] space-y-4 break-words text-base leading-relaxed text-ink/80">
               {section.content.split("\n\n").map((paragraph, i) => (
-                <p key={i} className="whitespace-pre-line">
-                  {formatText(paragraph)}
-                </p>
+                <div key={i} className="space-y-2">
+                  {splitLegalBlocks(paragraph).map((block, j) => (
+                    <Block key={j} block={block} />
+                  ))}
+                </div>
               ))}
             </div>
           </section>

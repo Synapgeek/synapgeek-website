@@ -8,7 +8,12 @@ import {
   type PageId,
 } from "@/lib/routes";
 import { getDictionary } from "@/content";
-import { getAppCopy, getHubCopy } from "@/content/copy";
+import {
+  getAboutCopy,
+  getAppCopy,
+  getHubCopy,
+  getPressCopy,
+} from "@/content/copy";
 
 function lastModifiedFor(locale: Locale, pageId: PageId): string {
   const dict = getDictionary(locale);
@@ -23,6 +28,10 @@ function lastModifiedFor(locale: Locale, pageId: PageId): string {
       return getHubCopy(locale).updatedAt;
     case "cerebrum":
       return getAppCopy("cerebrum", locale).updatedAt;
+    case "about":
+      return getAboutCopy(locale).updatedAt;
+    case "press":
+      return getPressCopy(locale).updatedAt;
     default: {
       const gameId = gameIdOfPage(pageId);
       const gameCopy = gameId && getAppCopy("cerebrum", locale).games[gameId];

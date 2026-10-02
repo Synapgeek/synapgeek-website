@@ -4,29 +4,8 @@ import Image from "next/image";
 import { trackEvent } from "@/lib/gtag";
 import { APP_STORE_URL, GOOGLE_PLAY_URL } from "@/lib/app";
 import type { Locale } from "@/lib/i18n";
+import { STORE_BADGES } from "@/lib/store-badges";
 import type { StoreLabels } from "@/content/types";
-
-/**
- * Badges officiels des deux boutiques. Les fichiers fournis par Apple et Google
- * n'ont pas le même ratio d'une langue à l'autre : ces dimensions intrinsèques
- * sont celles des fichiers, pas un choix de mise en page.
- */
-const BADGES = {
-  fr: {
-    appStore: "/images/brand/badge-appstore-fr.svg",
-    googlePlay: "/images/brand/badge-googleplay-fr.png",
-    appStoreWidth: 127,
-    googlePlayWidth: 646,
-    googlePlayHeight: 192,
-  },
-  en: {
-    appStore: "/images/brand/badge-appstore-en.svg",
-    googlePlay: "/images/brand/badge-googleplay-en.png",
-    appStoreWidth: 120,
-    googlePlayWidth: 564,
-    googlePlayHeight: 168,
-  },
-} as const satisfies Record<Locale, unknown>;
 
 export type Store = "app-store" | "google-play";
 
@@ -49,7 +28,7 @@ export function StoreBadges({
   stores = ["app-store", "google-play"],
   className = "",
 }: StoreBadgesProps) {
-  const badges = BADGES[locale];
+  const badges = STORE_BADGES[locale];
 
   return (
     <div className={`flex flex-wrap items-center gap-3 ${className}`}>

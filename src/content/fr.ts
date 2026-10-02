@@ -42,6 +42,20 @@ const fr: Dictionary = {
       home: "Accueil",
     },
     updatedOn: "Mis à jour le",
+    publisher: {
+      legalName: "Raison sociale",
+      legalForm: "Forme juridique",
+      legalFormValue: "Société par actions simplifiée (SAS)",
+      capital: "Capital social",
+      address: "Siège social",
+      rcs: "RCS",
+      siret: "SIRET",
+      ape: "Code APE",
+      vat: "TVA intracommunautaire",
+      publicationDirector: "Directeur de la publication",
+      host: "Hébergeur",
+      email: "Email",
+    },
 
     languageSuggestion: {
       message: "Ce site est aussi disponible en français.",
@@ -56,6 +70,12 @@ const fr: Dictionary = {
     stores: {
       appStoreLabel: "Télécharger dans l'App Store",
       googlePlayLabel: "Disponible sur Google Play",
+    },
+    gameGet: {
+      title: "Télécharger Cerebrum",
+      model:
+        "Téléchargement gratuit, avec une bannière pendant la partie et des pubs entre certaines parties. Les pubs récompensées restent toujours facultatives. Avec Premium (hebdomadaire, mensuel ou annuel, souscrit dans chaque boutique), zéro pub imposée et des avantages en plus.",
+      premiumLink: "Ce que Premium apporte",
     },
     contactForm: {
       name: "Nom",
@@ -292,6 +312,7 @@ const fr: Dictionary = {
   },
   play: {
     title: "Télécharger Cerebrum",
+    gamesIntro: "Dans Cerebrum\u00a0: ",
     chooseStore: "Choisissez votre store pour installer l'application.",
   },
 };

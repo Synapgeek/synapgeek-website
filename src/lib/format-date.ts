@@ -9,7 +9,13 @@ const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
  */
 export function formatUpdatedAt(isoDate: string, locale: Locale): string {
   const date = new Date(`${isoDate}T00:00:00Z`);
-  if (!ISO_DATE.test(isoDate) || Number.isNaN(date.getTime())) {
+  // Aller-retour : le moteur de dates ramène « 2026-02-30 » au 2 mars au lieu de
+  // la refuser, la date relue doit donc redonner exactement la chaîne reçue.
+  if (
+    !ISO_DATE.test(isoDate) ||
+    Number.isNaN(date.getTime()) ||
+    date.toISOString().slice(0, 10) !== isoDate
+  ) {
     throw new Error(`Date attendue au format AAAA-MM-JJ : ${isoDate}`);
   }
   return new Intl.DateTimeFormat(locale, {

@@ -43,7 +43,7 @@
  * vers son pendant sans préfixe. La cible `/cerebrum` répond 200 depuis la tâche 13 ;
  * les pages de jeux (`/en/cerebrum/<jeu>`) ne sont contrôlées qu'à partir de leur
  * livraison : Sudoku (tâche 14) ouvre la série, Pandoku (tâche 141), Démineur (tâche 142),
- * Pixel Art (tâche 143) et Arrow Maze (tâche 144) la suivent, chaque jeu suivant ajoute ses lignes.
+ * Pixel Art (tâche 143), Arrow Maze (tâche 144), Mots croisés (tâche 171), Mots mêlés (tâche 172), Cross Math (tâche 173), Trace (tâche 174) et Labyrinthe (tâche 175) la suivent, chaque jeu suivant ajoute ses lignes.
  * Une page de jeu porte UNE seule `og:image`, et cette image répond 200 `image/png`
  * sans redirection (aperçu d'un lien partagé).
  * Seul `/fr/privacy`, `/fr/terms`, `/fr/legal` reste TRANSITOIRE :
@@ -55,7 +55,7 @@
  *
  * Sortie : un tableau lisible, code de sortie 1 au premier écart.
  */
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 
 const APEX = "https://synapgeek.com";
 const WWW = "https://www.synapgeek.com";
@@ -79,7 +79,7 @@ const GOOGLE_PLAY_URL =
 // l'URL du store, sans jamais en écraser un paramètre déjà présent.
 const CAMPAIGN_PARAM = "src=contract-check";
 
-const SITEMAP_URL_COUNT = 20;
+const SITEMAP_URL_COUNT = 34;
 
 /** Slug de chaque page de jeu livrée, par langue (le français de Démineur diffère). */
 const SLUGS = {
@@ -87,7 +87,18 @@ const SLUGS = {
   pandoku: { en: "pandoku", fr: "pandoku" },
   minesweeper: { en: "minesweeper", fr: "demineur" },
   pixelArt: { en: "pixel-art", fr: "pixel-art" },
+  crossMath: { en: "cross-math", fr: "cross-math" },
+  crossword: { en: "crossword", fr: "mots-croises" },
+  wordSearch: { en: "word-search", fr: "mots-meles" },
+  trace: { en: "trace", fr: "trace" },
+  maze: { en: "maze", fr: "labyrinthe" },
   arrowMaze: { en: "arrow-maze", fr: "arrow-maze" },
+};
+
+/** Slug de chaque page de section livrée (À propos, Presse), par langue : copie de src/lib/page-slugs.ts (SECTION_SLUGS). */
+const SECTIONS = {
+  about: { en: "about", fr: "a-propos" },
+  press: { en: "press", fr: "presse" },
 };
 
 const LEGAL_PAGES = ["/privacy", "/terms", "/legal"];
@@ -119,6 +130,12 @@ function vercelSecurityHeaders() {
 }
 
 const PLAIN_TEXT = "text/plain";
+
+/** Clé IndexNow : le nom du seul fichier `public/<32 hex>.txt`, lu dans le dépôt (jamais recopié ici). */
+const INDEXNOW_KEY = readdirSync(new URL("../public/", import.meta.url))
+  .find((name) => /^[0-9a-f]{32}\.txt$/.test(name))
+  ?.replace(/\.txt$/, "");
+if (!INDEXNOW_KEY) throw new Error("public/<32 hex>.txt introuvable");
 
 /**
  * Une vérification : `path`, options de requête, et la liste des attentes.
@@ -158,6 +175,11 @@ function contractChecks(base) {
     redirect("/en/cerebrum/pandoku", 308, "/cerebrum/pandoku"),
     redirect("/en/cerebrum/minesweeper", 308, "/cerebrum/minesweeper"),
     redirect("/en/cerebrum/pixel-art", 308, "/cerebrum/pixel-art"),
+    redirect("/en/cerebrum/cross-math", 308, "/cerebrum/cross-math"),
+    redirect("/en/cerebrum/crossword", 308, "/cerebrum/crossword"),
+    redirect("/en/cerebrum/word-search", 308, "/cerebrum/word-search"),
+    redirect("/en/cerebrum/trace", 308, "/cerebrum/trace"),
+    redirect("/en/cerebrum/maze", 308, "/cerebrum/maze"),
     redirect("/en/cerebrum/arrow-maze", 308, "/cerebrum/arrow-maze"),
     // Page de l'app (tâche 13) : anglais sans préfixe, français sous /fr.
     ok("/cerebrum", [
@@ -208,6 +230,37 @@ function contractChecks(base) {
       gamePageExpectations("fr", SLUGS.pixelArt, resolve),
     ),
     ok(
+      "/cerebrum/cross-math",
+      gamePageExpectations("en", SLUGS.crossMath, resolve),
+    ),
+    ok(
+      "/fr/cerebrum/cross-math",
+      gamePageExpectations("fr", SLUGS.crossMath, resolve),
+    ),
+    ok(
+      "/cerebrum/crossword",
+      gamePageExpectations("en", SLUGS.crossword, resolve),
+    ),
+    ok(
+      "/fr/cerebrum/mots-croises",
+      gamePageExpectations("fr", SLUGS.crossword, resolve),
+    ),
+    ok(
+      "/cerebrum/word-search",
+      gamePageExpectations("en", SLUGS.wordSearch, resolve),
+    ),
+    ok(
+      "/fr/cerebrum/mots-meles",
+      gamePageExpectations("fr", SLUGS.wordSearch, resolve),
+    ),
+    ok("/cerebrum/trace", gamePageExpectations("en", SLUGS.trace, resolve)),
+    ok("/fr/cerebrum/trace", gamePageExpectations("fr", SLUGS.trace, resolve)),
+    ok("/cerebrum/maze", gamePageExpectations("en", SLUGS.maze, resolve)),
+    ok(
+      "/fr/cerebrum/labyrinthe",
+      gamePageExpectations("fr", SLUGS.maze, resolve),
+    ),
+    ok(
       "/cerebrum/arrow-maze",
       gamePageExpectations("en", SLUGS.arrowMaze, resolve),
     ),
@@ -218,8 +271,24 @@ function contractChecks(base) {
     // Un slug ne se résout que dans sa langue ; un slug inconnu est un vrai 404.
     notFound("/fr/cerebrum/crossword"),
     notFound("/cerebrum/mots-croises"),
+    notFound("/fr/cerebrum/word-search"),
+    notFound("/cerebrum/mots-meles"),
+    notFound("/fr/cerebrum/maze"),
+    notFound("/cerebrum/labyrinthe"),
     notFound("/cerebrum/inconnu"),
     notFound("/fr/cerebrum/inconnu"),
+    // Pages de section (tâche 15) : anglais sans préfixe, français sous /fr avec son slug ;
+    // /en/<slug> redirige, le slug de l'autre langue est un vrai 404.
+    redirect("/en/about", 308, "/about"),
+    redirect("/en/press", 308, "/press"),
+    ...Object.values(SECTIONS).flatMap((slugs) => [
+      ok(`/${slugs.en}`, sectionPageExpectations("en", slugs, resolve)),
+      ok(`/fr/${slugs.fr}`, sectionPageExpectations("fr", slugs, resolve)),
+    ]),
+    notFound("/fr/about"),
+    notFound("/fr/press"),
+    notFound("/a-propos"),
+    notFound("/presse"),
     ok("/fr", [
       contentType("text/html"),
       htmlLang("fr"),
@@ -283,6 +352,21 @@ function contractChecks(base) {
         bodyMatches(/<meta name="robots" content="noindex/),
       ],
     },
+    // Repli du QR : sa langue suit Accept-Language (français si préféré, anglais sinon).
+    {
+      path: "/cerebrum/play",
+      label: "/cerebrum/play (desktop, fr)",
+      userAgent: USER_AGENTS.desktop,
+      acceptLanguage: "fr-FR,fr;q=0.9,en;q=0.8",
+      expect: [status(200), contentType("text/html"), htmlLang("fr")],
+    },
+    {
+      path: "/cerebrum/play",
+      label: "/cerebrum/play (desktop, en)",
+      userAgent: USER_AGENTS.desktop,
+      acceptLanguage: "en-US,en;q=0.9",
+      expect: [status(200), contentType("text/html"), htmlLang("en")],
+    },
     // Alias des premiers QR : 307 vers la route canonique, query conservée telle quelle.
     redirect("/play", 307, "/cerebrum/play"),
     redirect(
@@ -315,6 +399,11 @@ function contractChecks(base) {
       bodyIncludes(`<loc>${APEX}/fr</loc>`),
     ]),
     ok("/llms.txt", [contentType(PLAIN_TEXT)]),
+    // Clé IndexNow (scripts/indexnow-ping.mjs) : le fichier doit répondre et se contenir lui-même.
+    ok(`/${INDEXNOW_KEY}.txt`, [
+      contentType(PLAIN_TEXT),
+      bodyIncludes(INDEXNOW_KEY),
+    ]),
   ];
 
   if (isLocal) {
@@ -378,6 +467,20 @@ function gamePageExpectations(language, slugs, resolve) {
   const urls = {
     en: `${APEX}/cerebrum/${slugs.en}`,
     fr: `${APEX}/fr/cerebrum/${slugs.fr}`,
+  };
+  return [
+    contentType("text/html"),
+    htmlLang(language),
+    canonical(urls[language]),
+    hreflangs({ ...urls, "x-default": urls.en }),
+    singleOgImage(resolve),
+  ];
+}
+/** Page de section : même schéma de langue que les pages jeux, une seule og:image qui répond. */
+function sectionPageExpectations(language, slugs, resolve) {
+  const urls = {
+    en: `${APEX}/${slugs.en}`,
+    fr: `${APEX}/fr/${slugs.fr}`,
   };
   return [
     contentType("text/html"),
@@ -518,7 +621,12 @@ async function fetchContract(base, check) {
   const url = new URL(check.path, base);
   const response = await fetch(url, {
     redirect: "manual",
-    headers: check.userAgent ? { "user-agent": check.userAgent } : {},
+    headers: {
+      ...(check.userAgent ? { "user-agent": check.userAgent } : {}),
+      ...(check.acceptLanguage
+        ? { "accept-language": check.acceptLanguage }
+        : {}),
+    },
   });
   const rawLocation = response.headers.get("location");
   return {

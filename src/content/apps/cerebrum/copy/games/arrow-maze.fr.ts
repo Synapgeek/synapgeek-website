@@ -30,7 +30,7 @@ export const arrowMazeFr: GameCopy = {
     paragraphs: [
       "Les plateaux d'Arrow Maze dessinent le plus souvent une silhouette, un cœur par exemple, faite de pièces colorées entremêlées. Chaque difficulté a son parcours de plateaux, et une fois celui-ci terminé, le mode Infini en sert d'autres de la même difficulté.",
       "Le jeu s'ouvre sur une fiche « Comment jouer » de cinq pages : vider le plateau, toucher n'importe où sur la pièce, le trajet jusqu'au bord, se déplacer et zoomer, et l'absence de mauvais choix.",
-      "Sur un grand plateau, vous glissez pour vous déplacer, vous pincez pour zoomer, et un bouton de vue d'ensemble remet toute la grille à l'écran. Un appui long sur une pièce affiche son trajet, gratuitement : vous voyez ce qui la bloque avant de la toucher.",
+      "Sur un grand plateau, vous glissez pour vous déplacer, vous pincez pour zoomer, et un bouton de vue d'ensemble remet toute la grille à l'écran. Un appui long sur une pièce affiche son trajet : vous voyez ce qui la bloque avant de la toucher.",
       "L'indice désigne une pièce libre et montre son chemin jusqu'au bord. Il ne change jamais les étoiles que vous gagnez.",
       "Toucher une pièce bloquée coûte un cœur : trois en Facile et en Moyen, quatre en Difficile. Zéro erreur donne trois étoiles, une erreur deux, deux erreurs ou plus une seule.",
       "Arrow Maze compte aussi parmi les jeux du défi du jour, en Facile ou en Moyen : chaque joueur reçoit le même plateau, et un jour manqué se rattrape dans le calendrier.",
@@ -100,9 +100,5 @@ export const arrowMazeFr: GameCopy = {
           "Il désigne une pièce libre et montre son chemin jusqu'au bord. Il ne change jamais les étoiles que vous gagnez.",
       },
     ],
-  },
-  whereToPlay: {
-    title: "Jouer à Arrow Maze",
-    body: "Arrow Maze se joue du bout du doigt : on touche une pièce pour la faire sortir, on glisse pour se déplacer et on pince pour zoomer.",
   },
 };

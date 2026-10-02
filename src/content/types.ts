@@ -76,6 +76,24 @@ export interface Dictionary {
     /** Libellé devant la date de mise à jour d'une page app ou jeu (« Mis à jour le »). */
     updatedOn: string;
     /**
+     * Libellés de la fiche d'identité de l'éditeur (À propos, Presse). Les
+     * valeurs viennent de `PUBLISHER` (src/content/publisher.ts), jamais d'ici.
+     */
+    publisher: {
+      legalName: string;
+      legalForm: string;
+      legalFormValue: string;
+      capital: string;
+      address: string;
+      rcs: string;
+      siret: string;
+      ape: string;
+      vat: string;
+      publicationDirector: string;
+      host: string;
+      email: string;
+    };
+    /**
      * Suggestion de langue, rédigée dans la langue qu'elle propose : le texte
      * d'une locale est affiché à un visiteur dont le navigateur parle cette
      * locale alors qu'il consulte une autre version du site.
@@ -92,6 +110,17 @@ export interface Dictionary {
       cta: string;
     };
     stores: StoreLabels;
+    /**
+     * Fin de page de chaque page jeu : le modèle économique de l'app, dit une
+     * seule fois ici (ruling R5) et jamais dans la copie d'un jeu.
+     */
+    gameGet: {
+      title: string;
+      /** Gratuit avec pubs, pubs récompensées facultatives, Premium : jamais « sans pub », aucun prix. */
+      model: string;
+      /** Libellé du lien vers la page de l'app. */
+      premiumLink: string;
+    };
     contactForm: {
       name: string;
       email: string;
@@ -135,9 +164,12 @@ export interface Dictionary {
     updatedAt: string;
     sections: readonly LegalSection[];
   };
-  /** Repli de /cerebrum/play (desktop, iPad en mode bureau, robot) — reste en français quelle que soit la locale. */
+  /** Repli de /cerebrum/play (desktop, iPad en mode bureau, robot) : la langue suit l'en-tête Accept-Language, pas l'URL. */
   play: {
+    /** Titre de l'onglet. */
     title: string;
+    /** Début de la phrase qui cite les jeux : suivi de leurs noms (registre), puis d'un point. */
+    gamesIntro: string;
     chooseStore: string;
   };
 }

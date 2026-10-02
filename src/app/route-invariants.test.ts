@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
 import { getRewrittenUrl, isRewrite } from "next/experimental/testing/server";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
@@ -6,7 +6,7 @@ import { posix as posixPath } from "node:path";
 import nextConfig from "../../next.config";
 import sitemap from "@/app/sitemap";
 import robots from "@/app/robots";
-import { metadata as playMetadata } from "@/app/cerebrum/play/page";
+import { generateMetadata as generatePlayMetadata } from "@/app/cerebrum/play/page";
 import { getDictionary } from "@/content";
 import { DEFAULT_LOCALE, LOCALES } from "@/lib/i18n";
 import {
@@ -17,6 +17,16 @@ import {
   type PageId,
 } from "@/lib/routes";
 import { proxy } from "@/proxy";
+
+// Le repli de /cerebrum/play lit Accept-Language : un `headers()` factice, hors requête.
+const requestHeaders = vi.hoisted(() => ({ acceptLanguage: "" }));
+vi.mock("next/headers", () => ({
+  headers: async () =>
+    new Headers({ "accept-language": requestHeaders.acceptLanguage }),
+}));
+
+// `next/font/google` ne s'exécute que dans le build Next : la page n'en lit que la classe.
+vi.mock("@/app/fonts", () => ({ FONT_VARIABLES: "" }));
 
 /**
  * Gardes automatiques des règles « JAMAIS / toujours » de CLAUDE.md.
@@ -65,6 +75,20 @@ function directLocalImports(file: string): string[] {
   return [...read(file).matchAll(IMPORT_SPECIFIER)]
     .map((match) => resolveLocalImport(file, match[1]))
     .filter((resolved): resolved is string => resolved !== null);
+}
+
+/** Tous les fichiers locaux atteignables depuis `entryPoints`, eux compris. */
+function transitiveLocalImports(entryPoints: readonly string[]): Set<string> {
+  const seen = new Set<string>(entryPoints);
+  const queue = [...entryPoints];
+  for (let file = queue.pop(); file !== undefined; file = queue.pop()) {
+    for (const imported of directLocalImports(file)) {
+      if (seen.has(imported)) continue;
+      seen.add(imported);
+      queue.push(imported);
+    }
+  }
+  return seen;
 }
 
 describe("rendu — SSG pur (CLAUDE.md, « Structure des routes »)", () => {
@@ -222,14 +246,24 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
   // « /cerebrum/play (cible des QR), /play et /jouer (redirections) ne doivent
   // jamais changer ni disparaître » ; « robots.txt : aucun noindex dans src/
   // (sauf /cerebrum/play, marquée robots: { index: false }) ».
-  it("/cerebrum/play reste noindex", () => {
-    expect(playMetadata.robots).toMatchObject({ index: false });
-  });
+  it.each([
+    ["fr-FR,fr;q=0.9", "Télécharger Cerebrum"],
+    ["en-US,en;q=0.9", "Download Cerebrum"],
+    ["", "Download Cerebrum"],
+  ])(
+    "/cerebrum/play reste noindex, titre selon Accept-Language %j",
+    async (acceptLanguage, title) => {
+      requestHeaders.acceptLanguage = acceptLanguage;
+      const metadata = await generatePlayMetadata();
+      expect(metadata.robots).toMatchObject({ index: false });
+      expect(metadata.title).toBe(title);
+    },
+  );
 
   // Spec §5.2 : l'anglais est la langue par défaut (racine sans préfixe), le
   // français vit sous /fr, sauf les trois pages légales figées (français sans
   // préfixe, anglais sous /en). x-default pointe toujours vers l'anglais.
-  it("sitemap() renvoie exactement les 20 URLs du schéma courant, x-default anglais", () => {
+  it("sitemap() renvoie exactement les 34 URLs du schéma courant, x-default anglais", () => {
     const entries = sitemap();
     expect(entries.map((entry) => entry.url)).toEqual([
       "https://synapgeek.com",
@@ -244,8 +278,22 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
       "https://synapgeek.com/fr/cerebrum/demineur",
       "https://synapgeek.com/cerebrum/pixel-art",
       "https://synapgeek.com/fr/cerebrum/pixel-art",
+      "https://synapgeek.com/cerebrum/cross-math",
+      "https://synapgeek.com/fr/cerebrum/cross-math",
+      "https://synapgeek.com/cerebrum/crossword",
+      "https://synapgeek.com/fr/cerebrum/mots-croises",
+      "https://synapgeek.com/cerebrum/word-search",
+      "https://synapgeek.com/fr/cerebrum/mots-meles",
+      "https://synapgeek.com/cerebrum/trace",
+      "https://synapgeek.com/fr/cerebrum/trace",
+      "https://synapgeek.com/cerebrum/maze",
+      "https://synapgeek.com/fr/cerebrum/labyrinthe",
       "https://synapgeek.com/cerebrum/arrow-maze",
       "https://synapgeek.com/fr/cerebrum/arrow-maze",
+      "https://synapgeek.com/about",
+      "https://synapgeek.com/fr/a-propos",
+      "https://synapgeek.com/press",
+      "https://synapgeek.com/fr/presse",
       "https://synapgeek.com/en/privacy",
       "https://synapgeek.com/privacy",
       "https://synapgeek.com/en/terms",
@@ -295,13 +343,62 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
     };
     expect(entries[10].alternates?.languages).toEqual(pixelArtLanguages);
     expect(entries[11].alternates?.languages).toEqual(pixelArtLanguages);
+    const crossMathLanguages = {
+      en: "https://synapgeek.com/cerebrum/cross-math",
+      fr: "https://synapgeek.com/fr/cerebrum/cross-math",
+      "x-default": "https://synapgeek.com/cerebrum/cross-math",
+    };
+    expect(entries[12].alternates?.languages).toEqual(crossMathLanguages);
+    expect(entries[13].alternates?.languages).toEqual(crossMathLanguages);
+    const crosswordLanguages = {
+      en: "https://synapgeek.com/cerebrum/crossword",
+      fr: "https://synapgeek.com/fr/cerebrum/mots-croises",
+      "x-default": "https://synapgeek.com/cerebrum/crossword",
+    };
+    expect(entries[14].alternates?.languages).toEqual(crosswordLanguages);
+    expect(entries[15].alternates?.languages).toEqual(crosswordLanguages);
+    const wordSearchLanguages = {
+      en: "https://synapgeek.com/cerebrum/word-search",
+      fr: "https://synapgeek.com/fr/cerebrum/mots-meles",
+      "x-default": "https://synapgeek.com/cerebrum/word-search",
+    };
+    expect(entries[16].alternates?.languages).toEqual(wordSearchLanguages);
+    expect(entries[17].alternates?.languages).toEqual(wordSearchLanguages);
+    const traceLanguages = {
+      en: "https://synapgeek.com/cerebrum/trace",
+      fr: "https://synapgeek.com/fr/cerebrum/trace",
+      "x-default": "https://synapgeek.com/cerebrum/trace",
+    };
+    expect(entries[18].alternates?.languages).toEqual(traceLanguages);
+    expect(entries[19].alternates?.languages).toEqual(traceLanguages);
+    const mazeLanguages = {
+      en: "https://synapgeek.com/cerebrum/maze",
+      fr: "https://synapgeek.com/fr/cerebrum/labyrinthe",
+      "x-default": "https://synapgeek.com/cerebrum/maze",
+    };
+    expect(entries[20].alternates?.languages).toEqual(mazeLanguages);
+    expect(entries[21].alternates?.languages).toEqual(mazeLanguages);
     const arrowMazeLanguages = {
       en: "https://synapgeek.com/cerebrum/arrow-maze",
       fr: "https://synapgeek.com/fr/cerebrum/arrow-maze",
       "x-default": "https://synapgeek.com/cerebrum/arrow-maze",
     };
-    expect(entries[12].alternates?.languages).toEqual(arrowMazeLanguages);
-    expect(entries[13].alternates?.languages).toEqual(arrowMazeLanguages);
+    expect(entries[22].alternates?.languages).toEqual(arrowMazeLanguages);
+    expect(entries[23].alternates?.languages).toEqual(arrowMazeLanguages);
+    const aboutLanguages = {
+      en: "https://synapgeek.com/about",
+      fr: "https://synapgeek.com/fr/a-propos",
+      "x-default": "https://synapgeek.com/about",
+    };
+    expect(entries[24].alternates?.languages).toEqual(aboutLanguages);
+    expect(entries[25].alternates?.languages).toEqual(aboutLanguages);
+    const pressLanguages = {
+      en: "https://synapgeek.com/press",
+      fr: "https://synapgeek.com/fr/presse",
+      "x-default": "https://synapgeek.com/press",
+    };
+    expect(entries[26].alternates?.languages).toEqual(pressLanguages);
+    expect(entries[27].alternates?.languages).toEqual(pressLanguages);
     for (const page of ["privacy", "terms", "legal"]) {
       const languages = {
         en: `https://synapgeek.com/en/${page}`,
@@ -429,11 +526,14 @@ describe("pages légales sans JavaScript client (CLAUDE.md, « Règles critiques
   ];
   const USE_CLIENT_DIRECTIVE = /^\s*["']use client["'];?\s*$/m;
 
-  it('LegalPage, les trois pages légales et leurs imports locaux directs n\'ont aucun "use client"', () => {
-    const checked = new Set(
-      LEGAL_ENTRY_POINTS.flatMap((file) => [file, ...directLocalImports(file)]),
-    );
+  // Transitif : un seul « use client » n'importe où dans la chaîne d'imports
+  // suffirait à faire embarquer du JavaScript côté client par une page légale.
+  it('LegalPage, les trois pages légales et tous leurs imports locaux, transitivement, n\'ont aucun "use client"', () => {
+    const checked = transitiveLocalImports(LEGAL_ENTRY_POINTS);
     expect(checked).toContain("src/components/ui/Badge.tsx");
+    expect(checked).toContain("src/lib/legal-format.ts");
+    // Atteint seulement par transitivité : la garde ne se limite pas au premier niveau.
+    expect(checked).toContain("src/content/fr.ts");
     for (const file of checked) {
       expect(read(file), file).not.toMatch(USE_CLIENT_DIRECTIVE);
     }

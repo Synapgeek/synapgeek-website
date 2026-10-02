@@ -12,12 +12,19 @@ export interface DefinitionBlock {
   definition: string;
 }
 
+/** Un lien interne : la page est un identifiant, le chemin vient de `pagePath`. */
+export interface PageLink {
+  label: string;
+  page: PageId;
+  hash?: string;
+}
+
 export interface FaqEntry {
   question: string;
   /** Texte complet : c'est lui que reprend le JSON-LD `FAQPage`, mot pour mot. */
   answer: string;
   /** Lien d'approfondissement sous la réponse (chemin par `pagePath`, jamais écrit à la main). */
-  link?: { label: string; page: PageId; hash?: string };
+  link?: PageLink;
 }
 
 interface PageMeta {
@@ -54,8 +61,6 @@ export interface GameCopy extends Dated {
   tips: { title: string; items: readonly string[] };
   /** 3 à 6 questions. */
   faq: { title: string; items: readonly FaqEntry[] };
-  /** Où jouer : une phrase en texte brut, au-dessus des badges des boutiques. */
-  whereToPlay: { title: string; body: string };
 }
 
 export interface AppCopy extends Dated {
@@ -100,18 +105,44 @@ export interface HubCopy extends Dated {
   contact: { title: string };
 }
 
+/** Un bloc de prose de la page À propos. */
+export interface ProseBlock {
+  title: string;
+  body: string;
+}
+
 export interface AboutCopy extends Dated {
   meta: PageMeta;
   hero: DefinitionBlock;
-  sections: ReadonlyArray<{ title: string; body: string }>;
+  /** Qui est derrière le studio : de la prose en texte brut. */
+  who: ProseBlock;
+  /** Ce que le studio fait ; `link` mène à la page de son app. */
+  what: ProseBlock & { link: PageLink };
+  /** Fiche d'identité de l'éditeur : les valeurs viennent de `PUBLISHER`, jamais de la copie. */
+  identity: { title: string; intro: string; legalNotice: PageLink };
+  contact: { title: string; body: string; form: PageLink; press: PageLink };
+}
+
+/** Un fichier à télécharger : le chemin sous `public/press/` porte le suffixe de version. */
+export interface PressDownload {
+  label: string;
+  href: string;
 }
 
 export interface PressCopy extends Dated {
   meta: PageMeta;
   hero: DefinitionBlock;
-  factSheet: ReadonlyArray<{ label: string; value: string }>;
-  downloads: ReadonlyArray<{ label: string; href: string }>;
-  contact: string;
+  /** Fiche d'identité de l'app : des faits, aucun chiffre non vérifié. */
+  factSheet: {
+    title: string;
+    rows: ReadonlyArray<{ label: string; value: string }>;
+  };
+  /** Les jeux nommés, chacun avec son genre : la liste vient du registre. */
+  games: { title: string; intro: string };
+  /** L'éditeur : les valeurs viennent de `PUBLISHER`. */
+  publisher: { title: string };
+  downloads: { title: string; intro: string; items: readonly PressDownload[] };
+  contact: { title: string; body: string };
 }
 
 /** Un module de copie enregistré, dans une langue. `app` n'existe que pour la copie d'une app. */

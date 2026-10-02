@@ -42,6 +42,20 @@ const en: Dictionary = {
       home: "Home",
     },
     updatedOn: "Updated on",
+    publisher: {
+      legalName: "Company name",
+      legalForm: "Legal form",
+      legalFormValue: "Simplified joint-stock company (SAS)",
+      capital: "Share capital",
+      address: "Registered office",
+      rcs: "Trade and Companies Register",
+      siret: "SIRET",
+      ape: "APE code",
+      vat: "VAT number",
+      publicationDirector: "Publication director",
+      host: "Hosting provider",
+      email: "Email",
+    },
 
     languageSuggestion: {
       message: "This site is also available in English.",
@@ -56,6 +70,12 @@ const en: Dictionary = {
     stores: {
       appStoreLabel: "Download on the App Store",
       googlePlayLabel: "Get it on Google Play",
+    },
+    gameGet: {
+      title: "Get Cerebrum",
+      model:
+        "Free to download, with a banner during play and ads between some games. Rewarded ads are always optional. Premium, weekly, monthly or yearly and bought in each store, means no forced ads, plus extra perks.",
+      premiumLink: "What Premium adds",
     },
     contactForm: {
       name: "Name",
@@ -289,11 +309,10 @@ const en: Dictionary = {
       },
     ],
   },
-  // /cerebrum/play reste en français quelle que soit la locale (voir src/app/cerebrum/play/page.tsx) ;
-  // ces clés existent ici pour la complétude du type Dictionary.
   play: {
-    title: "Télécharger Cerebrum",
-    chooseStore: "Choisissez votre store pour installer l'application.",
+    title: "Download Cerebrum",
+    gamesIntro: "In Cerebrum: ",
+    chooseStore: "Choose your store to install the app.",
   },
 };
 

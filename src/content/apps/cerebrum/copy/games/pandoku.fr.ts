@@ -30,10 +30,10 @@ export const pandokuFr: GameCopy = {
     paragraphs: [
       "Dans Cerebrum, vous avancez de niveau en niveau dans la difficulté de votre choix. En Facile, la grille grandit au fil du parcours, de 4×4 à 8×8. Une fois le parcours d'une difficulté terminé, le mode Infini s'ouvre et enchaîne de nouvelles grilles.",
       "Pandoku s'ouvre sur une courte fiche « Comment jouer ». Le premier niveau Facile est guidé : l'app vous fait poser les premiers pandas pas à pas, sans cœur perdu ni chrono (un bouton Passer permet de s'en dispenser). Chaque grille Facile commence avec un panda déjà posé : offert d'avance, il ne s'enlève pas et ne compte ni comme erreur, ni comme indice.",
-      "Il n'y a pas de bouton Annuler : un toucher barre une case, un autre efface la croix, gratuitement, et un panda juste est verrouillé pour de bon. Glissez le doigt pour barrer plusieurs cases d'un coup.",
-      "Un panda mal placé est retiré et coûte un cœur ; au troisième, la partie est perdue, mais vous pouvez la reprendre une fois avec une pub facultative, puis une fois avec des gemmes. Avec Premium, les cœurs sont infinis et la première erreur de chaque partie est pardonnée.",
-      "L'indice montre le raisonnement avant de jouer le coup. Il nomme la déduction disponible (case forcée, unité enfermée ou voisinage commun), la met en évidence, puis place le panda ou barre les cases à votre place. Quand rien de simple ne se présente, il vous donne un panda pour repartir. Chaque indice se règle en gemmes ou se débloque avec une pub facultative, et les abonnés Premium en reçoivent cinq gratuits par jour dans chaque jeu.",
-      "Sans erreur, trois étoiles ; une erreur, deux ; deux ou plus, une. Les indices ne comptent pas. Pandoku fait aussi partie des jeux à choisir pour le défi du jour, en Facile ou en Moyen : même grille pour tout le monde, jouable hors ligne, jour manqué rattrapable dans le calendrier.",
+      "Il n'y a pas de bouton Annuler : un toucher barre une case, un autre efface la croix, et un panda juste est verrouillé pour de bon. Glissez le doigt pour barrer plusieurs cases d'un coup.",
+      "Un panda mal placé est retiré et coûte un cœur ; au troisième, la partie est perdue, mais une seconde chance vous est proposée.",
+      "L'indice montre le raisonnement avant de jouer le coup. Il nomme la déduction disponible (case forcée, unité enfermée ou voisinage commun), la met en évidence, puis place le panda ou barre les cases à votre place. Quand rien de simple ne se présente, il vous donne un panda pour repartir.",
+      "Sans erreur, trois étoiles ; une erreur, deux ; deux ou plus, une. Les indices ne comptent pas. Pandoku fait aussi partie des jeux à choisir pour le défi du jour, en Facile ou en Moyen : même grille pour tout le monde, jour manqué rattrapable dans le calendrier.",
     ],
     difficultyTable: {
       caption: "Les difficultés de Pandoku dans Cerebrum",
@@ -67,7 +67,7 @@ export const pandokuFr: GameCopy = {
       "Dès qu'un panda est posé, barrez ses huit voisines, puis le reste de sa ligne, de sa colonne et de sa région : les autres régions se resserrent sans effort.",
       "Comptez les régions. Si deux régions tiennent entièrement dans deux mêmes lignes, ces lignes leur sont réservées : toutes les autres cases de ces deux lignes sont vides. Le raisonnement vaut pour trois régions dans trois lignes, et pour les colonnes.",
       "Cherchez le voisinage commun. Une case qui touche toutes les cases encore possibles d'une région est exclue : où que se pose le panda de cette région, il serait collé à elle. Barrez-la.",
-      "Barrez sans hésiter. Les croix sont gratuites et ne comptent pas pour la victoire : plus vous marquez de cases exclues, plus les cases forcées apparaissent. Ne posez un panda que lorsque vous savez dire pourquoi : une erreur coûte un cœur.",
+      "Barrez sans hésiter. Les croix ne coûtent rien et ne comptent pas pour la victoire : plus vous marquez de cases exclues, plus les cases forcées apparaissent. Ne posez un panda que lorsque vous savez dire pourquoi : une erreur coûte un cœur.",
     ],
   },
   faq: {
@@ -86,27 +86,24 @@ export const pandokuFr: GameCopy = {
       {
         question: "Que se passe-t-il quand je me trompe ?",
         answer:
-          "Un panda mal placé est retiré et vous coûte un cœur sur trois ; le troisième met fin à la partie, que vous pouvez reprendre avec une pub facultative ou avec des gemmes. Premium offre des cœurs infinis.",
+          "Le panda est retiré et vous perdez un cœur sur trois. Au troisième, la partie s'arrête, mais une seconde chance vous est proposée.",
       },
       {
         question: "Que fait l'indice de Pandoku ?",
         answer:
-          "Il montre le raisonnement avant de jouer le coup : il nomme la déduction disponible, puis place le panda ou barre les cases à votre place. Il se paie en gemmes ou se gagne avec une pub facultative ; Premium en offre cinq par jour.",
+          "Il montre le raisonnement avant de jouer le coup : il nomme la déduction disponible, puis place le panda ou barre les cases à votre place. Un indice ne vous coûte jamais d'étoile.",
       },
       {
-        question: "Pandoku est-il gratuit, et se joue-t-il hors ligne ?",
+        question: "Y a-t-il un tutoriel pour Pandoku ?",
         answer:
-          "Oui aux deux. Aucune difficulté n'est réservée à un achat, et les grilles sont dans l'app : il ne faut du réseau que pour les pubs, la connexion à votre compte et les achats. La version gratuite affiche une bannière et des pubs entre certaines parties ; les pubs récompensées restent facultatives, et Premium garantit zéro pub imposée.",
+          "Oui. Pandoku s'ouvre sur une courte fiche « Comment jouer », puis le premier niveau Facile est guidé : l'app pose avec vous vos premiers pandas, sans cœur à perdre. Un bouton Passer permet de commencer seul.",
       },
       {
-        question: "Sur quels appareils jouer à Pandoku ?",
+        question:
+          "Pourquoi une grille Facile commence-t-elle avec un panda déjà posé ?",
         answer:
-          "Cerebrum fonctionne sur iPhone et iPad à partir d'iOS 17.0, et sur Android à partir d'Android 8.0. Premium s'achète et se garde dans chaque boutique : l'abonnement pris sur l'App Store ne passe pas sur Google Play, et inversement.",
+          "C'est un coup de pouce : ce panda est verrouillé, il ne compte jamais comme une erreur ni comme un indice.",
       },
     ],
-  },
-  whereToPlay: {
-    title: "Jouer à Pandoku sur iPhone, iPad et Android",
-    body: "Pandoku se joue dans Cerebrum, l'app de jeux de réflexion de Synapgeek, gratuite et utilisable sans connexion : dans le métro, en salle d'attente, ou dès que vous avez cinq minutes. Installez-la depuis l'App Store sur iPhone et iPad, ou depuis Google Play sur Android.",
   },
 };

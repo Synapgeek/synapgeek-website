@@ -106,8 +106,4 @@ export const pixelArtFr: GameCopy = {
       },
     ],
   },
-  whereToPlay: {
-    title: "Jouer au Pixel Art",
-    body: "Pixel Art se joue du bout du doigt : on glisse sur la grille pour peindre, puis on bascule en mode Croix pour marquer les cases vides.",
-  },
 };

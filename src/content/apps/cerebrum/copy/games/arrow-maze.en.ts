@@ -30,7 +30,7 @@ export const arrowMazeEn: GameCopy = {
     paragraphs: [
       "Arrow Maze boards usually draw a silhouette, a heart for instance, out of tangled colored pieces. Each difficulty has its own path of boards, and once you have finished it, Endless Mode serves more boards of the same difficulty.",
       "The game opens with a five-page how-to-play sheet: emptying the board, tapping anywhere on a piece, the path to the edge, panning and zooming, and why no move is ever wrong.",
-      "On a big board you drag to move, pinch to zoom, and an overview button brings the whole grid back on screen. A long press on a piece shows its path, for free: you see what blocks it before you tap it.",
+      "On a big board you drag to move, pinch to zoom, and an overview button brings the whole grid back on screen. A long press on a piece shows its path: you see what blocks it before you tap it.",
       "The hint points to a free piece and shows its way out to the edge. It never changes the stars you earn.",
       "Tapping a blocked piece costs a heart: three on Easy and Medium, four on Hard. No mistakes earns three stars, one earns two, two or more earn one.",
       "Arrow Maze is also among the games for the daily challenge, on Easy or Medium: every player gets the same board, and a missed day can be caught up in the calendar.",
@@ -100,9 +100,5 @@ export const arrowMazeEn: GameCopy = {
           "It points to a free piece and shows its way out to the edge. It never changes the stars you earn.",
       },
     ],
-  },
-  whereToPlay: {
-    title: "Play Arrow Maze",
-    body: "Arrow Maze is played with a fingertip: you tap a piece to send it out, drag to move around and pinch to zoom.",
   },
 };

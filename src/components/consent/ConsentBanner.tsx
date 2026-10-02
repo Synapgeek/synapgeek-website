@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useSyncExternalStore,
+} from "react";
 import Link from "next/link";
 import type { Dictionary } from "@/content";
 import {
@@ -10,6 +16,7 @@ import {
   type AnalyticsConsentChoice,
 } from "@/lib/consent/storage";
 import { SG_CONSENT_REOPEN_EVENT } from "@/lib/consent/reopen-event";
+import { publishBannerOpen } from "./banner-signal";
 
 declare global {
   interface Window {
@@ -145,6 +152,15 @@ export function ConsentBanner({
     state = { visible: false, focusToken: 0 };
     notify();
   }, []);
+
+  // Publie l'état ouvert/fermé pour `LanguageSuggestion`, qui attend la fermeture
+  // du bandeau (deux surfaces fixées en bas ne se superposent jamais). Layout
+  // effect : l'abonné se met à jour avant la peinture, sans image intermédiaire
+  // où les deux seraient visibles.
+  useLayoutEffect(() => {
+    publishBannerOpen(isVisible);
+    return () => publishBannerOpen(false);
+  }, [isVisible]);
 
   // Ne déplace le focus que sur une réouverture explicite (`focusToken` > 0
   // signifie qu'un `reopen()` a eu lieu au moins une fois) — jamais sur

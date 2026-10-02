@@ -72,7 +72,16 @@ npm run lint      # ESLint
 npm run format    # Prettier — ÉCRIT les fichiers (npx prettier --check pour vérifier)
 npm test          # vitest : invariants de routes (SSG, JSON-LD, redirects, sitemap…)
 npm run check:contract  # URLs référencées par les stores, apex et www (réseau ; local ou prod)
+npm run indexnow  # prévient IndexNow (Bing, Yandex…) : À LA MAIN, après un déploiement en production
 ```
+
+`npm run indexnow` lit le sitemap en production et envoie ses URLs à
+`https://api.indexnow.org/indexnow` (`-- --dry-run` affiche la charge utile sans rien
+envoyer ; `-- --sitemap <url>` lit un autre sitemap). Ni route, ni variable d'environnement,
+ni étape de build, et jamais avant que le déploiement soit en ligne : le moteur relit les
+pages. La clé est le nom du fichier `public/<32 hex>.txt` (son contenu est la clé, publique
+par conception) : ne pas le renommer ni le supprimer, `npm test` et `check:contract` le
+vérifient.
 
 Portes automatiques : `npm run lint`, `npm test`, `npm run build`, rejouées par la CI
 (`.github/workflows/ci.yml`, sans secret). `check:contract` n'est pas dans la CI : à lancer
@@ -86,11 +95,13 @@ juste après le merge. Tout le reste est humain ou passe par un sous-agent.
 - Composants React : functional components uniquement
 - Images : `next/image` obligatoire
 - Fonts : `next/font/google` — DM Sans (titres), Inter (corps). JetBrains Mono a été retirée.
-- Pages légales : générées en SSG, lisibles sans JavaScript. `LegalPage.formatText()`
-  n'interprète que `**gras**` et les paragraphes séparés par `\n\n`, plus l'auto-lien des
-  URLs et emails. Pas de listes, pas de titres `###`. Une URL suivie d'une virgule ou
-  entre parenthèses est **tronquée** par la regex `[^\s),]+` — et rien ne le détecte :
-  ni lint, ni build.
+- Pages légales : générées en SSG, lisibles sans JavaScript, y compris tout ce que
+  `LegalPage` importe, transitivement (garde dans `route-invariants.test.ts`). Le format est
+  défini par `src/lib/legal-format.ts` (testé) : `**gras**`, paragraphes séparés par `\n\n`,
+  lignes consécutives `- ` d'un paragraphe rendues en vraie liste `<ul>`, auto-lien des URLs
+  et emails. Pas de titres `###`, pas de listes numérotées ni imbriquées. Une URL suivie
+  d'une virgule ou entre parenthèses est **tronquée** par la regex `[^\s),]+` — et rien ne
+  le détecte : ni lint, ni build (le test documente la règle, il ne contrôle pas le texte légal).
 - Aucun texte en dur dans les composants localisés : tout passe par `Dictionary`
   (`src/content/fr.ts` + `en.ts` + `types.ts`), ou par un module de copie typé
   (`src/content/copy/`, `src/content/apps/<app>/copy/`). Plus aucun ternaire
@@ -128,7 +139,9 @@ Routes actives :
                          l'URL sans préfixe) en attendant une redirection 307
                          (`permanent: false`) posée dans un PR ultérieur, après preuve en
                          production (jamais 308 : un permanent se met en cache chez les clients)
-/cerebrum/play         → Redirection QR → App Store / Play Store selon le User-Agent.
+/cerebrum/play         → Redirection QR → App Store / Play Store selon le User-Agent. Le repli
+                         (desktop, iPad en mode bureau, robot) se localise par Accept-Language
+                         (fr* → français, sinon anglais), `<html lang>` suit, noindex.
                          Les paramètres entrants (`?src=…`) sont transmis à la cible mais
                          ne peuvent jamais écraser un paramètre déjà présent dessus
                          (`withIncomingParams` ignore toute clé déjà sur l'URL cible) —
@@ -272,6 +285,7 @@ dans la politique de confidentialité (formulaire Data Safety, lien du bandeau d
 public/
 ├── app-ads.txt
 ├── llms.txt
+├── <32 hex>.txt                     (clé IndexNow, voir « Commandes »)
 └── images/
     ├── brand/
     │   ├── logo-synapgeek.png       (logo cerveau coloré, fond transparent)
