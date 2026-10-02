@@ -6,8 +6,8 @@ import { mazeEn } from "./maze.en";
 import { minesweeperEn } from "./minesweeper.en";
 import { pandokuEn } from "./pandoku.en";
 import { pixelArtEn } from "./pixel-art.en";
-import { traceEn } from "./trace.en";
 import { sudokuEn } from "./sudoku.en";
+import { traceEn } from "./trace.en";
 import { wordSearchEn } from "./word-search.en";
 import type { GameCopy } from "@/content/copy/types";
 

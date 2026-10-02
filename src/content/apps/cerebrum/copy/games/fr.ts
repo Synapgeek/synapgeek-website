@@ -6,8 +6,8 @@ import { mazeFr } from "./maze.fr";
 import { minesweeperFr } from "./minesweeper.fr";
 import { pandokuFr } from "./pandoku.fr";
 import { pixelArtFr } from "./pixel-art.fr";
-import { traceFr } from "./trace.fr";
 import { sudokuFr } from "./sudoku.fr";
+import { traceFr } from "./trace.fr";
 import { wordSearchFr } from "./word-search.fr";
 import type { GameCopy } from "@/content/copy/types";
 
