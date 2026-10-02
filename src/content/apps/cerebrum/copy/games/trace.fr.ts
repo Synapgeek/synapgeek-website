@@ -31,7 +31,7 @@ export const traceFr: GameCopy = {
       "Seul le temps compte pour les étoiles : plus vite vous finissez, plus vous en gagnez.",
       "L'indice lit l'état de votre tracé. Si vous vous êtes engagé sur une mauvaise voie, il vous ramène au dernier bon point ; si vous êtes sur la bonne, il dessine à votre place les trois cases suivantes. Il se joue pas à pas sur la grille.",
       "Le premier niveau Facile montre aussi un tracé fantôme des deux prochaines cases devant votre ligne, pour guider vos premiers pas. Un tutoriel en cinq pages s'ouvre à la première partie et se rejoue avec le bouton « ? ».",
-      "Au défi du jour, l'app fixe la difficulté, Facile ou Moyen, et tout le monde trace la même grille.",
+      "En défi du jour, Trace se joue en Facile ou en Moyen, selon ce qu'a retenu l'app, et chacun trace sur la même grille.",
     ],
     difficultyTable: {
       caption: "Les difficultés de Trace dans Cerebrum",

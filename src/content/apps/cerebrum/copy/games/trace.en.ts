@@ -31,7 +31,7 @@ export const traceEn: GameCopy = {
       "Only time counts towards your stars: the faster you finish, the more you earn.",
       "The hint reads the state of your line. If you have gone down a wrong path, it takes you back to the last good point; if you are on the right one, it draws the next three cells for you. It plays out step by step on the grid.",
       "The first Easy level also shows a faint ghost trail of the next two cells ahead of your line, to guide your first steps. A five-page tutorial opens the first time you play and can be replayed with the ? button.",
-      "For the daily challenge, the app sets the day's difficulty, Easy or Medium, and everyone draws the same grid.",
+      "As a daily challenge, Trace runs on Easy or Medium, whichever the app has chosen, and every player draws through the same grid.",
     ],
     difficultyTable: {
       caption: "Trace difficulties in Cerebrum",
