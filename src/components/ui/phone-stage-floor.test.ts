@@ -49,6 +49,26 @@ describe("PhoneStage sky clip", () => {
     );
   });
 
+  it("fades the sky out above that same floor, so the clip never leaves a straight edge", () => {
+    const base = /\.breeze-clip\s*\{([^}]*)\}/.exec(css)?.[1] ?? "";
+    // Un dégradé vertical opaque -> transparent, dont le bas tombe sur le bord de la bande.
+    expect(base).toMatch(
+      /mask-image:\s*linear-gradient\(\s*to bottom,\s*black[^;]*transparent/,
+    );
+    expect(base).toMatch(/mask-clip:\s*no-clip/);
+    expect(base).toMatch(/mask-repeat:\s*no-repeat/);
+    // Image du masque aligné sur le bord : 6rem au-dessus du bas de la couche sur mobile...
+    expect(base).toMatch(/mask-position:\s*50%\s+calc\(100%\s-\s6rem\)/);
+    // ...et le padding de la bande en dessous dès sm, comme le clip-path.
+    const wide =
+      /@media \(min-width: 40rem\)\s*\{\s*\.breeze-clip\s*\{([^}]*)\}/.exec(
+        css,
+      )?.[1] ?? "";
+    expect(wide).toMatch(
+      /mask-position:\s*50%\s+calc\(100%\s\+\svar\(--spacing-section\)\)/,
+    );
+  });
+
   it("keeps the 6rem floor equal to the negative margin both hero pages give the stage", () => {
     for (const page of [
       "src/app/[locale]/page.tsx",

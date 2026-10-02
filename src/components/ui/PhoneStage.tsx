@@ -18,7 +18,8 @@ const PHONE_REST_ROTATE = 5;
  * suivante (marge négative `-mb-24`), qui lui laisse la place. Le ciel, lui, ne
  * déborde jamais : sa couche (`.breeze-clip`) est découpée au bord bas de la bande du
  * héros, pour que le titre de la bande suivante reste en encre pleine sur son propre
- * fond. Ce bord suppose `-mb-24 sm:mb-0` sur le téléphone et `pb-0 sm:pb-section` sur
+ * fond, et un masque vertical l'efface avant ce bord, qui ne laisse donc aucune arête
+ * rectiligne. Ce bord suppose `-mb-24 sm:mb-0` sur le téléphone et `pb-0 sm:pb-section` sur
  * la bande (voir `.breeze-clip` dans globals.css et `phone-stage-floor.test.ts`).
  */
 export function PhoneStage({

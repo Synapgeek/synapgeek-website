@@ -186,12 +186,23 @@
    bord de la bande est 6rem au-dessus de la scène ; dès `sm`, il est `--spacing-section`
    en dessous (padding bas de la bande). Les autres côtés ne sont pas découpés
    (l'écrêtage horizontal est celui de la bande). Sans cela, le ciel peint la bande des
-   jeux par-dessus son fond et le titre H2 y vire au gris-violet. */
+   jeux par-dessus son fond et le titre H2 y vire au gris-violet.
+   Le découpage seul laisserait une arête rectiligne là où la texture rencontre la bande
+   suivante. Un masque vertical (opaque -> transparent) l'efface : son image est
+   alignée sur ce même bord (son bas y tombe), donc le ciel est à zéro exactement
+   là où le clip-path coupe, et le rectangle disparaît. `mask-clip: no-clip` et une
+   image de masque plus grande que la couche empêchent le masque de rogner le ciel,
+   qui déborde largement de la scène. Il se compose avec le masque radial du champ. */
 .breeze-clip {
   position: absolute;
   inset: 0;
   z-index: -10;
   clip-path: inset(-100vmax -100vmax 6rem -100vmax);
+  mask-image: linear-gradient(to bottom, black calc(100% - 10rem), transparent);
+  mask-size: 400vmax 400vmax;
+  mask-repeat: no-repeat;
+  mask-clip: no-clip;
+  mask-position: 50% calc(100% - 6rem);
 }
 
 @media (min-width: 40rem) {
@@ -199,6 +210,7 @@
     clip-path: inset(
       -100vmax -100vmax calc(-1 * var(--spacing-section)) -100vmax
     );
+    mask-position: 50% calc(100% + var(--spacing-section));
   }
 }
 
