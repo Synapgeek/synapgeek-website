@@ -9,8 +9,11 @@ const PHONE_REST_ROTATE = 5;
  * La scène du héros : la vraie capture de l'app dans le téléphone incliné, l'icône
  * de l'app qui chevauche son coin haut-gauche, et derrière, le ciel aquarelle du
  * thème Breeze de l'app. Le ciel est un champ doux (bords fondus, pas de rectangle),
- * décoratif, posé en image de fond d'un pseudo-élément : Chrome ne le retient pas comme
- * candidat LCP, la capture reste l'élément LCP (mesuré avec Lighthouse). Sur mobile,
+ * décoratif, posé en image de fond d'un pseudo-élément. Chrome RETIENT ce fond comme
+ * candidat LCP, sur sa taille intrinsèque : la capture reste l'élément LCP uniquement
+ * parce que le ciel est servi à 240 px de large, plus petit que la capture (un ciel de
+ * 576 px est devenu le LCP : 3,9 s, performance 88). Ne jamais le remplacer par une
+ * version plus grande (voir `.breeze-field` dans globals.css). Sur mobile,
  * le parent peut faire déborder le téléphone sur la bande
  * suivante (marge négative), qui lui laisse la place.
  */

@@ -174,7 +174,13 @@
 
 /* ===== CIEL AQUARELLE — PhoneStage =====
    Le fond Breeze de l'app, fondu vers la transparence : une ellipse inscrite dans
-   l'image, jamais un rectangle qui flotte sur le fond blanc de la page. */
+   l'image, jamais un rectangle qui flotte sur le fond blanc de la page.
+   CONTRAINTE LCP : Chrome mesure le LCP d'une image de fond sur sa taille intrinsèque.
+   breeze-day-v1.webp fait 240 px de large, plus petit que la capture du téléphone, qui
+   reste donc l'élément LCP. Un fichier plus net (un breeze-day-v2.webp de 576 ou 960 px)
+   deviendrait le LCP : mesuré à 576 px, LCP 3,9 s et performance 88, sous le seuil de 90.
+   Garder l'image à 240 px ; l'agrandissement et le masque radial rendent le flou voulu.
+   Mesures : docs/contrat/provenance-visuels-r8.md. */
 .breeze-field::before {
   content: "";
   position: absolute;
