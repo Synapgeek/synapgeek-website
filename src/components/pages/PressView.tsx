@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { InternalLink } from "@/components/ui/InternalLink";
 import { getDictionary } from "@/content";
 import { getGames } from "@/content/apps";
 import { getAppCopy, getPressCopy } from "@/content/copy";
@@ -38,12 +38,12 @@ export function PressView({ locale }: { locale: Locale }) {
     .map((game) => ({
       key: game.id,
       label: (
-        <Link
+        <InternalLink
           href={pagePath(pageIdForGame(game.id), locale)}
           className="rounded-sm underline underline-offset-4"
         >
           {game.name[locale]}
-        </Link>
+        </InternalLink>
       ),
       value: capitalize(
         game.genre[locale] ?? sections.games.categories[game.category],

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { InternalLink } from "./InternalLink";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
 
 /**
@@ -53,7 +53,7 @@ export function Button({
     // Chemin interne : next/link ; ancre, mailto ou URL externe : <a> natif.
     if (href.startsWith("/")) {
       return (
-        <Link
+        <InternalLink
           href={href}
           target={target}
           rel={rel}

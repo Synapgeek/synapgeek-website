@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { InternalLink } from "@/components/ui/InternalLink";
 
 /**
  * Un maillon du fil d'Ariane. Le dernier (page courante) n'a pas de `href`.
@@ -39,9 +39,9 @@ export function Breadcrumbs({
             className="flex items-center before:mx-2 before:size-1.5 before:rotate-45 before:border-t before:border-r before:border-current before:opacity-60 before:content-[''] first:before:hidden"
           >
             {item.href ? (
-              <Link href={item.href} className={linkClasses}>
+              <InternalLink href={item.href} className={linkClasses}>
                 {item.name}
-              </Link>
+              </InternalLink>
             ) : (
               <span aria-current="page" className="font-bold text-ink">
                 {item.name}

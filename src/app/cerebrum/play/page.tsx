@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { InternalLink } from "@/components/ui/InternalLink";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -150,12 +150,12 @@ export default async function PlayPage({
             </a>
           </div>
 
-          <Link
+          <InternalLink
             href={pagePath("home", locale)}
             className="mt-12 rounded-sm font-bold text-ink underline underline-offset-4"
           >
             {dict.common.siteName}
-          </Link>
+          </InternalLink>
         </main>
       </body>
     </html>

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { InternalLink } from "@/components/ui/InternalLink";
 import type { Dictionary } from "@/content";
 import type { Locale } from "@/lib/i18n";
 import type { LanguageSwitchTable } from "@/lib/language-alternates";
@@ -37,7 +37,7 @@ export function SiteHeader({
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-canvas/90 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-gutter">
-        <Link
+        <InternalLink
           href={pagePath("home", locale)}
           className="flex items-center gap-2.5 rounded-pill"
         >
@@ -50,7 +50,7 @@ export function SiteHeader({
           <span className="font-display text-2xl font-bold tracking-tight">
             {dict.siteName}
           </span>
-        </Link>
+        </InternalLink>
 
         <nav
           aria-label={dict.a11y.mainNavigation}
@@ -59,9 +59,9 @@ export function SiteHeader({
           <ul className="flex items-center gap-1">
             {links.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className={desktopLinkClasses}>
+                <InternalLink href={link.href} className={desktopLinkClasses}>
                   {link.label}
-                </Link>
+                </InternalLink>
               </li>
             ))}
           </ul>
@@ -84,9 +84,12 @@ export function SiteHeader({
               <ul>
                 {links.map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href} className={mobileLinkClasses}>
+                    <InternalLink
+                      href={link.href}
+                      className={mobileLinkClasses}
+                    >
                       {link.label}
-                    </Link>
+                    </InternalLink>
                   </li>
                 ))}
               </ul>

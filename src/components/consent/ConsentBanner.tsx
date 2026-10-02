@@ -7,7 +7,7 @@ import {
   useRef,
   useSyncExternalStore,
 } from "react";
-import Link from "next/link";
+import { InternalLink } from "@/components/ui/InternalLink";
 import type { Dictionary } from "@/content";
 import {
   clearGaCookies,
@@ -189,12 +189,12 @@ export function ConsentBanner({
         </p>
         <p className="mt-2 text-sm text-text-secondary">
           {dict.body}{" "}
-          <Link
+          <InternalLink
             href={privacyHref}
             className="font-semibold text-text-primary underline underline-offset-2"
           >
             {dict.learnMore}
-          </Link>
+          </InternalLink>
         </p>
         <div className="mt-4 flex gap-3">
           <button

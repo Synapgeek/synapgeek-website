@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { InternalLink } from "@/components/ui/InternalLink";
 import { notFound } from "next/navigation";
 import { getDictionary, getLocale } from "@/content";
 import { getApp, getGames, type GameEntry } from "@/content/apps";
@@ -208,12 +208,12 @@ export default async function GamePage({ params }: { params: Params }) {
                 <p>{answer}</p>
                 {link && (
                   <p className="mt-3">
-                    <Link
+                    <InternalLink
                       href={pagePath(link.page, locale, link.hash)}
                       className="rounded-sm font-bold text-ink underline underline-offset-4"
                     >
                       {link.label}
-                    </Link>
+                    </InternalLink>
                   </p>
                 )}
               </>
@@ -240,12 +240,12 @@ export default async function GamePage({ params }: { params: Params }) {
       >
         <p className="max-w-[65ch] text-lg leading-relaxed">
           {dict.common.gameGet.model}{" "}
-          <Link
+          <InternalLink
             href={pagePath("cerebrum", locale)}
             className="rounded-sm font-bold text-canvas underline underline-offset-4"
           >
             {dict.common.gameGet.premiumLink}
-          </Link>
+          </InternalLink>
         </p>
         <StoreBadges
           locale={locale}

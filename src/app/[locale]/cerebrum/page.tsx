@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { InternalLink } from "@/components/ui/InternalLink";
 import { generateStaticParams } from "@/lib/i18n";
 import { getDictionary, getLocale } from "@/content";
 import { getApp, getGames } from "@/content/apps";
@@ -188,12 +188,12 @@ export default async function CerebrumPage({
                   <p>{answer}</p>
                   {link && (
                     <p className="mt-3">
-                      <Link
+                      <InternalLink
                         href={pagePath(link.page, locale, link.hash)}
                         className="rounded-sm font-bold text-ink underline underline-offset-4"
                       >
                         {link.label}
-                      </Link>
+                      </InternalLink>
                     </p>
                   )}
                 </>
