@@ -312,6 +312,7 @@ const fr: Dictionary = {
   },
   play: {
     title: "Télécharger Cerebrum",
+    gamesIntro: "Dans Cerebrum\u00a0: ",
     chooseStore: "Choisissez votre store pour installer l'application.",
   },
 };

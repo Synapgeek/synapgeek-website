@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
 import { getRewrittenUrl, isRewrite } from "next/experimental/testing/server";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
@@ -6,7 +6,7 @@ import { posix as posixPath } from "node:path";
 import nextConfig from "../../next.config";
 import sitemap from "@/app/sitemap";
 import robots from "@/app/robots";
-import { metadata as playMetadata } from "@/app/cerebrum/play/page";
+import { generateMetadata as generatePlayMetadata } from "@/app/cerebrum/play/page";
 import { getDictionary } from "@/content";
 import { DEFAULT_LOCALE, LOCALES } from "@/lib/i18n";
 import {
@@ -17,6 +17,16 @@ import {
   type PageId,
 } from "@/lib/routes";
 import { proxy } from "@/proxy";
+
+// Le repli de /cerebrum/play lit Accept-Language : un `headers()` factice, hors requête.
+const requestHeaders = vi.hoisted(() => ({ acceptLanguage: "" }));
+vi.mock("next/headers", () => ({
+  headers: async () =>
+    new Headers({ "accept-language": requestHeaders.acceptLanguage }),
+}));
+
+// `next/font/google` ne s'exécute que dans le build Next : la page n'en lit que la classe.
+vi.mock("@/app/fonts", () => ({ FONT_VARIABLES: "" }));
 
 /**
  * Gardes automatiques des règles « JAMAIS / toujours » de CLAUDE.md.
@@ -65,6 +75,20 @@ function directLocalImports(file: string): string[] {
   return [...read(file).matchAll(IMPORT_SPECIFIER)]
     .map((match) => resolveLocalImport(file, match[1]))
     .filter((resolved): resolved is string => resolved !== null);
+}
+
+/** Tous les fichiers locaux atteignables depuis `entryPoints`, eux compris. */
+function transitiveLocalImports(entryPoints: readonly string[]): Set<string> {
+  const seen = new Set<string>(entryPoints);
+  const queue = [...entryPoints];
+  for (let file = queue.pop(); file !== undefined; file = queue.pop()) {
+    for (const imported of directLocalImports(file)) {
+      if (seen.has(imported)) continue;
+      seen.add(imported);
+      queue.push(imported);
+    }
+  }
+  return seen;
 }
 
 describe("rendu — SSG pur (CLAUDE.md, « Structure des routes »)", () => {
@@ -222,9 +246,19 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
   // « /cerebrum/play (cible des QR), /play et /jouer (redirections) ne doivent
   // jamais changer ni disparaître » ; « robots.txt : aucun noindex dans src/
   // (sauf /cerebrum/play, marquée robots: { index: false }) ».
-  it("/cerebrum/play reste noindex", () => {
-    expect(playMetadata.robots).toMatchObject({ index: false });
-  });
+  it.each([
+    ["fr-FR,fr;q=0.9", "Télécharger Cerebrum"],
+    ["en-US,en;q=0.9", "Download Cerebrum"],
+    ["", "Download Cerebrum"],
+  ])(
+    "/cerebrum/play reste noindex, titre selon Accept-Language %j",
+    async (acceptLanguage, title) => {
+      requestHeaders.acceptLanguage = acceptLanguage;
+      const metadata = await generatePlayMetadata();
+      expect(metadata.robots).toMatchObject({ index: false });
+      expect(metadata.title).toBe(title);
+    },
+  );
 
   // Spec §5.2 : l'anglais est la langue par défaut (racine sans préfixe), le
   // français vit sous /fr, sauf les trois pages légales figées (français sans
@@ -492,11 +526,14 @@ describe("pages légales sans JavaScript client (CLAUDE.md, « Règles critiques
   ];
   const USE_CLIENT_DIRECTIVE = /^\s*["']use client["'];?\s*$/m;
 
-  it('LegalPage, les trois pages légales et leurs imports locaux directs n\'ont aucun "use client"', () => {
-    const checked = new Set(
-      LEGAL_ENTRY_POINTS.flatMap((file) => [file, ...directLocalImports(file)]),
-    );
+  // Transitif : un seul « use client » n'importe où dans la chaîne d'imports
+  // suffirait à faire embarquer du JavaScript côté client par une page légale.
+  it('LegalPage, les trois pages légales et tous leurs imports locaux, transitivement, n\'ont aucun "use client"', () => {
+    const checked = transitiveLocalImports(LEGAL_ENTRY_POINTS);
     expect(checked).toContain("src/components/ui/Badge.tsx");
+    expect(checked).toContain("src/lib/legal-format.ts");
+    // Atteint seulement par transitivité : la garde ne se limite pas au premier niveau.
+    expect(checked).toContain("src/content/fr.ts");
     for (const file of checked) {
       expect(read(file), file).not.toMatch(USE_CLIENT_DIRECTIVE);
     }

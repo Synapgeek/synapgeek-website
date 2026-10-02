@@ -55,7 +55,7 @@
  *
  * Sortie : un tableau lisible, code de sortie 1 au premier écart.
  */
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 
 const APEX = "https://synapgeek.com";
 const WWW = "https://www.synapgeek.com";
@@ -130,6 +130,12 @@ function vercelSecurityHeaders() {
 }
 
 const PLAIN_TEXT = "text/plain";
+
+/** Clé IndexNow : le nom du seul fichier `public/<32 hex>.txt`, lu dans le dépôt (jamais recopié ici). */
+const INDEXNOW_KEY = readdirSync(new URL("../public/", import.meta.url))
+  .find((name) => /^[0-9a-f]{32}\.txt$/.test(name))
+  ?.replace(/\.txt$/, "");
+if (!INDEXNOW_KEY) throw new Error("public/<32 hex>.txt introuvable");
 
 /**
  * Une vérification : `path`, options de requête, et la liste des attentes.
@@ -346,6 +352,21 @@ function contractChecks(base) {
         bodyMatches(/<meta name="robots" content="noindex/),
       ],
     },
+    // Repli du QR : sa langue suit Accept-Language (français si préféré, anglais sinon).
+    {
+      path: "/cerebrum/play",
+      label: "/cerebrum/play (desktop, fr)",
+      userAgent: USER_AGENTS.desktop,
+      acceptLanguage: "fr-FR,fr;q=0.9,en;q=0.8",
+      expect: [status(200), contentType("text/html"), htmlLang("fr")],
+    },
+    {
+      path: "/cerebrum/play",
+      label: "/cerebrum/play (desktop, en)",
+      userAgent: USER_AGENTS.desktop,
+      acceptLanguage: "en-US,en;q=0.9",
+      expect: [status(200), contentType("text/html"), htmlLang("en")],
+    },
     // Alias des premiers QR : 307 vers la route canonique, query conservée telle quelle.
     redirect("/play", 307, "/cerebrum/play"),
     redirect(
@@ -378,6 +399,11 @@ function contractChecks(base) {
       bodyIncludes(`<loc>${APEX}/fr</loc>`),
     ]),
     ok("/llms.txt", [contentType(PLAIN_TEXT)]),
+    // Clé IndexNow (scripts/indexnow-ping.mjs) : le fichier doit répondre et se contenir lui-même.
+    ok(`/${INDEXNOW_KEY}.txt`, [
+      contentType(PLAIN_TEXT),
+      bodyIncludes(INDEXNOW_KEY),
+    ]),
   ];
 
   if (isLocal) {
@@ -595,7 +621,12 @@ async function fetchContract(base, check) {
   const url = new URL(check.path, base);
   const response = await fetch(url, {
     redirect: "manual",
-    headers: check.userAgent ? { "user-agent": check.userAgent } : {},
+    headers: {
+      ...(check.userAgent ? { "user-agent": check.userAgent } : {}),
+      ...(check.acceptLanguage
+        ? { "accept-language": check.acceptLanguage }
+        : {}),
+    },
   });
   const rawLocation = response.headers.get("location");
   return {

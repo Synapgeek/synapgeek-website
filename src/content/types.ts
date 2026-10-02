@@ -164,9 +164,12 @@ export interface Dictionary {
     updatedAt: string;
     sections: readonly LegalSection[];
   };
-  /** Repli de /cerebrum/play (desktop, iPad en mode bureau, robot) — reste en français quelle que soit la locale. */
+  /** Repli de /cerebrum/play (desktop, iPad en mode bureau, robot) : la langue suit l'en-tête Accept-Language, pas l'URL. */
   play: {
+    /** Titre de l'onglet. */
     title: string;
+    /** Début de la phrase qui cite les jeux : suivi de leurs noms (registre), puis d'un point. */
+    gamesIntro: string;
     chooseStore: string;
   };
 }

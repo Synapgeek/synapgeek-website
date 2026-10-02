@@ -309,11 +309,10 @@ const en: Dictionary = {
       },
     ],
   },
-  // /cerebrum/play reste en français quelle que soit la locale (voir src/app/cerebrum/play/page.tsx) ;
-  // ces clés existent ici pour la complétude du type Dictionary.
   play: {
-    title: "Télécharger Cerebrum",
-    chooseStore: "Choisissez votre store pour installer l'application.",
+    title: "Download Cerebrum",
+    gamesIntro: "In Cerebrum: ",
+    chooseStore: "Choose your store to install the app.",
   },
 };
 
