@@ -17,9 +17,9 @@ export const wordSearchFr: GameCopy = {
   howToPlay: {
     title: "Comment jouer aux mots mêlés",
     steps: [
-      "La grille est un carré de lettres où des mots se cachent en ligne droite : à l'horizontale, à la verticale ou en diagonale. Sous la grille, la liste donne les mots à chercher.",
+      "La grille est un carré de lettres où des mots se cachent en ligne droite : à l'horizontale, à la verticale ou en diagonale. En Facile, la liste sous la grille nomme tous les mots à chercher ; les difficultés suivantes en cachent davantage.",
       "Pour sélectionner un mot, posez le doigt sur sa première lettre, glissez en ligne droite jusqu'à sa dernière, puis relâchez. Le sens compte : un mot se valide lu de sa première à sa dernière lettre, jamais dans l'autre sens.",
-      "Si la sélection correspond à un mot de la liste, une bande de couleur reste sur la grille et le mot est barré dans la liste. Sinon, rien n'est perdu : il n'y a ni cœurs ni erreurs, on recommence simplement.",
+      "Si la sélection correspond à un mot de la liste, une bande de couleur reste sur la grille et le mot est marqué comme trouvé. Sinon, rien n'est perdu : il n'y a ni cœurs ni erreurs, on recommence simplement.",
       "Chaque niveau enchaîne trois grilles, imposées et jouées à la suite. Il se termine quand les mots des trois grilles sont trouvés.",
       "Un mot vous échappe ? Le bouton Indice propose une aide qui dépend de la difficulté, et la liste elle-même change selon que vous jouez en Facile, en Moyen ou en Difficile.",
     ],
@@ -27,12 +27,12 @@ export const wordSearchFr: GameCopy = {
   whatCerebrumAdds: {
     title: "Ce que Cerebrum ajoute aux mots mêlés",
     paragraphs: [
-      "Dans Cerebrum, un niveau de mots mêlés est une suite de trois grilles fixes, sans tirage au sort, que l'on résout l'une après l'autre. Chaque difficulté a son parcours, où les niveaux s'ouvrent un par un ; une fois le parcours terminé, le mode Infini en enchaîne d'autres, toujours de trois grilles, dans la même difficulté.",
+      "Dans Cerebrum, un niveau de mots mêlés est une suite de trois grilles fixes, sans tirage au sort, que l'on résout l'une après l'autre. Les niveaux se débloquent un à un sur le parcours de chaque difficulté, puis le mode Infini prend le relais avec de nouvelles séries de trois grilles.",
       "La liste des mots change avec la difficulté. En Facile, tous les mots à trouver restent lisibles. En Moyen, seul le nombre de lettres de chaque mot s'affiche. En Difficile, la liste disparaît : il faut repérer les mots sans savoir lesquels chercher, et certains sont écrits à l'envers.",
       "Aucune erreur possible et aucune partie perdue : ici, seul le chronomètre compte. Les étoiles se calculent sur le temps moyen par grille. Trois étoiles demandent 45 secondes ou moins par grille en Facile, 2 minutes en Moyen et 3 minutes 30 en Difficile ; deux étoiles, jusqu'à 1 minute 30, 3 minutes 30 et 6 minutes.",
       "Le bouton Indice change avec la difficulté. En Facile, il trouve un mot à votre place dans la grille. En Moyen et en Difficile, il offre deux aides : surligner la première lettre d'un mot encore caché, ou dévoiler le texte d'un mot de la liste.",
-      "Trois packs thématiques, Cinéma, Cuisine et Voyage, ajoutent des grilles bâties autour d'un thème, de 9 à 11 cases de côté et sans mot à l'envers. Ce sont des achats intégrés distincts du parcours, leurs grilles comptent comme Difficile, et un même pack ouvre aussi les Mots Croisés.",
-      "Les mots mêlés se choisissent aussi pour le défi du jour, en Facile seulement. Les mots diffèrent d'une langue à l'autre : la grille est tirée dans la langue de l'app, si bien que tous ceux qui jouent en français ce jour-là retrouvent la même.",
+      "Les packs Cinéma, Cuisine et Voyage apportent des mots mêlés à thème, de 9 à 11 cases de côté, au niveau Difficile mais sans aucun mot à l'envers. Chaque pack s'achète à part dans l'app, et le même achat débloque aussi ses mots croisés.",
+      "Le jour où vous choisissez les mots mêlés pour le défi du jour, vous recevez une grille Facile tirée dans la langue de l'app, la même pour tous ceux qui jouent en français. Les mots diffèrent d'une langue à l'autre, d'où ce choix.",
     ],
     difficultyTable: {
       caption: "Les difficultés des mots mêlés dans Cerebrum",
@@ -59,7 +59,7 @@ export const wordSearchFr: GameCopy = {
     title: "Astuces pour trouver plus vite les mots mêlés",
     items: [
       "Balayez la grille à la recherche des lettres rares : Z, X, K, W, Q. Un mot qui en contient une n'a qu'une poignée d'endroits où se loger. Repérez la lettre, puis testez les huit cases voisines pour voir si le reste du mot s'y dessine.",
-      "Cherchez les lettres doubles. Une paire comme SS, LL ou TT se croise bien moins souvent qu'une lettre isolée : dès que vous en tenez une, lisez autour d'elle dans les quatre axes avant de passer à la suivante.",
+      "Cherchez les lettres doubles. Une paire comme SS, LL ou TT se rencontre bien moins souvent qu'une lettre isolée : dès que vous en tenez une, lisez autour d'elle dans les quatre axes avant de passer à la suivante.",
       "Pensez à la direction autant qu'à la lettre. Depuis une première lettre possible, ne vous contentez pas de lire vers la droite : essayez le bas et les quatre diagonales. En Difficile, ajoutez la lecture de droite à gauche et de bas en haut, et glissez toujours de la première lettre du mot vers sa dernière.",
       "En Moyen, servez-vous du nombre de lettres affiché pour classer les mots. Un mot de huit lettres n'a que peu d'emplacements en diagonale, alors qu'un mot de quatre lettres peut se cacher partout : attaquez les longs en premier, ils réduisent vite le champ.",
       "Quand la liste est cachée, cherchez les assemblages courants plutôt que des mots entiers : terminaisons en -ER, -ES ou -ANT, paires comme QU ou CH. Un mot probable se dessine souvent avant d'être complet, et il ne reste qu'à confirmer d'un glissement.",
@@ -91,7 +91,7 @@ export const wordSearchFr: GameCopy = {
       {
         question: "Pourquoi un niveau compte-t-il trois grilles ?",
         answer:
-          "Une grille de mots mêlés se résout vite : chaque niveau en enchaîne donc trois, dans un ordre fixe. Pour les étoiles, c'est le temps moyen par grille qui compte, pas le temps total du niveau.",
+          "Chaque niveau est conçu comme une série de trois grilles, toujours les mêmes et dans le même ordre. Pour les étoiles, c'est le temps moyen par grille qui compte, pas le temps total du niveau.",
       },
       {
         question:

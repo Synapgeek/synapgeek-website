@@ -17,9 +17,9 @@ export const wordSearchEn: GameCopy = {
   howToPlay: {
     title: "How to play word search",
     steps: [
-      "The grid is a square of letters with words hidden in it along straight lines: across, down or diagonally. The list under the grid tells you which words to look for.",
+      "The grid is a square of letters with words hidden in it along straight lines: across, down or diagonally. On Easy, the list under the grid names every word to find; harder levels hide more of it.",
       "To select a word, put your finger on its first letter, drag in a straight line to its last letter, then lift. Direction matters: a word only counts when read from its first letter to its last, never the other way round.",
-      "If the selection matches a word on the list, a band of color stays on the grid and the word is struck through in the list. If it does not, nothing is lost: there are no hearts and no mistakes, so you simply try again.",
+      "If the selection matches a word on the list, a band of color stays on the grid and the word is marked as found. If it does not, nothing is lost: there are no hearts and no mistakes, so you simply try again.",
       "Each level strings together three grids, set in advance and played one after another. It ends when the words of all three grids are found.",
       "A word escaping you? The Hint button offers help that depends on the difficulty, and the list itself changes depending on whether you play Easy, Medium or Hard.",
     ],
@@ -27,12 +27,12 @@ export const wordSearchEn: GameCopy = {
   whatCerebrumAdds: {
     title: "What Cerebrum adds to word search",
     paragraphs: [
-      "In Cerebrum, a word search level is a run of three fixed grids, with no random draw, solved one after the other. Each difficulty has its own path, where levels unlock one at a time; once the path is done, Endless Mode keeps serving more levels of three grids at the same difficulty.",
+      "In Cerebrum, a word search level is a run of three fixed grids, with no random draw, solved one after the other. Levels open one by one along each difficulty's path, and after the last one Endless Mode keeps handing out fresh sets of three grids.",
       "The word list changes with the difficulty. On Easy, every word to find stays readable. On Medium, only the number of letters of each word shows. On Hard, the list is gone: you have to spot words without knowing which ones to look for, and some of them are written backwards.",
-      "There are no mistakes to make and no game to lose: only the clock counts. Stars are worked out from your average time per grid. Three stars take 45 seconds or less on Easy, 2 minutes on Medium and 3 minutes 30 on Hard; two stars go up to 1 minute 30, 3 minutes 30 and 6 minutes.",
+      "There are no mistakes to make and no game to lose: only the clock counts. Stars are worked out from your average time per grid. Three stars take 45 seconds or less on Easy, 2 minutes on Medium and 3 minutes 30 seconds on Hard; two stars go up to 1 minute 30 seconds, 3 minutes 30 seconds and 6 minutes.",
       "The Hint button changes with the difficulty. On Easy, it finds a word for you on the grid. On Medium and Hard, it offers two kinds of help: highlighting the first letter of a word you have not found, or revealing the text of a word on the list.",
-      "Three theme packs, Movies, Cooking and Travel, add grids built around a subject, from 9 to 11 cells a side and with no backwards words. They are in-app purchases separate from the path, their grids count as Hard, and one pack also opens Crossword.",
-      "Word search can also be picked for the daily challenge, on Easy only. Words differ from one language to the other, so the grid is drawn in your app's language: everyone playing in English that day gets the same one.",
+      "Movies, Cooking and Travel packs bring themed word searches, 9 to 11 cells a side, at Hard level but with every word read forwards. Each pack is bought on its own in the app, and the same purchase unlocks its crosswords too.",
+      "On the day you choose word search for the daily challenge, you get an Easy grid drawn from your app's language, the same one every English-language player sees. Words differ from one language to the other, which is why the language matters.",
     ],
     difficultyTable: {
       caption: "Word Search difficulties in Cerebrum",
@@ -91,12 +91,12 @@ export const wordSearchEn: GameCopy = {
       {
         question: "Why does a level hold three grids?",
         answer:
-          "A word search grid is quick to solve, so each level strings three together, in a fixed order. For stars, what counts is the average time per grid, not the total time of the level.",
+          "Each level is built as a set of three grids, always the same ones and in the same order. For stars, what counts is the average time per grid, not the total time of the level.",
       },
       {
         question: "Why don't I see word search in my app?",
         answer:
-          "Its grids exist in French and English only: if the app is set to another language, the game is hidden. It reappears as soon as you switch back to one of those two.",
+          "Word search grids are only written in French and English. Set the app to any other interface language and the game is hidden; switching back to French or English brings it back.",
       },
     ],
   },
