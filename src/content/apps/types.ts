@@ -74,6 +74,10 @@ export interface AppEntry {
     /** `null` : version Android minimale non vérifiée. */
     android: { minOs: string | null };
   };
+  /** Titres des fiches de boutique (toutes langues), repris en `alternateName` du JSON-LD. */
+  storeTitles: readonly string[];
+  /** Première publication (ISO 8601), reprise en `datePublished` du JSON-LD. */
+  datePublished: string;
   /** Langues d'interface de l'app (codes App Store). */
   languages: readonly string[];
   contentRating: { appStore: "4+" };

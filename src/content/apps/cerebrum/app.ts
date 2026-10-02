@@ -18,6 +18,13 @@ export const cerebrum: AppEntry = {
     ios: { minOs: "17.0" },
     android: { minOs: "8.0" },
   },
+  // Fiches App Store et Play (FR puis EN) ; les deux boutiques portent les mêmes titres.
+  storeTitles: [
+    "Cerebrum : Jeux zen sans wifi",
+    "Cerebrum: Offline Puzzle Games",
+  ],
+  // Première publication de la fiche iOS.
+  datePublished: "2026-06-03",
   languages: [
     "en",
     "fr",
