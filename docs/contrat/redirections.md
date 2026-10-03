@@ -1,7 +1,10 @@
 # Plan de redirection : bascule de synapgeek.com vers la refonte
 
 > **État : R1 et T1 appliqués dans la branche le 2026-10-03, non mergés ; changements de console à
-> faire** (section 5). Le reste du plan (G1, D1, consoles) n'est pas appliqué. Date : 2026-10-03.
+> faire** (section 5). G1 fait (copie de travail commitée : `861362e`, `b80844e`, `5839d3b`).
+> R1 prouvé sur le routeur de Vercel le même jour (preview CLI protégée, 137/137, 11 scénarios
+> conformes ; voir lancement.md A2). Restent : D1, les consoles, et les demandes aux sessions iOS et
+> Android (non démarrées le 2026-10-03 : messages prêts en section 5). Date : 2026-10-03.
 > Rédigé à partir de trois inventaires (apps installées, consoles et fiches, espace d'URLs du site)
 > et d'une mesure (production par curl, build de production local de la refonte sur
 > `http://localhost:3201`). Le code fait foi. Préfixes de source : `rework:` pour le worktree
