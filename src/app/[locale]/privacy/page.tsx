@@ -17,18 +17,15 @@ export async function generateMetadata({
   const locale = getLocale(raw);
   const dict = getDictionary(locale);
 
-  const description =
-    locale === "fr"
-      ? "Politique de confidentialité des apps et services Synapgeek — données collectées, droits RGPD, publicités et cookies."
-      : "Privacy policy for Synapgeek apps and services — learn what data we collect, your GDPR and CCPA rights, advertising practices, and how to delete your account.";
+  const description = dict.privacy.metaDescription;
 
   return {
     title: dict.privacy.title,
     description,
-    alternates: getAlternates(locale, "/privacy"),
+    alternates: getAlternates("privacy", locale),
     openGraph: buildOpenGraph(
       locale,
-      "/privacy",
+      "privacy",
       dict.privacy.title,
       description,
     ),
@@ -46,7 +43,7 @@ export default async function PrivacyPage({
 
   const webPage = webPageSchema({
     locale,
-    path: "/privacy",
+    pageId: "privacy",
     name: dict.privacy.title,
     dateModified: dict.privacy.updatedAt,
   });

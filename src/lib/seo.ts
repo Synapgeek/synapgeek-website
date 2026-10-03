@@ -1,27 +1,13 @@
 import type { Metadata } from "next";
 import type { Locale } from "./i18n";
-import { LOCALES, getLocalePath } from "./i18n";
+import { LOCALES } from "./i18n";
+import { getDictionary } from "@/content";
+import { absoluteUrl, alternatesFor, type PageId } from "./routes";
 
-const BASE_URL = "https://synapgeek.com";
-
-// Locale ciblée par l'annotation hreflang "x-default" (utilisateurs sans
-// préférence de langue détectée). Distincte de DEFAULT_LOCALE (fr), qui régit
-// le routage sans préfixe : on ne touche qu'à l'annotation SEO, pas aux URLs.
-export const X_DEFAULT_LOCALE: Locale = "en";
-
-export function getAlternates(locale: Locale, path: string) {
-  const canonical = `${BASE_URL}${getLocalePath(locale, path)}`;
-
-  const languages: Record<string, string> = {};
-  for (const loc of LOCALES) {
-    languages[loc] = `${BASE_URL}${getLocalePath(loc, path)}`;
-  }
-  languages["x-default"] =
-    `${BASE_URL}${getLocalePath(X_DEFAULT_LOCALE, path)}`;
-
+export function getAlternates(pageId: PageId, locale: Locale) {
   return {
-    canonical,
-    languages,
+    canonical: absoluteUrl(pageId, locale),
+    languages: alternatesFor(pageId).languages,
   };
 }
 
@@ -44,26 +30,46 @@ export function getOgAlternateLocales(locale: Locale): string[] {
 }
 
 /**
+ * L'image de partage du site : 1200x630, recadrée au centre de la source. Le nom
+ * porte un suffixe de version, car /images/* se met en cache sept jours
+ * (vercel.json) : changer l'image impose de renommer le fichier. L'alt vient du
+ * Dictionnaire. Source unique du layout de langue et de `buildOpenGraph`.
+ */
+export const OG_IMAGE = {
+  url: "/images/brand/og-image-v2.jpeg",
+  width: 1200,
+  height: 630,
+} as const;
+
+export function getOgImages(locale: Locale) {
+  return [{ ...OG_IMAGE, alt: getDictionary(locale).common.ogImageAlt }];
+}
+
+/**
  * Construit un objet openGraph complet pour une page.
  * Next.js fusionne les métadonnées de façon superficielle : si une page
  * redéfinit `openGraph`, l'objet du layout (siteName, locale, images…) est
  * entièrement remplacé plutôt que fusionné. Ce helper reconstruit donc tout,
  * y compris l'og:image, pour que chaque page reste complète isolément.
+ * `ownImage` : la page a son propre `opengraph-image` (convention de fichier de
+ * Next) ; on ne pose alors pas l'image du site, sinon la page porterait deux
+ * og:image.
  */
 export function buildOpenGraph(
   locale: Locale,
-  path: string,
+  pageId: PageId,
   title: string,
   description: string,
+  { ownImage = false }: { ownImage?: boolean } = {},
 ): NonNullable<Metadata["openGraph"]> {
   return {
     title,
     description,
     type: "website",
-    url: `${BASE_URL}${getLocalePath(locale, path)}`,
+    url: absoluteUrl(pageId, locale),
     siteName: "Synapgeek",
     locale: getOgLocale(locale),
     alternateLocale: getOgAlternateLocales(locale),
-    images: [{ url: "/images/brand/og-image.jpeg", width: 1200, height: 630 }],
+    ...(!ownImage && { images: getOgImages(locale) }),
   };
 }

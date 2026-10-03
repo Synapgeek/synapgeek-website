@@ -3,252 +3,112 @@ import type { Dictionary } from "./types";
 const en: Dictionary = {
   common: {
     siteName: "Synapgeek",
-    tagline: "Indie mobile game studio",
+    ogImageAlt: "Synapgeek, independent French studio",
+    tagline: "Independent mobile app studio",
     nav: {
-      home: "Home",
-      privacy: "Privacy",
-      terms: "Terms",
-      features: "Games",
+      apps: "Apps",
+      cerebrum: "Cerebrum",
       about: "About",
-      faq: "FAQ",
-      contact: "Contact",
+      press: "Press",
     },
     footer: {
       copyright: `© ${new Date().getFullYear()} Synapgeek. All rights reserved.`,
+      identity: "Synapgeek SAS, an independent French studio.",
+      productHeading: "Cerebrum",
+      studioHeading: "Studio",
+      legalHeading: "Legal",
       privacy: "Privacy Policy",
       terms: "Terms of Use",
       legalNotice: "Legal Notice",
       contact: "Contact",
       manageCookies: "Manage cookies",
-      productHeading: "Product",
-      legalHeading: "Legal",
-      contactHeading: "Contact",
-      features: "Features",
-      writeToUs: "Write to us",
-      madeWith: "Made with",
-      inFrance: "in France",
     },
     consent: {
       title: "Your choice on audience measurement",
       body: 'We use Google Analytics (audience measurement cookies) to understand how this site is used. Depending on your country, this measurement either waits for your consent or is on by default: accept or refuse it here, and change your mind at any time via "Manage cookies". This website shows no ads.',
-      learnMore: "Learn more",
+      learnMore: "Read the privacy policy",
       accept: "Accept",
       refuse: "Refuse",
     },
     languageSwitch: "Français",
     languageSwitchLocale: "fr",
-  },
-  landing: {
-    meta: {
-      title: "Cerebrum: Offline Puzzle Games, No Wi-Fi Needed | Synapgeek",
-      description:
-        "Play Sudoku, Crossword, Word Search, Cross Math, Trace and Maze offline in one app. Cerebrum is free on iPhone, iPad and Android. Download it today.",
+    a11y: {
+      skipToContent: "Skip to content",
+      menu: "Menu",
+      mainNavigation: "Main navigation",
+      footerNavigation: "Footer",
     },
-    hero: {
-      badge: "Now on iOS and Android",
-      title: "Train your brain, one puzzle at a time",
-      subtitle:
-        "Cerebrum brings Sudoku, Crossword, Word Search, Cross Math, Trace, and Maze into one app you can play offline, no Wi-Fi needed, to challenge your mind every single day.",
-      cta: "Download Cerebrum",
-      ctaSecondary: "Learn more",
-      store: {
-        availableNow: "Available now",
-        appStoreLabel: "Download on the App Store",
-        googlePlayLabel: "Get it on Google Play",
-      },
-      slider: {
-        carouselLabel: "Cerebrum app screenshots",
-        slideLabel: "Slide {index} of {total}",
-        controlsLabel: "Slide controls",
-        goToSlide: "Go to slide {index}",
-        alts: {
-          home: "Cerebrum home screen showing its six games: Sudoku, Crossword, Word Search, Cross Math, Trace and Maze",
-          sudoku:
-            "Cerebrum Sudoku gameplay with a partially filled grid and number pad",
-          daily:
-            "Cerebrum Daily Challenge calendar with completed days marked by stars",
-          victory:
-            "Cerebrum victory screen with three stars, a new record and league progress",
-          profile:
-            "Cerebrum profile screen with the player's avatar, league progress and monthly trophies",
-        },
-      },
+    breadcrumb: {
+      label: "Breadcrumb",
+      home: "Home",
     },
-    stats: {
-      items: [
-        { value: "6", label: "Games in 1" },
-        { value: "1000+", label: "Puzzles" },
-        { value: "FR & EN", label: "Languages" },
-        { value: "Free", label: "Download" },
+    updatedOn: "Updated on",
+    publisher: {
+      legalName: "Company name",
+      legalForm: "Legal form",
+      legalFormValue: "Simplified joint-stock company (SAS)",
+      capital: "Share capital",
+      country: "Country",
+      siret: "SIRET",
+      ape: "APE code",
+      vat: "VAT number",
+      publicationDirector: "Publication director",
+      host: "Hosting provider",
+      email: "Email",
+    },
+
+    languageSuggestion: {
+      message: "This site is also available in English.",
+      cta: "Read in English",
+      dismiss: "Close",
+    },
+    notFound: {
+      title: "Page not found",
+      body: "The page you are looking for does not exist or has been moved.",
+      cta: "Back to home",
+    },
+    stores: {
+      appStoreLabel: "Download on the App Store: {app}",
+      googlePlayLabel: "Get it on Google Play: {app}",
+    },
+    gameGet: {
+      title: "Get Cerebrum",
+      model:
+        "Free to download, with a banner during play and ads between some games. Rewarded ads are always optional. Premium, weekly, monthly or yearly and bought in each store, means no forced ads, plus extra perks.",
+      premiumLink: "What Premium adds",
+    },
+    gameDaily: {
+      line: "Daily challenge: pick {game} and the app sets the day's grid on {difficulties}, the same for every player.",
+      lineByLanguage:
+        "Daily challenge: pick {game} and the app sets the day's grid on {difficulties}, the same for every player in your app's language, English or French.",
+    },
+    contactForm: {
+      name: "Name",
+      email: "Email",
+      message: "Message",
+      topicLabel: "Topic",
+      topicPlaceholder: "Choose a topic",
+      topics: [
+        { value: "support", label: "Technical issue or bug" },
+        { value: "purchases", label: "Purchases, subscriptions, refunds" },
+        { value: "account", label: "Account and personal data" },
+        { value: "feedback", label: "Suggestion or feedback on a game" },
+        { value: "press", label: "Press and partnerships" },
+        { value: "other", label: "Other" },
       ],
-    },
-    features: {
-      title: "One brain, six disciplines",
-      subtitle:
-        "Each game stimulates different cognitive skills. Combine them for a complete workout.",
-      items: [
-        {
-          id: "sudoku",
-          title: "Sudoku",
-          description:
-            "Pure logic and deductive reasoning. Grids for every level, from beginner to expert, with smart hints.",
-        },
-        {
-          id: "crossword",
-          title: "Crossword",
-          description:
-            "Expand your vocabulary and general knowledge. Grids in English and French.",
-        },
-        {
-          id: "wordsearch",
-          title: "Word Search",
-          description:
-            "Find the words hidden in the grid. A letter-game classic to sharpen your eye for detail.",
-        },
-        {
-          id: "crossmath",
-          title: "Cross Math",
-          description:
-            "Crossed equations blending arithmetic and logic. The perfect challenge for mathematical minds.",
-        },
-        {
-          id: "trace",
-          title: "Trace",
-          description:
-            "One line, every cell, without lifting your finger. Numbered checkpoints make the path trickier level after level.",
-        },
-        {
-          id: "maze",
-          title: "Maze",
-          description:
-            "Free roaming and a sense of direction. Guide your firefly to the exit, collecting crystals along the way.",
-        },
-      ],
-    },
-    about: {
-      title: "Built by enthusiasts",
-      description:
-        "Synapgeek is the independent French studio that designs and publishes Cerebrum, available on the App Store and Google Play. We believe the best games combine elegance, challenge, and pure enjoyment.",
-      values: [
-        {
-          title: "Solver-checked puzzles",
-          description:
-            "Our puzzles are generated with our own tools, then automatically checked by solvers before they reach the app.",
-        },
-        {
-          title: "Your data, your choice",
-          description:
-            "On iPhone and iPad, no ad tracking without your permission; in the EEA, the UK and Switzerland, you are asked for consent before any personalized ads. You can delete your account from the app at any time.",
-        },
-        {
-          title: "Made in France",
-          description:
-            "Designed and developed in France by Synapgeek, an independent studio.",
-        },
-      ],
-    },
-    faq: {
-      title: "Cerebrum FAQ",
-      subtitle:
-        "Pricing, offline play, supported devices, accounts: what you need to know before downloading the app.",
-      items: [
-        {
-          question: "What games are in Cerebrum?",
-          answer:
-            "Cerebrum is a puzzle game app with six games in one: Sudoku, Crossword, Word Search, Cross Math, Trace and Maze. It offers several difficulty levels per game, daily challenges and level-by-level progression.",
-        },
-        {
-          question: "Is Cerebrum free?",
-          answer:
-            "Yes, Cerebrum is free to download and play on the App Store and Google Play. It offers optional in-app purchases (virtual currency, themed Crossword and Word Search packs) and a Premium subscription, with prices shown in the app that vary by country.",
-        },
-        {
-          question: "Does Cerebrum have ads, and how do I remove them?",
-          answer:
-            "The free version of Cerebrum shows banner ads, interstitial ads and rewarded ads, which you choose to watch in exchange for a bonus. A weekly, monthly or yearly Premium subscription removes forced ads, while rewarded ads stay available if you want them.",
-        },
-        {
-          question: "Can I play Cerebrum offline, without Wi-Fi?",
-          answer:
-            "Yes, every Cerebrum game, daily challenges included, works without an internet connection: the puzzles are built into the app and your progress is saved on your device. You still need a connection to sync your progress, view leaderboards, make a purchase, sign in to an account and load ads.",
-        },
-        {
-          question: "Which devices does Cerebrum run on?",
-          answer:
-            "Cerebrum is available for iPhone and iPad (iOS 17 or later) on the App Store, and for Android devices (Android 8.0 or later) on Google Play. The app is played in portrait mode.",
-        },
-        {
-          question: "Do I need an account to play Cerebrum?",
-          answer:
-            "No, you can play Cerebrum without creating an account: an anonymous session starts automatically the first time you open the app. You can sign in with Apple, Google or Facebook later if you wish.",
-        },
-        {
-          question: "Does Cerebrum sync my progress across devices?",
-          answer:
-            "Yes, once you sign in to Cerebrum with an Apple, Google or Facebook account: your progress is saved online and follows you to your other devices signed in to the same account. Without a signed-in account, progress stays tied to the device and cannot be recovered if you switch devices.",
-        },
-        {
-          question: "What languages is Cerebrum available in?",
-          answer:
-            "Cerebrum is available in English and French, on both iOS and Android. Crossword and Word Search offer grids in both languages.",
-        },
-        {
-          question: "How do I delete my Cerebrum account?",
-          answer:
-            "In Cerebrum, open Profile and tap Delete Account: once you confirm, your account and its data (progress, achievements, streak history, synced data) are deleted. If you can no longer access the app, the steps to follow are described in our privacy policy.",
-          link: {
-            text: "our privacy policy",
-            path: "/privacy#account-deletion",
-          },
-        },
-        {
-          question: "Who makes Cerebrum?",
-          answer:
-            "Cerebrum is published by Synapgeek SAS, an independent French mobile game studio based in Frontenas, France. For any question about the app, the contact form on synapgeek.com also serves as customer support.",
-        },
-      ],
-    },
-    cta: {
-      title: "Ready to train your brain?",
-      subtitle:
-        "Cerebrum is out now on iOS and Android. Puzzle games in one app.",
-      cta: "Download for free",
-      note: "Free with optional in-app purchases.",
-      store: {
-        availableNow: "Available now",
-        appStoreLabel: "Download on the App Store",
-        googlePlayLabel: "Get it on Google Play",
-      },
-    },
-    contact: {
-      title: "Got a question?",
-      subtitle: "Drop us a line and we'll get back to you as soon as possible.",
-      form: {
-        name: "Name",
-        email: "Email",
-        message: "Message",
-        topicLabel: "Topic",
-        topicPlaceholder: "Choose a topic",
-        topics: [
-          { value: "support", label: "Technical issue or bug" },
-          { value: "purchases", label: "Purchases, subscriptions, refunds" },
-          { value: "account", label: "Account and personal data" },
-          { value: "feedback", label: "Suggestion or feedback on a game" },
-          { value: "press", label: "Press and partnerships" },
-          { value: "other", label: "Other" },
-        ],
-        submit: "Send message",
-        sending: "Sending...",
-        successTitle: "Message sent!",
-        successBody: "We'll get back to you as soon as possible.",
-        error: "An error occurred. Please try again or contact us directly.",
-        unavailable:
-          "The form is temporarily unavailable. Please write to us directly at contact@synapgeek.com.",
-      },
+      submit: "Send message",
+      sending: "Sending...",
+      successTitle: "Message sent!",
+      successBody: "We'll get back to you as soon as possible.",
+      error: "An error occurred. Please try again or contact us directly.",
+      unavailable:
+        "The form is temporarily unavailable. Please write to us directly at contact@synapgeek.com.",
     },
   },
   privacy: {
     title: "Privacy Policy",
+    metaDescription:
+      "Privacy policy for Synapgeek apps and services: what data we collect, your GDPR and CCPA rights, advertising practices, and how to delete your account.",
     lastUpdated: "Last updated: September 12, 2026",
     updatedAt: "2026-09-12",
     sections: [
@@ -333,8 +193,10 @@ const en: Dictionary = {
   },
   terms: {
     title: "Terms of Use",
-    lastUpdated: "Last updated: September 12, 2026",
-    updatedAt: "2026-09-12",
+    metaDescription:
+      "Terms of use for Synapgeek apps: license agreement, in-app purchases and subscriptions, virtual goods, intellectual property, and user conduct.",
+    lastUpdated: "Last updated: October 1, 2026",
+    updatedAt: "2026-10-01",
     sections: [
       {
         title: "Acceptance of terms",
@@ -344,7 +206,7 @@ const en: Dictionary = {
       {
         title: "Service description",
         content:
-          "Synapgeek develops and distributes mobile puzzle game applications. Cerebrum is a mobile application for iOS and Android, featuring six puzzle games: Sudoku, Crossword, Word Search, Cross Math, Trace, and Maze.\n\nThe App includes:\n- More than 1,000 puzzles across multiple difficulty levels\n- A progression system with stars, XP, and leaderboards\n- Daily challenges and play streaks\n- A virtual currency system (gems) and avatars\n- Optional in-app purchases and subscriptions\n- An ad-supported and ad-free mode",
+          "Synapgeek develops and distributes mobile puzzle game applications. Cerebrum is a mobile puzzle and brain game application for iOS and Android.\n\nThe App offers puzzles across multiple difficulty levels, a progression system based on stars, XP and leagues, a daily challenge and play streaks, as well as a virtual currency (gems) and avatars.\n\nThe App is free to download and supported by advertising. It also offers optional in-app purchases and a Premium subscription, which removes forced advertisements (banners and interstitials); rewarded ads remain optional and available if you choose to watch them.",
       },
       {
         title: "License to use",
@@ -354,7 +216,7 @@ const en: Dictionary = {
       {
         title: "User account",
         content:
-          "You may use the App without creating an account (anonymous mode). If you choose to create an account via Apple, Google, or Facebook, you are responsible for maintaining the confidentiality of your credentials.\n\nCreating an account enables synchronization of your progress across devices and participation in leaderboards. You may only hold one active account.",
+          "You may use the App without creating an account (anonymous mode). If you choose to create an account via Apple, Google, or Facebook, you are responsible for maintaining the confidentiality of your credentials.\n\nCreating an account enables synchronization of your progress across devices. You may only hold one active account.",
       },
       {
         title: "In-app purchases and subscriptions",
@@ -415,6 +277,8 @@ const en: Dictionary = {
   },
   legal: {
     title: "Legal Notice",
+    metaDescription:
+      "Synapgeek legal notice: publisher, hosting provider, company registration details and corporate information.",
     lastUpdated: "Last updated: June 4, 2026",
     updatedAt: "2026-06-04",
     sections: [
@@ -450,11 +314,10 @@ const en: Dictionary = {
       },
     ],
   },
-  // /play reste en français quelle que soit la locale (voir src/app/play/page.tsx) ;
-  // ces clés existent ici pour la complétude du type Dictionary.
   play: {
-    title: "Télécharger Cerebrum",
-    chooseStore: "Choisissez votre store pour installer l'application.",
+    title: "Download Cerebrum",
+    gamesIntro: "In Cerebrum: ",
+    chooseStore: "Choose your store to install the app.",
   },
 };
 

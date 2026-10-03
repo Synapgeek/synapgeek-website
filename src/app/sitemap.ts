@@ -1,46 +1,62 @@
 import type { MetadataRoute } from "next";
-import { LOCALES, getLocalePath, type Locale } from "@/lib/i18n";
-import { X_DEFAULT_LOCALE } from "@/lib/seo";
+import { LOCALES, type Locale } from "@/lib/i18n";
+import {
+  absoluteUrl,
+  alternatesFor,
+  gameIdOfPage,
+  renderedPageIds,
+  type PageId,
+} from "@/lib/routes";
 import { getDictionary } from "@/content";
+import {
+  getAboutCopy,
+  getAppCopy,
+  getHubCopy,
+  getPressCopy,
+} from "@/content/copy";
 
-const BASE_URL = "https://synapgeek.com";
-
-// Date de dernière modification du contenu de la home — pas de champ
-// `updatedAt` dans le dictionnaire pour cette page (pas de sections légales).
-// À mettre à jour quand le contenu de la home change.
-const LANDING_UPDATED_AT = "2026-09-12";
-
-const routes = ["/", "/privacy", "/terms", "/legal"];
-
-function lastModifiedFor(locale: Locale, route: string): string {
+function lastModifiedFor(locale: Locale, pageId: PageId): string {
   const dict = getDictionary(locale);
-  switch (route) {
-    case "/privacy":
+  switch (pageId) {
+    case "privacy":
       return dict.privacy.updatedAt;
-    case "/terms":
+    case "terms":
       return dict.terms.updatedAt;
-    case "/legal":
+    case "legal":
       return dict.legal.updatedAt;
-    default:
-      return LANDING_UPDATED_AT;
+    case "home":
+      return getHubCopy(locale).updatedAt;
+    case "cerebrum":
+      return getAppCopy("cerebrum", locale).updatedAt;
+    case "about":
+      return getAboutCopy(locale).updatedAt;
+    case "press":
+      return getPressCopy(locale).updatedAt;
+    default: {
+      const gameId = gameIdOfPage(pageId);
+      const gameCopy = gameId && getAppCopy("cerebrum", locale).games[gameId];
+      if (gameCopy) return gameCopy.updatedAt;
+      // Une page rendue sans date connue ne doit pas recevoir une date inventée :
+      // l'ajouter à RENDERED_PAGE_IDS impose d'abord de lui donner la sienne.
+      throw new Error(`Aucune date de modification pour ${pageId}`);
+    }
   }
 }
 
+// Hebdomadaire : le hub et la page de l'app ; mensuel pour tout le reste.
+const isFrequentlyUpdated = (pageId: PageId) =>
+  pageId === "home" || pageId === "cerebrum";
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  return LOCALES.flatMap((locale) =>
-    routes.map((route) => ({
-      url: `${BASE_URL}${getLocalePath(locale, route)}`,
-      lastModified: lastModifiedFor(locale, route),
-      changeFrequency:
-        route === "/" ? ("weekly" as const) : ("monthly" as const),
-      priority: route === "/" ? 1 : 0.5,
-      alternates: {
-        languages: {
-          fr: `${BASE_URL}${getLocalePath("fr", route)}`,
-          en: `${BASE_URL}${getLocalePath("en", route)}`,
-          "x-default": `${BASE_URL}${getLocalePath(X_DEFAULT_LOCALE, route)}`,
-        },
-      },
+  return renderedPageIds().flatMap((pageId) =>
+    LOCALES.map((locale) => ({
+      url: absoluteUrl(pageId, locale),
+      lastModified: lastModifiedFor(locale, pageId),
+      changeFrequency: isFrequentlyUpdated(pageId)
+        ? ("weekly" as const)
+        : ("monthly" as const),
+      priority: pageId === "home" ? 1 : 0.5,
+      alternates: alternatesFor(pageId),
     })),
   );
 }

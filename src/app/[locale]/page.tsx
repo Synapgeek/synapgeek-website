@@ -1,20 +1,15 @@
 import type { Metadata } from "next";
 import { generateStaticParams } from "@/lib/i18n";
 import { getDictionary, getLocale } from "@/content";
+import { getApps, getGames } from "@/content/apps";
+import { getHubCopy } from "@/content/copy";
 import { getAlternates, buildOpenGraph } from "@/lib/seo";
-import {
-  faqPageSchema,
-  softwareApplicationSchema,
-} from "@/lib/structured-data";
-import { JsonLd } from "@/components/JsonLd";
-import { Hero } from "@/components/landing/Hero";
-import { Stats } from "@/components/landing/Stats";
-import { Features } from "@/components/landing/Features";
-import { FAQ } from "@/components/landing/FAQ";
-import { About } from "@/components/landing/About";
-import { CTAFinal } from "@/components/landing/CTAFinal";
-import { Contact } from "@/components/landing/Contact";
+import { ContactForm } from "@/components/ContactForm";
 import { TrackSection } from "@/components/TrackSection";
+import { AppShowcase } from "@/components/home/AppShowcase";
+import { BuiltByEnthusiasts } from "@/components/home/BuiltByEnthusiasts";
+import { HomeHero } from "@/components/home/HomeHero";
+import { SectionBand } from "@/components/ui/SectionBand";
 
 export { generateStaticParams };
 
@@ -25,19 +20,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: raw } = await params;
   const locale = getLocale(raw);
-  const { meta } = getDictionary(locale).landing;
+  const { meta } = getHubCopy(locale);
 
   return {
-    title: {
-      absolute: meta.title,
-    },
+    title: { absolute: meta.title },
     description: meta.description,
-    alternates: getAlternates(locale, "/"),
-    openGraph: buildOpenGraph(locale, "/", meta.title, meta.description),
+    alternates: getAlternates("home", locale),
+    openGraph: buildOpenGraph(locale, "home", meta.title, meta.description),
   };
 }
 
-export default async function HomePage({
+export default async function HubPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
@@ -45,32 +38,43 @@ export default async function HomePage({
   const { locale: rawLocale } = await params;
   const locale = getLocale(rawLocale);
   const dict = getDictionary(locale);
+  const copy = getHubCopy(locale);
 
   return (
     <>
-      <JsonLd
-        data={softwareApplicationSchema(locale, {
-          description: dict.landing.hero.subtitle,
-        })}
-      />
-      {/* Mêmes questions/réponses que la FAQ visible, en texte brut. */}
-      <JsonLd data={faqPageSchema(dict.landing.faq.items)} />
-      <Hero locale={locale} dict={dict.landing.hero} />
-      <Stats items={dict.landing.stats.items} />
-      <TrackSection name="features">
-        <Features dict={dict.landing.features} />
+      <HomeHero locale={locale} />
+
+      <TrackSection name="apps">
+        <SectionBand id="apps" title={copy.apps.title}>
+          <div className="space-y-20">
+            {getApps().map((app) => {
+              const item = copy.apps.items[app.slug];
+              return (
+                <AppShowcase
+                  key={app.slug}
+                  app={app}
+                  games={getGames(app.slug)}
+                  locale={locale}
+                  genre={item.genre}
+                  description={item.description}
+                  seeMore={item.seeMore}
+                  gamesLabel={item.gamesLabel}
+                  storeLabels={dict.common.stores}
+                />
+              );
+            })}
+          </div>
+        </SectionBand>
       </TrackSection>
-      <TrackSection name="faq">
-        <FAQ locale={locale} dict={dict.landing.faq} />
+
+      <TrackSection name="studio">
+        <BuiltByEnthusiasts locale={locale} />
       </TrackSection>
-      <TrackSection name="about">
-        <About dict={dict.landing.about} />
-      </TrackSection>
-      <TrackSection name="cta">
-        <CTAFinal locale={locale} dict={dict.landing.cta} />
-      </TrackSection>
+
       <TrackSection name="contact">
-        <Contact dict={dict.landing.contact} />
+        <SectionBand id="contact" title={copy.contact.title} width="prose">
+          <ContactForm dict={dict.common.contactForm} />
+        </SectionBand>
       </TrackSection>
     </>
   );

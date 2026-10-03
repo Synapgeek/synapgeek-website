@@ -1,35 +1,31 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { notFound } from "next/navigation";
-import { DM_Sans, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { LOCALES, generateStaticParams as genParams } from "@/lib/i18n";
 import { getDictionary } from "@/content";
-import { getOgLocale, getOgAlternateLocales } from "@/lib/seo";
+import { getAboutCopy } from "@/content/copy";
+import { getOgLocale, getOgAlternateLocales, getOgImages } from "@/lib/seo";
 import { organizationSchema, websiteSchema } from "@/lib/structured-data";
-import { APP_STORE_ID } from "@/lib/app";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { pagePath } from "@/lib/routes";
+import {
+  buildLanguageSwitchTable,
+  legalPagePaths,
+} from "@/lib/language-switch-table";
+import { SkipLink } from "@/components/site/SkipLink";
+import { SiteHeader } from "@/components/site/SiteHeader";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import {
+  LanguageSuggestion,
+  type LanguageSuggestionCopy,
+} from "@/components/site/LanguageSuggestion";
 import { JsonLd } from "@/components/JsonLd";
 import { ConsentBootstrap } from "@/components/consent/ConsentBootstrap";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
+import { FONT_VARIABLES } from "../fonts";
 
 export { genParams as generateStaticParams };
-
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-});
 
 function isLocale(value: string): value is Locale {
   return (LOCALES as readonly string[]).includes(value);
@@ -46,15 +42,11 @@ export async function generateMetadata({
   const locale: Locale = raw;
 
   return {
-    // Safari smart App Banner — now that Cerebrum is live on the App Store.
-    itunes: { appId: APP_STORE_ID },
     openGraph: {
       siteName: "Synapgeek",
       locale: getOgLocale(locale),
       alternateLocale: getOgAlternateLocales(locale),
-      images: [
-        { url: "/images/brand/og-image.jpeg", width: 1200, height: 630 },
-      ],
+      images: getOgImages(locale),
     },
     twitter: {
       card: "summary_large_image",
@@ -74,30 +66,47 @@ export default async function LocaleLayout({
   if (!isLocale(rawLocale)) notFound();
   const locale: Locale = rawLocale;
   const dict = getDictionary(locale);
+  const languageTable = buildLanguageSwitchTable();
+  // Chaque texte est rédigé dans la langue qu'il propose : on passe tous ceux de LOCALES.
+  const languageSuggestionCopy = Object.fromEntries(
+    LOCALES.map((l) => [l, getDictionary(l).common.languageSuggestion]),
+  ) as Record<Locale, LanguageSuggestionCopy>;
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${dmSans.variable} ${inter.variable} antialiased`}>
+      <body className={`${FONT_VARIABLES} antialiased`}>
         {/* Défauts Consent Mode v2 + GA4 : premier enfant de <body>, avant tout autre contenu (voir ConsentBootstrap). */}
         <ConsentBootstrap />
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg"
-        >
-          {locale === "fr" ? "Aller au contenu" : "Skip to content"}
-        </a>
+        <SkipLink label={dict.common.a11y.skipToContent} />
         {/* Non modal, position fixed (l'emplacement dans le DOM n'affecte pas son rendu) :
             monté tôt, juste après le lien d'évitement, pour qu'un utilisateur clavier
             l'atteigne sans devoir traverser toute la page. */}
-        <ConsentBanner locale={locale} dict={dict.common.consent} />
+        <ConsentBanner
+          privacyHref={pagePath("privacy", locale, "website")}
+          dict={dict.common.consent}
+        />
         <div className="flex min-h-screen flex-col">
-          <JsonLd data={organizationSchema(locale)} />
-          <JsonLd data={websiteSchema(locale)} />
-          <Header locale={locale} />
+          <JsonLd data={organizationSchema(getAboutCopy(locale))} />
+          <JsonLd data={websiteSchema()} />
+          <SiteHeader
+            locale={locale}
+            dict={dict.common}
+            languageTable={languageTable}
+          />
+          <LanguageSuggestion
+            locale={locale}
+            table={languageTable}
+            excludedPaths={legalPagePaths()}
+            copy={languageSuggestionCopy}
+          />
           <main id="main-content" className="flex-1">
             {children}
           </main>
-          <Footer locale={locale} dict={dict.common} />
+          <SiteFooter
+            locale={locale}
+            dict={dict.common}
+            languageTable={languageTable}
+          />
         </div>
         <Analytics />
         <SpeedInsights />

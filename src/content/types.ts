@@ -1,26 +1,13 @@
 import type { Locale } from "@/lib/i18n";
 
-/** Download block: les deux plateformes sont en ligne depuis le lancement Android. */
-export interface StoreDownload {
-  availableNow: string;
+/** Libellés accessibles des deux badges de boutique (le badge lui-même est une image officielle). */
+export interface StoreLabels {
+  /**
+   * Contient le texte visible du badge, puis le nom de l'app (WCAG 2.5.3, étiquette dans le nom),
+   * écrit `{app}` : `storeLabelsFor()` (src/lib/store-badges.ts) le remplace par le nom de l'app.
+   */
   appStoreLabel: string;
   googlePlayLabel: string;
-}
-
-/** Identifiant stable de chaque capture du carrousel du hero (indépendant de la locale). */
-export type HeroSlideId = "home" | "sudoku" | "daily" | "victory" | "profile";
-
-/**
- * Textes localisés du carrousel de captures d'écran (`IPhoneSlider`).
- * `slideLabel` et `goToSlide` sont des gabarits où le composant remplace
- * `{index}` (et `{total}` pour `slideLabel`) par les valeurs réelles.
- */
-export interface HeroSlider {
-  carouselLabel: string;
-  slideLabel: string;
-  controlsLabel: string;
-  goToSlide: string;
-  alts: Record<HeroSlideId, string>;
 }
 
 /**
@@ -33,59 +20,37 @@ export interface ContactTopic {
   label: string;
 }
 
-/**
- * Lien optionnel posé sur un extrait d'une réponse de FAQ. `text` doit figurer
- * mot pour mot dans `answer` : le composant l'y retrouve pour l'envelopper, ce
- * qui garde la réponse visible identique au texte brut du JSON-LD FAQPage.
- */
-export interface FaqLink {
-  text: string;
-  /** Chemin sans préfixe de locale (ex. "/privacy#account-deletion"), résolu via getLocalePath. */
-  path: string;
-}
-
-/** Une question/réponse de la FAQ de la home. Réponse autonome, en texte brut. */
-export interface FaqItem {
-  question: string;
-  answer: string;
-  link?: FaqLink;
-}
-
 /** Une section d'un document légal. `id` n'est posé que sur les sections ciblées par une ancre. */
 export type LegalSection = { title: string; content: string; id?: string };
 
 export interface Dictionary {
   common: {
     siteName: string;
+    /** Texte alternatif de l'image de partage (og:image) du site. */
+    ogImageAlt: string;
     tagline: string;
+    /** Entrées de navigation du header (et libellés réutilisés par le pied de page). */
     nav: {
-      home: string;
-      privacy: string;
-      terms: string;
-      features: string;
+      /** Ancre `#apps` du hub. */
+      apps: string;
+      cerebrum: string;
       about: string;
-      faq: string;
-      contact: string;
+      press: string;
     };
     footer: {
       copyright: string;
+      /** Ligne d'identité de l'éditeur (raison sociale et nature du studio), sans adresse : l'adresse vit sur la page des mentions légales. */
+      identity: string;
+      /** Titres des colonnes du pied de page. */
+      productHeading: string;
+      studioHeading: string;
+      legalHeading: string;
       privacy: string;
       terms: string;
       legalNotice: string;
       contact: string;
-      /** Lien de retrait/modification du consentement Google Analytics, toujours affiché — rouvre `ConsentBanner`. */
+      /** Lien de retrait/modification du consentement Google Analytics, toujours affiché : rouvre `ConsentBanner`. */
       manageCookies: string;
-      /** Titres des colonnes du footer. */
-      productHeading: string;
-      legalHeading: string;
-      contactHeading: string;
-      /** Libellé du lien vers la section fonctionnalités de la home. */
-      features: string;
-      /** Libellé du lien vers la section contact de la home. */
-      writeToUs: string;
-      /** Mention « Fait avec ❤ en France », coupée en deux autour du cœur. */
-      madeWith: string;
-      inFrance: string;
     };
     /** Bandeau de consentement maison (`ConsentBanner`). Une seule finalité (mesure d'audience) : pas de bouton "Personnaliser". */
     consent: {
@@ -99,70 +64,101 @@ export interface Dictionary {
     };
     languageSwitch: string;
     languageSwitchLocale: Locale;
-  };
-  landing: {
-    /** Title (≤ 60 caractères) et meta description (140-160 caractères) de la home. */
-    meta: {
-      title: string;
-      description: string;
+    a11y: {
+      /** Texte du lien d'évitement, premier élément focusable de la page. */
+      skipToContent: string;
+      /** Nom du bouton qui ouvre le menu mobile (l'icône seule n'a pas de nom). */
+      menu: string;
+      /** Noms des deux repères de navigation (header, pied de page). */
+      mainNavigation: string;
+      footerNavigation: string;
     };
-    hero: {
-      badge: string;
-      title: string;
-      subtitle: string;
+    breadcrumb: {
+      /** Nom du repère de navigation du fil d'Ariane. */
+      label: string;
+      /** Premier maillon du fil d'Ariane (Accueil / Home). */
+      home: string;
+    };
+    /** Libellé devant la date de mise à jour d'une page app ou jeu (« Mis à jour le »). */
+    updatedOn: string;
+    /**
+     * Libellés de la fiche d'identité de l'éditeur (À propos, Presse). Les
+     * valeurs viennent de `PUBLISHER` (src/content/publisher.ts), jamais d'ici.
+     */
+    publisher: {
+      legalName: string;
+      legalForm: string;
+      legalFormValue: string;
+      capital: string;
+      country: string;
+      siret: string;
+      ape: string;
+      vat: string;
+      publicationDirector: string;
+      host: string;
+      email: string;
+    };
+    /**
+     * Suggestion de langue, rédigée dans la langue qu'elle propose : le texte
+     * d'une locale est affiché à un visiteur dont le navigateur parle cette
+     * locale alors qu'il consulte une autre version du site.
+     */
+    languageSuggestion: {
+      message: string;
       cta: string;
-      ctaSecondary: string;
-      store: StoreDownload;
-      slider: HeroSlider;
+      /** Nom du bouton qui ferme la suggestion. */
+      dismiss: string;
     };
-    stats: {
-      items: readonly { value: string; label: string }[];
-    };
-    features: {
+    notFound: {
       title: string;
-      subtitle: string;
-      /** `id` mappe vers le visuel du jeu — l'ordre du tableau n'a donc plus d'effet. */
-      items: readonly { id: string; title: string; description: string }[];
-    };
-    about: {
-      title: string;
-      description: string;
-      values: readonly { title: string; description: string }[];
-    };
-    faq: {
-      title: string;
-      subtitle: string;
-      items: readonly FaqItem[];
-    };
-    cta: {
-      title: string;
-      subtitle: string;
+      body: string;
       cta: string;
-      note: string;
-      store: StoreDownload;
     };
-    contact: {
+    stores: StoreLabels;
+    /**
+     * Fin de page de chaque page jeu : le modèle économique de l'app, dit une
+     * seule fois ici (ruling R5) et jamais dans la copie d'un jeu.
+     */
+    gameGet: {
       title: string;
-      subtitle: string;
-      form: {
-        name: string;
-        email: string;
-        message: string;
-        topicLabel: string;
-        topicPlaceholder: string;
-        topics: readonly ContactTopic[];
-        submit: string;
-        sending: string;
-        successTitle: string;
-        successBody: string;
-        error: string;
-        /** Repli affiché à la place du bouton d'envoi quand reCAPTCHA n'a pas de clé au build. */
-        unavailable: string;
-      };
+      /** Gratuit avec pubs, pubs récompensées facultatives, Premium : jamais « sans pub », aucun prix. */
+      model: string;
+      /** Libellé du lien vers la page de l'app. */
+      premiumLink: string;
+    };
+    /**
+     * Défi du jour d'une page jeu, dit une seule fois par le gabarit (ruling R7) :
+     * la mécanique est celle de l'app, seules les difficultés viennent du registre.
+     * `{game}` (facultatif : le français n'en a pas besoin, les noms de jeu y
+     * demandent un article) et `{difficulties}` sont remplacés. `lineByLanguage`
+     * remplace `line` pour les jeux dont la grille suit la langue de l'app
+     * (Mots croisés, Mots mêlés) : une phrase de plus au lieu d'une note qui
+     * corrigerait la première.
+     */
+    gameDaily: {
+      line: string;
+      lineByLanguage: string;
+    };
+    contactForm: {
+      name: string;
+      email: string;
+      message: string;
+      topicLabel: string;
+      topicPlaceholder: string;
+      topics: readonly ContactTopic[];
+      submit: string;
+      sending: string;
+      successTitle: string;
+      successBody: string;
+      error: string;
+      /** Repli affiché à la place du bouton d'envoi quand reCAPTCHA n'a pas de clé au build. */
+      unavailable: string;
     };
   };
   privacy: {
     title: string;
+    /** Meta description de la page (balise `<meta>` et Open Graph). */
+    metaDescription: string;
     lastUpdated: string;
     /** Date ISO (AAAA-MM-JJ) de dernière mise à jour, utilisée par le sitemap et le JSON-LD. */
     updatedAt: string;
@@ -170,6 +166,8 @@ export interface Dictionary {
   };
   terms: {
     title: string;
+    /** Meta description de la page (balise `<meta>` et Open Graph). */
+    metaDescription: string;
     lastUpdated: string;
     /** Date ISO (AAAA-MM-JJ) de dernière mise à jour, utilisée par le sitemap et le JSON-LD. */
     updatedAt: string;
@@ -177,14 +175,19 @@ export interface Dictionary {
   };
   legal: {
     title: string;
+    /** Meta description de la page (balise `<meta>` et Open Graph). */
+    metaDescription: string;
     lastUpdated: string;
     /** Date ISO (AAAA-MM-JJ) de dernière mise à jour, utilisée par le sitemap et le JSON-LD. */
     updatedAt: string;
     sections: readonly LegalSection[];
   };
-  /** Repli de /play (desktop, iPad en mode bureau, robot) — reste en français quelle que soit la locale. */
+  /** Repli de /cerebrum/play (desktop, iPad en mode bureau, robot) : la langue suit l'en-tête Accept-Language, pas l'URL. */
   play: {
+    /** Titre de l'onglet. */
     title: string;
+    /** Début de la phrase qui cite les jeux : suivi de leurs noms (registre), puis d'un point. */
+    gamesIntro: string;
     chooseStore: string;
   };
 }

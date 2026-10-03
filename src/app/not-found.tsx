@@ -1,27 +1,29 @@
-import Image from "next/image";
-import { Button } from "@/components/ui/Button";
+import type { Metadata } from "next";
+import { getDictionary } from "@/content";
+import { pagePath } from "@/lib/routes";
+import { NotFoundView } from "@/components/site/NotFoundView";
+import { FONT_VARIABLES } from "./fonts";
 
+// Le gabarit « %s | Synapgeek » du layout racine s'applique : un seul <title> dans le document.
+export const metadata: Metadata = {
+  title: getDictionary("en").common.notFound.title,
+};
+
+/**
+ * 404 racine, en anglais : le layout racine rend `children` nu, cette page pose
+ * donc son propre `<html>` et ses polices. Elle sert les URLs qu'aucune route ne
+ * reconnaît ; une page du segment `[locale]` qui lève `notFound()` rend la 404
+ * localisée (`[locale]/not-found.tsx`).
+ */
 export default function NotFound() {
+  const dict = getDictionary("en").common;
+
   return (
     <html lang="en">
-      <body>
-        <div className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-          <Image
-            src="/images/brand/logo-synapgeek.png"
-            alt="Synapgeek logo"
-            width={80}
-            height={80}
-            className="mb-8"
-          />
-          <h1 className="text-5xl font-extrabold tracking-tight">404</h1>
-          <p className="mt-4 text-lg text-text-secondary">
-            Page not found. The page you are looking for does not exist or has
-            been moved.
-          </p>
-          <Button href="/" size="lg" className="mt-8">
-            Back to home
-          </Button>
-        </div>
+      <body className={`${FONT_VARIABLES} antialiased`}>
+        <main className="flex min-h-screen flex-col justify-center">
+          <NotFoundView {...dict.notFound} href={pagePath("home", "en")} />
+        </main>
       </body>
     </html>
   );

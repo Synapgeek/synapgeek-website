@@ -1,9 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
-import Link from "next/link";
-import type { Locale } from "@/lib/i18n";
-import { getLocalePath } from "@/lib/i18n";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useSyncExternalStore,
+} from "react";
+import { InternalLink } from "@/components/ui/InternalLink";
 import type { Dictionary } from "@/content";
 import {
   clearGaCookies,
@@ -12,6 +16,7 @@ import {
   type AnalyticsConsentChoice,
 } from "@/lib/consent/storage";
 import { SG_CONSENT_REOPEN_EVENT } from "@/lib/consent/reopen-event";
+import { publishBannerOpen } from "./banner-signal";
 
 declare global {
   interface Window {
@@ -116,10 +121,11 @@ function getServerSnapshot(): BannerState {
  * qui ne doit pas voler le focus courant.
  */
 export function ConsentBanner({
-  locale,
+  privacyHref,
   dict,
 }: {
-  locale: Locale;
+  /** URL déjà résolue de la politique de confidentialité (ancre #website) : ce composant client ne connaît pas le registre des routes. */
+  privacyHref: string;
   dict: Dictionary["common"]["consent"];
 }) {
   const { visible: isVisible, focusToken } = useSyncExternalStore(
@@ -146,6 +152,15 @@ export function ConsentBanner({
     state = { visible: false, focusToken: 0 };
     notify();
   }, []);
+
+  // Publie l'état ouvert/fermé pour `LanguageSuggestion`, qui attend la fermeture
+  // du bandeau (deux surfaces fixées en bas ne se superposent jamais). Layout
+  // effect : l'abonné se met à jour avant la peinture, sans image intermédiaire
+  // où les deux seraient visibles.
+  useLayoutEffect(() => {
+    publishBannerOpen(isVisible);
+    return () => publishBannerOpen(false);
+  }, [isVisible]);
 
   // Ne déplace le focus que sur une réouverture explicite (`focusToken` > 0
   // signifie qu'un `reopen()` a eu lieu au moins une fois) — jamais sur
@@ -174,12 +189,12 @@ export function ConsentBanner({
         </p>
         <p className="mt-2 text-sm text-text-secondary">
           {dict.body}{" "}
-          <Link
-            href={getLocalePath(locale, "/privacy#website")}
+          <InternalLink
+            href={privacyHref}
             className="font-semibold text-text-primary underline underline-offset-2"
           >
             {dict.learnMore}
-          </Link>
+          </InternalLink>
         </p>
         <div className="mt-4 flex gap-3">
           <button

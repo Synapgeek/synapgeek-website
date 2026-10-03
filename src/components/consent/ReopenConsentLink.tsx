@@ -10,14 +10,21 @@ import { SG_CONSENT_REOPEN_EVENT } from "@/lib/consent/reopen-event";
  * soit le choix déjà stocké dans `sg-consent` — un visiteur qui a déjà
  * accepté peut donc revenir sur son choix et refuser (et inversement).
  */
-export function ReopenConsentLink({ label }: { label: string }) {
+export function ReopenConsentLink({
+  label,
+  className,
+}: {
+  label: string;
+  /** Style fourni par l'appelant : le pied de page décide du rendu, ce bouton n'en impose aucun. */
+  className: string;
+}) {
   return (
     <button
       type="button"
       onClick={() => {
         window.dispatchEvent(new Event(SG_CONSENT_REOPEN_EVENT));
       }}
-      className="text-gray-400 transition-colors hover:text-white"
+      className={className}
     >
       {label}
     </button>

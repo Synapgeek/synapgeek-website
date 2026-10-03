@@ -17,16 +17,13 @@ export async function generateMetadata({
   const locale = getLocale(raw);
   const dict = getDictionary(locale);
 
-  const description =
-    locale === "fr"
-      ? "Conditions générales d'utilisation des apps Synapgeek — licence, achats in-app, biens virtuels, propriété intellectuelle."
-      : "Terms of use for Synapgeek apps — license agreement, in-app purchases and subscriptions, virtual goods, intellectual property, and user conduct.";
+  const description = dict.terms.metaDescription;
 
   return {
     title: dict.terms.title,
     description,
-    alternates: getAlternates(locale, "/terms"),
-    openGraph: buildOpenGraph(locale, "/terms", dict.terms.title, description),
+    alternates: getAlternates("terms", locale),
+    openGraph: buildOpenGraph(locale, "terms", dict.terms.title, description),
   };
 }
 
@@ -41,7 +38,7 @@ export default async function TermsPage({
 
   const webPage = webPageSchema({
     locale,
-    path: "/terms",
+    pageId: "terms",
     name: dict.terms.title,
     dateModified: dict.terms.updatedAt,
   });

@@ -17,16 +17,13 @@ export async function generateMetadata({
   const locale = getLocale(raw);
   const dict = getDictionary(locale);
 
-  const description =
-    locale === "fr"
-      ? "Mentions légales de Synapgeek — éditeur, hébergeur, immatriculation RCS et informations sur la société."
-      : "Synapgeek legal notice — publisher, hosting provider, company registration details and corporate information.";
+  const description = dict.legal.metaDescription;
 
   return {
     title: dict.legal.title,
     description,
-    alternates: getAlternates(locale, "/legal"),
-    openGraph: buildOpenGraph(locale, "/legal", dict.legal.title, description),
+    alternates: getAlternates("legal", locale),
+    openGraph: buildOpenGraph(locale, "legal", dict.legal.title, description),
   };
 }
 
@@ -41,7 +38,7 @@ export default async function LegalNoticePage({
 
   const webPage = webPageSchema({
     locale,
-    path: "/legal",
+    pageId: "legal",
     name: dict.legal.title,
     dateModified: dict.legal.updatedAt,
   });
