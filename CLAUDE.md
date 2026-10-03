@@ -1,6 +1,6 @@
 # Synapgeek Website
 
-> Vérifié contre le code à la fin de la refonte « hub studio » (2026-10-02). Quand ce fichier et
+> Vérifié contre le code à la fin de la refonte « hub studio » (2026-10-03). Quand ce fichier et
 > le code divergent, **le code fait foi**, et cette ligne devient une tâche, pas une excuse.
 > Fichiers qui font contrat : `src/proxy.ts`, `next.config.ts`, `vercel.json`,
 > `src/lib/{routes,frozen-legal-paths,page-slugs,i18n,seo,app,structured-data}.ts`,
@@ -22,12 +22,15 @@ d'AdMob. Brief produit : `PRODUCT.md`.
   (comme `eslint-config-next`). TypeScript strict, ESLint 9 + Prettier, **vitest 4**. Contact :
   Nodemailer `10.0.13` (épinglé, types embarqués, pas de `@types/nodemailer`; SMTP Google
   Workspace) et reCAPTCHA v2, sur `/api/contact` seulement.
-- **Tailwind 4**, CSS-first : `src/app/globals.css` (environ 310 lignes) EST le design system
-  (jetons `--color-*`, paires `--game-*`, rythme, ombres, classes `band-*`, `shell-pop`,
-  `input-*`), pas de `tailwind.config.js`. Polices Fredoka (titres) et Figtree (texte) par
+- **Tailwind 4**, CSS-first : `src/app/globals.css` (environ 420 lignes) EST le design system
+  (jetons `--color-*` dont `--color-cerebrum`, le magenta du wordmark de l'app, réservé au grand
+  texte ; paires `--game-*` ; rythme ; ombres ; classes `band-*`, `shell-pop`, `input-*`,
+  `game-gradient` pour les cartes au style de l'app, `blob-*` et `animate-blob-drift-*` pour les
+  taches de couleur, qui jouent 2 cycles puis se figent), pas de `tailwind.config.js`. Polices Fredoka (titres) et Figtree (texte) par
   `next/font/google` (`src/app/fonts.ts`) ; jamais Nunito ni Baloo 2 (celles de Maze Foundry).
-  Primitives dans `src/components/ui/`. **Jamais de hex en dur, jamais un cinquième bouton**
-  (`Button` : primary, secondary, outline, inverse). Direction visuelle : `DESIGN.md`.
+  Primitives dans `src/components/ui/` (inventaire dans le `CLAUDE.md` de `src/components`).
+  **Jamais de hex en dur, jamais un cinquième bouton** (`Button` : primary, secondary, outline,
+  inverse). Direction visuelle : `DESIGN.md`.
 - **i18n maison** (pas de `next-intl`) : **anglais par défaut sans préfixe, français sous `/fr`**,
   sauf les pages légales (voir « Contrat d'URLs »).
 - **Mesure** : Vercel Analytics et Speed Insights (sans cookie) et **GA4** derrière **Consent Mode
@@ -73,19 +76,20 @@ npm run indexnow        # prévient IndexNow, À LA MAIN, après un déploiement
 
 Ne rien casser, ne rien déplacer. Détail, codes et gardes : `docs/contrat/architecture.md`.
 
-| URL                                                                      | Comportement                                                                                    |
-| ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
-| `/`, `/fr`                                                               | hub en anglais, hub en français ; tous deux portent `id="contact"` (URL de support des stores)  |
-| `/en`, `/en/<page non légale>`                                           | 308 vers `/` et `/<page>` (règles littérales, jamais `/en/:path*`)                              |
-| `/privacy`, `/terms`, `/legal`                                           | 200, **français** (`FROZEN_LEGAL_PATHS`) : l'app installée et les stores les ouvrent ainsi      |
-| `/en/privacy`, `/en/terms`, `/en/legal`                                  | 200, anglais                                                                                    |
-| `/fr/privacy`, `/fr/terms`, `/fr/legal`                                  | 200 aujourd'hui (canonical vers l'URL sans préfixe) ; 307 dans un PR ultérieur, jamais 308      |
-| `/account-deletion`, `/en/…`, `/fr/…`                                    | 307 vers `#account-deletion` de la politique (URL du formulaire Data Safety de la Play Console) |
-| `/cerebrum/play`                                                         | redirection QR vers l'App Store ou Google Play selon le User-Agent, repli localisé, noindex     |
-| `/play`, `/jouer`                                                        | 307 vers `/cerebrum/play` (QR historiques)                                                      |
-| `/cerebrum`, `/cerebrum/<jeu>`, `/about`, `/press`                       | pages publiées ; slugs traduits en français (`/fr/cerebrum/demineur`, `/fr/a-propos`)           |
-| `/.well-known/apple-app-site-association`, `…/assetlinks.json`           | 200 en `application/json`, sans redirection, route handlers `force-static`                      |
-| `/robots.txt`, `/sitemap.xml`, `/llms.txt`, `/app-ads.txt`, clé IndexNow | 200                                                                                             |
+| URL                                                                            | Comportement                                                                                                             |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `/`, `/fr`                                                                     | hub en anglais, hub en français ; tous deux portent `id="contact"` (URL de support des stores)                           |
+| `/en`, `/en/<page non légale>`                                                 | 308 vers `/` et `/<page>` (règles littérales, jamais `/en/:path*`)                                                       |
+| `/` et `/en` avec `utm_source=cerebrum&utm_medium=app` (lien Contact des apps) | 307 : `/` vers `/fr` (sans `hl`), `/en` vers `/?hl=en` ; avant le 308 `/en`, à ne jamais retirer (`appContactRedirects`) |
+| `/privacy`, `/terms`, `/legal`                                                 | 200, **français** (`FROZEN_LEGAL_PATHS`) : l'app installée et les stores les ouvrent ainsi                               |
+| `/en/privacy`, `/en/terms`, `/en/legal`                                        | 200, anglais                                                                                                             |
+| `/fr/privacy`, `/fr/terms`, `/fr/legal`                                        | 200 aujourd'hui (canonical vers l'URL sans préfixe) ; 307 dans un PR ultérieur, jamais 308                               |
+| `/account-deletion`, `/en/…`, `/fr/…`                                          | 307 vers `#account-deletion` de la politique (URL du formulaire Data Safety de la Play Console)                          |
+| `/cerebrum/play`                                                               | redirection QR vers l'App Store ou Google Play selon le User-Agent, repli localisé, noindex                              |
+| `/play`, `/jouer`                                                              | 307 vers `/cerebrum/play` (QR historiques)                                                                               |
+| `/cerebrum`, `/cerebrum/<jeu>`, `/about`, `/press`                             | pages publiées ; slugs traduits en français (`/fr/cerebrum/demineur`, `/fr/a-propos`)                                    |
+| `/.well-known/apple-app-site-association`, `…/assetlinks.json`                 | 200 en `application/json`, sans redirection, route handlers `force-static`                                               |
+| `/robots.txt`, `/sitemap.xml`, `/llms.txt`, `/app-ads.txt`, clé IndexNow       | 200                                                                                                                      |
 
 Ancres contractuelles : `#account-deletion` et `#website` dans la politique (FR et EN), `#contact`
 sur `/` et `/fr` (jamais renommée ni retirée). Liens internes : `pagePath()` de `src/lib/routes.ts`.

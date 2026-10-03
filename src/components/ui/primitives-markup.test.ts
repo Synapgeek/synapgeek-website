@@ -1,10 +1,11 @@
-import { createElement } from "react";
+import { createElement, type ComponentProps } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { DifficultyTable } from "./DifficultyTable";
 import { FaqList } from "./FaqList";
 import { GameCard } from "./GameCard";
 import { PhoneFrame } from "./PhoneFrame";
+import { SectionBand } from "./SectionBand";
 import { StepList } from "./StepList";
 import { StoreBadges } from "./StoreBadges";
 
@@ -94,20 +95,33 @@ describe("GameCard", () => {
     expect(
       html(createElement(GameCard, { ...base, href: null })),
     ).not.toContain("iPhone");
+    // `<p[\s>]` : un paragraphe, pas le `<path` des paillettes SVG.
     expect(
       html(createElement(GameCard, { ...base, platforms: [], href: null })),
-    ).not.toContain("<p");
+    ).not.toMatch(/<p[\s>]/);
   });
 
   it("shows the genre only when there is one", () => {
-    expect(
-      html(createElement(GameCard, { ...base, href: null })),
-    ).not.toContain("<p");
+    expect(html(createElement(GameCard, { ...base, href: null }))).not.toMatch(
+      /<p[\s>]/,
+    );
     expect(
       html(
         createElement(GameCard, { ...base, genre: "nonogrammes", href: null }),
       ),
     ).toContain("nonogrammes");
+  });
+
+  it("wears the app look: the game's gradient, a light rim and decorative sparkles", () => {
+    const out = html(createElement(GameCard, { ...base, href: null }));
+    const article = /<article[^>]*class="([^"]*)"/.exec(out)?.[1] ?? "";
+    expect(article).toContain("game-gradient");
+    expect(article).toContain("@container");
+    expect(article).toMatch(/inset-ring-canvas\//);
+    expect(article).not.toMatch(/bg-\(--wash\)/);
+    expect(out).toMatch(
+      /<span aria-hidden="true" class="[^"]*absolute[^"]*"><svg/,
+    );
   });
 });
 
@@ -141,5 +155,72 @@ describe("PhoneFrame", () => {
     const out = frame();
     expect(out).toContain('loading="lazy"');
     expect(out).not.toContain("fetchPriority");
+  });
+});
+
+type Props = ComponentProps<typeof PhoneFrame>;
+
+describe("PhoneFrame, screen modes", () => {
+  it("in children mode, shows the HTML content and renders no image", () => {
+    const out = html(
+      createElement(PhoneFrame, null, createElement("p", null, "Écran HTML")),
+    );
+    expect(out).toContain("Écran HTML");
+    expect(out).not.toContain("<img");
+  });
+
+  it("in capture mode, shows the image with its alt text and no HTML content box", () => {
+    const out = html(
+      createElement(PhoneFrame, {
+        src: "/images/screens/v3/homepage-en.webp",
+        alt: "Home screen",
+      }),
+    );
+    expect(out).toContain("<img");
+    expect(out).toContain('alt="Home screen"');
+    expect(out).not.toMatch(/class="[^"]*content/);
+  });
+
+  it("refuses priority and sizes in children mode at compile time", () => {
+    // Vérifié par `tsc` : sans la directive, ces deux lignes ne compilent pas.
+    // @ts-expect-error `priority` n'a de sens que pour une capture
+    const a: Props = { priority: true, children: null };
+    // @ts-expect-error `sizes` n'a de sens que pour une capture
+    const b: Props = { sizes: "100vw", children: null };
+    expect([a, b]).toHaveLength(2);
+  });
+});
+
+describe("SectionBand backdrop", () => {
+  const band = (props: Record<string, unknown>) =>
+    html(
+      createElement(SectionBand, props, createElement("p", null, "Contenu")),
+    );
+
+  it("renders the backdrop before the content container, as a direct child of the section", () => {
+    const out = band({
+      backdrop: createElement("span", { "data-decor": "" }),
+      enter: true,
+    });
+    const decor = out.indexOf("data-decor");
+    const container = out.indexOf("band-enter");
+    expect(decor).toBeGreaterThan(-1);
+    expect(container).toBeGreaterThan(decor);
+    // Le décor n'est pas dans le conteneur animé : son `transform` le couperait.
+    expect(out.slice(container)).not.toContain("data-decor");
+  });
+
+  it("makes the section a positioning context with its own stacking context", () => {
+    const section = /<section[^>]*class="([^"]*)"/.exec(
+      band({ backdrop: createElement("span") }),
+    )?.[1];
+    expect(section).toContain("relative");
+    expect(section).toContain("isolate");
+  });
+
+  it("leaves the section static without a backdrop", () => {
+    const section = /<section[^>]*class="([^"]*)"/.exec(band({}))?.[1];
+    expect(section).not.toContain("relative");
+    expect(section).not.toContain("isolate");
   });
 });

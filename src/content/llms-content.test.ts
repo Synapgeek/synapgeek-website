@@ -1,12 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { getGames } from "@/content/apps";
+import { getGames, type GameCategory } from "@/content/apps";
 import {
   getAboutCopy,
   getAppCopy,
   getHubCopy,
   getPressCopy,
 } from "@/content/copy";
+import { PUBLISHER } from "@/content/publisher";
 import { LOCALES, type Locale } from "@/lib/i18n";
 import { absoluteUrl, pageIdForGame, type PageId } from "@/lib/routes";
 
@@ -90,6 +91,83 @@ describe("llms.txt — modèle économique et précisions de l'app, mot pour mot
       expect(lines, item).toContain(`- ${item}`);
     }
   });
+});
+
+/** Les lignes d'une section `## <titre>`, jusqu'à la section suivante. */
+function sectionLines(title: string): string[] {
+  const start = lines.indexOf(`## ${title}`);
+  expect(start, `section « ${title} » absente`).toBeGreaterThanOrEqual(0);
+  const end = lines.findIndex((line, i) => i > start && line.startsWith("## "));
+  return lines.slice(start + 1, end === -1 ? undefined : end);
+}
+
+const KEY_FACTS_TITLE: Record<Locale, string> = {
+  en: "Key facts",
+  fr: "Faits essentiels",
+};
+const FAMILIES_TITLE: Record<Locale, string> = {
+  en: "Games by family",
+  fr: "Les jeux par famille",
+};
+const CATEGORY_ORDER: readonly GameCategory[] = [
+  "logic-numbers",
+  "words",
+  "paths",
+];
+
+describe("llms.txt — faits essentiels et homonymie", () => {
+  it.each(LOCALES)("le bloc de faits nomme l'éditeur (%s)", (locale) => {
+    const block = sectionLines(KEY_FACTS_TITLE[locale]).join("\n");
+    expect(block).toContain(PUBLISHER.legalName);
+    expect(block).toMatch(/iPhone, iPad/);
+    expect(block).toMatch(/Android/);
+  });
+
+  it.each(LOCALES)(
+    "la phrase d'homonymie est celle de la copie, mot pour mot (%s)",
+    (locale) => {
+      const { disambiguation } = getAppCopy("cerebrum", locale);
+      expect(sectionLines(KEY_FACTS_TITLE[locale])).toContain(
+        `- ${disambiguation}`,
+      );
+    },
+  );
+
+  it.each(LOCALES)(
+    "Premium n'y est cité qu'avec « no forced ads » / « zéro pub imposée » (%s)",
+    (locale) => {
+      const block = sectionLines(KEY_FACTS_TITLE[locale]).join("\n");
+      expect(block).toMatch(
+        locale === "en" ? /no forced ads/ : /zéro pub imposée/,
+      );
+    },
+  );
+});
+
+describe("llms.txt — les jeux groupés par famille, sans nombre", () => {
+  it.each(LOCALES)(
+    "chaque jeu publié figure dans sa famille, avec son genre maison (%s)",
+    (locale) => {
+      const published = getGames("cerebrum").filter((game) => game.published);
+      const labels = getAppCopy("cerebrum", locale).sections.games.categories;
+      const colon = locale === "fr" ? "\u00a0: " : ": ";
+      const expected = CATEGORY_ORDER.flatMap((category) => [
+        `### ${labels[category]}`,
+        "",
+        ...published
+          .filter((game) => game.category === category)
+          .map((game) => {
+            const genre = game.genre[locale];
+            return `- ${game.name[locale]}${genre ? `${colon}${genre}` : ""}`;
+          }),
+        "",
+      ]);
+      const block = sectionLines(FAMILIES_TITLE[locale]);
+      // Les lignes vides de tête et de queue de section ne comptent pas.
+      expect(block.join("\n").trim()).toBe(expected.join("\n").trim());
+      expect(published.length).toBeGreaterThan(0);
+    },
+  );
 });
 
 describe("llms.txt — règles de rédaction", () => {

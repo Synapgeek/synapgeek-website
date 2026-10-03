@@ -35,7 +35,9 @@ Checklist non-négociable (chaque point vérifié explicitement) :
 
 1. **URLs de conformité** : `/privacy`, `/terms`, `/legal` (FRANÇAIS, schéma figé
    `FROZEN_LEGAL_PATHS`) et leurs pendants `/en/` (anglais) sortent en ● SSG ; `/en` reste un 308
-   vers `/` et les règles `/en/<page>` restent littérales ; `/fr/<page légale>` reste 200 tant
+   vers `/` et les règles `/en/<page>` restent littérales, SAUF les deux 307 conditionnels du lien
+   Contact des apps (`appContactRedirects`, `has` utm_source=cerebrum et utm_medium=app : `/` vers
+   `/fr`, `/en` vers `/?hl=en`), placés avant le 308 et jamais retirés ; `/fr/<page légale>` reste 200 tant
    qu'aucun PR ne la passe en 307 (jamais 308) ; ancres `contact`, `website`, `account-deletion`
    intactes dans les deux langues ; les 3 redirects `/account-deletion` restent `permanent: false`
    (le `/account-deletion` nu est un champ obligatoire du Data Safety Play) ; `id: "account-deletion"`
@@ -70,7 +72,9 @@ Checklist non-négociable (chaque point vérifié explicitement) :
    reprend les définitions mot pour mot ; robots : `Allow: /` pour `*` et les crawlers IA nommés,
    aucun `Disallow` ; JSON-LD : un builder de `src/lib/structured-data.ts`, `@id` identiques entre
    langues, `inLanguage` BCP 47, un seul noeud Organization, jamais d'`aggregateRating`, `FAQPage`
-   du même tableau que la FAQ visible ; `openGraph` par `buildOpenGraph()` ; toute clé touchée
+   du même tableau que la FAQ visible ; `openGraph` par `buildOpenGraph()` (l'image du site vient
+   de `getOgImages(locale)` de `src/lib/seo.ts`, `og-image-v2.jpeg`, jamais un chemin écrit à la
+   main) ; toute clé touchée
    existe dans `fr.ts` ET `en.ts` (aucun français ni placeholder dans `en.ts`) ; aucun texte en dur,
    aucun ternaire `locale === "fr" ?` (le cliquet de `route-invariants.test.ts` vaut 0), `pagePath()`
    partout ; seule `/cerebrum/play` est `noindex`, sans hreflang pointant vers elle.
@@ -85,11 +89,13 @@ Checklist non-négociable (chaque point vérifié explicitement) :
    (`sg-consent`, 6 mois), jamais un cookie.
 9. **A11y** : lien d'évitement vers `#main-content`, `alt` sur chaque `next/image` porteuse de
    sens, `tabIndex={-1}` sur les sections ancrées de `LegalPage`, `prefers-reduced-motion` respecté,
-   `npm run lint` (jsx-a11y) sans erreur, contrastes testés (`src/design/`), aucun hex en dur ; le
-   reste du WCAG relève de `web-accessibility`.
+   `npm run lint` (jsx-a11y) sans erreur, contrastes testés (`src/design/`), aucun hex en dur ;
+   `--color-cerebrum` seulement en grand texte (24 px et plus, 3:1) ; nom accessible qui contient le
+   texte visible (badges des boutiques, WCAG 2.5.3) ; cibles de 44 px ; aucun préchargement manuel
+   d'image (`ReactDOM.preload`) dans un composant partagé, et pas d'image prioritaire de plus sans
+   mesure ; le reste du WCAG relève de `web-accessibility`.
 10. **Clean code** : standards du skill `clean-code`, au seul périmètre du diff ; dette à ne pas
-    imputer à la PR : le `catch {}` sans log de `src/app/api/contact/route.ts:141` et le bouton
-    d'envoi de `ContactForm` (blanc sur vert).
+    imputer à la PR : le `catch {}` sans log de `src/app/api/contact/route.ts:141`.
 
 Tout point 1 à 9 enfreint est bloquant et impose « non » ; « mergeable oui » suppose les neuf
 non-négociables passés (le point 10 ne rend que de l'important/mineur). Findings par sévérité

@@ -148,9 +148,28 @@ aucune modification de fond (seulement la typographie française et leurs `meta`
   `src/assets/og-icons/<id>.png` (image Open Graph), son entrée dans `RENDERED_PAGE_IDS`, sa
   ligne dans `public/llms.txt` (définition mot pour mot), ses attentes dans `check:contract`.
   Un jeu publié sans copie, ou une copie sans jeu au registre, fait échouer les gardes.
-- **Ajouter une app** : une entrée `AppEntry`, ses jeux éventuels, sa copie (même structure),
-  un `PageId`, une route. Le nom de code de la future app non-jeu n'apparaît JAMAIS, ni dans le
-  code, ni dans les commentaires, ni dans la documentation.
+- **Champs visuels de l'`AppEntry`** : `wordmarkColor` est le NOM d'un jeton `--color-<app>` de
+  `globals.css` (jamais une valeur), typé `` `--color-${string}` ``. `registry.test.ts` vérifie qu'il y est
+  défini, `design-tokens.test.ts` qu'il tient 3:1 sur `canvas` et `canvas-soft` : il ne s'écrit qu'en
+  grand texte (24 px et plus). `scene` est `{ wide, narrow }`, les deux cadrages de la scène de
+  l'app (son encart de l'accueil et le héros de sa page), servis par `SceneBackground` ; les deux
+  chemins doivent exister sous `public/` (test du registre).
+- **Champs de copie d'une app** : `AppCopy.disambiguation`, la phrase d'homonymie, est lue mot pour
+  mot par le JSON-LD (`disambiguatingDescription`) et par `public/llms.txt` ; elle doit aussi
+  s'afficher sur une page (à faire : une ligne de la fiche de faits de Presse ou le bloc « Qui est
+  derrière » de À propos). `HubCopy.apps.items.<app>` porte `genre`, `description`, `seeMore` et
+  `gamesLabel` (nom de la ligne de liens vers les jeux publiés de l'encart de l'accueil). La
+  description de l'app du hub nomme iPhone, iPad et Android et dit gratuit / free
+  (`hubAppDescriptionViolations`) ; sa meta et la définition de la page app disent le modèle
+  économique (meta EN 152 caractères, FR 151 ; définition EN 168, FR 225).
+- **Ajouter une app** : (1) un jeton `--color-<app>` dans `globals.css` pour son wordmark,
+  vérifié en contraste grand texte ; (2) ses deux scènes (paysage et portrait) sous
+  `public/images/apps/<app>-scene-{wide,narrow}-v1.webp`, nommées avec une version, et une ligne dans
+  `docs/contrat/provenance-visuels-r8.md` (génération et traitement ; un décor n'est jamais présenté
+  comme une capture de l'app) ; (3) une entrée `AppEntry` (`wordmarkColor`, `scene`), ses jeux
+  éventuels, sa copie (même structure, `disambiguation` comprise), son bloc `apps.items.<app>` dans
+  la copie du hub, un `PageId`, une route. Le nom de code de la future app non-jeu n'apparaît JAMAIS,
+  ni dans le code, ni dans les commentaires, ni dans la documentation.
 
 ## 4. Les gardes de contenu
 
@@ -173,9 +192,11 @@ fichier vert pour rien.
 | sujets d'app (R5)                                              | aucun des sujets Premium, App Store, Google Play, iPhone, iPad, Android, gratuit, hors ligne, pubs, abonnement, langues dans la copie d'un jeu (hors définition et `meta`), sauf `APP_WIDE_ALLOWLIST` ; échoue aussi si une entrée de la liste ne sert plus |
 | typographie française                                          | espace insécable avant `: ; ? !` et dans les guillemets, dans les modules français et dans `fr.ts` (adresses et heures exemptées)       |
 | sujets du formulaire de contact                                | les sujets du formulaire du Dictionnaire sont exactement ceux de la table `CONTACT_TOPICS` de `src/app/api/contact/route.ts`, dans le même ordre |
-| `llms-content.test.ts`                                         | `public/llms.txt` reprend, mot pour mot, la définition de chaque page dans chaque langue et le modèle de la page app ; ni cadratin, « sans pub », prix, note ni téléchargements |
+| `llms-content.test.ts`                                         | `public/llms.txt` reprend, mot pour mot, la définition de chaque page dans chaque langue, le modèle de la page app et la phrase d'homonymie (`disambiguation`) ; le bloc « Key facts / Faits essentiels » et les blocs « Games by family / Les jeux par famille » sont reconstruits depuis le registre (familles de `category`, libellés de `sections.games.categories`, genre maison, aucun nombre ni prix, « no forced ads » seulement avec Premium) ; ni cadratin, « sans pub », prix, note ni téléchargements |
+| description de l'app du hub (`content-guards.test.ts`, `hubAppDescriptionViolations`) | la description de l'app sur l'accueil nomme iPhone, iPad et Android et dit gratuit / free |
 | `legal-meta.test.ts`                                           | meta descriptions légales renseignées et sans cadratin                                                                                   |
 | `publisher.test.ts`                                            | l'adresse et le capital de la source unique de l'éditeur sont ceux de `/legal`                                                           |
+| `location-privacy.test.ts`                                     | la rue, le code postal, la ville, la région et le greffe ne sont que dans les mentions légales : ni copie de page, ni dictionnaire hors `/legal`, ni `llms.txt`, ni JSON-LD |
 | `registry.test.ts`                                             | dix jeux dans l'ordre, slugs uniques et non réservés, difficultés, vies et tutoriels du fichier de faits, disponibilités, assets qui existent sous `public/`, couleurs nommées par propriété CSS |
 | `src/design/*.test.ts`                                         | aucun hex en dur dans les composants, contraste WCAG AA des jetons et des dix couples de jeu, couleur de thème = vert de marque         |
 
@@ -257,6 +278,9 @@ App Store, `PrivacyInfo.xcprivacy`, Data Safety de la Play Console).
 - **Suppression de compte** : dans l'app (Profil > Supprimer le compte), Cloud Function
   `deleteUserAccount` (sous-collections Firestore, document utilisateur, classements, Firebase Auth).
   Public : 13 ans et plus dans les CGU, pas de mécanisme COPPA.
+- **Lieu** (décision d'Adrien du 2026-10-02) : partout ailleurs que sur `/legal`, que la loi impose à
+  une SAS, le site dit « France » et rien de plus précis (ni ville, ni région, ni adresse, ni greffe) ;
+  les fiches À propos et Presse montrent le pays, jamais l'adresse.
 - **Éditeur**, source unique `src/content/publisher.ts`, publié sur `/legal` et à garder cohérent
   avec App Store Connect et la Play Console : Synapgeek SAS, capital 1 000 €, 185 chemin des
   Brosses, 69620 Frontenas, RCS Villefranche-Tarare 102 429 826, SIRET 102 429 826 00013, APE

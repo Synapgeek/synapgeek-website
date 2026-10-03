@@ -6,98 +6,56 @@ import { PhoneStage } from "./PhoneStage";
 import { SectionBand } from "./SectionBand";
 
 /**
- * Le ciel aquarelle ne déborde jamais sur la bande des jeux (R3 de la revue de
- * finition) : il est découpé au bord bas de la bande du héros, tandis que le
- * téléphone, lui, déborde. Aucun pixel n'est mesurable en rendu serveur ; ces
- * assertions verrouillent donc les trois maillons du contrat (le balisage, la règle
- * CSS, l'appariement avec la marge négative des pages) et la preuve en navigateur
- * (elementFromPoint sur le titre) est consignée dans le rapport de la tâche.
+ * Le téléphone du héros de /cerebrum déborde sur la bande des jeux (marge négative
+ * `-mb-24` sur mobile) : la bande suivante doit lui laisser la place, sinon il mord
+ * sur son titre. Aucun pixel n'est mesurable en rendu serveur ; ces assertions
+ * verrouillent donc l'appariement des marges dans la page, et l'absence du ciel
+ * Breeze retiré (son fichier, ses règles CSS, sa prop). La capture n'est plus
+ * l'image LCP de /cerebrum : la scène photo l'est, la capture charge paresseusement.
  */
 const read = (path: string) => readFileSync(path, "utf8");
-// Les commentaires de la feuille expliquent le piège Safari et citent donc `no-clip` :
-// seules les règles comptent.
-const css = read("src/app/globals.css").replace(/\/\*[\s\S]*?\*\//g, "");
-const rule = (selector: string) =>
-  new RegExp(`(?:^|\\s)${selector}\\s*\\{([^}]*)\\}`).exec(css)?.[1] ?? "";
 
-const stage = renderToStaticMarkup(
-  createElement(PhoneStage, {
-    screenSrc: "/images/screens/v3/homepage-en.webp",
-    screenAlt: "Cerebrum",
-    icon: "/images/brand/cerebrum-icon.webp",
-  }),
-);
+const stage = (priority?: boolean) =>
+  renderToStaticMarkup(
+    createElement(PhoneStage, {
+      screenSrc: "/images/screens/v3/homepage-en.webp",
+      screenAlt: "Cerebrum",
+      icon: "/images/brand/cerebrum-icon.webp",
+      priority,
+    }),
+  );
 
-describe("PhoneStage sky clip", () => {
-  it("renders the sky field inside its own clipping layer, not directly in the stage", () => {
-    const clip =
-      /<span[^>]*class="[^"]*\bbreeze-clip\b[^"]*"[^>]*>([\s\S]*?)<\/span><\/span>/.exec(
-        stage,
-      );
-    expect(clip, "a .breeze-clip wrapper").not.toBeNull();
-    expect(clip?.[1]).toContain("breeze-field");
-    expect(clip?.[0]).toContain('aria-hidden="true"');
-    // Le téléphone n'est jamais dans la couche découpée.
-    expect(clip?.[0]).not.toContain("<img");
+describe("PhoneStage", () => {
+  it("carries the phone and the app icon, with no sky layer behind them", () => {
+    const out = stage();
+    expect(out).not.toMatch(/breeze/);
+    // Deux images : la capture du téléphone et l'icône de l'app.
+    expect(out.match(/<img /g)).toHaveLength(2);
+    expect(read("src/app/globals.css")).not.toMatch(/breeze/);
   });
 
-  it("clips the layer at the hero band's floor: 6rem up on mobile, the band padding down from sm", () => {
-    const base = rule("\\.breeze-clip");
-    expect(base).toMatch(/clip-path:\s*inset\([^)]*\s6rem\s[^)]*\)/);
-    const wide =
-      /@media \(min-width: 40rem\)\s*\{\s*\.breeze-clip\s*\{([^}]*)\}/.exec(
-        css,
-      )?.[1] ?? "";
-    expect(wide).toMatch(
-      /clip-path:\s*inset\([^)]*calc\(-1 \* var\(--spacing-section\)\)[^)]*\)/,
-    );
+  it("loads the screenshot lazily by default: the hero scene is the LCP", () => {
+    const screen = /<img[^>]*homepage-en[^>]*>/.exec(stage())?.[0] ?? "";
+    expect(screen).toContain('loading="lazy"');
+    expect(screen).not.toContain("fetchPriority");
   });
 
-  it("fades the sky out above that same floor, inside the field's own box", () => {
-    const field = rule("\\.breeze-field");
-    // Un dégradé vertical opaque -> transparent, dont le bas tombe sur le bord de la bande.
-    expect(field).toMatch(
-      /mask-image:\s*linear-gradient\(\s*to bottom,\s*black[^;]*transparent\s+var\(--breeze-floor\)/,
-    );
-    expect(field).toMatch(/--breeze-floor:\s*calc\(50%\s\+\s34\.1%\s-\s6rem\)/);
-    // ...et le padding de la bande en dessous dès sm, comme le clip-path.
-    const wide =
-      /@media \(min-width: 40rem\)\s*\{\s*\.breeze-field\s*\{([^}]*)\}/.exec(
-        css,
-      )?.[1] ?? "";
-    expect(wide).toMatch(
-      /--breeze-floor:\s*calc\(50%\s\+\s34\.1%\s\+\svar\(--spacing-section\)\)/,
-    );
+  it("makes the screenshot high-priority only when asked", () => {
+    const screen = /<img[^>]*homepage-en[^>]*>/.exec(stage(true))?.[0] ?? "";
+    expect(screen).toContain('fetchPriority="high"');
+    expect(screen).not.toContain('loading="lazy"');
   });
 
-  it("uses no mask technique Safari lacks: no mask-clip, no oversized or repositioned mask image", () => {
-    // Safari (bureau et iOS) ne supporte pas `mask-clip: no-clip` : un masque y rogne
-    // son élément à sa boîte, et le champ, qui déborde de la scène, devenait un rectangle.
-    expect(css).not.toMatch(/mask-clip/);
-    expect(css).not.toMatch(/no-clip/);
-    expect(css).not.toMatch(/mask-size/);
-    expect(css).not.toMatch(/mask-position/);
-    expect(css).not.toMatch(/mask-origin/);
-    // Aucun masque sur la couche découpée : elle est de la taille de la scène, le champ
-    // la dépasse.
-    for (const body of [
-      rule("\\.breeze-clip"),
-      /@media \(min-width: 40rem\)\s*\{\s*\.breeze-clip\s*\{([^}]*)\}/.exec(
-        css,
-      )?.[1] ?? "",
-    ]) {
-      expect(body).not.toMatch(/mask/);
-    }
-  });
-
-  it("keeps the 6rem floor equal to the negative margin the app page gives the stage", () => {
-    // La page d'accueil n'utilise plus PhoneStage (son héros est le slider) : seule la page app le pose.
+  it("keeps the 6rem overflow equal to the negative margin the app page gives the stage", () => {
+    // La page d'accueil n'utilise plus PhoneStage (son héros est la photo de la table) : seule la page app le pose.
     const page = "src/app/[locale]/cerebrum/page.tsx";
     const source = read(page);
     expect(source, page).toMatch(
       /<PhoneStage[\s\S]*?className="-mb-24 sm:mb-0"/,
     );
     expect(source, page).toMatch(/\bpb-0\b[^"]*\bsm:pb-section\b/);
+    // La page ne passe plus `priority` à PhoneStage : la scène photo est le LCP.
+    expect(source, page).not.toMatch(/<PhoneStage[^>]*\bpriority\b/);
   });
 });
 

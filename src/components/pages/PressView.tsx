@@ -104,7 +104,7 @@ export function PressView({ locale }: { locale: Locale }) {
         <PublisherIdentity
           locale={locale}
           labels={dict.common.publisher}
-          fields={["legalName", "address", "siret"]}
+          fields={["legalName", "country", "siret"]}
         />
       </SectionBand>
 

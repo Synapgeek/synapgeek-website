@@ -8,7 +8,8 @@
  *
  * Ces URLs sont référencées hors du dépôt : App Store Connect (privacy, support
  * `/#contact` et `/en#contact` : depuis la bascule, `/#contact` sert l'anglais et
- * `/en#contact` redirige en 308 vers lui), formulaire Data Safety de la Play Console
+ * `/en#contact` (sans `utm_*`) redirige en 308 vers lui ; la forme `utm_source=cerebrum&
+ * utm_medium=app` du lien Contact des apps relève de R1, voir plus bas), formulaire Data Safety de la Play Console
  * (`/account-deletion`), config AdMob consent (UMP), QR codes imprimés
  * (`/cerebrum/play`, et `/play` ou `/jouer` pour les premiers), vérification
  * AdMob (`/app-ads.txt`). Les valeurs attendues sont écrites en clair, comme dans
@@ -46,6 +47,10 @@
  * Pixel Art (tâche 143), Arrow Maze (tâche 144), Mots croisés (tâche 171), Mots mêlés (tâche 172), Cross Math (tâche 173), Trace (tâche 174) et Labyrinthe (tâche 175) la suivent, chaque jeu suivant ajoute ses lignes.
  * Une page de jeu porte UNE seule `og:image`, et cette image répond 200 `image/png`
  * sans redirection (aperçu d'un lien partagé).
+ * R1 (lien Contact des apps installées, next.config.ts, docs/contrat/redirections.md) :
+ * la racine avec `utm_source=cerebrum&utm_medium=app` (et sans `hl`) redirige en 307 vers
+ * `/fr`, `/en` avec la même paire en 307 vers `/?…&hl=en`. Ni `/en?src=…` (308), ni
+ * `utm_medium=apps`, ni les pages légales ne déclenchent ces règles.
  * Seul `/fr/privacy`, `/fr/terms`, `/fr/legal` reste TRANSITOIRE :
  * ils répondent encore en 200 (canonical) et passeront en 307 dans un PR ultérieur,
  * après preuve en production.
@@ -83,6 +88,11 @@ const GOOGLE_PLAY_URL =
 // Paramètre de campagne factice : il doit traverser les redirections et s'ajouter à
 // l'URL du store, sans jamais en écraser un paramètre déjà présent.
 const CAMPAIGN_PARAM = "src=contract-check";
+
+// Query du lien « Contact » des apps installées (iOS LegalURLProvider.swift, Android
+// LegalUrlProvider.kt) : celle qui déclenche les règles R1 de next.config.ts.
+const APP_CONTACT_PARAM =
+  "utm_source=cerebrum&utm_medium=app&utm_campaign=profile";
 
 const SITEMAP_URL_COUNT = 34;
 
@@ -194,6 +204,35 @@ function contractChecks(base) {
     redirect("/en", 308, "/"),
     redirect("/en/", 308, "/en"),
     redirect(`/en?${CAMPAIGN_PARAM}`, 308, `/?${CAMPAIGN_PARAM}`),
+    // R1 : lien Contact des apps installées. La racine avec utm d'app (français) part en
+    // 307 vers /fr, `/en` avec utm d'app (autres langues) en 307 vers /?…&hl=en, qui répond
+    // 200 en anglais (le marqueur `hl` empêche la règle de la racine de le reprendre).
+    redirect(`/?${APP_CONTACT_PARAM}`, 307, `/fr?${APP_CONTACT_PARAM}`),
+    redirect(`/en?${APP_CONTACT_PARAM}`, 307, `/?${APP_CONTACT_PARAM}&hl=en`),
+    ok(`/?${APP_CONTACT_PARAM}&hl=en`, [
+      htmlLang("en"),
+      bodyIncludes('id="contact"'),
+    ]),
+    ok(`/fr?${APP_CONTACT_PARAM}`, [
+      htmlLang("fr"),
+      bodyIncludes('id="contact"'),
+    ]),
+    // Ancrage de has.value : `apps` ne doit pas être pris pour `app`.
+    ok("/?utm_source=cerebrum&utm_medium=apps&utm_campaign=profile", [
+      htmlLang("en"),
+      bodyIncludes('id="contact"'),
+    ]),
+    // Les liens d'app vers les pages légales ne déclenchent aucune règle.
+    ok("/privacy?utm_source=cerebrum&utm_medium=app&utm_campaign=sign_in", [
+      htmlLang("fr"),
+    ]),
+    ok(
+      "/en/terms?utm_source=cerebrum&utm_medium=app&utm_campaign=store_subscription",
+      [htmlLang("en")],
+    ),
+    // Image Open Graph du site (ancienne et v2) : aperçu d'un lien partagé.
+    ok("/images/brand/og-image.jpeg", [contentType("image/jpeg")]),
+    ok("/images/brand/og-image-v2.jpeg", [contentType("image/jpeg")]),
     redirect("/en/cerebrum", 308, "/cerebrum"),
     redirect(
       `/en/cerebrum?${CAMPAIGN_PARAM}`,
@@ -472,6 +511,7 @@ function contractChecks(base) {
 function wwwChecks() {
   const paths = [
     "/",
+    `/?${APP_CONTACT_PARAM}`,
     "/en",
     ...LOCALIZED_LEGAL_PAGES,
     "/account-deletion",

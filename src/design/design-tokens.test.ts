@@ -10,6 +10,8 @@ import { THEME_COLOR } from "./theme-color";
  */
 
 const BODY_TEXT_MIN = 4.5;
+// WCAG 1.4.3 : le grand texte (24 px et plus, ou 18,66 px en gras) n'exige que 3:1.
+const LARGE_TEXT_MIN = 3;
 
 const SYSTEM_PAIRS: ReadonlyArray<readonly [string, string]> = [
   ["--color-ink", "--color-canvas"],
@@ -42,6 +44,22 @@ describe("system text pairs", () => {
   it.each(SYSTEM_PAIRS)("%s on %s reaches 4.5:1", (fg, bg) => {
     expect(contrast(token(fg), token(bg))).toBeGreaterThanOrEqual(
       BODY_TEXT_MIN,
+    );
+  });
+});
+
+// Le nom de l'app s'écrit dans la couleur de sa marque, en très grand corps : le H1 de
+// /cerebrum (text-6xl et plus) et le H3 de l'encart de l'accueil (text-3xl, 30 px).
+// Jamais en dessous de 24 px : ce jeton n'atteint pas 4,5:1.
+const LARGE_TEXT_PAIRS: ReadonlyArray<readonly [string, string]> = [
+  ["--color-cerebrum", "--color-canvas"],
+  ["--color-cerebrum", "--color-canvas-soft"],
+];
+
+describe("large text pairs", () => {
+  it.each(LARGE_TEXT_PAIRS)("%s on %s reaches 3:1", (fg, bg) => {
+    expect(contrast(token(fg), token(bg))).toBeGreaterThanOrEqual(
+      LARGE_TEXT_MIN,
     );
   });
 });

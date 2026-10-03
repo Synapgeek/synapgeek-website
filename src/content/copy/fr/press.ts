@@ -19,7 +19,7 @@ export const pressFr: PressCopy = {
       {
         label: "Éditeur",
         value:
-          "Synapgeek SAS, studio français indépendant installé à Frontenas, dans le Rhône",
+          "Synapgeek SAS, studio français indépendant",
       },
       {
         label: "Type",

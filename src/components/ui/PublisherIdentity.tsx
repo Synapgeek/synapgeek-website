@@ -1,5 +1,5 @@
 import type { Dictionary } from "@/content";
-import { PUBLISHER, formatAddress } from "@/content/publisher";
+import { PUBLISHER } from "@/content/publisher";
 import type { Locale } from "@/lib/i18n";
 import { FactTable, type FactRow } from "./FactTable";
 
@@ -30,8 +30,7 @@ export function PublisherIdentity({
       currency: "EUR",
       maximumFractionDigits: 0,
     }).format(PUBLISHER.capitalEur),
-    address: formatAddress(),
-    rcs: `${PUBLISHER.rcs.registry} ${PUBLISHER.rcs.number}`,
+    country: PUBLISHER.address.country,
     siret: PUBLISHER.siret,
     ape: PUBLISHER.ape,
     vat: PUBLISHER.vat,

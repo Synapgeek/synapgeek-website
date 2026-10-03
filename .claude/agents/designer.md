@@ -66,6 +66,14 @@ de tous les outils (Skill, nbpro, navigateur, WebFetch…).
   justifie dans le plan. `prefers-reduced-motion` toujours respecté (le bloc existant
   de `globals.css` reste intact).
 - WCAG 2.1 AA, skip-link et `alt` conservés ; Core Web Vitals (pas de régression LCP/CLS).
+  L'image LCP d'une page est sa scène (`SceneBackground` avec `priority`) : aucune image
+  prioritaire de plus sans mesure, et **aucun préchargement manuel** (`ReactDOM.preload`) dans un
+  composant partagé, qui voyagerait dans le payload RSC vers les autres pages.
+- Le magenta `--color-cerebrum` n'est que du grand texte (24 px et plus, 3:1) ; « Synapgeek » en
+  violet profond uni, jamais de dégradé multicolore. Un décor généré (table de l'accueil, scène de
+  Cerebrum) n'est jamais présenté comme une capture de l'app et se consigne dans
+  `docs/contrat/provenance-visuels-r8.md`. Seule exception de mouvement : les taches de couleur
+  de « Construit par des passionnés » (2 cycles puis figées).
 - Toute chaîne passe par `Dictionary` (`fr.ts` + `en.ts` + `types.ts`) ou un module de copie
   typé, tout lien interne par `pagePath(pageId, locale, hash?)` de `src/lib/routes.ts`
   (`absoluteUrl()` pour une URL complète). Cerebrum : faits uniquement depuis `docs/contrat/`

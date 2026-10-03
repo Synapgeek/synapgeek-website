@@ -43,6 +43,38 @@ const legacyEnglishRedirects: Redirect[] = [
   ),
 ];
 
+// Lien « Contact » des apps installées (iOS LegalURLProvider.swift, Android
+// LegalUrlProvider.kt, identique dans toutes les versions publiées). L'app émet la racine
+// en français et `/en` dans toutes les autres langues : la langue est dans l'URL, ce n'est
+// pas une négociation. `hl=en` marque les joueurs non français pour que la règle de la
+// racine ne les capte pas. 307 pour que la DESTINATION reste modifiable (jamais mise en cache
+// par les navigateurs) ; la règle elle-même est permanente : ne jamais la retirer tant que des
+// versions de l'app émettent cette URL (src/app/CLAUDE.md règle 3).
+// `has.value` est une expression régulière. Mesure : le matcheur de Next ancre déjà la valeur
+// (`utm_medium=apps` et `utm_source=cerebrum2` ne déclenchent pas la règle, même sans `^…$`).
+// Les ancres explicites restent : le routeur de Vercel est une autre implémentation, que
+// cette suite ne peut pas exercer, et elles ne coûtent rien.
+const APP_CONTACT_QUERY: NonNullable<Redirect["has"]> = [
+  { type: "query", key: "utm_source", value: "^cerebrum$" },
+  { type: "query", key: "utm_medium", value: "^app$" },
+];
+
+const appContactRedirects: Redirect[] = [
+  {
+    source: "/",
+    has: APP_CONTACT_QUERY,
+    missing: [{ type: "query", key: "hl" }],
+    destination: "/fr",
+    permanent: false,
+  },
+  {
+    source: "/en",
+    has: APP_CONTACT_QUERY,
+    destination: "/?hl=en",
+    permanent: false,
+  },
+];
+
 const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
@@ -101,6 +133,7 @@ const nextConfig: NextConfig = {
         destination: "/cerebrum/play",
         permanent: false,
       },
+      ...appContactRedirects,
       ...legacyEnglishRedirects,
     ];
   },

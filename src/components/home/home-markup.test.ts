@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
@@ -7,38 +6,18 @@ import { getDictionary } from "@/content";
 import { getHubCopy } from "@/content/copy";
 import { LOCALES } from "@/lib/i18n";
 import { pagePath } from "@/lib/routes";
+import { storeLabelsFor } from "@/lib/store-badges";
 import { AppShowcase } from "./AppShowcase";
 import { BuiltByEnthusiasts } from "./BuiltByEnthusiasts";
-import { HeroSlider, type SliderLabels } from "./HeroSlider";
 import { HomeHero } from "./HomeHero";
 
 /**
- * Ce que l'accueil promet sans JavaScript : tout le texte des slides dans le
- * HTML servi, le motif carrousel (rôles, noms, `aria-hidden`, `inert`), un seul
- * H1, des icônes de jeux nommées par `aria-label`. Rendu serveur pur.
+ * Ce que l'accueil promet sans JavaScript : le héros et sa phrase de définition en
+ * texte dans le HTML servi, un seul H1, la photo de la table décorative, des icônes
+ * de jeux nommées par `aria-label`. Rendu serveur pur.
  */
 const html = (element: Parameters<typeof renderToStaticMarkup>[0]) =>
   renderToStaticMarkup(element);
-
-const LABELS: SliderLabels = {
-  slide: "{current} of {total}",
-  goTo: "Go to {current}",
-  previous: "Previous",
-  next: "Next",
-  pause: "Pause",
-  play: "Play",
-};
-
-const slider = (count = 3) =>
-  html(
-    createElement(HeroSlider, {
-      label: "Highlights",
-      labels: LABELS,
-      slides: Array.from({ length: count }, (_, i) =>
-        createElement("p", { key: i }, `Message ${i + 1}`),
-      ),
-    }),
-  );
 
 /** Le HTML rendu échappe `'`, `&` et `"` : on compare avec la même échappée. */
 const escaped = (text: string) =>
@@ -46,179 +25,189 @@ const escaped = (text: string) =>
 
 const tags = (out: string, pattern: RegExp) => out.match(pattern) ?? [];
 
-describe("HeroSlider", () => {
-  it("is a named carousel region", () => {
-    const out = slider();
-    expect(out).toMatch(/^<section[^>]*aria-roledescription="carousel"/);
-    expect(out).toContain('aria-label="Highlights"');
-  });
-
-  it("renders every slide as a labelled group, all texts in the HTML", () => {
-    const out = slider();
-    const groups = tags(out, /<div[^>]*role="group"[^>]*>/g);
-    expect(groups).toHaveLength(3);
-    groups.forEach((group, index) => {
-      expect(group).toContain('aria-roledescription="slide"');
-      expect(group).toContain(`aria-label="${index + 1} of 3"`);
-    });
-    expect(out).toContain("Message 1");
-    expect(out).toContain("Message 2");
-    expect(out).toContain("Message 3");
-  });
-
-  it("shows the first slide and hides the others from every user, not only visually", () => {
-    const groups = tags(slider(), /<div[^>]*role="group"[^>]*>/g);
-    expect(groups[0]).not.toContain("aria-hidden");
-    expect(groups[0]).not.toContain("inert");
-    expect(groups[0]).toContain("opacity-100");
-    for (const group of groups.slice(1)) {
-      expect(group).toContain('aria-hidden="true"');
-      expect(group).toContain('inert=""');
-      expect(group).toContain("invisible");
-    }
-  });
-
-  it("has previous, next and pause buttons with their names", () => {
-    const out = slider();
-    for (const name of ["Previous", "Next", "Pause"]) {
-      expect(out).toMatch(new RegExp(`<button[^>]*aria-label="${name}"[^>]*>`));
-    }
-    expect(out).not.toContain('aria-label="Play"');
-  });
-
-  it("has one dot button per slide, the first one current", () => {
-    const dots = tags(slider(), /<button[^>]*aria-label="Go to \d"[^>]*>/g);
-    expect(dots).toHaveLength(3);
-    expect(dots[0]).toContain('aria-current="true"');
-    expect(dots[1]).not.toContain("aria-current");
-    expect(dots[2]).not.toContain("aria-current");
-  });
-
-  it("gives every dot a 44 px hit area and a text position below sm", () => {
-    const out = slider();
-    const dots = tags(out, /<button[^>]*aria-label="Go to \d"[^>]*>/g);
-    for (const dot of dots) {
-      expect(dot).toMatch(/class="[^"]*\bsize-11\b/);
-    }
-    // Les points se masquent sous sm (350 px ne portent pas 8 cibles de 44 px) :
-    // la position reste lisible, sans doubler l'annonce des lecteurs d'écran.
-    expect(out).toMatch(/<ul class="hidden[^"]*\bsm:flex"/);
-    expect(out).toMatch(
-      /<span aria-hidden="true"[^>]*\bsm:hidden"[^>]*>1 of 3<\/span>/,
-    );
-  });
-
-  it("starts without a live region announcement while it rotates", () => {
-    expect(slider()).toContain('aria-live="off"');
-  });
-
-  it("every control is a typed button", () => {
-    const buttons = tags(slider(), /<button[^>]*>/g);
-    expect(buttons).toHaveLength(6);
-    for (const button of buttons) expect(button).toContain('type="button"');
-  });
-});
-
 describe.each(LOCALES)("HomeHero (%s)", (locale) => {
-  const copy = getHubCopy(locale);
+  const { hero } = getHubCopy(locale);
   const out = html(createElement(HomeHero, { locale }));
 
-  it("carries the page's only H1, with the definition sentence as plain text", () => {
+  it("carries the page's only H1: the studio name then its tagline", () => {
     expect(tags(out, /<h1[ >]/g)).toHaveLength(1);
-    expect(out).toContain(`>${copy.hero.h1}</h1>`);
-    expect(out).toContain(escaped(copy.hero.definition));
+    const h1 = /<h1[^>]*>([\s\S]*?)<\/h1>/.exec(out)?.[1] ?? "";
+    expect(h1).toContain(`>${hero.h1}</span>`);
+    expect(h1).toContain(`>${escaped(hero.tagline)}</span>`);
   });
 
-  it("puts no heading in the other slides: their headlines are paragraphs", () => {
-    expect(tags(out, /<h[2-6][ >]/g)).toHaveLength(0);
-    for (const { headline, body } of Object.values(copy.slider.slides)) {
-      expect(out).toContain(`>${escaped(headline)}</p>`);
-      expect(out).toContain(escaped(body));
-    }
-  });
-
-  it("has the primary action to the app page in the first slide", () => {
-    const cta = new RegExp(
-      `<a[^>]*href="${pagePath("cerebrum", locale)}"[^>]*>${copy.slider.cta}</a>`,
+  it("puts the definition sentence right after the H1, as plain text", () => {
+    expect(out).toMatch(
+      new RegExp(`</h1><p[^>]*>${escaped(hero.definition)}</p>`),
     );
-    const firstGroup = out.split('role="group"')[1] ?? "";
-    expect(firstGroup).toMatch(cta);
   });
 
-  it("makes the first slide's phone the only high-priority image", () => {
-    const priority = /<img[^>]*fetchPriority="high"/g;
-    expect(tags(out, priority)).toHaveLength(1);
-    const [firstGroup, secondGroup] = out.split('role="group"').slice(1);
-    expect(firstGroup).toMatch(priority);
-    expect(secondGroup).not.toMatch(priority);
+  it("has the primary action to the app page, right after the definition", () => {
+    const cta = new RegExp(
+      `</p><a[^>]*href="${pagePath("cerebrum", locale)}"[^>]*>${hero.cta}</a>`,
+    );
+    expect(out).toMatch(cta);
+  });
+
+  it("has no heading but the H1 and no script of its own", () => {
+    expect(tags(out, /<h[2-6][ >]/g)).toHaveLength(0);
+    expect(out).not.toContain("<script");
+    expect(out).not.toMatch(/role="group"|aria-roledescription/);
+  });
+
+  it("uses the table photo as the one decorative, high-priority image, one file per width", () => {
+    const picture = /<picture>([\s\S]*?)<\/picture>/.exec(out)?.[1] ?? "";
+    expect(tags(picture, /<source /g)).toHaveLength(2);
+    expect(picture).toContain('media="(min-width: 1024px)"');
+    expect(picture).toContain('media="(max-width: 1023px)"');
+    const img = /<img[^>]*>/.exec(picture)?.[0] ?? "";
+    expect(img).toContain('alt=""');
+    expect(img).toContain('aria-hidden="true"');
+    expect(img).toContain('fetchPriority="high"');
+    expect(tags(out, /<img[^>]*fetchPriority="high"/g)).toHaveLength(1);
+    expect(out).toContain("hero-bg-desktop.webp");
+    expect(out).toContain("hero-bg-mobile.webp");
+  });
+
+  it("keeps the text readable on the photo: a page-coloured veil, never plain text on the wood", () => {
+    expect(out).toMatch(/aria-hidden="true"[^>]*class="[^"]*from-canvas\/9/);
   });
 });
 
-describe("slide visuals of hidden slides", () => {
-  const css = readFileSync("src/app/globals.css", "utf8").replace(
-    /\/\*[\s\S]*?\*\//g,
-    "",
-  );
-
-  it("are held back until the slider is warm, a rule the server markup leaves active", () => {
-    const rule =
-      /\[aria-roledescription="carousel"\]:not\(\[data-warm\]\)\s+\[aria-hidden="true"\]\s+\.slide-visual\s*\{([^}]*)\}/.exec(
-        css,
-      )?.[1];
-    expect(rule, "the hold-back rule").toMatch(/content-visibility:\s*hidden/);
-    // Rendu serveur : jamais `data-warm`, et chaque slide a sa boîte de visuel.
-    const out = html(createElement(HomeHero, { locale: "en" }));
-    expect(out).not.toContain("data-warm");
-    expect(tags(out, /class="slide-visual /g)).toHaveLength(5);
-  });
-});
-
-describe("AppShowcase", () => {
-  const labels = getDictionary("en").common.stores;
+describe.each(LOCALES)("AppShowcase (%s)", (locale) => {
+  const labels = getDictionary(locale).common.stores;
   const cerebrum = getApp("cerebrum");
   const games = getGames("cerebrum");
+  const item = getHubCopy(locale).apps.items.cerebrum;
+  const appHref = pagePath("cerebrum", locale);
   const out = html(
     createElement(AppShowcase, {
       app: cerebrum,
       games,
-      locale: "en",
-      pitch: "A pitch.",
-      iconsLabel: "Cerebrum's games",
-      ctaLabel: "Discover Cerebrum",
-      phoneSrc: "/images/screens/v3/pandoku-en.webp",
-      phoneAlt: "A grid",
+      locale,
+      genre: item.genre,
+      description: item.description,
+      seeMore: item.seeMore,
+      gamesLabel: item.gamesLabel,
       storeLabels: labels,
     }),
   );
 
-  it("is one article with the app as its only H3", () => {
+  it("names the app in the store badges, never the raw {app} template", () => {
+    expect(out).not.toContain("{app}");
+  });
+
+  it("is one article whose only heading, an H3, is the link to the app page", () => {
     expect(tags(out, /<article/g)).toHaveLength(1);
     expect(tags(out, /<h[1-6][ >]/g)).toEqual(["<h3 "]);
+    expect(out).toMatch(
+      new RegExp(`<h3[^>]*><a[^>]*href="${appHref}"[^>]*>Cerebrum<`),
+    );
   });
 
-  it("lists every game as an icon named by aria-label, linking to its page, with no visible game name", () => {
+  it("stretches that link over the whole card: the app page is the one link that covers it", () => {
+    const stretched = tags(out, /<a [^>]*after:absolute after:inset-0[^>]*>/g);
+    expect(stretched).toHaveLength(1);
+    expect(stretched[0]).toContain(`href="${appHref}"`);
+  });
+
+  it("names the app link with its see-more prompt for screen readers, the visible prompt staying hidden from them", () => {
+    expect(out).toMatch(
+      new RegExp(
+        `<h3[^>]*><a[^>]*>Cerebrum<span class="sr-only">, ${escaped(item.seeMore)}</span></a></h3>`,
+      ),
+    );
+    expect(out).toMatch(
+      new RegExp(`<span aria-hidden="true"[^>]*>${escaped(item.seeMore)}<svg`),
+    );
+  });
+
+  it("lights the focus ring for the app link only, never for a badge or a game link", () => {
+    expect(out).toContain("has-[h3_a:focus-visible]:outline-3");
+    expect(out).not.toContain("has-[a:focus-visible]");
+  });
+
+  it("links every published game by name to its own page, in a named list above the stretched link", () => {
     const list =
-      /<ul[^>]*aria-label="Cerebrum&#x27;s games"[^>]*>([\s\S]*?)<\/ul>/.exec(
+      new RegExp(
+        `<ul aria-label="${escaped(item.gamesLabel)}" class="[^"]*relative z-10[^"]*">([\\s\\S]*?)</ul>`,
+      ).exec(out)?.[1] ?? "";
+    expect(list, "the games list").not.toBe("");
+    const published = games.filter((game) => game.published);
+    expect(published.length).toBeGreaterThan(0);
+    const links = tags(list, /<a [^>]*>[^<]*<\/a>/g);
+    expect(links).toHaveLength(published.length);
+    published.forEach((game, index) => {
+      expect(links[index]).toContain(
+        `href="${pagePath(`game:${game.id}`, locale)}"`,
+      );
+      expect(links[index]).toContain(`>${escaped(game.name[locale])}</a>`);
+    });
+    // Aucun séparateur « · » : il finirait une ligne quand la liste passe à la ligne.
+    expect(list).not.toContain("·");
+    expect(out.indexOf("<ul aria-label")).toBeLessThan(
+      out.indexOf("apps.apple.com"),
+    );
+  });
+
+  it("links an unpublished game nowhere", () => {
+    const [first, ...rest] = games;
+    const partial = html(
+      createElement(AppShowcase, {
+        app: cerebrum,
+        games: [{ ...first, published: false }, ...rest],
+        locale,
+        genre: item.genre,
+        description: item.description,
+        seeMore: item.seeMore,
+        gamesLabel: item.gamesLabel,
+        storeLabels: labels,
+      }),
+    );
+    expect(partial).not.toContain(
+      `href="${pagePath(`game:${first.id}`, locale)}"`,
+    );
+  });
+
+  it("shows the genre, the description and the see-more prompt as text", () => {
+    expect(out).toContain(`>${escaped(item.genre)}</p>`);
+    expect(out).toContain(escaped(item.description));
+    expect(out).toContain(`>${escaped(item.seeMore)}<svg`);
+    expect(out).toContain(escaped(item.description));
+  });
+
+  it("raises the store badges above the stretched link", () => {
+    const resolved = storeLabelsFor(labels, cerebrum.name);
+    expect(out).toContain(`aria-label="${escaped(resolved.appStoreLabel)}"`);
+    expect(out).toContain(`aria-label="${escaped(resolved.googlePlayLabel)}"`);
+    expect(out).toMatch(
+      /<div class="[^"]*relative z-10[^"]*"><a [^>]*apps\.apple\.com/,
+    );
+  });
+
+  it("shows every game card in the phone, as decoration: no link, hidden from screen readers", () => {
+    const screen =
+      /<div aria-hidden="true" class="absolute inset-0 bg-canvas-soft">([\s\S]*?)<\/ul><\/div>/.exec(
         out,
       )?.[1];
-    expect(list, "the icon row").toBeDefined();
-    const links = tags(list ?? "", /<a [^>]*>/g);
-    expect(links).toHaveLength(games.length);
+    expect(screen, "the phone screen").toBeDefined();
+    expect(tags(screen ?? "", /<li /g)).toHaveLength(games.length);
+    expect(screen).not.toContain("<a ");
     for (const game of games) {
-      const name = game.name.en;
-      const href = pagePath(`game:${game.id}`, "en");
-      expect(list).toContain(`aria-label="${name}"`);
-      expect(list).toContain(`href="${href}"`);
+      expect(screen).toContain(`>${escaped(game.name[locale])}</span>`);
     }
-    // Le nom n'est jamais du texte visible : aucune balise ne contient que lui.
-    expect(list).not.toMatch(/>\s*Sudoku\s*</);
-    expect(list).toContain('alt=""');
   });
 
-  it("has the store badges and the primary button to the app page", () => {
-    expect(out).toContain(`aria-label="${labels.appStoreLabel}"`);
-    expect(out).toContain(`aria-label="${labels.googlePlayLabel}"`);
-    expect(out).toMatch(/<a[^>]*href="\/cerebrum"[^>]*>Discover Cerebrum<\/a>/);
+  it("uses the scene as one decorative, lazily loaded picture, one file per width", () => {
+    const picture = /<picture>([\s\S]*?)<\/picture>/.exec(out)?.[1] ?? "";
+    expect(tags(picture, /<source /g)).toHaveLength(2);
+    expect(picture).toContain('media="(min-width: 640px)"');
+    expect(picture).toContain('media="(max-width: 639px)"');
+    const img = /<img[^>]*>/.exec(picture)?.[0] ?? "";
+    expect(img).toContain('alt=""');
+    expect(img).toContain('aria-hidden="true"');
+    expect(img).toContain('loading="lazy"');
+    expect(out).not.toContain('fetchPriority="high"');
   });
 });
 
@@ -239,5 +228,19 @@ describe.each(LOCALES)("BuiltByEnthusiasts (%s)", (locale) => {
       expect(out).toContain(`>${value.title}</h3>`);
     }
     expect(out).toContain(`href="${pagePath("about", locale)}"`);
+  });
+
+  it("shows the three celebrating Pandas as decoration", () => {
+    const img = /<img[^>]*panda-celebration-v1\.webp[^>]*>/.exec(out)?.[0];
+    expect(img, "the celebration image").toBeDefined();
+    expect(img).toContain('alt=""');
+  });
+
+  it("lays its drifting blobs on the band itself, under the content and outside its animated entrance", () => {
+    // Le décor est le premier enfant de la bande, avant le conteneur `band-enter`.
+    expect(out).toMatch(
+      /<section[^>]*class="[^"]*relative isolate[^"]*"[^>]*><div aria-hidden="true" class="[^"]*absolute inset-0 -z-10[^"]*">/,
+    );
+    expect(tags(out, /animate-blob-drift-\d/g).length).toBeGreaterThan(0);
   });
 });

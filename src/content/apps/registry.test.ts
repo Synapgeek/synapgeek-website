@@ -58,6 +58,17 @@ describe("registre des apps", () => {
     );
     expect(app.games).toEqual(PUBLISHED_ORDER);
   });
+
+  it("nomme pour le wordmark une propriété définie dans globals.css", () => {
+    const css = readFileSync(
+      path.join(process.cwd(), "src/app/globals.css"),
+      "utf8",
+    );
+    for (const app of getApps()) {
+      expect(app.wordmarkColor).toMatch(/^--color-[a-z-]+$/);
+      expect(css, app.wordmarkColor).toContain(`${app.wordmarkColor}:`);
+    }
+  });
 });
 
 describe("registre des jeux", () => {
@@ -230,6 +241,8 @@ describe("registre des jeux", () => {
       check(`/images/screens/v3/homepage-${locale}.webp`);
     }
     check(getApp("cerebrum").icon);
+    check(getApp("cerebrum").scene.wide);
+    check(getApp("cerebrum").scene.narrow);
     expect(missing).toEqual([]);
   });
 

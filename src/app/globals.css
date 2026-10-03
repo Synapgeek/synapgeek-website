@@ -25,6 +25,11 @@
   --color-brand-violet: #8549ba;
   --color-brand-violet-deep: #3b1f6e;
 
+  /* Noms de marque dans les titres : « Synapgeek » prend le violet profond ci-dessus ; le
+     magenta du wordmark Cerebrum (constantes de marque du design system de l'app,
+     « validé pour publication ») tient 4,3:1 sur blanc, assez pour un grand titre. */
+  --color-cerebrum: #bf529f;
+
   /* Lavis pastel derrière le téléphone du héros (texte encre dessus) */
   --color-wash-green: #d9f2c4;
   --color-wash-violet: #e4d8f4;
@@ -173,73 +178,6 @@
       animation-range: entry 0% entry 40%;
     }
   }
-}
-
-/* ===== CIEL AQUARELLE — PhoneStage =====
-   Le fond Breeze de l'app, fondu vers la transparence : une ellipse inscrite dans
-   l'image, jamais un rectangle qui flotte sur le fond blanc de la page.
-   CONTRAINTE LCP : Chrome mesure le LCP d'une image de fond sur sa taille intrinsèque.
-   breeze-day-v1.webp fait 240 px de large, plus petit que la capture du téléphone, qui
-   reste donc l'élément LCP. Un fichier plus net (un breeze-day-v2.webp de 576 ou 960 px)
-   deviendrait le LCP : mesuré à 576 px, LCP 3,9 s et performance 88, sous le seuil de 90.
-   Garder l'image à 240 px ; l'agrandissement et le masque radial rendent le flou voulu.
-   Mesures : docs/contrat/provenance-visuels-r8.md. */
-/* Le ciel ne dépasse jamais la bande du héros. La couche couvre la scène et est découpée
-   à son bord bas : la scène déborde de 6rem (marge négative `-mb-24`) sur mobile, donc le
-   bord de la bande est 6rem au-dessus de la scène ; dès `sm`, il est `--spacing-section`
-   en dessous (padding bas de la bande). Les autres côtés ne sont pas découpés
-   (l'écrêtage horizontal est celui de la bande). Sans cela, le ciel peint la bande des
-   jeux par-dessus son fond et le titre H2 y vire au gris-violet.
-   Le découpage seul laisserait une arête rectiligne là où la texture rencontre la bande
-   suivante. Le champ lui-même s'efface donc avant ce bord : son masque vertical est
-   exprimé dans SA propre boîte (jamais dans celle de `.breeze-clip`), si bien que le
-   ciel est à zéro exactement là où le clip-path coupe, et le rectangle disparaît.
-   SAFARI : `mask-clip: no-clip` (et toute autre valeur que border-box) n'y est pas
-   supporté, un masque y rogne son élément à sa boîte. Tout masque ci-dessous doit donc
-   tenir DANS la boîte de l'élément qui le porte, sans `mask-size` ni `mask-position`
-   plus grands que lui. Ne jamais remettre un masque sur `.breeze-clip`.
-   Calcul du bord (--breeze-floor, dans la boîte du champ, de haut en bas) : le champ est
-   centré sur la scène, donc le centre de la scène est à 50 %. La scène fait 2,1125 fois
-   sa largeur de haut (le téléphone) et le champ 3,0997 fois la largeur de la scène : la
-   moitié de la scène vaut 34,1 % du champ, à toute largeur. Le bord est 6rem au-dessus
-   du bas de la scène sur mobile, `--spacing-section` en dessous dès `sm`. Si le téléphone
-   change de proportions, ce 34,1 % change avec lui. */
-.breeze-clip {
-  position: absolute;
-  inset: 0;
-  z-index: -10;
-  clip-path: inset(-100vmax -100vmax 6rem -100vmax);
-}
-
-@media (min-width: 40rem) {
-  .breeze-clip {
-    clip-path: inset(
-      -100vmax -100vmax calc(-1 * var(--spacing-section)) -100vmax
-    );
-  }
-}
-
-.breeze-field {
-  --breeze-floor: calc(50% + 34.1% - 6rem);
-  mask-image: linear-gradient(
-    to bottom,
-    black calc(var(--breeze-floor) - 10rem),
-    transparent var(--breeze-floor)
-  );
-}
-
-@media (min-width: 40rem) {
-  .breeze-field {
-    --breeze-floor: calc(50% + 34.1% + var(--spacing-section));
-  }
-}
-
-.breeze-field::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("/images/backgrounds/breeze-day-v1.webp") center / cover;
-  mask-image: radial-gradient(closest-side, black 60%, transparent);
 }
 
 /* ===== ENTRÉE DU BANDEAU DE CONSENTEMENT ===== */
@@ -393,27 +331,94 @@
   --game-arrow-maze-deep: #4b7119;
 }
 
-/* ===== CIEL DU SLIDER — première slide de l'accueil =====
-   Le fond Breeze de l'app (le même fichier de 240 px que le héros de la page app, jamais un
-   fichier plus grand : voir CONTRAINTE LCP plus haut), fondu en ellipse derrière le téléphone.
-   Le masque est dans la boîte de l'élément qui le porte (Safari) ; la slide coupe ce qui déborde. */
-.slide-sky::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("/images/backgrounds/breeze-day-v1.webp") center / cover;
-  mask-image: radial-gradient(closest-side, black 60%, transparent);
+/* ===== CARTES DE JEU FAÇON APP — GameCard et l'écran du téléphone d'AppShowcase =====
+   Comme sur l'écran d'accueil de Cerebrum : le lavis du jeu en dégradé, éclairci en haut
+   à gauche et plein en bas, là où sont le nom et les lignes de texte. Le dégradé ne fait
+   qu'éclaircir le lavis : le ton profond garde son 4,5:1 (design-tokens.test.ts). Les
+   variables --wash et --deep viennent de gameColorVars. */
+.game-gradient {
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--wash) 40%, var(--color-canvas)) 0%,
+    var(--wash) 62%
+  );
 }
 
-/* ===== SLIDER D'ACCUEIL — visuels des slides cachées =====
-   Les slides sont toutes dans le HTML, mais le visuel d'une slide cachée n'est pas rendu
-   (`content-visibility: hidden`, donc ses images paresseuses ne se chargent pas) tant que la
-   page n'a pas fini de charger : sinon les captures et icônes des quatre autres slides se
-   disputent la bande passante de l'image LCP (Lighthouse mobile : 90 au lieu de 92). La boîte du
-   visuel a une hauteur explicite : l'isolation de taille ne change aucune mise en page. Le
-   slider pose `data-warm` après le chargement ; une slide visible n'est jamais concernée. */
-[aria-roledescription="carousel"]:not([data-warm])
-  [aria-hidden="true"]
-  .slide-visual {
-  content-visibility: hidden;
+/* ===== TACHES DE COULEUR — fond de « Construit par des passionnés » (BuiltByEnthusiasts) =====
+   Reprises du fond de la même section sur l'ancien site : des taches floues, aux formes
+   organiques, qui dérivent lentement. Décoratives ; figées en mouvement réduit. */
+.blob-1 {
+  border-radius: 40% 60% 55% 45% / 55% 35% 65% 45%;
+}
+.blob-2 {
+  border-radius: 55% 45% 35% 65% / 40% 60% 40% 60%;
+}
+.blob-3 {
+  border-radius: 35% 65% 50% 50% / 60% 40% 55% 45%;
+}
+.blob-4 {
+  border-radius: 60% 40% 45% 55% / 35% 65% 40% 60%;
+}
+
+@keyframes blob-drift-1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(12px, -18px) scale(1.04);
+  }
+  50% {
+    transform: translate(-8px, 10px) scale(0.97);
+  }
+  75% {
+    transform: translate(6px, 14px) scale(1.02);
+  }
+}
+
+@keyframes blob-drift-2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(-14px, 10px) scale(0.96);
+  }
+  50% {
+    transform: translate(10px, -14px) scale(1.05);
+  }
+  75% {
+    transform: translate(-6px, -8px) scale(0.98);
+  }
+}
+
+@keyframes blob-drift-3 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(16px, 8px) scale(1.03);
+  }
+  66% {
+    transform: translate(-10px, -12px) scale(0.97);
+  }
+}
+
+.animate-blob-drift-1 {
+  animation: blob-drift-1 18s ease-in-out 2;
+}
+.animate-blob-drift-2 {
+  animation: blob-drift-2 22s ease-in-out 2;
+}
+.animate-blob-drift-3 {
+  animation: blob-drift-3 16s ease-in-out 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-blob-drift-1,
+  .animate-blob-drift-2,
+  .animate-blob-drift-3 {
+    animation: none;
+  }
 }

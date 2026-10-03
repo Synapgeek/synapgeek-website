@@ -5,7 +5,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { LOCALES, generateStaticParams as genParams } from "@/lib/i18n";
 import { getDictionary } from "@/content";
-import { getOgLocale, getOgAlternateLocales } from "@/lib/seo";
+import { getAboutCopy } from "@/content/copy";
+import { getOgLocale, getOgAlternateLocales, getOgImages } from "@/lib/seo";
 import { organizationSchema, websiteSchema } from "@/lib/structured-data";
 import { pagePath } from "@/lib/routes";
 import {
@@ -45,9 +46,7 @@ export async function generateMetadata({
       siteName: "Synapgeek",
       locale: getOgLocale(locale),
       alternateLocale: getOgAlternateLocales(locale),
-      images: [
-        { url: "/images/brand/og-image.jpeg", width: 1200, height: 630 },
-      ],
+      images: getOgImages(locale),
     },
     twitter: {
       card: "summary_large_image",
@@ -87,8 +86,8 @@ export default async function LocaleLayout({
           dict={dict.common.consent}
         />
         <div className="flex min-h-screen flex-col">
-          <JsonLd data={organizationSchema()} />
-          <JsonLd data={websiteSchema(locale)} />
+          <JsonLd data={organizationSchema(getAboutCopy(locale))} />
+          <JsonLd data={websiteSchema()} />
           <SiteHeader
             locale={locale}
             dict={dict.common}

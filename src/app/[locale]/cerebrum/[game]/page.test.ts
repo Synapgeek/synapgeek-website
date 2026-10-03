@@ -68,6 +68,12 @@ describe.each(CASES)("page $name ($locale)", ({ game, locale }) => {
     );
   });
 
+  it("annonce les badges au nom de l'app, jamais le gabarit brut {app}", async () => {
+    const markup = await render(locale, slug);
+    expect(markup).not.toContain("{app}");
+    expect(markup).toContain("Cerebrum");
+  });
+
   it("émet le jeu, le fil d'Ariane et la FAQ, sans aggregateRating", async () => {
     const markup = await render(locale, slug);
     expect(jsonLdNodes(markup).map((node) => node["@type"])).toEqual([

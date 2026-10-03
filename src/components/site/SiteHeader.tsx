@@ -8,7 +8,7 @@ import { LanguageSwitch } from "./LanguageSwitch";
 import { MobileMenu } from "./MobileMenu";
 
 const desktopLinkClasses =
-  "rounded-pill px-4 py-2 text-sm font-bold text-text-secondary transition-colors duration-150 hover:bg-canvas-soft hover:text-ink";
+  "inline-flex min-h-11 items-center rounded-pill px-4 text-sm font-bold text-text-secondary transition-colors duration-150 hover:bg-canvas-soft hover:text-ink";
 const mobileLinkClasses =
   "block rounded-2xl px-4 py-3 font-display text-xl font-bold text-ink transition-colors duration-150 hover:bg-canvas-soft";
 
@@ -28,7 +28,7 @@ export function SiteHeader({
   languageTable: LanguageSwitchTable;
 }) {
   const links = [
-    { href: pagePath("home", locale, "games"), label: dict.nav.games },
+    { href: pagePath("home", locale, "apps"), label: dict.nav.apps },
     { href: pagePath("cerebrum", locale), label: dict.nav.cerebrum },
     { href: pagePath("about", locale), label: dict.nav.about },
     { href: pagePath("press", locale), label: dict.nav.press },

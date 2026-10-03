@@ -1,7 +1,7 @@
 import type { HubCopy } from "../types";
 
 export const hubEn: HubCopy = {
-  updatedAt: "2026-10-02",
+  updatedAt: "2026-10-03",
   meta: {
     title: "Synapgeek: independent French studio, makers of Cerebrum",
     description:
@@ -9,53 +9,20 @@ export const hubEn: HubCopy = {
   },
   hero: {
     h1: "Synapgeek",
+    tagline: "Well-crafted apps for the little moments that feel good.",
     definition:
-      "Synapgeek is an independent French studio that makes mobile apps. Its first app, Cerebrum, brings classic and newer puzzle games together in one offline app for iPhone, iPad and Android.",
-    phoneAlt:
-      "Cerebrum home screen with the Daily Challenge, the themes and game cards including Sudoku, Word Search and Minesweeper",
-  },
-  slider: {
-    label: "The studio in a few messages",
-    slideLabel: "{current} of {total}",
-    goTo: "Go to message {current}",
-    previous: "Previous message",
-    next: "Next message",
-    pause: "Pause automatic rotation",
-    play: "Start automatic rotation",
+      "Synapgeek is an independent French studio that makes mobile apps. We create elegant apps meant to slip into a break, a commute or a quiet evening, and to make you want to come back.",
     cta: "Discover Cerebrum",
-    slides: {
-      relax: {
-        headline: "Games that relax you and get your mind working.",
-        body: "A break, a commute, a queue: Cerebrum plays at your pace, one grid at a time.",
-        phoneAlt:
-          "A Sudoku grid in Cerebrum, with the three hearts, the timer and the number pad",
-      },
-      classics: {
-        headline: "The classics and newer puzzles, together in one app.",
-        body: "Sudoku, Crossword and Word Search on one side. Pandoku, a Star Battle logic puzzle, Minesweeper, Pixel Art nonograms and more on the other. They all live in Cerebrum.",
-      },
-      offline: {
-        headline: "Offline, on iPhone, iPad and Android.",
-        body: "The grids are inside the app, so it plays without a network, daily challenge included. The interface comes in 16 languages.",
-        phoneAlt:
-          "A panda drawing revealed at the end of a Pixel Art grid, one of the nonograms in Cerebrum",
-      },
-      france: {
-        headline: "Designed and developed in France by an independent studio.",
-        body: "Synapgeek SAS is based in Frontenas, in the Rhône. We publish our apps ourselves.",
-      },
-    },
   },
-  games: {
-    title: "Our games",
+  apps: {
+    title: "Our apps",
     items: {
       cerebrum: {
-        pitch:
-          "Sudoku, Crossword and Word Search sit next to Pandoku (a Star Battle logic puzzle), Pixel Art (nonograms), Trace (a one-line path puzzle) and more, in one app that plays offline.",
-        iconsLabel: "Cerebrum's games",
-        cta: "Discover Cerebrum",
-        phoneAlt:
-          "A Pandoku grid, a Star Battle logic puzzle, with its pandas and coloured regions",
+        genre: "Puzzle games",
+        description:
+          "Cerebrum is an offline puzzle games app for iPhone, iPad and Android, free to download and supported by ads. Sudoku, Crossword and Word Search sit next to Pandoku (a Star Battle logic puzzle), Pixel Art (nonograms), Trace (a one-line path puzzle) and more.",
+        seeMore: "See more",
+        gamesLabel: "Cerebrum's games",
       },
     },
   },

@@ -1,17 +1,25 @@
 import type { AppCopy } from "@/content/copy/types";
 import { gamesEn } from "./games/en";
 
+/**
+ * Qui édite Cerebrum, sans homonymie possible : affichée en tête de la FAQ et reprise telle
+ * quelle par le JSON-LD (disambiguatingDescription), qui ne dit jamais plus que la page.
+ */
+const DISAMBIGUATION_EN =
+  "Cerebrum is the puzzle games app published by Synapgeek SAS, an independent French studio. Not to be confused with other products or companies named Cerebrum.";
+
 export const cerebrumEn: AppCopy = {
-  updatedAt: "2026-10-02",
+  updatedAt: "2026-10-03",
   meta: {
     title: "Cerebrum: offline puzzle games app | Synapgeek",
     description:
-      "Cerebrum by Synapgeek: Sudoku, crosswords, word search and more brain games in one offline app for iPhone, iPad and Android. Free to download.",
+      "Cerebrum by Synapgeek: Sudoku, crosswords, word search and more offline brain games for iPhone, iPad and Android. Free with ads; Premium: no forced ads.",
   },
+  disambiguation: DISAMBIGUATION_EN,
   hero: {
     h1: "Cerebrum",
     definition:
-      "Cerebrum is an offline puzzle games app by Synapgeek for iPhone, iPad and Android: Sudoku, crosswords, word search and more classic and newer brain games, all in one app.",
+      "Cerebrum is an offline puzzle games app by Synapgeek for iPhone, iPad and Android: Sudoku, crosswords, word search and more. Free with ads; Premium means no forced ads.",
     phoneAlt:
       "Cerebrum home screen with the Daily Challenge, the themes and game cards including Sudoku, Word Search, Pandoku and Minesweeper",
   },
@@ -75,6 +83,10 @@ export const cerebrumEn: AppCopy = {
   faq: {
     title: "Frequently asked questions",
     items: [
+      {
+        question: "Who publishes Cerebrum?",
+        answer: DISAMBIGUATION_EN,
+      },
       {
         question: "Is Cerebrum free?",
         answer:

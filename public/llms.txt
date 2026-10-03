@@ -4,19 +4,79 @@
 
 Synapgeek est un studio français indépendant qui crée des applications mobiles. Sa première, Cerebrum, réunit des jeux de réflexion classiques et récents dans une seule app hors ligne, sur iPhone, iPad et Android.
 
+## Key facts
+
+- Publisher: Synapgeek SAS (France), an independent studio.
+- Platforms: iPhone, iPad and Android.
+- Offline: every game works without a connection.
+- Free to download and supported by ads.
+- Premium, a subscription, means no forced ads.
+- Cerebrum is the puzzle games app published by Synapgeek SAS, an independent French studio. Not to be confused with other products or companies named Cerebrum.
+
+## Faits essentiels
+
+- Éditeur : Synapgeek SAS (France), studio indépendant.
+- Plateformes : iPhone, iPad et Android.
+- Hors ligne : tous les jeux fonctionnent sans connexion.
+- Téléchargement gratuit, financé par la publicité.
+- Premium, un abonnement, garantit zéro pub imposée.
+- Cerebrum est l'application de jeux de réflexion éditée par Synapgeek SAS, studio français indépendant. À ne pas confondre avec d'autres produits ou sociétés du même nom.
+
+## Games by family
+
+### Logic and numbers
+
+- Sudoku
+- Pandoku: Star Battle logic puzzle
+- Minesweeper
+- Pixel Art: nonograms
+- Cross Math: math crossword
+
+### Words
+
+- Crossword
+- Word Search
+
+### Paths and mazes
+
+- Trace: one-line path puzzle
+- Maze
+- Arrow Maze: arrow puzzle
+
+## Les jeux par famille
+
+### Logique et chiffres
+
+- Sudoku
+- Pandoku : puzzle de logique de type Star Battle
+- Démineur
+- Pixel Art : nonogrammes (logimages)
+- Cross Math : mots croisés de calcul
+
+### Mots
+
+- Mots Croisés
+- Mots Mêlés
+
+### Chemins et labyrinthes
+
+- Trace : puzzle à tracer d'un seul trait
+- Labyrinthe
+- Arrow Maze : casse-tête de flèches
+
 ## The studio
 
-- [Synapgeek (English)](https://synapgeek.com): Synapgeek is an independent French studio that makes mobile apps. Its first app, Cerebrum, brings classic and newer puzzle games together in one offline app for iPhone, iPad and Android.
-- [About (English)](https://synapgeek.com/about): Synapgeek is an independent French studio based in Frontenas, in the Rhône, that makes mobile apps. It is the publisher of Cerebrum, an offline puzzle games app for iPhone, iPad and Android.
+- [Synapgeek (English)](https://synapgeek.com): Synapgeek is an independent French studio that makes mobile apps. We create elegant apps meant to slip into a break, a commute or a quiet evening, and to make you want to come back.
+- [About (English)](https://synapgeek.com/about): Synapgeek is an independent French studio that makes mobile apps. It is the publisher of Cerebrum, an offline puzzle games app for iPhone, iPad and Android.
 - [Press (English)](https://synapgeek.com/press): The facts to quote about Synapgeek, an independent French studio, and about Cerebrum, its offline puzzle games app for iPhone, iPad and Android, with the logo, the app icon and screenshots to download.
-- [Synapgeek (français)](https://synapgeek.com/fr): Synapgeek est un studio français indépendant qui crée des applications mobiles. Sa première, Cerebrum, réunit des jeux de réflexion classiques et récents dans une seule app hors ligne, sur iPhone, iPad et Android.
-- [À propos (français)](https://synapgeek.com/fr/a-propos): Synapgeek est un studio français indépendant, installé à Frontenas, dans le Rhône, qui crée des applications mobiles. Il est l'éditeur de Cerebrum, une app de jeux de réflexion hors ligne pour iPhone, iPad et Android.
+- [Synapgeek (français)](https://synapgeek.com/fr): Synapgeek est un studio français indépendant d'applications mobiles. Nous créons des apps élégantes, pensées pour se glisser dans une pause, un trajet ou une soirée tranquille, et pour donner envie d'y revenir.
+- [À propos (français)](https://synapgeek.com/fr/a-propos): Synapgeek est un studio français indépendant qui crée des applications mobiles. Il est l'éditeur de Cerebrum, une app de jeux de réflexion hors ligne pour iPhone, iPad et Android.
 - [Presse (français)](https://synapgeek.com/fr/presse): Les faits à citer sur Synapgeek, studio français indépendant, et sur Cerebrum, son app de jeux de réflexion hors ligne pour iPhone, iPad et Android, avec le logo, l'icône de l'app et des captures à télécharger.
 
 ## The app: Cerebrum
 
-- [Cerebrum (English)](https://synapgeek.com/cerebrum): Cerebrum is an offline puzzle games app by Synapgeek for iPhone, iPad and Android: Sudoku, crosswords, word search and more classic and newer brain games, all in one app.
-- [Cerebrum (français)](https://synapgeek.com/fr/cerebrum): Cerebrum est une application de jeux de réflexion hors ligne, éditée par Synapgeek pour iPhone, iPad et Android : Sudoku, Mots Croisés, Mots Mêlés et d'autres jeux, classiques ou plus récents, réunis dans une seule app.
+- [Cerebrum (English)](https://synapgeek.com/cerebrum): Cerebrum is an offline puzzle games app by Synapgeek for iPhone, iPad and Android: Sudoku, crosswords, word search and more. Free with ads; Premium means no forced ads.
+- [Cerebrum (français)](https://synapgeek.com/fr/cerebrum): Cerebrum est une application de jeux de réflexion hors ligne, éditée par Synapgeek pour iPhone, iPad et Android : Sudoku, Mots Croisés, Mots Mêlés et d'autres jeux. Gratuite avec publicité ; Premium garantit zéro pub imposée.
 
 ### Free, with or without Premium
 

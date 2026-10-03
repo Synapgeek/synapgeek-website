@@ -1,7 +1,7 @@
 import type { HubCopy } from "../types";
 
 export const hubFr: HubCopy = {
-  updatedAt: "2026-10-02",
+  updatedAt: "2026-10-03",
   meta: {
     title: "Synapgeek : studio français indépendant, éditeur de Cerebrum",
     description:
@@ -9,54 +9,20 @@ export const hubFr: HubCopy = {
   },
   hero: {
     h1: "Synapgeek",
+    tagline: "Des apps soignées, pour de petits moments qui font du bien.",
     definition:
-      "Synapgeek est un studio français indépendant qui crée des applications mobiles. Sa première, Cerebrum, réunit des jeux de réflexion classiques et récents dans une seule app hors ligne, sur iPhone, iPad et Android.",
-    phoneAlt:
-      "Écran d'accueil de Cerebrum avec le défi quotidien, les thèmes et les cartes de jeux, dont Sudoku, Mots Mêlés et Démineur",
-  },
-  slider: {
-    label: "Le studio en quelques messages",
-    slideLabel: "{current} sur {total}",
-    goTo: "Aller au message {current}",
-    previous: "Message précédent",
-    next: "Message suivant",
-    pause: "Mettre le défilement en pause",
-    play: "Relancer le défilement",
+      "Synapgeek est un studio français indépendant d'applications mobiles. Nous créons des apps élégantes, pensées pour se glisser dans une pause, un trajet ou une soirée tranquille, et pour donner envie d'y revenir.",
     cta: "Découvrir Cerebrum",
-    slides: {
-      relax: {
-        headline: "Des jeux qui détendent et font travailler l'esprit.",
-        body: "Une pause, un trajet, une file d'attente\u00a0: Cerebrum se joue à votre rythme, une grille à la fois.",
-        phoneAlt:
-          "Grille de Sudoku dans Cerebrum, avec les trois cœurs, le chronomètre et le clavier de chiffres",
-      },
-      classics: {
-        headline:
-          "Les classiques et les casse-tête récents, dans une seule app.",
-        body: "Sudoku, Mots Croisés et Mots Mêlés d'un côté\u00a0; de l'autre, Pandoku (un puzzle de logique de type Star Battle), Démineur, Pixel Art (des nonogrammes) et d'autres. Tout se retrouve dans Cerebrum.",
-      },
-      offline: {
-        headline: "Hors ligne, sur iPhone, iPad et Android.",
-        body: "Les grilles sont dans l'app\u00a0: elle se joue sans réseau, défi du jour compris. L'interface existe en 16 langues.",
-        phoneAlt:
-          "Dessin de panda révélé à la fin d'une grille de Pixel Art, un jeu de nonogrammes de Cerebrum",
-      },
-      france: {
-        headline: "Conçu et développé en France par un studio indépendant.",
-        body: "Synapgeek SAS est installé à Frontenas, dans le Rhône. Nous éditons nos apps nous-mêmes.",
-      },
-    },
   },
-  games: {
-    title: "Nos jeux",
+  apps: {
+    title: "Nos apps",
     items: {
       cerebrum: {
-        pitch:
-          "Sudoku, Mots Croisés et Mots Mêlés côtoient Pandoku (un puzzle de logique de type Star Battle), Pixel Art (des nonogrammes), Trace (un puzzle à tracer d'un seul trait) et d'autres, dans une seule app qui se joue hors ligne.",
-        iconsLabel: "Les jeux de Cerebrum",
-        cta: "Découvrir Cerebrum",
-        phoneAlt:
-          "Grille de Pandoku, un puzzle de logique de type Star Battle, avec ses pandas et ses régions colorées",
+        genre: "Jeux de réflexion",
+        description:
+          "Cerebrum est une app de jeux de réflexion hors ligne pour iPhone, iPad et Android, gratuite au téléchargement et financée par la publicité. Sudoku, Mots Croisés et Mots Mêlés côtoient Pandoku (un puzzle de logique de type Star Battle), Pixel Art (des nonogrammes), Trace (un puzzle à tracer d'un seul trait) et d'autres.",
+        seeMore: "Voir plus",
+        gamesLabel: "Les jeux de Cerebrum",
       },
     },
   },

@@ -1,17 +1,25 @@
 import type { AppCopy } from "@/content/copy/types";
 import { gamesFr } from "./games/fr";
 
+/**
+ * Qui édite Cerebrum, sans homonymie possible : affichée en tête de la FAQ et reprise telle
+ * quelle par le JSON-LD (disambiguatingDescription), qui ne dit jamais plus que la page.
+ */
+const DISAMBIGUATION_FR =
+  "Cerebrum est l'application de jeux de réflexion éditée par Synapgeek SAS, studio français indépendant. À ne pas confondre avec d'autres produits ou sociétés du même nom.";
+
 export const cerebrumFr: AppCopy = {
-  updatedAt: "2026-10-02",
+  updatedAt: "2026-10-03",
   meta: {
     title: "Cerebrum : jeux de réflexion hors ligne | Synapgeek",
     description:
-      "Cerebrum, l'app de Synapgeek : Sudoku, mots croisés, mots mêlés et d'autres jeux de réflexion, hors ligne, sur iPhone, iPad et Android. Gratuite.",
+      "Cerebrum de Synapgeek : Sudoku, mots croisés, mots mêlés, hors ligne sur iPhone, iPad et Android. Gratuite avec publicité ; Premium : zéro pub imposée.",
   },
+  disambiguation: DISAMBIGUATION_FR,
   hero: {
     h1: "Cerebrum",
     definition:
-      "Cerebrum est une application de jeux de réflexion hors ligne, éditée par Synapgeek pour iPhone, iPad et Android : Sudoku, Mots Croisés, Mots Mêlés et d'autres jeux, classiques ou plus récents, réunis dans une seule app.",
+      "Cerebrum est une application de jeux de réflexion hors ligne, éditée par Synapgeek pour iPhone, iPad et Android : Sudoku, Mots Croisés, Mots Mêlés et d'autres jeux. Gratuite avec publicité ; Premium garantit zéro pub imposée.",
     phoneAlt:
       "Écran d'accueil de Cerebrum avec le défi quotidien, les thèmes et les cartes de jeux, dont Sudoku, Mots Mêlés, Pandoku et Démineur",
   },
@@ -75,6 +83,10 @@ export const cerebrumFr: AppCopy = {
   faq: {
     title: "Questions fréquentes",
     items: [
+      {
+        question: "Qui édite Cerebrum ?",
+        answer: DISAMBIGUATION_FR,
+      },
       {
         question: "Cerebrum est-il gratuit ?",
         answer:

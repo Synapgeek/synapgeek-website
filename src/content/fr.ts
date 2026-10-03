@@ -3,9 +3,10 @@ import type { Dictionary } from "./types";
 const fr: Dictionary = {
   common: {
     siteName: "Synapgeek",
+    ogImageAlt: "Synapgeek, studio français indépendant",
     tagline: "Studio indépendant d'applications mobiles",
     nav: {
-      games: "Jeux",
+      apps: "Apps",
       cerebrum: "Cerebrum",
       about: "À propos",
       press: "Presse",
@@ -47,8 +48,7 @@ const fr: Dictionary = {
       legalForm: "Forme juridique",
       legalFormValue: "Société par actions simplifiée (SAS)",
       capital: "Capital social",
-      address: "Siège social",
-      rcs: "RCS",
+      country: "Pays",
       siret: "SIRET",
       ape: "Code APE",
       vat: "TVA intracommunautaire",
@@ -68,8 +68,8 @@ const fr: Dictionary = {
       cta: "Retour à l'accueil",
     },
     stores: {
-      appStoreLabel: "Télécharger dans l'App Store",
-      googlePlayLabel: "Disponible sur Google Play",
+      appStoreLabel: "Télécharger dans l'App Store\u00a0: {app}",
+      googlePlayLabel: "Disponible sur Google Play\u00a0: {app}",
     },
     gameGet: {
       title: "Télécharger Cerebrum",

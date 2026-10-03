@@ -1,5 +1,25 @@
 import { describe, expect, it } from "vitest";
-import { buildOpenGraph, getAlternates } from "./seo";
+import { readFileSync } from "node:fs";
+import { OG_IMAGE, buildOpenGraph, getAlternates } from "./seo";
+
+/** Dimensions d'un JPEG, lues dans son premier segment SOFn (aucune dépendance d'image). */
+function jpegSize(path: string): { width: number; height: number } {
+  const bytes = readFileSync(path);
+  let offset = 2;
+  while (offset < bytes.length) {
+    const marker = bytes[offset + 1];
+    const isSof =
+      marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker);
+    if (isSof) {
+      return {
+        height: bytes.readUInt16BE(offset + 5),
+        width: bytes.readUInt16BE(offset + 7),
+      };
+    }
+    offset += 2 + bytes.readUInt16BE(offset + 2);
+  }
+  throw new Error(`Aucun segment SOF dans ${path}`);
+}
 
 describe("getAlternates", () => {
   it("l'accueil anglais est canonique à la racine, le français sous /fr", () => {
@@ -55,8 +75,25 @@ describe("buildOpenGraph", () => {
       siteName: "Synapgeek",
     });
     expect(og.images).toEqual([
-      { url: "/images/brand/og-image.jpeg", width: 1200, height: 630 },
+      {
+        url: "/images/brand/og-image-v2.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Synapgeek, studio français indépendant",
+      },
     ]);
+  });
+
+  it("l'alt de l'image suit la langue, et le fichier a les dimensions annoncées et pèse moins de 300 Ko", () => {
+    expect(buildOpenGraph("en", "home", "t", "d").images).toEqual([
+      expect.objectContaining({ alt: "Synapgeek, independent French studio" }),
+    ]);
+    const { width, height } = jpegSize(`public${OG_IMAGE.url}`);
+    expect({ width, height }).toEqual({
+      width: OG_IMAGE.width,
+      height: OG_IMAGE.height,
+    });
+    expect(readFileSync(`public${OG_IMAGE.url}`).length).toBeLessThan(300_000);
   });
 
   it("n'ajoute pas l'image du site quand la page porte la sienne (une seule og:image)", () => {
