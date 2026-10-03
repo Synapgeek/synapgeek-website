@@ -2,6 +2,10 @@ import type { Locale } from "@/lib/i18n";
 
 /** Libellés accessibles des deux badges de boutique (le badge lui-même est une image officielle). */
 export interface StoreLabels {
+  /**
+   * Contient le texte visible du badge, puis le nom de l'app (WCAG 2.5.3, étiquette dans le nom),
+   * écrit `{app}` : `storeLabelsFor()` (src/lib/store-badges.ts) le remplace par le nom de l'app.
+   */
   appStoreLabel: string;
   googlePlayLabel: string;
 }
@@ -22,11 +26,13 @@ export type LegalSection = { title: string; content: string; id?: string };
 export interface Dictionary {
   common: {
     siteName: string;
+    /** Texte alternatif de l'image de partage (og:image) du site. */
+    ogImageAlt: string;
     tagline: string;
     /** Entrées de navigation du header (et libellés réutilisés par le pied de page). */
     nav: {
-      /** Ancre `#games` du hub. */
-      games: string;
+      /** Ancre `#apps` du hub. */
+      apps: string;
       cerebrum: string;
       about: string;
       press: string;

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { generateStaticParams, type Locale } from "@/lib/i18n";
+import { generateStaticParams } from "@/lib/i18n";
 import { getDictionary, getLocale } from "@/content";
-import { getApps, getGames, type AppSlug } from "@/content/apps";
+import { getApps, getGames } from "@/content/apps";
 import { getHubCopy } from "@/content/copy";
 import { getAlternates, buildOpenGraph } from "@/lib/seo";
 import { ContactForm } from "@/components/ContactForm";
@@ -12,11 +12,6 @@ import { HomeHero } from "@/components/home/HomeHero";
 import { SectionBand } from "@/components/ui/SectionBand";
 
 export { generateStaticParams };
-
-/** La capture de l'app dans son encart : une par app, dans la langue de la page. */
-const SHOWCASE_SCREEN: Record<AppSlug, (locale: Locale) => string> = {
-  cerebrum: (locale) => `/images/screens/v3/pandoku-${locale}.webp`,
-};
 
 export async function generateMetadata({
   params,
@@ -49,22 +44,21 @@ export default async function HubPage({
     <>
       <HomeHero locale={locale} />
 
-      <TrackSection name="games">
-        <SectionBand id="games" tone="soft" title={copy.games.title}>
-          <div className="space-y-8">
+      <TrackSection name="apps">
+        <SectionBand id="apps" title={copy.apps.title}>
+          <div className="space-y-20">
             {getApps().map((app) => {
-              const item = copy.games.items[app.slug];
+              const item = copy.apps.items[app.slug];
               return (
                 <AppShowcase
                   key={app.slug}
                   app={app}
                   games={getGames(app.slug)}
                   locale={locale}
-                  pitch={item.pitch}
-                  iconsLabel={item.iconsLabel}
-                  ctaLabel={item.cta}
-                  phoneSrc={SHOWCASE_SCREEN[app.slug](locale)}
-                  phoneAlt={item.phoneAlt}
+                  genre={item.genre}
+                  description={item.description}
+                  seeMore={item.seeMore}
+                  gamesLabel={item.gamesLabel}
                   storeLabels={dict.common.stores}
                 />
               );

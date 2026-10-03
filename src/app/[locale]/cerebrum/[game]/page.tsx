@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { Lightbulb } from "lucide-react";
 import { InternalLink } from "@/components/ui/InternalLink";
 import { notFound } from "next/navigation";
 import { getDictionary, getLocale } from "@/content";
@@ -24,7 +25,7 @@ import {
   Breadcrumbs,
   type BreadcrumbItem,
 } from "@/components/site/Breadcrumbs";
-import { CheckList } from "@/components/ui/CheckList";
+import { IconList } from "@/components/ui/IconList";
 import { DifficultyTable } from "@/components/ui/DifficultyTable";
 import { FaqList } from "@/components/ui/FaqList";
 import { GameGrid } from "@/components/ui/GameGrid";
@@ -32,6 +33,7 @@ import { PhoneFrame } from "@/components/ui/PhoneFrame";
 import { SectionBand } from "@/components/ui/SectionBand";
 import { StepList } from "@/components/ui/StepList";
 import { StoreBadges } from "@/components/ui/StoreBadges";
+import { storeLabelsFor } from "@/lib/store-badges";
 import { TiltOnPointer } from "@/components/ui/TiltOnPointer";
 
 export { publishedGameParams as generateStaticParams };
@@ -107,9 +109,8 @@ export default async function GamePage({ params }: { params: Params }) {
     { name },
   ];
 
-  const siblings = getGames(app.slug).filter(
-    (other) => other.category === game.category && other.id !== game.id,
-  );
+  // Tous les autres jeux de l'app, en une seule grille (pas seulement la même famille).
+  const siblings = getGames(app.slug).filter((other) => other.id !== game.id);
 
   return (
     <>
@@ -137,7 +138,7 @@ export default async function GamePage({ params }: { params: Params }) {
             </p>
             <StoreBadges
               locale={locale}
-              labels={dict.common.stores}
+              labels={storeLabelsFor(dict.common.stores, app.name)}
               className="mt-6 justify-center sm:mt-8 lg:justify-start"
             />
           </div>
@@ -196,7 +197,11 @@ export default async function GamePage({ params }: { params: Params }) {
       </SectionBand>
 
       <SectionBand id="tips" title={copy.tips.title} width="prose">
-        <CheckList items={copy.tips.items} />
+        <IconList
+          items={copy.tips.items}
+          icon={Lightbulb}
+          colors={[game.color]}
+        />
       </SectionBand>
 
       <SectionBand id="faq" tone="soft" title={copy.faq.title} width="prose">
@@ -224,11 +229,7 @@ export default async function GamePage({ params }: { params: Params }) {
 
       {siblings.length > 0 && (
         <SectionBand id="more-games" title={gamePage.relatedTitle}>
-          <GameGrid
-            games={siblings}
-            categories={appCopy.sections.games.categories}
-            locale={locale}
-          />
+          <GameGrid games={siblings} locale={locale} />
         </SectionBand>
       )}
 
@@ -249,7 +250,7 @@ export default async function GamePage({ params }: { params: Params }) {
         </p>
         <StoreBadges
           locale={locale}
-          labels={dict.common.stores}
+          labels={storeLabelsFor(dict.common.stores, app.name)}
           className="mt-8"
         />
         <p className="mt-10 text-sm text-canvas/85">

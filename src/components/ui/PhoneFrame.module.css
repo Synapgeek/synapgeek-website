@@ -41,6 +41,15 @@
   height: auto;
 }
 
+/* Écran en HTML (sans capture) : la boîte garde le rapport de la capture et devient
+   le conteneur des cqw de son contenu. */
+.content {
+  container-type: inline-size;
+  position: relative;
+  aspect-ratio: 800 / 1738;
+  line-height: normal;
+}
+
 /* Dynamic Island */
 .bezel::after {
   content: "";

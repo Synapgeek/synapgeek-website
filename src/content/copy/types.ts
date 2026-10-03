@@ -65,6 +65,12 @@ export interface GameCopy extends Dated {
 
 export interface AppCopy extends Dated {
   meta: PageMeta;
+  /**
+   * Phrase d'homonymie : « pas le Cerebrum d'à côté ». C'est le `disambiguatingDescription` du
+   * JSON-LD de l'app et la phrase d'homonymie de `llms.txt` ; une page doit aussi l'afficher,
+   * le structuré ne disant jamais plus que le visible.
+   */
+  disambiguation: string;
   /** `phoneAlt` décrit la capture de l'accueil de l'app dans le téléphone du héros. */
   hero: DefinitionBlock & { phoneAlt: string };
   sections: {
@@ -109,12 +115,21 @@ export interface HubCopy extends Dated {
    * sans lieu ni date), `cta` le libellé du bouton vers la page de l'app.
    */
   hero: DefinitionBlock & { tagline: string; cta: string };
-  games: {
+  apps: {
     title: string;
-    /** Une entrée par app : la phrase de la carte, le nom de la rangée d'icônes, le libellé du bouton et la légende de la capture. */
+    /**
+     * Une entrée par app, pour son encart : `genre` la ligne sous le nom, `description` la
+     * phrase de présentation, `seeMore` l'invite qui la suit vers la page de l'app,
+     * `gamesLabel` le nom de la ligne de liens vers les pages de ses jeux.
+     */
     items: Record<
       AppSlug,
-      { pitch: string; iconsLabel: string; cta: string; phoneAlt: string }
+      {
+        genre: string;
+        description: string;
+        seeMore: string;
+        gamesLabel: string;
+      }
     >;
   };
   about: {

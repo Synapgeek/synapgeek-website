@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { getDictionary } from "@/content";
-import { REGISTERED_COPY } from "@/content/copy";
+import { REGISTERED_COPY, getAboutCopy } from "@/content/copy";
 import { PUBLISHER } from "@/content/publisher";
 import { LOCALES } from "@/lib/i18n";
 import { organizationSchema } from "@/lib/structured-data";
@@ -88,7 +88,12 @@ describe("le lieu du siège ne sort pas des mentions légales", () => {
     expect(hits(readFileSync("public/llms.txt", "utf8"))).toEqual([]);
   });
 
-  it("n'est pas dans le JSON-LD de l'organisation", () => {
-    expect(hits(JSON.stringify(organizationSchema()))).toEqual([]);
-  });
+  it.each(LOCALES)(
+    "n'est pas dans le JSON-LD de l'organisation (%s)",
+    (locale) => {
+      expect(
+        hits(JSON.stringify(organizationSchema(getAboutCopy(locale)))),
+      ).toEqual([]);
+    },
+  );
 });

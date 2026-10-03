@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { Locale } from "./i18n";
 import { LOCALES } from "./i18n";
+import { getDictionary } from "@/content";
 import { absoluteUrl, alternatesFor, type PageId } from "./routes";
 
 export function getAlternates(pageId: PageId, locale: Locale) {
@@ -29,6 +30,22 @@ export function getOgAlternateLocales(locale: Locale): string[] {
 }
 
 /**
+ * L'image de partage du site : 1200x630, recadrée au centre de la source. Le nom
+ * porte un suffixe de version, car /images/* se met en cache sept jours
+ * (vercel.json) : changer l'image impose de renommer le fichier. L'alt vient du
+ * Dictionnaire. Source unique du layout de langue et de `buildOpenGraph`.
+ */
+export const OG_IMAGE = {
+  url: "/images/brand/og-image-v2.jpeg",
+  width: 1200,
+  height: 630,
+} as const;
+
+export function getOgImages(locale: Locale) {
+  return [{ ...OG_IMAGE, alt: getDictionary(locale).common.ogImageAlt }];
+}
+
+/**
  * Construit un objet openGraph complet pour une page.
  * Next.js fusionne les métadonnées de façon superficielle : si une page
  * redéfinit `openGraph`, l'objet du layout (siteName, locale, images…) est
@@ -53,10 +70,6 @@ export function buildOpenGraph(
     siteName: "Synapgeek",
     locale: getOgLocale(locale),
     alternateLocale: getOgAlternateLocales(locale),
-    ...(!ownImage && {
-      images: [
-        { url: "/images/brand/og-image.jpeg", width: 1200, height: 630 },
-      ],
-    }),
+    ...(!ownImage && { images: getOgImages(locale) }),
   };
 }

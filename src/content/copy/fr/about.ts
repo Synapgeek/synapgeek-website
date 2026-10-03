@@ -3,8 +3,7 @@ import type { AboutCopy } from "../types";
 export const aboutFr: AboutCopy = {
   updatedAt: "2026-10-02",
   meta: {
-    title:
-      "À propos de Synapgeek : studio français indépendant, éditeur de Cerebrum",
+    title: "À propos de Synapgeek, éditeur de Cerebrum",
     description:
       "Synapgeek SAS est un studio français indépendant. Il crée des apps mobiles et édite Cerebrum pour iPhone, iPad et Android.",
   },

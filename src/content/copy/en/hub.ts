@@ -1,7 +1,7 @@
 import type { HubCopy } from "../types";
 
 export const hubEn: HubCopy = {
-  updatedAt: "2026-10-02",
+  updatedAt: "2026-10-03",
   meta: {
     title: "Synapgeek: independent French studio, makers of Cerebrum",
     description:
@@ -14,16 +14,15 @@ export const hubEn: HubCopy = {
       "Synapgeek is an independent French studio that makes mobile apps. We create elegant apps meant to slip into a break, a commute or a quiet evening, and to make you want to come back.",
     cta: "Discover Cerebrum",
   },
-  games: {
-    title: "Our games",
+  apps: {
+    title: "Our apps",
     items: {
       cerebrum: {
-        pitch:
-          "Sudoku, Crossword and Word Search sit next to Pandoku (a Star Battle logic puzzle), Pixel Art (nonograms), Trace (a one-line path puzzle) and more, in one app that plays offline.",
-        iconsLabel: "Cerebrum's games",
-        cta: "Discover Cerebrum",
-        phoneAlt:
-          "A Pandoku grid, a Star Battle logic puzzle, with its pandas and coloured regions",
+        genre: "Puzzle games",
+        description:
+          "Cerebrum is an offline puzzle games app for iPhone, iPad and Android, free to download and supported by ads. Sudoku, Crossword and Word Search sit next to Pandoku (a Star Battle logic puzzle), Pixel Art (nonograms), Trace (a one-line path puzzle) and more.",
+        seeMore: "See more",
+        gamesLabel: "Cerebrum's games",
       },
     },
   },

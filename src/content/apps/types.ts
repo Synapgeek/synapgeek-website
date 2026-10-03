@@ -82,5 +82,9 @@ export interface AppEntry {
   languages: readonly string[];
   contentRating: { appStore: "4+" };
   icon: string;
+  /** Couleur du nom de l'app dans les titres : NOM de propriété CSS (globals.css), jamais une valeur. */
+  wordmarkColor: `--color-${string}`;
+  /** La scène photographique de l'app (son encart à l'accueil, le héros de sa page), en deux cadrages. */
+  scene: { wide: string; narrow: string };
   games: readonly GameId[];
 }

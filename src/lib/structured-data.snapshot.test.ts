@@ -17,7 +17,15 @@ vi.mock("@/content/apps", async (importOriginal) =>
  * que pour un changement voulu du JSON-LD publié.
  */
 const cerebrum = getApp("cerebrum");
-const copy = { hero: { definition: "d" }, updatedAt: "2026-10-02" } as const;
+const copy = {
+  hero: { definition: "d" },
+  updatedAt: "2026-10-02",
+  disambiguation: "Not the other one.",
+  sections: {
+    model: { items: ["Free, with ads.", "Premium means no forced ads."] },
+    goodToKnow: { items: ["Offline.", "Guest play."] },
+  },
+} as const;
 
 describe("JSON-LD de Cerebrum (étalon)", () => {
   it.each(LOCALES)("application, %s", (locale) => {

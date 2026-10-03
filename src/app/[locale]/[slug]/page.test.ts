@@ -96,6 +96,10 @@ describe.each(LOCALES)("pages de section (%s)", (locale) => {
       );
     });
 
+    it("ne laisse jamais passer le gabarit brut {app} des badges", async () => {
+      expect(await render(locale, slug)).not.toContain("{app}");
+    });
+
     it("annonce la date de mise à jour de la copie", async () => {
       const markup = await render(locale, slug);
       expect(markup).toContain(`<time dateTime="${copy.updatedAt}">`);

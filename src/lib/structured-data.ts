@@ -8,8 +8,13 @@
  */
 
 import { LOCALES, type Locale } from "./i18n";
-import { platformsFor, type AppEntry, type GameEntry } from "@/content/apps";
-import type { AppCopy, GameCopy } from "@/content/copy";
+import {
+  getGames,
+  platformsFor,
+  type AppEntry,
+  type GameEntry,
+} from "@/content/apps";
+import type { AboutCopy, AppCopy, GameCopy } from "@/content/copy";
 import { PUBLISHER } from "@/content/publisher";
 import {
   BASE_URL,
@@ -21,7 +26,7 @@ import {
 
 // Pages développeur des stores — utilisées comme `sameAs` de l'organisation.
 const APP_STORE_DEVELOPER_URL =
-  "https://apps.apple.com/fr/developer/synapgeek/id1895554771?uo=4";
+  "https://apps.apple.com/fr/developer/synapgeek/id1895554771";
 const GOOGLE_PLAY_DEVELOPER_URL =
   "https://play.google.com/store/apps/developer?id=Synapgeek";
 
@@ -33,6 +38,13 @@ const WEBSITE_ID = `${BASE_URL}/#website`;
 
 /** @id de l'app : sa page anglaise, une seule entité pour les deux langues. */
 const appId = (app: AppEntry): string => `${absoluteUrl(app.slug, "en")}#app`;
+/**
+ * @id d'un jeu : sa page anglaise, une seule entité pour les deux langues. Source
+ * unique du nœud `VideoGame` d'une page jeu et du `hasPart` de l'app, qui doivent
+ * viser exactement le même @id.
+ */
+const gameNodeId = (game: GameEntry): string =>
+  `${absoluteUrl(pageIdForGame(game.id), "en")}#game`;
 /** Genre schema.org commun à tous les jeux ; le genre maison, quand il existe, s'y ajoute. */
 const VIDEO_GAME_GENRE = "Puzzle";
 
@@ -60,6 +72,7 @@ interface OrganizationSchema {
   readonly "@id": string;
   readonly name: string;
   readonly legalName: string;
+  readonly description: string;
   readonly url: string;
   readonly logo: string;
   readonly address: PostalAddressSchema;
@@ -71,9 +84,13 @@ interface OrganizationSchema {
 
 /**
  * Organisation Synapgeek — un seul noeud `@id` partagé par toutes les pages
- * (référencé en `publisher`/`author` ailleurs plutôt que redupliqué).
+ * (référencé en `publisher`/`author` ailleurs plutôt que redupliqué). La description
+ * est la phrase de définition de la page À propos, qui parle du studio à la troisième
+ * personne (celle de l'accueil est à la première, mal venue dans un nœud d'entité).
  */
-export function organizationSchema(): OrganizationSchema {
+export function organizationSchema(copy: {
+  hero: Pick<AboutCopy["hero"], "definition">;
+}): OrganizationSchema {
   const sameAs = [APP_STORE_DEVELOPER_URL, GOOGLE_PLAY_DEVELOPER_URL];
 
   return {
@@ -82,6 +99,7 @@ export function organizationSchema(): OrganizationSchema {
     "@id": ORGANIZATION_ID,
     name: PUBLISHER.brand,
     legalName: PUBLISHER.legalName,
+    description: copy.hero.definition,
     url: SITE_ROOT_URL,
     logo: `${BASE_URL}/images/brand/logo-synapgeek.png`,
     address: {
@@ -109,19 +127,22 @@ interface WebSiteSchema {
   readonly "@id": string;
   readonly url: string;
   readonly name: string;
-  readonly inLanguage: string;
+  readonly inLanguage: readonly string[];
   readonly publisher: { readonly "@id": string };
 }
 
-/** Site web Synapgeek. Pas de SearchAction : aucun moteur de recherche interne. */
-export function websiteSchema(locale: Locale): WebSiteSchema {
+/**
+ * Site web Synapgeek. Pas de SearchAction : aucun moteur de recherche interne.
+ * Même noeud dans toutes les langues, donc `inLanguage` les liste toutes.
+ */
+export function websiteSchema(): WebSiteSchema {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": WEBSITE_ID,
     url: SITE_ROOT_URL,
     name: "Synapgeek",
-    inLanguage: locale,
+    inLanguage: LOCALES,
     publisher: { "@id": ORGANIZATION_ID },
   };
 }
@@ -133,6 +154,7 @@ interface MobileApplicationSchema {
   readonly name: string;
   readonly alternateName: readonly string[];
   readonly description: string;
+  readonly disambiguatingDescription: string;
   readonly url: string;
   readonly sameAs: readonly string[];
   readonly operatingSystem: readonly string[];
@@ -142,7 +164,10 @@ interface MobileApplicationSchema {
     readonly price: string;
     readonly priceCurrency: string;
     readonly availability: string;
+    readonly description: string;
   };
+  readonly featureList: readonly string[];
+  readonly hasPart: ReadonlyArray<{ readonly "@id": string }>;
   readonly image: string;
   readonly downloadUrl: readonly string[];
   readonly author: { readonly "@id": string };
@@ -157,13 +182,21 @@ interface MobileApplicationSchema {
  * volontaires : pas d'`aggregateRating` (pas de source unifiée iOS/Android
  * fiable), pas de `softwareVersion` (diverge entre stores et se périme vite),
  * pas de `contentRating`. Android n'est annoncé que si le registre en vérifie
- * la version minimale.
+ * la version minimale. Les textes ne s'écrivent pas ici : `offers.description` est la
+ * première phrase du modèle économique de la page, `featureList` ses points « Bon à
+ * savoir » (le même tableau), `disambiguatingDescription` le champ de copie
+ * `disambiguation`. Aucun prix : l'offre n'a que son prix de téléchargement, `0`.
+ * `hasPart` renvoie, par @id, aux seuls jeux publiés.
  */
 export function mobileApplicationSchema(
   app: AppEntry,
   locale: Locale,
-  copy: Pick<AppCopy, "updatedAt"> & {
+  copy: Pick<AppCopy, "updatedAt" | "disambiguation"> & {
     hero: Pick<AppCopy["hero"], "definition">;
+    sections: {
+      model: Pick<AppCopy["sections"]["model"], "items">;
+      goodToKnow: Pick<AppCopy["sections"]["goodToKnow"], "items">;
+    };
   },
 ): MobileApplicationSchema {
   // Android n'est annoncé que s'il est vérifié : système, boutiques et sameAs vont ensemble.
@@ -181,6 +214,7 @@ export function mobileApplicationSchema(
     name: app.name,
     alternateName: app.storeTitles,
     description: copy.hero.definition,
+    disambiguatingDescription: copy.disambiguation,
     url: absoluteUrl(app.slug, locale),
     sameAs: storeUrls,
     operatingSystem,
@@ -191,7 +225,12 @@ export function mobileApplicationSchema(
       price: "0",
       priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
+      description: copy.sections.model.items[0],
     },
+    featureList: copy.sections.goodToKnow.items,
+    hasPart: getGames(app.slug)
+      .filter((game) => game.published)
+      .map((game) => ({ "@id": gameNodeId(game) })),
     downloadUrl: storeUrls,
     author: { "@id": ORGANIZATION_ID },
     publisher: { "@id": ORGANIZATION_ID },
@@ -238,7 +277,7 @@ export function videoGameSchema(
   return {
     "@context": "https://schema.org",
     "@type": "VideoGame",
-    "@id": `${absoluteUrl(pageId, "en")}#game`,
+    "@id": gameNodeId(game),
     name: game.name[locale],
     description: copy.hero.definition,
     url: absoluteUrl(pageId, locale),

@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { LOCALES } from "./i18n";
 import { getApp, getGames } from "@/content/apps";
+import { getAboutCopy, getAppCopy } from "@/content/copy";
 import { PUBLISHER } from "@/content/publisher";
 import { absoluteUrl } from "./routes";
 import {
@@ -28,7 +29,13 @@ const cerebrum = getApp("cerebrum");
 const appCopy = {
   hero: { definition: "d" },
   updatedAt: "2026-10-02",
+  disambiguation: "Not the other one.",
+  sections: {
+    model: { items: ["Free, with ads.", "Premium means no forced ads."] },
+    goodToKnow: { items: ["Offline.", "Guest play."] },
+  },
 } as const;
+const aboutCopy = (locale: (typeof LOCALES)[number]) => getAboutCopy(locale);
 const app = (locale: (typeof LOCALES)[number]) =>
   mobileApplicationSchema(cerebrum, locale, appCopy);
 
@@ -36,16 +43,18 @@ describe("JSON-LD — @id stables entre les langues", () => {
   it.each(LOCALES)(
     "les @id de %s sont ceux du graphe unique du site",
     (locale) => {
-      expect(organizationSchema()["@id"]).toBe(`${ORIGIN}/#organization`);
-      expect(websiteSchema(locale)["@id"]).toBe(`${ORIGIN}/#website`);
+      expect(organizationSchema(aboutCopy(locale))["@id"]).toBe(
+        `${ORIGIN}/#organization`,
+      );
+      expect(websiteSchema()["@id"]).toBe(`${ORIGIN}/#website`);
       expect(app(locale)["@id"]).toBe(`${ORIGIN}/cerebrum#app`);
     },
   );
 
   it("Organization et WebSite pointent la racine, identique dans chaque langue", () => {
     for (const locale of LOCALES) {
-      expect(organizationSchema().url).toBe(`${ORIGIN}/`);
-      expect(websiteSchema(locale).url).toBe(`${ORIGIN}/`);
+      expect(organizationSchema(aboutCopy(locale)).url).toBe(`${ORIGIN}/`);
+      expect(websiteSchema().url).toBe(`${ORIGIN}/`);
     }
   });
 
@@ -53,9 +62,7 @@ describe("JSON-LD — @id stables entre les langues", () => {
     for (const locale of LOCALES) {
       expect(app(locale).author["@id"]).toBe(`${ORIGIN}/#organization`);
       expect(app(locale).publisher["@id"]).toBe(`${ORIGIN}/#organization`);
-      expect(websiteSchema(locale).publisher["@id"]).toBe(
-        `${ORIGIN}/#organization`,
-      );
+      expect(websiteSchema().publisher["@id"]).toBe(`${ORIGIN}/#organization`);
       expect(
         webPageSchema({
           locale,
@@ -69,9 +76,9 @@ describe("JSON-LD — @id stables entre les langues", () => {
 });
 
 describe("JSON-LD — inLanguage en BCP 47", () => {
-  it("WebSite et WebPage utilisent « en » / « fr », jamais « fr_FR »", () => {
+  it("WebSite liste toutes les langues du site, identique dans chacune ; WebPage utilise « en » / « fr », jamais « fr_FR »", () => {
+    expect(websiteSchema().inLanguage).toEqual(["en", "fr"]);
     for (const locale of LOCALES) {
-      expect(websiteSchema(locale).inLanguage).toBe(locale);
       expect(
         webPageSchema({
           locale,
@@ -112,6 +119,13 @@ describe("JSON-LD — application Cerebrum", () => {
     expect(node.dateModified).toBe("2026-10-02");
   });
 
+  it("lit dans la copie l'homonymie, l'offre et la liste de fonctions, sans les réécrire", () => {
+    const node = app("en");
+    expect(node.disambiguatingDescription).toBe(appCopy.disambiguation);
+    expect(node.offers.description).toBe(appCopy.sections.model.items[0]);
+    expect(node.featureList).toBe(appCopy.sections.goodToKnow.items);
+  });
+
   it("déclare iOS et Android, gratuit, sans aggregateRating", () => {
     const node = app("en");
     expect(node.operatingSystem).toEqual(["iOS", "Android"]);
@@ -129,6 +143,46 @@ describe("JSON-LD — application Cerebrum", () => {
       mobileApplicationSchema(iosOnly, "en", appCopy).operatingSystem,
     ).toEqual(["iOS"]);
   });
+});
+
+describe("JSON-LD — Cerebrum et sa vraie copie", () => {
+  it.each(LOCALES)(
+    "l'offre est la première phrase du modèle de la page, sans prix (%s)",
+    (locale) => {
+      const copy = getAppCopy("cerebrum", locale);
+      const node = mobileApplicationSchema(cerebrum, locale, copy);
+      expect(node.offers.description).toBe(copy.sections.model.items[0]);
+      expect(node.offers.description).not.toMatch(/[€$]|\d\s?(€|EUR|USD)/);
+      expect(node.featureList).toEqual(copy.sections.goodToKnow.items);
+      expect(node.disambiguatingDescription).toBe(copy.disambiguation);
+      expect(node.disambiguatingDescription).toContain(PUBLISHER.legalName);
+    },
+  );
+
+  it.each(LOCALES)(
+    "hasPart renvoie aux @id des jeux publiés, ceux de leurs propres nœuds (%s)",
+    (locale) => {
+      const published = getGames("cerebrum").filter((g) => g.published);
+      const node = mobileApplicationSchema(
+        cerebrum,
+        locale,
+        getAppCopy("cerebrum", locale),
+      );
+      const ids = node.hasPart.map((part) => part["@id"]);
+      expect(ids).toHaveLength(published.length);
+      for (const game of published) {
+        const gameNode = videoGameSchema(cerebrum, game, locale, {
+          hero: { definition: "d" },
+          updatedAt: "2026-10-03",
+        });
+        // Même @id dans les deux langues : l'entité du jeu est unique.
+        expect(ids).toContain(gameNode["@id"]);
+        expect(gameNode["@id"]).toMatch(
+          new RegExp(`^${ORIGIN}/cerebrum/[a-z-]+#game$`),
+        );
+      }
+    },
+  );
 });
 
 describe("JSON-LD — identité tirée de l'AppEntry, rien de codé pour Cerebrum", () => {
@@ -278,7 +332,7 @@ describe("JSON-LD — fil d'Ariane", () => {
 
 describe("JSON-LD — organisation et page À propos", () => {
   it("l'organisation lit son identité dans PUBLISHER", () => {
-    const org = organizationSchema();
+    const org = organizationSchema(aboutCopy("en"));
     expect(org.legalName).toBe(PUBLISHER.legalName);
     // Le pays seulement : la rue, le code postal et la ville ne sont que dans les mentions légales.
     expect(org.address).toEqual({
@@ -290,11 +344,20 @@ describe("JSON-LD — organisation et page À propos", () => {
   });
 
   it("sameAs se limite aux deux pages développeur des boutiques", () => {
-    expect(organizationSchema().sameAs).toEqual([
-      "https://apps.apple.com/fr/developer/synapgeek/id1895554771?uo=4",
+    expect(organizationSchema(aboutCopy("en")).sameAs).toEqual([
+      "https://apps.apple.com/fr/developer/synapgeek/id1895554771",
       "https://play.google.com/store/apps/developer?id=Synapgeek",
     ]);
   });
+
+  it.each(LOCALES)(
+    "la description de l'organisation est la définition de À propos (%s), à la troisième personne",
+    (locale) => {
+      const org = organizationSchema(aboutCopy(locale));
+      expect(org.description).toBe(aboutCopy(locale).hero.definition);
+      expect(org.description).not.toMatch(/\b(nous|we|our|notre)\b/i);
+    },
+  );
 
   it.each(LOCALES)(
     "AboutPage (%s) référence l'organisation sans en créer une seconde",

@@ -3,9 +3,10 @@ import type { Dictionary } from "./types";
 const en: Dictionary = {
   common: {
     siteName: "Synapgeek",
+    ogImageAlt: "Synapgeek, independent French studio",
     tagline: "Independent mobile app studio",
     nav: {
-      games: "Games",
+      apps: "Apps",
       cerebrum: "Cerebrum",
       about: "About",
       press: "Press",
@@ -67,8 +68,8 @@ const en: Dictionary = {
       cta: "Back to home",
     },
     stores: {
-      appStoreLabel: "Download on the App Store",
-      googlePlayLabel: "Get it on Google Play",
+      appStoreLabel: "Download on the App Store: {app}",
+      googlePlayLabel: "Get it on Google Play: {app}",
     },
     gameGet: {
       title: "Get Cerebrum",
@@ -107,7 +108,7 @@ const en: Dictionary = {
   privacy: {
     title: "Privacy Policy",
     metaDescription:
-      "Privacy policy for Synapgeek apps and services: learn what data we collect, your GDPR and CCPA rights, advertising practices, and how to delete your account.",
+      "Privacy policy for Synapgeek apps and services: what data we collect, your GDPR and CCPA rights, advertising practices, and how to delete your account.",
     lastUpdated: "Last updated: September 12, 2026",
     updatedAt: "2026-09-12",
     sections: [

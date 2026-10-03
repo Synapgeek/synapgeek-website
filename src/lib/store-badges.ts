@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n";
+import type { StoreLabels } from "@/content/types";
 
 /**
  * Badges officiels des deux boutiques. Les fichiers fournis par Apple et Google
@@ -22,3 +23,18 @@ export const STORE_BADGES = {
     googlePlayHeight: 168,
   },
 } as const satisfies Record<Locale, unknown>;
+
+/**
+ * Les libellés accessibles des badges pour une app : le Dictionnaire porte un gabarit
+ * (`{app}` à la place du nom), résolu ici avec le nom de l'app que les badges vendent.
+ * Une deuxième app aura donc ses badges à son nom, sans toucher au Dictionnaire.
+ */
+export function storeLabelsFor(
+  labels: StoreLabels,
+  appName: string,
+): StoreLabels {
+  return {
+    appStoreLabel: labels.appStoreLabel.replace("{app}", appName),
+    googlePlayLabel: labels.googlePlayLabel.replace("{app}", appName),
+  };
+}

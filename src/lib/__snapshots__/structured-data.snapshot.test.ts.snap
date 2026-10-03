@@ -14,6 +14,7 @@ exports[`JSON-LD de Cerebrum (étalon) > application, en 1`] = `
     "Cerebrum: Offline Puzzle Games"
   ],
   "description": "d",
+  "disambiguatingDescription": "Not the other one.",
   "url": "https://synapgeek.com/cerebrum",
   "sameAs": [
     "https://apps.apple.com/app/id6763915130",
@@ -29,8 +30,45 @@ exports[`JSON-LD de Cerebrum (étalon) > application, en 1`] = `
     "@type": "Offer",
     "price": "0",
     "priceCurrency": "EUR",
-    "availability": "https://schema.org/InStock"
+    "availability": "https://schema.org/InStock",
+    "description": "Free, with ads."
   },
+  "featureList": [
+    "Offline.",
+    "Guest play."
+  ],
+  "hasPart": [
+    {
+      "@id": "https://synapgeek.com/cerebrum/sudoku#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/pandoku#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/minesweeper#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/pixel-art#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/cross-math#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/crossword#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/word-search#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/trace#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/maze#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/arrow-maze#game"
+    }
+  ],
   "downloadUrl": [
     "https://apps.apple.com/app/id6763915130",
     "https://play.google.com/store/apps/details?id=com.synapgeek.cerebrum"
@@ -78,6 +116,7 @@ exports[`JSON-LD de Cerebrum (étalon) > application, fr 1`] = `
     "Cerebrum: Offline Puzzle Games"
   ],
   "description": "d",
+  "disambiguatingDescription": "Not the other one.",
   "url": "https://synapgeek.com/fr/cerebrum",
   "sameAs": [
     "https://apps.apple.com/app/id6763915130",
@@ -93,8 +132,45 @@ exports[`JSON-LD de Cerebrum (étalon) > application, fr 1`] = `
     "@type": "Offer",
     "price": "0",
     "priceCurrency": "EUR",
-    "availability": "https://schema.org/InStock"
+    "availability": "https://schema.org/InStock",
+    "description": "Free, with ads."
   },
+  "featureList": [
+    "Offline.",
+    "Guest play."
+  ],
+  "hasPart": [
+    {
+      "@id": "https://synapgeek.com/cerebrum/sudoku#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/pandoku#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/minesweeper#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/pixel-art#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/cross-math#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/crossword#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/word-search#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/trace#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/maze#game"
+    },
+    {
+      "@id": "https://synapgeek.com/cerebrum/arrow-maze#game"
+    }
+  ],
   "downloadUrl": [
     "https://apps.apple.com/app/id6763915130",
     "https://play.google.com/store/apps/details?id=com.synapgeek.cerebrum"

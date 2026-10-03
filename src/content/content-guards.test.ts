@@ -397,6 +397,29 @@ function hubMentionGenreViolations(
   );
 }
 
+/**
+ * L'encart d'une app à l'accueil dit en une phrase ce qu'elle est : les trois
+ * plateformes et le modèle (gratuite au téléchargement). Sans cela, un visiteur ou
+ * un assistant ne sait pas où l'app existe ni ce qu'elle coûte.
+ */
+function hubAppDescriptionViolations(entry: CopyEntry): string[] {
+  if (entry.kind !== "hub") return [];
+  const free = entry.locale === "fr" ? /gratuit/i : /\bfree\b/i;
+  return Object.entries(entry.copy.apps.items).flatMap(([slug, item]) => [
+    ...["iPhone", "iPad", "Android"]
+      .filter((platform) => !item.description.includes(platform))
+      .map(
+        (platform) =>
+          `${labelOf(entry)} apps.items.${slug}.description: must name ${platform}`,
+      ),
+    ...(free.test(item.description)
+      ? []
+      : [
+          `${labelOf(entry)} apps.items.${slug}.description: must say the app is free`,
+        ]),
+  ]);
+}
+
 /** Un jeu absent d'Android (`availability.android` nul) ne mentionne jamais Android. */
 function androidViolations(
   entry: CopyEntry,
@@ -824,6 +847,7 @@ function entryViolations(
     ...lengthViolations(entry),
     ...genreViolations(entry, games),
     ...hubMentionGenreViolations(entry, getGames("cerebrum")),
+    ...hubAppDescriptionViolations(entry),
     ...androidViolations(entry, games),
     ...shapeViolations(entry, games),
     ...coverageViolations(entry, games),
@@ -969,6 +993,7 @@ function fixtureApp(
     copy: {
       updatedAt: "2026-10-01",
       meta: { title: "Cerebrum", description: "An app." },
+      disambiguation: "Not the other one.",
       hero: {
         h1: "Cerebrum",
         definition: DEFINITION_OK,
@@ -1021,14 +1046,14 @@ function fixtureHub(overrides: Partial<HubCopy> = {}): CopyEntry {
       updatedAt: "2026-10-01",
       meta: { title: "Synapgeek", description: "A studio." },
       hero: HUB_HERO,
-      games: {
-        title: "Games",
+      apps: {
+        title: "Apps",
         items: {
           cerebrum: {
-            pitch: "An app.",
-            iconsLabel: "Games",
-            cta: "Open",
-            phoneAlt: "A screen.",
+            genre: "Puzzle games",
+            description: "A free app for iPhone, iPad and Android.",
+            seeMore: "See more",
+            gamesLabel: "Games",
           },
         },
       },
@@ -1151,33 +1176,35 @@ describe("contrôles positifs des gardes structurelles", () => {
 
   it("la page d'accueil ne nomme un jeu maison qu'avec son genre", () => {
     const bare = fixtureHub({
-      games: {
-        title: "Games",
+      apps: {
+        title: "Apps",
         items: {
           cerebrum: {
-            pitch: "Pandoku, Pixel Art and Trace sit in one app.",
-            iconsLabel: "Games",
-            cta: "Open",
-            phoneAlt: "A screen.",
+            genre: "Puzzle games",
+            description: "Pandoku, Pixel Art and Trace sit in one app.",
+            seeMore: "See more",
+            gamesLabel: "Games",
           },
         },
       },
     });
     expect(hubMentionGenreViolations(bare, GAMES)).toEqual([
-      expect.stringContaining('games.items.cerebrum.pitch: names "Pandoku"'),
+      expect.stringContaining(
+        'apps.items.cerebrum.description: names "Pandoku"',
+      ),
       expect.stringContaining('names "Pixel Art"'),
       expect.stringContaining('names "Trace"'),
     ]);
     const named = fixtureHub({
-      games: {
-        title: "Games",
+      apps: {
+        title: "Apps",
         items: {
           cerebrum: {
-            pitch:
+            genre: "Puzzle games",
+            description:
               "Pandoku (a Star Battle logic puzzle), Pixel Art (nonograms) and Trace (a one-line path puzzle) sit in one app.",
-            iconsLabel: "Games",
-            cta: "Open",
-            phoneAlt: "A screen.",
+            seeMore: "See more",
+            gamesLabel: "Games",
           },
         },
       },
@@ -1188,6 +1215,46 @@ describe("contrôles positifs des gardes structurelles", () => {
       hero: { ...HUB_HERO, tagline: "A trace of Sudoku and Crossword." },
     });
     expect(hubMentionGenreViolations(common, GAMES)).toEqual([]);
+  });
+
+  it("la description de l'encart d'une app nomme iPhone, iPad et Android et dit qu'elle est gratuite", () => {
+    const withDescription = (locale: "en" | "fr", description: string) => {
+      const entry = fixtureHub();
+      if (entry.kind !== "hub") throw new Error("fixture hub attendue");
+      const [slug, item] = Object.entries(entry.copy.apps.items)[0];
+      return {
+        ...entry,
+        locale,
+        copy: {
+          ...entry.copy,
+          apps: {
+            ...entry.copy.apps,
+            items: { [slug]: { ...item, description } },
+          },
+        },
+      } as CopyEntry;
+    };
+    expect(
+      hubAppDescriptionViolations(
+        withDescription("en", "An offline puzzle app for iPhone and iPad."),
+      ),
+    ).toEqual([
+      expect.stringContaining("must name Android"),
+      expect.stringContaining("must say the app is free"),
+    ]);
+    expect(
+      hubAppDescriptionViolations(
+        withDescription("fr", "Une app pour iPhone, iPad et Android."),
+      ),
+    ).toEqual([expect.stringContaining("must say the app is free")]);
+    expect(
+      hubAppDescriptionViolations(
+        withDescription("fr", "Une app gratuite pour iPhone, iPad et Android."),
+      ),
+    ).toEqual([]);
+    expect(
+      entryViolations(withDescription("en", "A puzzle app.")),
+    ).toContainEqual(expect.stringContaining("must name iPhone"));
   });
 
   it("le garde du genre à l'accueil fait partie de entryViolations", () => {
@@ -1626,10 +1693,24 @@ describe("contrôles positifs des gardes structurelles", () => {
     });
 
     it("fait partie de entryViolations", () => {
+      const base = fixtureHub({
+        hero: { ...HUB_HERO, h1: "Bloqué : oui", definition: FR_DEFINITION },
+      });
+      if (base.kind !== "hub") throw new Error("fixture hub attendue");
       const entry = {
-        ...fixtureHub({
-          hero: { ...HUB_HERO, h1: "Bloqué : oui", definition: FR_DEFINITION },
-        }),
+        ...base,
+        copy: {
+          ...base.copy,
+          apps: {
+            ...base.copy.apps,
+            items: {
+              cerebrum: {
+                ...base.copy.apps.items.cerebrum,
+                description: "Une app gratuite pour iPhone, iPad et Android.",
+              },
+            },
+          },
+        },
         locale: "fr" as const,
       };
       expect(entryViolations(entry)).toEqual([

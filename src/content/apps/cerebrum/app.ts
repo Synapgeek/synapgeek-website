@@ -45,6 +45,13 @@ export const cerebrum: AppEntry = {
   ],
   contentRating: { appStore: "4+" },
   icon: "/images/brand/cerebrum-icon.png",
+  // Le magenta du wordmark « C·E·R·E·B·R·U·M » (constantes de marque du design system).
+  wordmarkColor: "--color-cerebrum",
+  // Table de travail zen générée (provenance : docs/contrat/provenance-visuels-r8.md).
+  scene: {
+    wide: "/images/apps/cerebrum-scene-wide-v1.webp",
+    narrow: "/images/apps/cerebrum-scene-narrow-v1.webp",
+  },
   games: [
     "sudoku",
     "pandoku",

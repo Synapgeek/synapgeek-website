@@ -2,7 +2,8 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { getGames } from "@/content/apps";
-import { CheckList } from "./CheckList";
+import { Languages, WifiOff } from "lucide-react";
+import { IconList } from "./IconList";
 import { GameGrid } from "./GameGrid";
 import { ProseList } from "./ProseList";
 
@@ -33,12 +34,95 @@ describe("ProseList", () => {
   });
 });
 
-describe("CheckList", () => {
-  it("hides the tick from assistive technology and keeps the text", () => {
-    const out = html(createElement(CheckList, { items: ["Hors ligne"] }));
+/** Un couple de couleurs de jeu, comme ceux que passent les pages. */
+const COLORS = [{ wash: "--game-sudoku-wash", deep: "--game-sudoku-deep" }];
+
+describe("IconList", () => {
+  it("hides the icon from assistive technology and keeps the text", () => {
+    const out = html(
+      createElement(IconList, { colors: COLORS, items: ["Hors ligne"] }),
+    );
     expect(out).toContain('aria-hidden="true"');
     expect(out).toContain("Hors ligne");
     expect(out).toContain('<ul role="list"');
+  });
+
+  it("gives each point its own icon, in order", () => {
+    const out = html(
+      createElement(IconList, {
+        colors: COLORS,
+        items: ["Hors ligne", "Langues"],
+        icons: [WifiOff, Languages],
+      }),
+    );
+    const icons = [...out.matchAll(/class="lucide lucide-([a-z-]+)/g)].map(
+      (match) => match[1],
+    );
+    expect(icons).toEqual(["wifi-off", "languages"]);
+  });
+
+  it("falls back to a sparkle for every point when no icons are given", () => {
+    const out = html(
+      createElement(IconList, { colors: COLORS, items: ["A", "B"] }),
+    );
+    const icons = [...out.matchAll(/class="lucide lucide-([a-z-]+)/g)].map(
+      (match) => match[1],
+    );
+    expect(icons).toEqual(["sparkle", "sparkle"]);
+  });
+
+  it("wears the app look on light bands and a translucent tile on the deep band", () => {
+    const light = html(
+      createElement(IconList, { colors: COLORS, items: ["A"] }),
+    );
+    expect(light).toMatch(/class="[^"]*game-gradient[^"]*"/);
+    const dark = html(
+      createElement(IconList, {
+        colors: COLORS,
+        items: ["A"],
+        surface: "dark",
+      }),
+    );
+    expect(dark).not.toContain("game-gradient");
+    expect(dark).toMatch(/class="[^"]*bg-canvas\/10[^"]*"/);
+  });
+});
+
+describe("IconList, icons and items out of step", () => {
+  it("throws instead of silently falling back to the default icon", () => {
+    expect(() =>
+      html(
+        createElement(IconList, {
+          colors: COLORS,
+          items: ["Hors ligne", "Langues"],
+          icons: [WifiOff],
+        }),
+      ),
+    ).toThrow(/1 icônes pour 2 points/);
+    expect(() =>
+      html(
+        createElement(IconList, {
+          colors: COLORS,
+          items: ["Hors ligne"],
+          icons: [WifiOff, Languages],
+        }),
+      ),
+    ).toThrow(/2 icônes pour 1 points/);
+  });
+
+  it("accepts one icon per item and no icons at all", () => {
+    expect(() =>
+      html(
+        createElement(IconList, {
+          colors: COLORS,
+          items: ["A", "B"],
+          icons: [WifiOff, Languages],
+        }),
+      ),
+    ).not.toThrow();
+    expect(() =>
+      html(createElement(IconList, { colors: COLORS, items: ["A", "B"] })),
+    ).not.toThrow();
   });
 });
 
@@ -96,5 +180,20 @@ describe("GameGrid", () => {
         }),
       ),
     ).toContain('href="/fr/cerebrum/demineur"');
+  });
+
+  it("without families, puts every game in one grid, each card an h3", () => {
+    const out = html(createElement(GameGrid, { games, locale: "en" }));
+    expect(out.match(/<ul/g)).toHaveLength(1);
+    expect(out.match(/<h3/g)).toHaveLength(games.length);
+    expect(out).not.toMatch(/<h4/);
+  });
+
+  it("turns the sparkle pattern from one card to the next", () => {
+    const out = html(createElement(GameGrid, { games, locale: "en" }));
+    const firstSparkle = (card: string) =>
+      /<svg[^>]*style="([^"]*)"/.exec(card)?.[1];
+    const cards = out.split("<li>").slice(1);
+    expect(firstSparkle(cards[0])).not.toEqual(firstSparkle(cards[1]));
   });
 });

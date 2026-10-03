@@ -37,6 +37,12 @@ type SectionBandProps = ToneProps & {
   width?: "wide" | "prose";
   /** Fondu d'entrée piloté par le défilement ; `false` pour la bande du premier écran. */
   enter?: boolean;
+  /**
+   * Décor de fond (positionné en `absolute`, sous le contenu en `-z-10`) posé à même la
+   * bande, hors du conteneur de contenu : l'entrée animée de ce dernier (une
+   * `transform`) ferait sinon de lui la référence du décor, coupé à ses bords.
+   */
+  backdrop?: ReactNode;
   children?: ReactNode;
   className?: string;
 };
@@ -51,6 +57,7 @@ export function SectionBand({
   intro,
   width = "wide",
   enter = true,
+  backdrop,
   children,
   className = "",
 }: SectionBandProps) {
@@ -61,8 +68,11 @@ export function SectionBand({
       id={id}
       aria-labelledby={title ? titleId : labelledBy}
       style={color ? gameColorVars(color) : undefined}
-      className={`scroll-mt-24 py-section ${TONE_CLASSES[tone]} ${className}`}
+      className={`scroll-mt-24 py-section ${TONE_CLASSES[tone]} ${
+        backdrop ? "relative isolate" : ""
+      } ${className}`}
     >
+      {backdrop}
       <div
         className={`mx-auto px-gutter ${enter ? "band-enter" : ""} ${
           width === "prose" ? "max-w-3xl" : "max-w-6xl"

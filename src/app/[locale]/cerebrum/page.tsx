@@ -20,13 +20,20 @@ import {
   type BreadcrumbItem,
 } from "@/components/site/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
-import { CheckList } from "@/components/ui/CheckList";
+import { IconList } from "@/components/ui/IconList";
+import {
+  GOOD_TO_KNOW_ICONS,
+  MODEL_ICONS,
+} from "@/components/pages/cerebrum-list-icons";
 import { FaqList } from "@/components/ui/FaqList";
 import { GameGrid } from "@/components/ui/GameGrid";
 import { PhoneStage } from "@/components/ui/PhoneStage";
 import { ProseList } from "@/components/ui/ProseList";
+import { SceneBackground } from "@/components/ui/SceneBackground";
+import { wordmarkStyle } from "@/components/ui/wordmark";
 import { SectionBand } from "@/components/ui/SectionBand";
 import { StoreBadges } from "@/components/ui/StoreBadges";
+import { storeLabelsFor } from "@/lib/store-badges";
 
 export { generateStaticParams };
 
@@ -57,6 +64,8 @@ export default async function CerebrumPage({
   const dict = getDictionary(locale);
   const copy = getAppCopy("cerebrum", locale);
   const app = getApp("cerebrum");
+  // Les tuiles des listes à icônes prennent les couleurs des jeux de l'app, à tour de rôle.
+  const gameColors = getGames("cerebrum").map((game) => game.color);
   const { sections } = copy;
 
   // Le même tableau nourrit le fil visible et le JSON-LD BreadcrumbList.
@@ -75,14 +84,30 @@ export default async function CerebrumPage({
         enter={false}
         className="relative z-10 overflow-x-clip pt-6 pb-0 sm:pt-10 sm:pb-section lg:pt-14"
       >
-        <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-8">
+        {/* La scène de l'app (sa table de travail zen) en fond du héros, sous un voile de
+            la couleur de la page côté texte : à gauche dès lg, en haut en deçà. C'est
+            l'image LCP de la page : `priority` la sert en eager + fetchpriority high. */}
+        <SceneBackground
+          scene={app.scene}
+          breakpoint={1024}
+          sizes="100vw"
+          priority
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-linear-to-b from-canvas/95 from-30% via-canvas/70 via-55% to-transparent lg:bg-linear-to-r lg:from-canvas/92 lg:from-35% lg:via-canvas/70 lg:via-55% lg:to-transparent"
+        />
+        <div className="relative grid items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-8">
           <div className="text-center lg:text-left">
             <Breadcrumbs
               items={breadcrumbs}
               label={dict.common.breadcrumb.label}
               className="mb-5 flex justify-center sm:mb-8 lg:justify-start"
             />
-            <h1 className="text-6xl leading-none tracking-[-0.03em] sm:text-7xl lg:text-8xl">
+            <h1
+              style={wordmarkStyle(app)}
+              className="text-6xl leading-none tracking-[-0.03em] sm:text-7xl lg:text-8xl"
+            >
               {copy.hero.h1}
             </h1>
             <p className="mx-auto mt-4 max-w-[34rem] text-base leading-snug sm:mt-6 sm:text-xl sm:leading-relaxed lg:mx-0">
@@ -90,7 +115,7 @@ export default async function CerebrumPage({
             </p>
             <StoreBadges
               locale={locale}
-              labels={dict.common.stores}
+              labels={storeLabelsFor(dict.common.stores, app.name)}
               className="mt-6 justify-center sm:mt-8 lg:justify-start"
             />
           </div>
@@ -164,7 +189,11 @@ export default async function CerebrumPage({
       </SectionBand>
 
       <SectionBand id="good-to-know" title={sections.goodToKnow.title}>
-        <CheckList items={sections.goodToKnow.items} />
+        <IconList
+          items={sections.goodToKnow.items}
+          icons={GOOD_TO_KNOW_ICONS}
+          colors={gameColors}
+        />
       </SectionBand>
 
       <TrackSection name="cerebrum_model">
@@ -174,7 +203,12 @@ export default async function CerebrumPage({
           title={sections.model.title}
           width="prose"
         >
-          <CheckList items={sections.model.items} />
+          <IconList
+            items={sections.model.items}
+            icons={MODEL_ICONS}
+            colors={gameColors}
+            surface="dark"
+          />
         </SectionBand>
       </TrackSection>
 

@@ -7,7 +7,8 @@ import { APP_STORE_QR_URL, GOOGLE_PLAY_URL } from "@/lib/app";
 import { localeFromAcceptLanguage } from "@/lib/accept-language";
 import { formatPublishedGameNames } from "@/lib/play-games";
 import { pagePath } from "@/lib/routes";
-import { STORE_BADGES } from "@/lib/store-badges";
+import { STORE_BADGES, storeLabelsFor } from "@/lib/store-badges";
+import { getApp } from "@/content/apps";
 import { getDictionary } from "@/content";
 import { FONT_VARIABLES } from "@/app/fonts";
 
@@ -95,6 +96,7 @@ export default async function PlayPage({
     (await headers()).get("accept-language"),
   );
   const dict = getDictionary(locale);
+  const stores = storeLabelsFor(dict.common.stores, getApp("cerebrum").name);
   const badges = STORE_BADGES[locale];
   const badgeLink =
     "rounded-lg transition-transform duration-150 ease-out active:scale-[0.97]";
@@ -124,7 +126,7 @@ export default async function PlayPage({
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
             <a
               href={APP_STORE_QR_URL}
-              aria-label={dict.common.stores.appStoreLabel}
+              aria-label={stores.appStoreLabel}
               className={badgeLink}
             >
               <Image
@@ -137,7 +139,7 @@ export default async function PlayPage({
             </a>
             <a
               href={GOOGLE_PLAY_URL}
-              aria-label={dict.common.stores.googlePlayLabel}
+              aria-label={stores.googlePlayLabel}
               className={badgeLink}
             >
               <Image

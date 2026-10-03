@@ -9,7 +9,7 @@ import { ReopenConsentLink } from "@/components/consent/ReopenConsentLink";
 import { LanguageSwitch } from "./LanguageSwitch";
 
 const linkClasses =
-  "inline-block rounded-sm py-1.5 text-sm text-text-secondary underline-offset-4 transition-colors duration-150 hover:text-ink hover:underline";
+  "inline-flex min-h-11 items-center rounded-sm text-sm text-text-secondary underline-offset-4 transition-colors duration-150 hover:text-ink hover:underline";
 const headingClasses = "mb-2 text-sm font-bold text-ink";
 
 /**
@@ -76,10 +76,10 @@ export function SiteFooter({
               <ul>
                 <li>
                   <InternalLink
-                    href={pagePath("home", locale, "games")}
+                    href={pagePath("home", locale, "apps")}
                     className={linkClasses}
                   >
-                    {nav.games}
+                    {nav.apps}
                   </InternalLink>
                 </li>
                 <li>

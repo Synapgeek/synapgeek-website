@@ -1,5 +1,6 @@
 import { InternalLink } from "@/components/ui/InternalLink";
 import { getDictionary } from "@/content";
+import { getApp } from "@/content/apps";
 import { getAboutCopy } from "@/content/copy";
 import type { Locale } from "@/lib/i18n";
 import { pagePath } from "@/lib/routes";
@@ -10,6 +11,7 @@ import { Button } from "@/components/ui/Button";
 import { PublisherIdentity } from "@/components/ui/PublisherIdentity";
 import { SectionBand } from "@/components/ui/SectionBand";
 import { StoreBadges } from "@/components/ui/StoreBadges";
+import { storeLabelsFor } from "@/lib/store-badges";
 import { ContactBand } from "./ContactBand";
 import { SectionHero } from "./SectionHero";
 import { UpdatedOn } from "./UpdatedOn";
@@ -62,7 +64,7 @@ export function AboutView({ locale }: { locale: Locale }) {
         </p>
         <StoreBadges
           locale={locale}
-          labels={dict.common.stores}
+          labels={storeLabelsFor(dict.common.stores, getApp("cerebrum").name)}
           className="mt-8"
         />
       </SectionBand>

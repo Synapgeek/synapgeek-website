@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import styles from "./PhoneFrame.module.css";
 
 /** Les captures du site sont des webp de 800 px de large (rapport de l'iPhone 16 Pro Max). */
@@ -7,7 +7,31 @@ const SCREEN_WIDTH = 800;
 const SCREEN_HEIGHT = 1738;
 
 /**
- * Téléphone dessiné en CSS autour d'une capture réelle de l'app. Composant
+ * L'écran montre soit une capture réelle de l'app (`src` + `alt`), soit un contenu
+ * HTML (`children`) posé dans une boîte aux proportions de la capture, qui sert de
+ * conteneur : ses enfants se dimensionnent en `cqw` et suivent la taille du téléphone.
+ * `priority` et `sizes` ne concernent que l'image : le mode `children` les interdit.
+ */
+type ScreenProps =
+  | {
+      src: string;
+      /** Description de la capture, localisée : le téléphone n'est pas décoratif. */
+      alt: string;
+      /** Cette capture est le LCP de la page (héros) : préchargée, `fetchpriority="high"`. */
+      priority?: boolean;
+      sizes?: string;
+      children?: never;
+    }
+  | {
+      children: ReactNode;
+      src?: never;
+      alt?: never;
+      priority?: never;
+      sizes?: never;
+    };
+
+/**
+ * Téléphone dessiné en CSS autour d'une capture réelle ou d'un écran HTML. Composant
  * serveur : l'image reste rendue côté serveur (et peut donc être le LCP).
  * `priority` ne se pose que si l'appelant dit que cette capture est le LCP,
  * c'est-à-dire sur le héros : `preload` (la propriété `priority` de next/image est
@@ -19,16 +43,12 @@ const SCREEN_HEIGHT = 1738;
 export function PhoneFrame({
   src,
   alt,
+  children,
   priority = false,
   sizes = "(min-width: 1024px) 360px, 70vw",
   rotate = 0,
   className = "",
-}: {
-  src: string;
-  /** Description de la capture, localisée : le téléphone n'est pas décoratif. */
-  alt: string;
-  priority?: boolean;
-  sizes?: string;
+}: ScreenProps & {
   rotate?: number;
   className?: string;
 }) {
@@ -38,15 +58,19 @@ export function PhoneFrame({
     <div className={`${styles.frame} ${className}`} style={style}>
       <div className={styles.bezel}>
         <div className={styles.screen}>
-          <Image
-            src={src}
-            alt={alt}
-            width={SCREEN_WIDTH}
-            height={SCREEN_HEIGHT}
-            sizes={sizes}
-            preload={priority}
-            fetchPriority={priority ? "high" : undefined}
-          />
+          {src === undefined ? (
+            <div className={styles.content}>{children}</div>
+          ) : (
+            <Image
+              src={src}
+              alt={alt}
+              width={SCREEN_WIDTH}
+              height={SCREEN_HEIGHT}
+              sizes={sizes}
+              preload={priority}
+              fetchPriority={priority ? "high" : undefined}
+            />
+          )}
         </div>
       </div>
     </div>
