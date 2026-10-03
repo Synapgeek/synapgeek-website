@@ -1,3 +1,16 @@
 {
-  "buildPath": "comp"
+  "buildPath": "comp",
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": ["src/components/home/home-markup.test.ts"],
+        "createdAt": "2026-10-03T13:57:31.692Z",
+        "reason": "Claude: false positive, the flagged lines are regex literals (/<img[^>]*>/) in a vitest markup test, not rendered images"
+      }
+    ]
+  }
 }

@@ -53,7 +53,10 @@ Le plan doit trancher ; vérifie SYSTÉMATIQUEMENT qu'il le fait :
   `[locale]/<route>` rend 404 ; `src/app/layout.tsx` retourne `children` nu, donc toute route hors
   de `[locale]` rend son propre `<html lang>` et `<body>`. Les redirections vivent dans
   `next.config.ts`, en règles LITTÉRALES (jamais `/en/:path*`, qui capterait `/en/privacy` et les
-  images Open Graph). Une page indexable reçoit un `PageId` et un slug (`page-slugs.ts`), pose
+  images Open Graph). Seule exception conditionnelle : les deux 307 du lien Contact des apps
+  (`appContactRedirects`, `/` vers `/fr` et `/en` vers `/?hl=en` quand la query porte
+  utm_source=cerebrum et utm_medium=app), avant le 308 `/en`, couplés aux apps installées, jamais
+  retirés (`docs/contrat/redirections.md`, R1). Une page indexable reçoit un `PageId` et un slug (`page-slugs.ts`), pose
   canonical et hreflang par `getAlternates(pageId, locale)` (x-default = anglais), son
   `generateStaticParams`, un `notFound()` pour tout slug inconnu, non publié ou de l'autre langue
   (jamais `dynamicParams = false`), et n'entre dans le sitemap qu'en rejoignant
@@ -70,7 +73,9 @@ Le plan doit trancher ; vérifie SYSTÉMATIQUEMENT qu'il le fait :
   module de copie typé, tout lien interne par `pagePath()` (et `InternalLink`), aucun ternaire
   `locale === "fr" ?` (cliquet à 0) ; tout JSON-LD nouveau ou modifié passe par un builder de
   `src/lib/structured-data.ts`, avec `@id` stables entre langues et sans `aggregateRating` ; une
-  FAQ visible a son `FAQPage` du même tableau ; tout `openGraph` par `buildOpenGraph()` ;
+  FAQ visible a son `FAQPage` du même tableau ; tout `openGraph` par `buildOpenGraph()` (image :
+  `getOgImages`, `og-image-v2.jpeg`) ; aucun préchargement manuel d'image depuis un composant
+  partagé (il part dans le flux RSC) ;
 - **Contenu et registre** : une page jeu ne parle que du jeu (arbitrages R4, R5, R7), les faits
   viennent des sources de `docs/contrat/`, le nom de code de la future app non-jeu n'apparaît
   nulle part, le plan dit quels gardes de `content-guards.test.ts` il touche ;

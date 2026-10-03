@@ -13,6 +13,12 @@ racine dans `CLAUDE.md`. Le code fait foi.
 3. **Les redirections vivent dans `next.config.ts`**, en règles LITTÉRALES (jamais `/en/:path*` :
    elle capterait `/en/privacy` et les images Open Graph). Les trois `/account-deletion`, `/play` et
    `/jouer` restent `permanent: false`. `/fr/<page légale>` n'est pas redirigée (PR ultérieur, 307).
+   Deux règles conditionnelles R1, en 307 et AVANT le 308 `/en`, servent le lien « Contact » des
+   apps installées : `/` avec `utm_source=cerebrum` et `utm_medium=app` (sans `hl`) vers `/fr`,
+   `/en` avec les mêmes utm vers `/?hl=en`. Elles s'appuient sur la convention des apps (racine
+   pour le français seulement, `/en` pour le reste) : ne jamais les retirer ni les déplacer
+   après le 308 `/en`, et ne rien changer à l'URL émise par les apps sans repasser par
+   `site-architect`.
 4. **SSG pur.** Exactement trois `export const dynamic` : `cerebrum/play/page.tsx`
    (`force-dynamic`) et les deux `.well-known` (`force-static`). Jamais `revalidate`,
    `dynamicParams`, `runtime`, `"use cache"`, `cacheComponents`, ni `loading.tsx` ou Suspense
@@ -25,7 +31,8 @@ racine dans `CLAUDE.md`. Le code fait foi.
    `/cerebrum/play`) rend son propre `<html lang>` et `<body>` avec `FONT_VARIABLES`.
 8. **Métadonnées** : titre et description depuis la copie (155 caractères au plus),
    `getAlternates(pageId, locale)` pour canonical et hreflang, `buildOpenGraph()` pour `openGraph`
-   (`ownImage: true` quand la page a son `opengraph-image`). Un `openGraph` partiel écrase celui du
+   (`ownImage: true` quand la page a son `opengraph-image` ; sinon l'image du site vient de
+   `getOgImages(locale)`, `og-image-v2.jpeg`). Un `openGraph` partiel écrase celui du
    layout et fait disparaître l'image. Seule `/cerebrum/play` est `noindex`.
 9. **JSON-LD** : uniquement un builder de `src/lib/structured-data.ts`, rendu par `JsonLd`. Une
    FAQ visible a son `FAQPage` du même tableau. Un seul noeud Organization (le layout de langue).

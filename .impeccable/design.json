@@ -355,7 +355,7 @@
   ],
   "narrative": {
     "northStar": "La vitrine du studio",
-    "overview": "**Creative North Star: \"La vitrine du studio\"**\n\nLe standard de la catégorie « landing de studio d'apps », exécuté proprement : un fond blanc, une encre quasi noire, un vert vif réservé à l'action, des lavis pastel qui portent les jeux, des cartes très arrondies et des boutons pilule. On n'ouvre pas sur un slogan sur dégradé, mais sur une phrase de définition et sur la vraie app dans un téléphone. La chaleur vient de la couleur des jeux et de Fredoka, pas de la décoration.\n\nLa densité est aérée : une section par idée, un seul fondu d'entrée par section, aucune parallaxe ni carrousel. La preuve visuelle est toujours réelle (captures de l'app 3.0.0 dans un cadre de téléphone dessiné en CSS, icônes des jeux, aquarelle Breeze de l'app, illustrations du Panda). Le public est adulte : les personnages sont des illustrations d'appoint, jamais des narrateurs.\n\nÉcart assumé par rapport au contrat de direction : le corps est en Figtree, non en Nunito (Nunito appartient à un autre site du même propriétaire). Le build fait foi.",
+    "overview": "**Creative North Star: \"La vitrine du studio\"**\n\nLe standard de la catégorie « landing de studio d'apps », exécuté proprement : un fond blanc, une encre quasi noire, un vert vif réservé à l'action, des lavis pastel qui portent les jeux, des cartes très arrondies et des boutons pilule. On n'ouvre pas sur un slogan sur dégradé, mais sur une phrase de définition et sur la vraie app dans un téléphone. La chaleur vient de la couleur des jeux et de Fredoka, pas de la décoration.\n\nLa densité est aérée : une section par idée, un seul fondu d'entrée par section, aucune parallaxe ni carrousel. La preuve visuelle est toujours réelle (captures de l'app 3.0.0 dans un cadre de téléphone dessiné en CSS, icônes des jeux, cartes des jeux au style de l'app). Le décor d'ambiance (la table de l'accueil, la scène zen de Cerebrum) est généré et jamais présenté comme une capture. Le public est adulte : les personnages sont des illustrations d'appoint, jamais des narrateurs ; les trois Pandas sont les avatars de l'app qui grandissent, un fait produit, pas une cible enfant.\n\nÉcart assumé par rapport au contrat de direction : le corps est en Figtree, non en Nunito (Nunito appartient à un autre site du même propriétaire). Le build fait foi.",
     "keyCharacteristics": [
       "Fond blanc, encre `#1a1a2e`, vert Synapgeek pour l'action, texte encre sur vert.",
       "Une seule section violet profond par page, pour casser le rythme.",
@@ -406,7 +406,9 @@
       "**Do** colorer un jeu par son couple `--game-*-wash` / `--game-*-deep` via `gameColorVars`.",
       "**Do** n'utiliser que `Button` pour une action, avec une de ses quatre variantes, formulaires compris.",
       "**Do** signaler une erreur de champ par `error` (bordure et libellé), après interaction seulement.",
-      "**Do** laisser le ciel Breeze à 240 px de large et ses masques dans la boîte de leur élément.",
+      "**Do** servir une scène d'ambiance par `SceneBackground` (un `<picture>`, `alt=\"\"`), en `priority` seulement si c'est l'image LCP de la page, et ne poser aucune image prioritaire de plus sans mesure.",
+      "**Do** écrire « Cerebrum » en magenta uniquement à 24 px et plus, « Synapgeek » en violet profond uni.",
+      "**Do** laisser les taches de couleur jouer deux cycles puis se figer.",
       "**Do** faire monter une section de 16 px au plus, par la transform seule, jamais par l'opacité (un texte à opacité 0 échoue le contraste).",
       "**Do** garder des cibles de 44 px, un anneau de focus visible, un seul H1 par page."
     ],
@@ -415,7 +417,10 @@
       "**Don't** écrire un hex hors de `globals.css`, ni une couleur de jeu en dur.",
       "**Don't** poser plus d'une section violet profond par page.",
       "**Don't** ajouter parallaxe, carrousel automatique ou animation qui joue sur l'opacité d'un texte.",
-      "**Don't** remplacer le ciel Breeze par un fichier plus grand, ni remettre un masque sur `.breeze-clip`.",
+      "**Don't** précharger une image à la main depuis un composant partagé (`ReactDOM.preload` voyage dans le payload RSC et fuit vers les autres pages) ; ni remettre le ciel Breeze, retiré.",
+      "**Don't** écrire le magenta Cerebrum en corps de texte (3:1 seulement), ni « Synapgeek » en dégradé multicolore.",
+      "**Don't** présenter un décor généré comme une capture de l'app.",
+      "**Don't** faire dériver les taches de couleur sans fin.",
       "**Don't** viser l'enfant ou la famille (mots, images) ; les personnages restent des appoints.",
       "**Don't** assombrir un lavis de jeu au survol : on éclaircit."
     ]

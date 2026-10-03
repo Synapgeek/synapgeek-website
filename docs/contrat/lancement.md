@@ -14,6 +14,7 @@
 | A1 | Lancer les trois prompts « marque » du panel ChatGPT AVANT la mise en ligne : c'est la référence de comparaison (panel de `cerebrum-design-system/marketing/ASO/3.x.x/geo-assistants-ia.md`) | Adrien | résultats notés avec la date |
 | A2 | `npm run check:contract` contre `next start` en local, vert (aucune preview de branche : seule `main` déploie ; la preuve sur Vercel est un déploiement CLI protégé, ni `--prod` ni alias, approuvé par Adrien et lancé par la session du site, jamais par un sous-agent, avec `VERCEL_OIDC_TOKEN`) | session du site | sortie sans écart |
 | A3 | Relever l'identifiant du déploiement de production actuel (retour arrière armé) | Adrien | identifiant noté |
+| A5 | **R1, lien « Contact » des apps** : livré avec la refonte, dans le même déploiement que le 308 `/en` (jamais après : un 308 déjà en cache enverrait un joueur non français vers `/fr`). Demander aux sessions iOS et Android un test de garde dans leur dépôt (racine avec `utm_medium=app` émise pour le français seulement, `/en?…` pour toute autre langue ; Android : `LegalUrlProviderTest.kt:46-51` existe déjà) : demande à envoyer, pas encore envoyée | session du site (message), sessions iOS et Android (test) | `legacy-redirects.test.ts` vert, `check:contract` vert ; messages envoyés |
 | A4 | Faire le point sur les PR des lots préparatoires (sécurité, route des QR, outillage Claude, faits 3.0.0), contenues dans la branche d'intégration `release/next` | Adrien | ordre de merge décidé |
 
 ## Juste après le merge (le jour même)
@@ -28,12 +29,14 @@
 
 ## Dans la semaine
 
+Plan détaillé des redirections et des changements en console (App Store Connect, Play Console, AdMob, Meta, QR) : [`redirections.md`](redirections.md) (R1 et T1 appliqués dans la branche, non mergés ; changements de console à faire).
+
 | # | Action | Responsable | Preuve |
 | - | ------ | ----------- | ------ |
 | C1 | **Bing Webmaster Tools** : ajouter le site, soumettre `https://synapgeek.com/sitemap.xml`, activer le rapport « AI Performance » | Adrien | site vérifié, sitemap accepté |
 | C2 | **GA4** : créer le canal « AI Assistant » et regrouper Claude et Perplexity dans les canaux par défaut | Adrien | canal visible dans les rapports |
 | C3 | **App Store Connect, fiche fr-FR** : URL marketing vers `https://synapgeek.com/fr/cerebrum`, URL de support vers `https://synapgeek.com/fr#contact`. Jusque-là, l'ancienne URL de support `/#contact` atterrit sur le hub ANGLAIS (l'anglais est désormais la racine) ; les autres langues (`/en`, `/en#contact`) suivent la redirection 308 vers `/` | session App iOS (métadonnées ASC), validation d'Adrien | fiche à jour, liens ouverts à la main |
-| C4 | **Play Console, champ site web de la fiche** : le mettre à jour (valeur à confirmer par Adrien : la page de l'app `https://synapgeek.com/cerebrum` ou l'accueil). `www.synapgeek.com` continue de répondre en 308 vers l'apex : ne jamais le casser | session Android, validation d'Adrien | fiche à jour |
+| C4 | **Play Console, champ site web de la fiche** : le mettre à jour (valeur décidée par Adrien le 2026-10-03 : `https://synapgeek.com/cerebrum`). `www.synapgeek.com` continue de répondre en 308 vers l'apex : ne jamais le casser | session Android, validation d'Adrien | fiche à jour |
 | C5 | **QR des chevalets** : régénérer vers `https://synapgeek.com/cerebrum/play`. Les QR déjà imprimés (`/play`, `/jouer`) continuent de fonctionner par redirection 307 et ne doivent jamais cesser de répondre | session Design System | scan d'essai iPhone et Android |
 | C6 | **Panel ChatGPT** : relevé complet (11 prompts + 3 prompts « marque ») sur la fenêtre **du 12 au 19 octobre 2026**, au moins une semaine après la mise en ligne (sinon décaler la fenêtre). Référence : 3 prompts cités sur 11 le 2026-09-25 | Adrien | relevé daté, comparé à A1 et au point zéro |
 | C7 | Suivre `app_store_click` (GA4) et l'App Referrer « ChatGPT » dans App Store Connect : ce sont les mesures de succès de la refonte | Adrien | tendance notée |

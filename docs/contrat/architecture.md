@@ -81,6 +81,8 @@ Les redirections de configuration passent AVANT le proxy. Ordre exact, gardé pa
 | `/fr/account-deletion`                                       | `/privacy#account-deletion`           | 307  |
 | `/play`                                                      | `/cerebrum/play`                      | 307  |
 | `/jouer`                                                     | `/cerebrum/play`                      | 307  |
+| `/` avec `utm_source=cerebrum` ET `utm_medium=app`, sans `hl` (R1) | `/fr`                           | 307  |
+| `/en` avec `utm_source=cerebrum` ET `utm_medium=app` (R1)    | `/?hl=en`                             | 307  |
 | `/en`                                                        | `/`                                   | 308  |
 | `/en/cerebrum`, `/en/cerebrum/<slug anglais>` (dix jeux), `/en/about`, `/en/press` (treize règles) | le même chemin sans `/en` | 308  |
 
@@ -94,9 +96,25 @@ Les redirections de configuration passent AVANT le proxy. Ordre exact, gardé pa
   naît sans préfixe.
 - Garde-fou au chargement : si un slug futur coïncidait avec un chemin légal figé, la config
   lève une erreur plutôt que de rediriger `/en/privacy`.
+- **R1, lien « Contact » des apps installées** (`appContactRedirects` dans `next.config.ts`,
+  avant le 308 `/en` : la première règle qui correspond l'emporte). Les apps émettent la racine
+  en français et `/en` dans toutes les autres langues, toujours avec `utm_source=cerebrum&
+  utm_medium=app` : la langue est dans l'URL, ce n'est pas une négociation. Sans R1, le 308
+  `/en` rendrait les deux formes identiques (`/?utm_…`) et le joueur français arriverait sur
+  l'anglais. Les deux règles sont en 307 (contrat d'app, réversible), conditionnées par un
+  `has` sur la paire utm (valeurs ancrées `^cerebrum$` et `^app$`) ; `/en?src=…`, `utm_medium=apps`
+  et les pages légales avec utm d'app ne les déclenchent pas. Elles doivent partir dans le
+  même déploiement que le 308 `/en` (un 308 déjà en cache sans `hl` enverrait un joueur non
+  français vers `/fr`). Couplage avec les apps : la racine avec `utm_medium=app` ne doit être
+  émise que pour le français ; les sessions iOS et Android gardent cette contrainte par un test
+  dans leur dépôt.
 - La query entrante est conservée par Next sur toutes ces redirections (`/en?utm_source=x`
   donne `/?utm_source=x`). Une destination ne porte jamais de query : la sienne l'emporterait
-  en cas de conflit.
+  en cas de conflit. **Seule exception documentée : `/?hl=en`** (destination de la règle R1
+  `/en`). Raison : le 307 doit marquer les joueurs non français pour que la règle R1 de la
+  racine ne les renvoie pas vers `/fr`. Le conflit de query est impossible en pratique : la règle
+  ne capte que les URLs d'app, qui n'émettent jamais `hl`, et la règle de la racine exige son
+  absence (`missing`). Next fusionne la query entrante : `/en?utm_…` donne `/?utm_…&hl=en`.
 - `www.synapgeek.com/*` redirige en 308 vers l'apex, chemin conservé : réglage Vercel, hors
   dépôt. `www` reste critique (hôte des liens des anciennes installations, voir le CLAUDE.md
   racine) ; `check:contract` le contrôle sur les deux hôtes.
@@ -194,7 +212,12 @@ src/app/[locale]/not-found.tsx          404 localisée
 - `buildOpenGraph(locale, pageId, title, description, { ownImage })` de `src/lib/seo.ts` est
   l'unique constructeur d'`openGraph` : la fusion des métadonnées de Next est superficielle, un
   `openGraph` partiel dans une page écrase celui du layout et fait disparaître l'image.
-- Hub, page app et pages légales : l'image du site, `public/images/brand/og-image.jpeg`.
+- Hub, page app et pages légales : l'image du site, `public/images/brand/og-image-v2.jpeg`
+  (1200×630, recadrage centré de `og-image.jpeg` 2752×1536, 44 Ko). Source unique : `OG_IMAGE` et
+  `getOgImages(locale)` de `src/lib/seo.ts`, utilisés par `buildOpenGraph` et par le
+  `generateMetadata` de `[locale]/layout.tsx` ; l'alt vient de `Dictionary.common.ogImageAlt`. Le
+  nom est versionné (cache de 7 jours sur `/images/*`) ; `og-image.jpeg` reste dans `public/` pour
+  les cartes déjà partagées. Les pages en `ownImage` gardent une seule `og:image`.
   Pages jeu et sections (À propos, Presse) : `opengraph-image.tsx` du segment (`ownImage: true`),
   généré au build avec `next/og` (une page jeu : icône, nom et genre sur le lavis du jeu ; une
   section : logo et titre), polices TTF committées dans `src/assets/fonts/`, couleurs lues dans
@@ -232,8 +255,8 @@ src/app/[locale]/not-found.tsx          404 localisée
 
 | Builder                      | Type                              | Émis par                                         |
 | ---------------------------- | --------------------------------- | ------------------------------------------------ |
-| `organizationSchema()`       | Organization                      | le layout de langue, sur toutes les pages        |
-| `websiteSchema(locale)`      | WebSite                           | le layout de langue                              |
+| `organizationSchema(copy)`   | Organization                      | le layout de langue, sur toutes les pages        |
+| `websiteSchema()`            | WebSite                           | le layout de langue                              |
 | `mobileApplicationSchema`    | `["MobileApplication","VideoGame"]` | page app                                       |
 | `videoGameSchema`            | VideoGame                         | chaque page jeu                                  |
 | `faqPageSchema(items)`       | FAQPage                           | page app et pages jeu                            |
@@ -251,6 +274,15 @@ src/app/[locale]/not-found.tsx          404 localisée
   `address` : la rue, le code postal et la ville ne sont que dans les mentions légales
   (`location-privacy.test.ts`). Android n'est annoncé (système, boutiques, `sameAs`) que
   si le registre porte sa version minimale.
+- `organizationSchema(copy)` prend la copie À propos : `Organization.description` est son
+  `hero.definition` dans la langue courante (à la troisième personne). `WebSite.inLanguage` est
+  constant (`["en","fr"]`) : même nœud dans toutes les langues, `websiteSchema()` n'a plus de
+  paramètre. Le `sameAs` de l'App Store n'a plus de `?uo=4`.
+- Le nœud `MobileApplication` porte `offers.description` (la première phrase de
+  `sections.model.items`, aucun prix), `featureList` (`sections.goodToKnow.items`, le même
+  tableau que la page), `hasPart` (les `@id` des jeux publiés, issus de `gameNodeId()`, le même
+  helper que `videoGameSchema`) et `disambiguatingDescription` (`AppCopy.disambiguation`, que
+  `llms.txt` reprend mot pour mot). Aucune adresse au-delà du pays dans le JSON-LD.
 - **Aucun `aggregateRating`**, pas de `softwareVersion`, pas de `contentRating`.
 - Le `FAQPage` reprend mot pour mot le tableau affiché (`copy.faq.items`, même source des deux
   côtés, jamais dupliqué). Le fil d'Ariane JSON-LD lit les mêmes maillons que le visible.
@@ -270,7 +302,10 @@ src/app/[locale]/not-found.tsx          404 localisée
   OAI-SearchBot, ChatGPT-User, GPTBot, PerplexityBot, Perplexity-User, ClaudeBot,
   Claude-SearchBot, Claude-User, Google-Extended, Applebot-Extended, Bingbot. Aucun `Disallow`,
   ligne `Sitemap`. Ne jamais passer le pare-feu Vercel « AI Bots » en mode Deny.
-- `public/llms.txt` : statique, bilingue, un bloc par page avec SA phrase de définition. Deux
+- `public/llms.txt` : statique, bilingue, un bloc par page avec SA phrase de définition, puis un
+  bloc « Key facts / Faits essentiels » et des blocs « Games by family / Les jeux par famille »
+  (familles tirées de `category` du registre, libellés de `sections.games.categories`, genre
+  maison, aucun nombre ni prix, « no forced ads » seulement avec Premium). Deux
   gardes : `route-invariants.test.ts` (chaque URL synapgeek.com citée est au sitemap, chaque URL
   du sitemap y est, jamais la route des QR) et `src/content/llms-content.test.ts` (phrases de
   définition et modèle économique mot pour mot, ni prix, ni note, ni nombre de
