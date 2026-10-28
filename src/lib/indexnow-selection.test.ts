@@ -60,15 +60,24 @@ describe("sélection IndexNow", () => {
     ).toHaveLength(3);
   });
 
-  it("ajoute les chemins donnés sans doublon, et signale ceux qui sont hors sitemap", () => {
+  it("ajoute les chemins donnés sans doublon", () => {
     expect(
       selectUrls({
         origin: ORIGIN,
         entries,
         since: "2026-10-28",
-        targets: ["/en", "/press", "https://synapgeek.com/press/"],
+        targets: ["/press", "https://synapgeek.com/press/", "/legal"],
       }),
     ).toEqual({
+      urls: ["https://synapgeek.com/press", "https://synapgeek.com/legal"],
+      outsideSitemap: [],
+    });
+  });
+
+  it("n'accepte un chemin hors sitemap (déplacée, retirée, ou faute de frappe) qu'avec --outside-sitemap", () => {
+    const moved = { origin: ORIGIN, entries, targets: ["/en", "/press"] };
+    expect(() => selectUrls(moved)).toThrow(/Hors sitemap.*--outside-sitemap/);
+    expect(selectUrls({ ...moved, allowOutsideSitemap: true })).toEqual({
       urls: ["https://synapgeek.com/en", "https://synapgeek.com/press"],
       outsideSitemap: ["https://synapgeek.com/en"],
     });
@@ -138,8 +147,34 @@ describe("ligne de commande IndexNow", () => {
       since: "2026-10-28",
       sitemap: PRODUCTION_SITEMAP,
       targets: ["/press", "/fr/presse"],
+      allowOutsideSitemap: false,
     });
     expect(parseArgs(["--all"], PRODUCTION_SITEMAP).all).toBe(true);
+    expect(
+      parseArgs(["/en", "--outside-sitemap"], PRODUCTION_SITEMAP)
+        .allowOutsideSitemap,
+    ).toBe(true);
+  });
+
+  it("exige une valeur après --since et --sitemap, jamais l'option suivante", () => {
+    expect(() => parseArgs(["--since"], PRODUCTION_SITEMAP)).toThrow(
+      /--since attend une valeur/,
+    );
+    expect(() =>
+      parseArgs(["--since", "--dry-run", "2026-10-28"], PRODUCTION_SITEMAP),
+    ).toThrow(/--since attend une valeur/);
+    expect(() =>
+      parseArgs(["--sitemap", "--dry-run"], PRODUCTION_SITEMAP),
+    ).toThrow(/--sitemap attend une valeur/);
+  });
+
+  it("refuse --all combiné à un autre critère : il élargirait en silence", () => {
+    expect(() =>
+      parseArgs(["--all", "--since", "2026-10-28"], PRODUCTION_SITEMAP),
+    ).toThrow(/--all exclut/);
+    expect(() => parseArgs(["--all", "/press"], PRODUCTION_SITEMAP)).toThrow(
+      /--all exclut/,
+    );
   });
 
   it("n'envoie jamais depuis un autre sitemap que celui de production : répétition seulement", () => {

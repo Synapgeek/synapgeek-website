@@ -46,7 +46,7 @@ Plan détaillé des redirections et des changements en console (App Store Connec
 | # | Action | Responsable | Condition |
 | - | ------ | ----------- | --------- |
 | D1 | **`/fr/privacy`, `/fr/terms`, `/fr/legal` en 307** (`permanent: false`) vers l'URL sans préfixe, règles littérales dans `next.config.ts` ; mettre à jour `check:contract` et les gardes de redirections (elles attendent 200 aujourd'hui). Jamais 308. Passer par `site-architect` puis `site-reviewer` | session du site | B1 vert sur la production et une période d'observation décidée par Adrien |
-| D2 | À la sortie de la **3.1.0** (date décidée par Adrien) : relire Trace Difficile et Élite, les phrases d'indice des dix jeux, la phrase de l'indice de Cross Math et les pages Démineur et Pixel Art (`docs/contrat/contenu.md`, section 7) ; mettre à jour `updatedAt`, `llms.txt`, puis `npm run indexnow -- --since <date du déploiement>` | session du site, relecture factuelle par la session App iOS | 3.1.0 publiée |
+| D2 | À la sortie de la **3.1.0** (date décidée par Adrien) : relire Trace Difficile et Élite, les phrases d'indice des dix jeux, la phrase de l'indice de Cross Math et les pages Démineur et Pixel Art (`docs/contrat/contenu.md`, section 7) ; mettre à jour `updatedAt`, `llms.txt`, puis `npm run indexnow -- --since <plus ancien updatedAt modifié>` (le lastmod vaut `updatedAt`, pas la date du déploiement ; `--dry-run` d'abord pour contrôler la liste) | session du site, relecture factuelle par la session App iOS | 3.1.0 publiée |
 | D3 | Faire relire par la session App iOS la version définitive des textes (elle l'a proposé) | session du site | à la demande d'Adrien |
 
 ## À examiner côté confidentialité (hors de ce dépôt)

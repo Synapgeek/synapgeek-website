@@ -284,18 +284,28 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
       );
       const escaped = (text: string) =>
         text.replace(/&/g, "&amp;").replace(/'/g, "&#x27;");
-      const badgeLinks = [
-        ...out.matchAll(
-          /<a [^>]*href="https:\/\/(?:apps\.apple\.com|play\.google\.com)[^"]*"[^>]*>[\s\S]*?<\/a>/g,
-        ),
-      ].map(([link]) => link);
-      expect(badgeLinks).toHaveLength(2);
-      expect(badgeLinks[0]).toContain(`alt="${escaped(stores.appStoreLabel)}"`);
-      expect(badgeLinks[1]).toContain(
+      const linksTo = (host: RegExp) =>
+        [
+          ...out.matchAll(
+            new RegExp(
+              `<a [^>]*href="https://${host.source}[^"]*"[^>]*>[\\s\\S]*?</a>`,
+              "g",
+            ),
+          ),
+        ].map(([link]) => link);
+      const appStore = linksTo(/apps\.apple\.com/);
+      const googlePlay = linksTo(/play\.google\.com/);
+      expect(appStore).toHaveLength(1);
+      expect(googlePlay).toHaveLength(1);
+      expect(appStore[0]).toContain(`alt="${escaped(stores.appStoreLabel)}"`);
+      expect(googlePlay[0]).toContain(
         `alt="${escaped(stores.googlePlayLabel)}"`,
       );
-      for (const link of badgeLinks) {
-        expect(link).not.toContain("aria-label");
+      for (const link of [...appStore, ...googlePlay]) {
+        // Ni aria-label (il écraserait l'alt), ni image retirée de l'arbre d'accessibilité.
+        expect(link).not.toMatch(
+          /aria-label|aria-hidden|role="(presentation|none)"/,
+        );
         expect(link).not.toContain('alt=""');
       }
     },

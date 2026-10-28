@@ -317,11 +317,13 @@ src/app/[locale]/not-found.tsx          404 localisée
   production en ligne. IndexNow ne veut que les URLs ajoutées, modifiées, déplacées ou retirées
   (consigne 4 de Bing) : le script n'envoie que des chemins donnés (`-- /press /fr/presse`), les
   URLs du sitemap de production dont le lastmod est à une date ou après (`-- --since
-  AAAA-MM-JJ`) ou, exceptionnellement, tout le sitemap (`-- --all`) ; sans critère, il refuse. Il
-  refuse toute origine autre que `https://synapgeek.com`, signale un chemin absent du sitemap et
-  envoie à `https://api.indexnow.org/indexnow` ; `-- --dry-run` affiche la liste et la charge sans
-  rien envoyer, `-- --sitemap <url>` lit un autre sitemap pour une répétition, `--dry-run`
-  obligatoire. Sélection : `scripts/indexnow-selection.mjs`, testée par
+  AAAA-MM-JJ` ; le lastmod vaut l'`updatedAt` de la copie, pas la date du déploiement : prendre
+  la plus ancienne date modifiée depuis le dernier envoi) ou, exceptionnellement, tout le sitemap
+  (`-- --all`, seul) ; sans critère, il refuse. Il refuse toute origine autre que
+  `https://synapgeek.com`, et un chemin absent du sitemap (URL déplacée ou retirée, ou faute de
+  frappe) sans `--outside-sitemap` ; il envoie à `https://api.indexnow.org/indexnow`.
+  `-- --dry-run` affiche la liste et la charge sans rien envoyer, `-- --sitemap <url>` lit un
+  autre sitemap pour une répétition, `--dry-run` obligatoire. Sélection : `scripts/indexnow-selection.mjs`, testée par
   `src/lib/indexnow-selection.test.ts`. Ni route, ni variable d'environnement, ni étape de build.
 - `public/app-ads.txt` : vérification AdMob.
 

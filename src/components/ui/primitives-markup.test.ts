@@ -132,9 +132,16 @@ describe("StoreBadges", () => {
   // L'alt du badge est le seul nom du lien : un aria-label l'écraserait.
   it("names each store link by its badge's alt, never by an aria-label", () => {
     const out = html(createElement(StoreBadges, { locale: "en", labels }));
-    expect(out).toContain('alt="App Store"');
-    expect(out).toContain('alt="Google Play"');
-    expect(out).not.toContain("aria-label");
+    const link = (host: RegExp) =>
+      new RegExp(
+        `<a [^>]*href="https://${host.source}[^"]*"[^>]*>[\\s\\S]*?</a>`,
+      ).exec(out)?.[0] ?? "";
+    expect(link(/apps\.apple\.com/)).toContain('alt="App Store"');
+    expect(link(/play\.google\.com/)).toContain('alt="Google Play"');
+    // Ni aria-label (il écraserait l'alt), ni image retirée de l'arbre d'accessibilité.
+    expect(out).not.toMatch(
+      /aria-label|aria-hidden|role="(presentation|none)"/,
+    );
     expect(out).not.toContain('alt=""');
   });
 });

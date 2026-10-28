@@ -9,33 +9,49 @@
  */
 
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
+const DATE_LENGTH = "AAAA-MM-JJ".length;
 
 /**
- * Lit la ligne de commande. Un autre sitemap que celui de production ne sert
- * qu'à répéter : ses lastmod sont ceux d'un build qui n'est pas en ligne, et un
- * envoi préviendrait Bing de pages pas encore publiées. `--dry-run` y est donc
- * obligatoire.
+ * Lit la ligne de commande. `--all` exclut tout autre critère : combiné, il
+ * élargirait en silence à tout le sitemap. Un autre sitemap que celui de
+ * production ne sert qu'à répéter : ses lastmod sont ceux d'un build qui n'est
+ * pas en ligne, et un envoi préviendrait Bing de pages pas encore publiées.
+ * `--dry-run` y est donc obligatoire.
  * @param {string[]} argv
  * @param {string} productionSitemap
- * @returns {{ dryRun: boolean, all: boolean, since: string | null, sitemap: string, targets: string[] }}
+ * @returns {{ dryRun: boolean, all: boolean, since: string | null, sitemap: string, targets: string[], allowOutsideSitemap: boolean }}
  */
 export function parseArgs(argv, productionSitemap) {
-  /** @type {{ dryRun: boolean, all: boolean, since: string | null, sitemap: string, targets: string[] }} */
+  /** @type {{ dryRun: boolean, all: boolean, since: string | null, sitemap: string, targets: string[], allowOutsideSitemap: boolean }} */
   const options = {
     dryRun: false,
     all: false,
     since: null,
     sitemap: productionSitemap,
     targets: [],
+    allowOutsideSitemap: false,
   };
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
+    /** La valeur d'une option, jamais l'option suivante (`--since --dry-run`). */
+    const value = () => {
+      const next = argv[i + 1];
+      if (next === undefined || next.startsWith("--")) {
+        throw new Error(`${arg} attend une valeur.`);
+      }
+      i += 1;
+      return next;
+    };
     if (arg === "--dry-run") options.dryRun = true;
     else if (arg === "--all") options.all = true;
-    else if (arg === "--since" && argv[i + 1]) options.since = argv[++i];
-    else if (arg === "--sitemap" && argv[i + 1]) options.sitemap = argv[++i];
+    else if (arg === "--outside-sitemap") options.allowOutsideSitemap = true;
+    else if (arg === "--since") options.since = value();
+    else if (arg === "--sitemap") options.sitemap = value();
     else if (!arg.startsWith("--")) options.targets.push(arg);
     else throw new Error(`Argument inconnu : ${arg}`);
+  }
+  if (options.all && (options.since !== null || options.targets.length > 0)) {
+    throw new Error("--all exclut tout autre critère (chemins, --since).");
   }
   if (options.sitemap !== productionSitemap && !options.dryRun) {
     throw new Error(
@@ -97,15 +113,17 @@ function isCalendarDate(value) {
 /**
  * Les URLs à envoyer, dédupliquées : les chemins donnés, puis les `<url>` du
  * sitemap retenues par `since` (lastmod à cette date ou après, en dates
- * calendaires) ou par `all`. `outsideSitemap` liste les chemins donnés qui ne
- * sont pas au sitemap : une URL déplacée ou retirée, ou une faute de frappe.
- * Sans critère, ou si rien n'est retenu, rien ne part.
+ * calendaires) ou par `all`. Un chemin donné absent du sitemap est une URL
+ * déplacée ou retirée, ou une faute de frappe : il n'est accepté qu'avec
+ * `allowOutsideSitemap`, et `outsideSitemap` le liste. Sans critère, ou si rien
+ * n'est retenu, rien ne part.
  * @param {{
  *   origin: string,
  *   entries: { loc: string, lastmod: string | null }[],
  *   targets?: string[],
  *   since?: string | null,
  *   all?: boolean,
+ *   allowOutsideSitemap?: boolean,
  * }} selection
  * @returns {{ urls: string[], outsideSitemap: string[] }}
  */
@@ -115,6 +133,7 @@ export function selectUrls({
   targets = [],
   since = null,
   all = false,
+  allowOutsideSitemap = false,
 }) {
   if (targets.length === 0 && since === null && !all) {
     throw new Error(
@@ -138,7 +157,9 @@ export function selectUrls({
     .filter(
       ({ lastmod }) =>
         all ||
-        (since !== null && lastmod !== null && lastmod.slice(0, 10) >= since),
+        (since !== null &&
+          lastmod !== null &&
+          lastmod.slice(0, DATE_LENGTH) >= since),
     )
     .map(({ loc }) => resolveTarget(loc, origin));
   const urls = [...new Set([...explicit, ...fromSitemap])];
@@ -150,8 +171,13 @@ export function selectUrls({
     );
   }
   const known = new Set(entries.map(({ loc }) => resolveTarget(loc, origin)));
-  return {
-    urls,
-    outsideSitemap: [...new Set(explicit)].filter((url) => !known.has(url)),
-  };
+  const outsideSitemap = [...new Set(explicit)].filter(
+    (url) => !known.has(url),
+  );
+  if (outsideSitemap.length > 0 && !allowOutsideSitemap) {
+    throw new Error(
+      `Hors sitemap : ${outsideSitemap.join(", ")}. Une URL déplacée ou retirée s'envoie avec --outside-sitemap.`,
+    );
+  }
+  return { urls, outsideSitemap };
 }

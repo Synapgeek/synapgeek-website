@@ -12,12 +12,18 @@
  *   npm run indexnow -- /press /fr/presse    → ces URLs (chemins, ou URLs de https://synapgeek.com)
  *   npm run indexnow -- --since 2026-10-28   → les URLs du sitemap dont le lastmod est à cette date ou après
  *   npm run indexnow -- --all                → tout le sitemap (exceptionnel : premier lancement, levée d'un blocage)
+ *   … --outside-sitemap                      → accepte un chemin absent du sitemap (URL déplacée ou retirée)
  *   … --dry-run                              → affiche la liste et la charge utile, n'envoie rien
  *   … --dry-run --sitemap <url>              → répétition sur un autre sitemap (http://localhost:3126)
  *
+ * Le lastmod vaut l'`updatedAt` de la copie (date de rédaction), pas la date du
+ * déploiement : `--since` prend la plus ancienne date `updatedAt` modifiée depuis
+ * le dernier envoi, `--dry-run` d'abord pour contrôler la liste.
+ *
  * Une URL déplacée s'envoie avec l'ancienne ET la nouvelle adresse ; une URL
- * retirée s'envoie aussi (le moteur lit son 404). Les chemins donnés qui ne
- * sont pas au sitemap sont signalés avant l'envoi.
+ * retirée s'envoie aussi (le moteur lit son 404). L'ancienne adresse n'étant
+ * plus au sitemap, il faut `--outside-sitemap` : sans lui, un chemin hors
+ * sitemap (souvent une faute de frappe) arrête le script avant tout envoi.
  *
  * La clé est le nom du fichier `public/<32 hex>.txt` (son contenu est la clé
  * elle-même) : une seule source, jamais copiée ici. Elle est publique par
@@ -66,10 +72,8 @@ async function sitemapEntries(sitemapUrl) {
 }
 
 async function main() {
-  const { dryRun, all, since, sitemap, targets } = parseArgs(
-    process.argv.slice(2),
-    `${ORIGIN}/sitemap.xml`,
-  );
+  const { dryRun, all, since, sitemap, targets, allowOutsideSitemap } =
+    parseArgs(process.argv.slice(2), `${ORIGIN}/sitemap.xml`);
   const key = readKey();
   const { urls, outsideSitemap } = selectUrls({
     origin: ORIGIN,
@@ -77,11 +81,12 @@ async function main() {
     targets,
     since,
     all,
+    allowOutsideSitemap,
   });
 
   console.log(urls.join("\n"));
   for (const url of outsideSitemap) {
-    console.warn(`Hors sitemap (déplacée ou retirée ?) : ${url}`);
+    console.warn(`Hors sitemap, acceptée par --outside-sitemap : ${url}`);
   }
 
   const payload = {

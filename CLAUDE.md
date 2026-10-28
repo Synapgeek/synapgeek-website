@@ -70,11 +70,12 @@ npm run indexnow        # prévient IndexNow des URLs changées, À LA MAIN, apr
   en-tête `x-vercel-trusted-oidc-idp-token` sur chaque requête, sans jamais l'afficher.
 - `npm run indexnow` n'envoie à IndexNow que des URLs qui ont changé, jamais avant que le
   déploiement soit en ligne : des chemins (`-- /press /fr/presse` ; une URL déplacée s'envoie avec
-  l'ancienne et la nouvelle adresse), `-- --since AAAA-MM-JJ` (les URLs du sitemap dont le lastmod
-  est à cette date ou après) ou, exceptionnellement, `-- --all` (tout le sitemap : premier
-  lancement, levée d'un blocage). Sans critère, il refuse ; `--dry-run` n'envoie rien, et un autre
-  sitemap que celui de production l'exige. Clé : le fichier `public/<32 hex>.txt`, à ne pas
-  renommer ni supprimer.
+  l'ancienne et la nouvelle adresse, et un chemin absent du sitemap exige `--outside-sitemap`),
+  `-- --since AAAA-MM-JJ` (les URLs du sitemap dont le lastmod est à cette date ou après ; le
+  lastmod vaut l'`updatedAt` de la copie, pas la date du déploiement) ou, exceptionnellement,
+  `-- --all` seul (tout le sitemap : premier lancement, levée d'un blocage). Sans critère, il
+  refuse ; `--dry-run` n'envoie rien (à lancer d'abord), et un autre sitemap que celui de
+  production l'exige. Clé : le fichier `public/<32 hex>.txt`, à ne pas renommer ni supprimer.
 
 ## Contrat d'URLs
 
