@@ -123,28 +123,21 @@ export default async function PlayPage({
             {formatPublishedGameNames(locale)}. {dict.play.chooseStore}
           </p>
 
+          {/* Le nom de chaque lien est l'alt de son badge, comme dans StoreBadges. */}
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
-            <a
-              href={APP_STORE_QR_URL}
-              aria-label={stores.appStoreLabel}
-              className={badgeLink}
-            >
+            <a href={APP_STORE_QR_URL} className={badgeLink}>
               <Image
                 src={badges.appStore}
-                alt=""
+                alt={stores.appStoreLabel}
                 width={badges.appStoreWidth}
                 height={40}
                 className="h-11 w-auto"
               />
             </a>
-            <a
-              href={GOOGLE_PLAY_URL}
-              aria-label={stores.googlePlayLabel}
-              className={badgeLink}
-            >
+            <a href={GOOGLE_PLAY_URL} className={badgeLink}>
               <Image
                 src={badges.googlePlay}
-                alt=""
+                alt={stores.googlePlayLabel}
                 width={badges.googlePlayWidth}
                 height={badges.googlePlayHeight}
                 className="h-11 w-auto"

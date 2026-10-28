@@ -3,12 +3,17 @@ import { NextRequest } from "next/server";
 import { getRewrittenUrl, isRewrite } from "next/experimental/testing/server";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { posix as posixPath } from "node:path";
+import { renderToStaticMarkup } from "react-dom/server";
 import nextConfig from "../../next.config";
 import sitemap from "@/app/sitemap";
 import robots from "@/app/robots";
-import { generateMetadata as generatePlayMetadata } from "@/app/cerebrum/play/page";
+import PlayPage, {
+  generateMetadata as generatePlayMetadata,
+} from "@/app/cerebrum/play/page";
+import { getApp } from "@/content/apps";
 import { getDictionary } from "@/content";
 import { DEFAULT_LOCALE, LOCALES } from "@/lib/i18n";
+import { storeLabelsFor } from "@/lib/store-badges";
 import {
   absoluteUrl,
   alternatesFor,
@@ -257,6 +262,52 @@ describe("URLs contractuelles (CLAUDE.md, « Règles critiques »)", () => {
       const metadata = await generatePlayMetadata();
       expect(metadata.robots).toMatchObject({ index: false });
       expect(metadata.title).toBe(title);
+    },
+  );
+
+  // Bing, consigne 5 : « Include relevant anchor text or image alt attributes ».
+  // Le repli recopie le balisage de StoreBadges : chaque lien de boutique tire
+  // son nom de l'alt de son badge, jamais d'un aria-label, jamais d'un alt vide.
+  it.each([
+    ["fr-FR,fr;q=0.9", "fr"],
+    ["en-US,en;q=0.9", "en"],
+  ] as const)(
+    "le repli de /cerebrum/play nomme ses badges par leur alt (%j)",
+    async (acceptLanguage, locale) => {
+      requestHeaders.acceptLanguage = acceptLanguage;
+      const out = renderToStaticMarkup(
+        await PlayPage({ searchParams: Promise.resolve({}) }),
+      );
+      const stores = storeLabelsFor(
+        getDictionary(locale).common.stores,
+        getApp("cerebrum").name,
+      );
+      const escaped = (text: string) =>
+        text.replace(/&/g, "&amp;").replace(/'/g, "&#x27;");
+      const linksTo = (host: RegExp) =>
+        [
+          ...out.matchAll(
+            new RegExp(
+              `<a [^>]*href="https://${host.source}[^"]*"[^>]*>[\\s\\S]*?</a>`,
+              "g",
+            ),
+          ),
+        ].map(([link]) => link);
+      const appStore = linksTo(/apps\.apple\.com/);
+      const googlePlay = linksTo(/play\.google\.com/);
+      expect(appStore).toHaveLength(1);
+      expect(googlePlay).toHaveLength(1);
+      expect(appStore[0]).toContain(`alt="${escaped(stores.appStoreLabel)}"`);
+      expect(googlePlay[0]).toContain(
+        `alt="${escaped(stores.googlePlayLabel)}"`,
+      );
+      for (const link of [...appStore, ...googlePlay]) {
+        // Ni aria-label (il écraserait l'alt), ni image retirée de l'arbre d'accessibilité.
+        expect(link).not.toMatch(
+          /aria-label|aria-hidden|role="(presentation|none)"/,
+        );
+        expect(link).not.toContain('alt=""');
+      }
     },
   );
 

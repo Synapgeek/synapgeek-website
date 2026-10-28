@@ -314,10 +314,17 @@ src/app/[locale]/not-found.tsx          404 localisée
 - IndexNow : le fichier clé `public/<32 hex>.txt` (son contenu est la clé, publique par
   conception ; ne pas le renommer ni le supprimer, `src/lib/indexnow-key.test.ts` et
   `check:contract` le vérifient) et `npm run indexnow`, À LA MAIN, une fois le déploiement en
-  production en ligne. Le script lit le sitemap de production, refuse tout hôte hors
-  `synapgeek.com` et envoie les URLs à `https://api.indexnow.org/indexnow` ; `-- --dry-run`
-  affiche la charge sans rien envoyer, `-- --sitemap <url>` lit un autre sitemap. Ni route, ni
-  variable d'environnement, ni étape de build.
+  production en ligne. IndexNow ne veut que les URLs ajoutées, modifiées, déplacées ou retirées
+  (consigne 4 de Bing) : le script n'envoie que des chemins donnés (`-- /press /fr/presse`), les
+  URLs du sitemap de production dont le lastmod est à une date ou après (`-- --since
+  AAAA-MM-JJ` ; le lastmod vaut l'`updatedAt` de la copie, pas la date du déploiement : prendre
+  la plus ancienne date modifiée depuis le dernier envoi) ou, exceptionnellement, tout le sitemap
+  (`-- --all`, seul) ; sans critère, il refuse. Il refuse toute origine autre que
+  `https://synapgeek.com`, et un chemin absent du sitemap (URL déplacée ou retirée, ou faute de
+  frappe) sans `--outside-sitemap` ; il envoie à `https://api.indexnow.org/indexnow`.
+  `-- --dry-run` affiche la liste et la charge sans rien envoyer, `-- --sitemap <url>` lit un
+  autre sitemap pour une répétition, `--dry-run` obligatoire. Sélection : `scripts/indexnow-selection.mjs`, testée par
+  `src/lib/indexnow-selection.test.ts`. Ni route, ni variable d'environnement, ni étape de build.
 - `public/app-ads.txt` : vérification AdMob.
 
 ### 2.4 Contrôle des URLs : `check:contract`

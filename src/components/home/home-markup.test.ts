@@ -178,8 +178,8 @@ describe.each(LOCALES)("AppShowcase (%s)", (locale) => {
 
   it("raises the store badges above the stretched link", () => {
     const resolved = storeLabelsFor(labels, cerebrum.name);
-    expect(out).toContain(`aria-label="${escaped(resolved.appStoreLabel)}"`);
-    expect(out).toContain(`aria-label="${escaped(resolved.googlePlayLabel)}"`);
+    expect(out).toContain(`alt="${escaped(resolved.appStoreLabel)}"`);
+    expect(out).toContain(`alt="${escaped(resolved.googlePlayLabel)}"`);
     expect(out).toMatch(
       /<div class="[^"]*relative z-10[^"]*"><a [^>]*apps\.apple\.com/,
     );

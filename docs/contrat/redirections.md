@@ -514,7 +514,7 @@ Retrouver les noms exacts avec `ListAgents`, puis `SendMessage`. Aucune écritur
    dans la bonne langue. Ouvrir `https://synapgeek.com/en#contact` depuis la fiche App Store
    anglaise. Scanner le QR imprimé sur iPhone et Android.
 4. Envoyer un vrai message par le formulaire (B2).
-5. `npm run indexnow` (B3), `-- --dry-run` d'abord en cas de doute.
+5. `npm run indexnow -- --all` (B3, premier lancement), `--dry-run` d'abord en cas de doute.
 6. Search Console : soumettre `https://synapgeek.com/sitemap.xml` ; inspecter et demander
    l'indexation de `/`, `/fr`, `/cerebrum`, `/fr/cerebrum`, `/about` ; inspecter `/en` (doit dire
    « Page avec redirection »).

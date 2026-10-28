@@ -223,6 +223,29 @@ exact des achats hors ligne, plafond d'indices par pub, coût des indices et ord
 dans un pack thématique. La note App Store (4,7/5 sur 16 notes en France) est trop faible pour
 être affichée ; aucune note, aucun avis, aucun nombre de téléchargements.
 
+**Fait tracé hors des fichiers de faits** (§6, point 4) : « Des puzzles vérifiés »,
+`about.values[0]` de `src/content/copy/{en,fr}/hub.ts` (« Our puzzles are built by our own tools,
+then checked automatically before they reach the app. » / « Nos puzzles sont générés par nos
+propres outils, puis contrôlés automatiquement avant d'arriver dans l'app. »). Source : le dépôt
+`cerebrum-generator`, lu le 2026-10-28 au commit `c74ef1f`, en lecture seule et sans session du
+générateur (aucune ne tournait). Chaque jeu y a son générateur et un contrôle automatique des
+fichiers livrés : un `validator.py`, avec un solveur pour les jeux de logique, dans le dossier du
+jeu ; `solve.py` et `validate.py` pour le Sudoku ; `games/validate.py` pour Mots croisés et Mots
+mêlés (mots et structure, « before iOS deployment » ; il signale sans corriger, et c'est le seul
+contrôle de Mots mêlés). Pixel Art : trois familles de fichiers sortent du pipeline du
+générateur (`games/pixelart/validator.py:14-20`) : silhouettes seuillées d'illustrations
+(2026-09-08), grilles dessinées case par case par un agent, en noir et blanc (`dessin-v1`,
+2026-09-23) puis en couleur (`couleur-v1`, remises à l'app le 2026-10-21, après les deux 3.0.0).
+Pour chacune, `validator.py` rejoue le solveur sur les indices publiés du fichier livré : toute
+grille se résout ligne par ligne sans deviner (`games/pixelart/docs/IOS_INTEGRATION.md`, « Ce
+que la grille garantit »). La note « les nonogrammes de Pixel Art sont dessinés à la main » de
+la spec de refonte (§10) est donc périmée. Android embarque les fichiers de grilles d'iOS à
+l'identique, contrôlés par empreinte md5 (`cerebrum-android` au commit `09ada3975` :
+`scripts/parity/README.md`, `puzzles_diff.py` ; `docs/port/pandoku.md` : « iOS est dépositaire
+[…] les md5 font foi ») : la phrase vaut pour les deux plateformes. Lecture directe faute de
+session disponible, contraire à la procédure du §6 : à faire confirmer par la session App iOS
+(dont la famille Pixel Art livrée en 3.0.0) et par la session Android.
+
 ## 6. Demander une vérification de faits à la session iOS
 
 Le code d'une autre app ne se lit ni ne se modifie depuis ce dépôt : on interroge la session
