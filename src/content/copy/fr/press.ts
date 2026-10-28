@@ -1,7 +1,7 @@
 import type { PressCopy } from "../types";
 
 export const pressFr: PressCopy = {
-  updatedAt: "2026-10-02",
+  updatedAt: "2026-10-28",
   meta: {
     title: "Presse : fiche de Cerebrum, logo et captures d'écran | Synapgeek",
     description:
@@ -18,8 +18,7 @@ export const pressFr: PressCopy = {
       { label: "App", value: "Cerebrum" },
       {
         label: "Éditeur",
-        value:
-          "Synapgeek SAS, studio français indépendant",
+        value: "Synapgeek SAS, studio français indépendant",
       },
       {
         label: "Type",
@@ -48,7 +47,8 @@ export const pressFr: PressCopy = {
   },
   games: {
     title: "Les jeux, par genre",
-    intro: "Chaque jeu est nommé avec son genre et renvoie à sa propre page.",
+    intro:
+      "Chaque jeu a sa page, avec les règles, des astuces et ce que Cerebrum y ajoute.",
   },
   publisher: { title: "L'éditeur" },
   downloads: {

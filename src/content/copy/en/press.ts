@@ -1,11 +1,11 @@
 import type { PressCopy } from "../types";
 
 export const pressEn: PressCopy = {
-  updatedAt: "2026-10-02",
+  updatedAt: "2026-10-28",
   meta: {
     title: "Press kit: Cerebrum fact sheet, logo and screenshots | Synapgeek",
     description:
-      "Synapgeek press page: Cerebrum fact sheet, the named list of games, logo, app icon and screenshots to download, and the press contact.",
+      "Synapgeek press page: Cerebrum fact sheet, its games by genre, logo, app icon and screenshots to download, and the press contact.",
   },
   hero: {
     h1: "Synapgeek press kit",
@@ -18,8 +18,7 @@ export const pressEn: PressCopy = {
       { label: "App", value: "Cerebrum" },
       {
         label: "Publisher",
-        value:
-          "Synapgeek SAS, an independent French studio",
+        value: "Synapgeek SAS, an independent French studio",
       },
       { label: "Type", value: "Puzzle games app that plays offline" },
       {
@@ -45,7 +44,8 @@ export const pressEn: PressCopy = {
   },
   games: {
     title: "The games, by genre",
-    intro: "Each game is named with its genre and links to its own page.",
+    intro:
+      "Each game has its own page, with the rules, tips and what Cerebrum adds to it.",
   },
   publisher: { title: "The publisher" },
   downloads: {

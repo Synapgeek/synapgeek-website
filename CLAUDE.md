@@ -59,7 +59,7 @@ npm run lint            # ESLint
 npm test                # vitest : routes, redirections, JSON-LD, sitemap, gardes de copie, design
 npm run format          # Prettier : ÉCRIT les fichiers (npx prettier --check pour vérifier)
 npm run check:contract  # URLs référencées par les stores (réseau : local ou production)
-npm run indexnow        # prévient IndexNow, À LA MAIN, après un déploiement en production
+npm run indexnow        # prévient IndexNow des URLs changées, À LA MAIN, après un déploiement
 ```
 
 - Portes avant un commit : `lint`, `npx next typegen && npx tsc --noEmit`, `test`, `build`.
@@ -68,9 +68,13 @@ npm run indexnow        # prévient IndexNow, À LA MAIN, après un déploiement
   `build`) avant tout merge touchant routage, redirects, proxy ou `.well-known`, puis contre la
   production juste après le merge. Contre un déploiement Vercel protégé, définir `VERCEL_OIDC_TOKEN` : le script l'envoie en
   en-tête `x-vercel-trusted-oidc-idp-token` sur chaque requête, sans jamais l'afficher.
-- `npm run indexnow` envoie les URLs du sitemap de production à IndexNow (`-- --dry-run` n'envoie
-  rien), jamais avant que le déploiement soit en ligne. Clé : le fichier `public/<32 hex>.txt`,
-  à ne pas renommer ni supprimer.
+- `npm run indexnow` n'envoie à IndexNow que des URLs qui ont changé, jamais avant que le
+  déploiement soit en ligne : des chemins (`-- /press /fr/presse` ; une URL déplacée s'envoie avec
+  l'ancienne et la nouvelle adresse), `-- --since AAAA-MM-JJ` (les URLs du sitemap dont le lastmod
+  est à cette date ou après) ou, exceptionnellement, `-- --all` (tout le sitemap : premier
+  lancement, levée d'un blocage). Sans critère, il refuse ; `--dry-run` n'envoie rien, et un autre
+  sitemap que celui de production l'exige. Clé : le fichier `public/<32 hex>.txt`, à ne pas
+  renommer ni supprimer.
 
 ## Contrat d'URLs
 

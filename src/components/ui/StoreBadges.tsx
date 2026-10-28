@@ -14,7 +14,11 @@ interface StoreBadgesProps {
   className?: string;
 }
 
-/** Rangée de badges : 44 px de haut (cible tactile), `app_store_click` au clic. */
+/**
+ * Rangée de badges : 44 px de haut (cible tactile), `app_store_click` au clic.
+ * Le nom de chaque lien est l'alt de son badge (nom accessible et texte d'ancre
+ * pour les moteurs), jamais un `aria-label` en plus qui l'écraserait.
+ */
 export function StoreBadges({
   locale,
   labels,
@@ -28,13 +32,12 @@ export function StoreBadges({
         href={APP_STORE_URL}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={labels.appStoreLabel}
         onClick={() => trackEvent("app_store_click", { store: "app_store" })}
         className="rounded-lg transition-transform duration-150 ease-out active:scale-[0.97]"
       >
         <Image
           src={badges.appStore}
-          alt=""
+          alt={labels.appStoreLabel}
           width={badges.appStoreWidth}
           height={40}
           sizes="140px"
@@ -45,13 +48,12 @@ export function StoreBadges({
         href={GOOGLE_PLAY_URL}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={labels.googlePlayLabel}
         onClick={() => trackEvent("app_store_click", { store: "google_play" })}
         className="rounded-lg transition-transform duration-150 ease-out active:scale-[0.97]"
       >
         <Image
           src={badges.googlePlay}
-          alt=""
+          alt={labels.googlePlayLabel}
           width={badges.googlePlayWidth}
           height={badges.googlePlayHeight}
           sizes="150px"

@@ -128,10 +128,14 @@ describe("GameCard", () => {
 describe("StoreBadges", () => {
   const labels = { appStoreLabel: "App Store", googlePlayLabel: "Google Play" };
 
-  it("shows both stores, each link with an accessible name", () => {
+  // Bing, consigne 5 : « Include relevant anchor text or image alt attributes ».
+  // L'alt du badge est le seul nom du lien : un aria-label l'écraserait.
+  it("names each store link by its badge's alt, never by an aria-label", () => {
     const out = html(createElement(StoreBadges, { locale: "en", labels }));
-    expect(out).toContain('aria-label="App Store"');
-    expect(out).toContain('aria-label="Google Play"');
+    expect(out).toContain('alt="App Store"');
+    expect(out).toContain('alt="Google Play"');
+    expect(out).not.toContain("aria-label");
+    expect(out).not.toContain('alt=""');
   });
 });
 

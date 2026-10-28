@@ -23,7 +23,7 @@
 | - | ------ | ----------- | ------ |
 | B1 | `npm run check:contract` sur la production, **apex ET `www`** (sans argument il contrôle les deux). Au premier écart sur le légal, `/account-deletion`, `#contact` ou `/play` : Instant Rollback de Vercel vers le déploiement noté en A3, puis diagnostic | session du site, Adrien pour le rollback | tableau sans écart (34 `<loc>` du sitemap en 200) |
 | B2 | Envoyer un vrai message par le formulaire de contact (aucun agent n'envoie d'e-mail) et vérifier sa réception sur `contact@synapgeek.com` | Adrien | e-mail reçu |
-| B3 | `npm run indexnow` (une fois, à la main, après avoir constaté que le déploiement est en ligne) ; `-- --dry-run` d'abord si doute | session du site | réponse 200 ou 202 |
+| B3 | `npm run indexnow -- --all` (premier lancement seulement : une fois, à la main, après avoir constaté que le déploiement est en ligne ; ensuite, seulement les URLs changées) ; `--dry-run` d'abord si doute | session du site | réponse 200 ou 202 |
 | B4 | Vérifier dans Vercel que le pare-feu « AI Bots » n'est PAS en mode Deny, et que `NEXT_PUBLIC_GA_MEASUREMENT_ID` est bien défini en production | Adrien | capture ou note |
 | B5 | Supprimer `WAITLIST_WEBHOOK_URL` des variables Vercel si elle y subsiste (plus aucune référence dans le code) | Adrien | variable absente |
 
@@ -46,7 +46,7 @@ Plan détaillé des redirections et des changements en console (App Store Connec
 | # | Action | Responsable | Condition |
 | - | ------ | ----------- | --------- |
 | D1 | **`/fr/privacy`, `/fr/terms`, `/fr/legal` en 307** (`permanent: false`) vers l'URL sans préfixe, règles littérales dans `next.config.ts` ; mettre à jour `check:contract` et les gardes de redirections (elles attendent 200 aujourd'hui). Jamais 308. Passer par `site-architect` puis `site-reviewer` | session du site | B1 vert sur la production et une période d'observation décidée par Adrien |
-| D2 | À la sortie de la **3.1.0** (date décidée par Adrien) : relire Trace Difficile et Élite, les phrases d'indice des dix jeux, la phrase de l'indice de Cross Math et les pages Démineur et Pixel Art (`docs/contrat/contenu.md`, section 7) ; mettre à jour `updatedAt`, `llms.txt`, puis `npm run indexnow` | session du site, relecture factuelle par la session App iOS | 3.1.0 publiée |
+| D2 | À la sortie de la **3.1.0** (date décidée par Adrien) : relire Trace Difficile et Élite, les phrases d'indice des dix jeux, la phrase de l'indice de Cross Math et les pages Démineur et Pixel Art (`docs/contrat/contenu.md`, section 7) ; mettre à jour `updatedAt`, `llms.txt`, puis `npm run indexnow -- --since <date du déploiement>` | session du site, relecture factuelle par la session App iOS | 3.1.0 publiée |
 | D3 | Faire relire par la session App iOS la version définitive des textes (elle l'a proposé) | session du site | à la demande d'Adrien |
 
 ## À examiner côté confidentialité (hors de ce dépôt)
