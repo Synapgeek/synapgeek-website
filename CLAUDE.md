@@ -146,10 +146,6 @@ sur `/` et `/fr` (jamais renommée ni retirée). Liens internes : `pagePath()` d
   « non » se corrige dans la session principale. Définitions : `.claude/agents/`. Depuis un
   worktree, un type d'agent se résout dans le checkout principal : lancer un agent général qui
   lit la définition du worktree.
-- **Modèle passé EXPLICITEMENT à chaque sous-agent** : Haiku pour le mécanique et les docs, Sonnet
-  pour le CSS, un composant simple, les vérifications factuelles et l'implémentation cadrée, Opus
-  pour l'état, la frontière client, l'a11y fine, l'architecture et les revues. Jamais un fan-out
-  qui hérite d'Opus ; un correctif après revue ne part jamais sur Haiku.
 - Chaque brief de tâche recopie la liste ET l'ordre des skills à invoquer ; devant une maquette
   validée, l'agent l'implémente ou escalade. Écrivains en parallèle : un worktree chacun, rien de
   commité dans l'arbre partagé ; un serveur sur son port dédié, son PID noté, seul ce PID est
